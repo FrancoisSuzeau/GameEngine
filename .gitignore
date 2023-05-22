@@ -3,8 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# The wizzard installation setup (for now)
-SolarSystem_win64_3.2.0_setup.exe
 
 *.ini
 
