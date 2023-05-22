@@ -8,6 +8,7 @@ using namespace Services;
 
 void GraphicServices::Init()
 {
+	
 	init_succeded = true;
 	title = "Graphic Services Initialization";
 	InitialiseSDL();
