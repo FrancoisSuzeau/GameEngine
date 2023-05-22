@@ -35,7 +35,7 @@ void GraphicServices::Init()
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
 
-	std::cout << ">>>>>>>>>>>>>> OpenGL version : " << major_version << "." << minor_version << " ready. <<<<<<<<<<<<<<" << std::endl;
+	std::cout << ">> OpenGL version : " << major_version << "." << minor_version << " ready." << std::endl;
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -45,7 +45,7 @@ void GraphicServices::DeInit()
 	DestroySDLGLContext();
 	DestroySDLWindow();
 	DeInitSDL();
-	std::cout << ">> All SDL Services destroyed" << std::endl;
+	std::cout << ">> All SDL / OpenGL Services destroyed" << std::endl;
 }
 
 void GraphicServices::InitialiseSDL()

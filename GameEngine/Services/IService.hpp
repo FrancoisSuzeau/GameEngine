@@ -5,6 +5,8 @@
 #ifndef ISERVICE_H
 #define ISERVICE_H
 
+#include <windows.h>
+#include <cassert>
 
 
 namespace Services {
