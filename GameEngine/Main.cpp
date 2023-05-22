@@ -1,15 +1,19 @@
 #include <iostream>
-#include <SDL2/SDL.h>
-#include <GL/glew.h>
+#include <cassert>
+#include "Services/GraphicServices.hpp"
 
 
 int main(int argc, char** argv)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        std::cout << "Error" << std::endl;
-    }
-    std::cout << "Hello World!" << std::endl;
+    
+    Services::GraphicServices graphic_services;
 
+    bool ret = graphic_services.Init();
+    assert(ret);
+    std::cout << ">> Initialise SDL : SUCCESS" << std::endl;
+
+    std::cout << std::endl;
+
+    graphic_services.DeInit();
     return EXIT_SUCCESS;
 }
