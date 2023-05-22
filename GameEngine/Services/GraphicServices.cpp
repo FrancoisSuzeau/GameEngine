@@ -6,20 +6,43 @@
 
 using namespace Services;
 
-bool GraphicServices::Init()
+void GraphicServices::Init()
 {
 	init_succeded = true;
 	title = "Graphic Services Initialization";
 	InitialiseSDL();
+	assert(init_succeded);
+	std::cout << ">> Initialise SDL : SUCCESS" << std::endl;
 	SetGLAttributes();
+	assert(init_succeded);
+	std::cout << ">> Initialise SDL GL Attributes : SUCCESS" << std::endl;
 	SetDimensions();
+	assert(init_succeded);
+	std::cout << ">> Initialise Window Dimensions : SUCCESS" << std::endl;
 	SetSDLWindow();
-	return init_succeded;
+	assert(init_succeded);
+	std::cout << ">> Initialise SDL Window : SUCCESS" << std::endl;
+	SetSDLGLContext();
+	assert(init_succeded);
+	std::cout << ">> Initialise SDL GL Context : SUCCESS" << std::endl;
+	InitGlew();
+	assert(init_succeded);
+	std::cout << ">> Initialise Glew : SUCCESS" << std::endl;
+
+	int major_version;
+	int minor_version;
+
+	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
+	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
+
+	std::cout << ">>>>>>>>>>>>>> OpenGL version : " << major_version << "." << minor_version << " ready. <<<<<<<<<<<<<<" << std::endl;
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GraphicServices::DeInit()
 {
 	title = "Graphic Services De-initialization";
+	DestroySDLGLContext();
 	DestroySDLWindow();
 	DeInitSDL();
 	std::cout << ">> All SDL Services destroyed" << std::endl;
@@ -76,12 +99,55 @@ void GraphicServices::SetSDLWindow()
 	}
 }
 
+void GraphicServices::SetSDLGLContext()
+{
+	gl_context = SDL_GL_CreateContext(m_window);
+	if (gl_context == 0)
+	{
+		std::string error_message = "Cannot create SDL GL context\n";
+		ShowError(error_message);
+		SDL_DestroyWindow(m_window);
+		SDL_Quit();
+	}
+}
+
+void GraphicServices::InitGlew()
+{
+	GLenum glew = 0;
+	glew = glewInit();
+	if (glew != GLEW_OK)
+	{
+		std::string error_message("Cannot initialize glew\n");
+		error_message.append("Glew error : ");
+		error_message.append((const char*)glewGetErrorString(glew));
+		ShowError(error_message);
+		SDL_GL_DeleteContext(gl_context);
+		SDL_DestroyWindow(m_window);
+		SDL_Quit();
+	}
+}
+
 void GraphicServices::DestroySDLWindow()
 {
 	std::string status_msg = ">> Destroying SDL Window : ";
 	SDL_DestroyWindow(m_window);
 	std::string sdl_error(SDL_GetError());
 	status_msg += (sdl_error == "") ? "SUCCESS" : sdl_error;
+	std::cout << status_msg << std::endl;
+}
+
+void GraphicServices::DestroySDLGLContext()
+{
+	std::string status_msg = ">> Destroying SDL GL Context : ";
+	if (gl_context == 0)
+	{
+		status_msg += "ERROR";
+	}
+	else
+	{
+		SDL_GL_DeleteContext(gl_context);
+		status_msg += "SUCCESS";
+	}
 	std::cout << status_msg << std::endl;
 }
 

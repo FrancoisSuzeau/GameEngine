@@ -12,7 +12,7 @@ namespace Services {
 	class IService {
 
 	public :
-		virtual bool Init() = 0;
+		virtual void Init() = 0;
 		virtual void DeInit() = 0;
 		
 

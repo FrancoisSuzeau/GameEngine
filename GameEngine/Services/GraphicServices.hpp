@@ -7,7 +7,9 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <GL/glew.h>
 #include <windows.h>
+#include <cassert>
 
 #include "IService.hpp"
 
@@ -19,7 +21,7 @@ namespace Services {
 	{
 
 	public : 
-		bool Init() override;
+		void Init() override;
 		void DeInit() override;
  
 	private: 
@@ -27,14 +29,19 @@ namespace Services {
 		void SetGLAttributes();
 		void SetDimensions();
 		void SetSDLWindow();
+		void SetSDLGLContext();
+		void InitGlew();
 
 		void DestroySDLWindow();
+		void DestroySDLGLContext();
 		void DeInitSDL();
+
 		void ShowError(std::string error_message) override;
 
 		int m_width;
 		int m_height;
 		SDL_Window* m_window = nullptr;
+		SDL_GLContext gl_context = 0;
 	};
 }
 
