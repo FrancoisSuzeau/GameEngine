@@ -8,19 +8,19 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-
-#include "IService.hpp"
+#include <cassert>
+#include <windows.h>
 
 namespace Services {
 
-	class GraphicServices : public IService
+	class GraphicServices 
 	{
 
 	public : 
-		void Init() override;
-		void DeInit() override;
+		void Init();
+		void DeInit();
  
-	private: 
+	private:
 		void InitialiseSDL();
 		void SetGLAttributes();
 		void SetDimensions();
@@ -32,12 +32,14 @@ namespace Services {
 		void DestroySDLGLContext();
 		void DeInitSDL();
 
-		void ShowError(std::string error_message) override;
+		void ShowError(std::string error_message);
 
 		int m_width;
 		int m_height;
 		SDL_Window* m_window = nullptr;
 		SDL_GLContext gl_context = 0;
+		bool init_succeded;
+		std::string title;
 	};
 }
 

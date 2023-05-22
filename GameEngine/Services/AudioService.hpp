@@ -7,19 +7,21 @@
 
 #include <iostream>
 #include <SDL2/SDL_mixer.h>
-
-#include "IService.hpp"
+#include <cassert>
+#include <windows.h>
 
 namespace Services {
 
-	class AudioService : public IService
+	class AudioService
 	{
 	public:
-		void Init() override;
-		void DeInit() override;
+		void Init();
+		void DeInit();
 
 	private:
-		void ShowError(std::string error_message) override;
+		void ShowError(std::string error_message);
+		bool init_succeded;
+		std::string title;
 	};
 }
 

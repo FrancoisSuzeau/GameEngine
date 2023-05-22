@@ -138,9 +138,9 @@
     <ClCompile Include="Services\GraphicServices.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IoC\Container.hpp" />
     <ClInclude Include="Services\AudioService.hpp" />
     <ClInclude Include="Services\GraphicServices.hpp" />
-    <ClInclude Include="Services\IService.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
