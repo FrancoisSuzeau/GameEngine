@@ -1,8 +1,13 @@
-
-
 #include <iostream>
-
-int main()
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
+int main(int argc, char** argv)
 {
-    std::cout << "Hello World!\n";
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        std::cout << "Error" << std::endl;
+    }
+    std::cout << "Hello World!" << std::endl;
+
+    return EXIT_SUCCESS;
 }
