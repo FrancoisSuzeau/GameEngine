@@ -8,12 +8,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <windows.h>
-#include <cassert>
 
 #include "IService.hpp"
-
-#define QUIT_SDL 1
 
 namespace Services {
 
