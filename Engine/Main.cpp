@@ -5,12 +5,12 @@
 #include <iostream>
 #include "Services/GraphicServices.hpp"
 #include "Services/AudioService.hpp"
-#include "Container.hpp"
-#include "Container.cpp"
+#include "IocModule.hpp"
+
 int main(int argc, char** argv)
 {
     
-    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    /*IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     container->registerType<Services::GraphicServices>([]() {
         return new Services::GraphicServices();
         });
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     std::cout << std::endl;
 
     audio_services->DeInit();
-    graphic_services->DeInit();
+    graphic_services->DeInit();*/
 
     return EXIT_SUCCESS;
 }

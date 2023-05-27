@@ -22,10 +22,12 @@
     <ClInclude Include="IoC\Container\Container.hpp" />
     <ClInclude Include="IoC\Instance\AbstractInstance.hpp" />
     <ClInclude Include="IoC\Instance\Instance.hpp" />
+    <ClInclude Include="IoC\IocModule.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IoC\Container\Container.cpp" />
     <ClCompile Include="IoC\Instance\Instance.cpp" />
+    <ClCompile Include="IoC\IocModule.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
