@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : GraphicService.cpp
+// File : GraphicInitializerService.cpp
 // Purpose : Implementing service Opengl / SDL  initialisation
 /******************************************************************************************************************************************/
-#include "GraphicServices.hpp"
+#include "GraphicInitializerService.hpp"
 
 using namespace Services;
 
-void GraphicServices::Init()
+void GraphicInitializerService::Init()
 {
 	
 	init_succeded = true;
@@ -40,7 +40,7 @@ void GraphicServices::Init()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GraphicServices::DeInit()
+void GraphicInitializerService::DeInit()
 {
 	title = "Graphic Services De-initialization";
 	DestroySDLGLContext();
@@ -49,7 +49,7 @@ void GraphicServices::DeInit()
 	std::cout << ">> All SDL / OpenGL Services destroyed" << std::endl;
 }
 
-void GraphicServices::InitialiseSDL()
+void GraphicInitializerService::InitialiseSDL()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -58,7 +58,7 @@ void GraphicServices::InitialiseSDL()
 	}
 }
 
-void GraphicServices::SetGLAttributes()
+void GraphicInitializerService::SetGLAttributes()
 {
 	std::string error_message;
 	if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4) < 0)
@@ -83,13 +83,13 @@ void GraphicServices::SetGLAttributes()
 	}
 }
 
-void GraphicServices::SetDimensions()
+void GraphicInitializerService::SetDimensions()
 {
 	m_width = GetSystemMetrics(SM_CXSCREEN);
 	m_height = GetSystemMetrics(SM_CYSCREEN);
 }
 
-void GraphicServices::SetSDLWindow()
+void GraphicInitializerService::SetSDLWindow()
 {
 	m_window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	if (m_window == nullptr)
@@ -100,7 +100,7 @@ void GraphicServices::SetSDLWindow()
 	}
 }
 
-void GraphicServices::SetSDLGLContext()
+void GraphicInitializerService::SetSDLGLContext()
 {
 	gl_context = SDL_GL_CreateContext(m_window);
 	if (gl_context == 0)
@@ -112,7 +112,7 @@ void GraphicServices::SetSDLGLContext()
 	}
 }
 
-void GraphicServices::InitGlew()
+void GraphicInitializerService::InitGlew()
 {
 	GLenum glew = 0;
 	glew = glewInit();
@@ -128,7 +128,7 @@ void GraphicServices::InitGlew()
 	}
 }
 
-void GraphicServices::DestroySDLWindow()
+void GraphicInitializerService::DestroySDLWindow()
 {
 	std::string status_msg = ">> Destroying SDL Window : ";
 	SDL_DestroyWindow(m_window);
@@ -137,7 +137,7 @@ void GraphicServices::DestroySDLWindow()
 	std::cout << status_msg << std::endl;
 }
 
-void GraphicServices::DestroySDLGLContext()
+void GraphicInitializerService::DestroySDLGLContext()
 {
 	std::string status_msg = ">> Destroying SDL GL Context : ";
 	if (gl_context == 0)
@@ -152,12 +152,12 @@ void GraphicServices::DestroySDLGLContext()
 	std::cout << status_msg << std::endl;
 }
 
-void GraphicServices::DeInitSDL()
+void GraphicInitializerService::DeInitSDL()
 {
 	SDL_Quit();
 }
 
-void GraphicServices::ShowError(std::string error_message)
+void GraphicInitializerService::ShowError(std::string error_message)
 {
 	std::string sdl_error(SDL_GetError());
 	if (sdl_error != "")

@@ -35,7 +35,7 @@ namespace IoC {
 
 		private:
 			std::unordered_map<std::type_index, std::function<void* ()>> m_callbacks;
-			std::unordered_map<std::type_index, std::shared_ptr<Instances::AbstractInstance>> m_instances;
+			std::unordered_map<std::type_index, std::shared_ptr<Instances::IInstance>> m_instances;
 		};
 	}
 };

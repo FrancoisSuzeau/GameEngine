@@ -1,18 +1,20 @@
 /******************************************************************************************************************************************/
-// File : AudioService.hpp
+// File : AudioInitializerService.hpp
 // Purpose : A service initialising SDL_Mixer
 /******************************************************************************************************************************************/
-#ifndef AUDIOSERVICE_H
-#define AUDIOSERVICE_H
+#ifndef AINITSERVICE_H
+#define AINITSERVICE_H
 
 #include <iostream>
 #include <SDL2/SDL_mixer.h>
 #include <cassert>
 #include <windows.h>
 
+#include "IService.hpp"
+
 namespace Services {
 
-	class AudioService
+	class AudioInitializerService : public IService
 	{
 	public:
 		void Init();

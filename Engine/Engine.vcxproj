@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,17 +134,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Builders\ServiceBuilder.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Services\AudioService.cpp" />
-    <ClCompile Include="Services\GraphicServices.cpp" />
+    <ClCompile Include="Services\AudioInitalizerService.cpp" />
+    <ClCompile Include="Services\GraphicInitializerService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Services\AudioService.hpp" />
-    <ClInclude Include="Services\GraphicServices.hpp" />
+    <ClInclude Include="Builders\ServiceBuilder.hpp" />
+    <ClInclude Include="Services\AudioInitializerService.hpp" />
+    <ClInclude Include="Services\GraphicInitializerService.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
       <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.vcxproj">
+      <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

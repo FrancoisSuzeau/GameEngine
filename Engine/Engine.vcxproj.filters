@@ -18,18 +18,24 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Services\GraphicServices.cpp">
+    <ClCompile Include="Services\GraphicInitializerService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Services\AudioService.cpp">
+    <ClCompile Include="Services\AudioInitalizerService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Builders\ServiceBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Services\GraphicServices.hpp">
+    <ClInclude Include="Services\GraphicInitializerService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Services\AudioService.hpp">
+    <ClInclude Include="Services\AudioInitializerService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Builders\ServiceBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
