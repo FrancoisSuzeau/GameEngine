@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IoC\Container.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Services\GraphicServices.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
