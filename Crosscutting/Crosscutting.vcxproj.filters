@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IoC\Container.hpp">
+    <ClInclude Include="IoC\Instance\AbstractInstance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC\Instance\Instance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IoC\Container\Container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

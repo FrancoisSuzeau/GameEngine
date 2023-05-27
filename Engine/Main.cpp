@@ -5,11 +5,11 @@
 #include <iostream>
 #include "Services/GraphicServices.hpp"
 #include "Services/AudioService.hpp"
-#include "../Crosscutting/IoC/Container.hpp"
+#include "../Crosscutting/IoC/Container/Container.hpp"
 
 int main(int argc, char** argv)
 {
-    IoC::Container container;
+    IoC::Container::Container container;
     container.registerType<Services::GraphicServices>([]() {
         return new Services::GraphicServices();
         });

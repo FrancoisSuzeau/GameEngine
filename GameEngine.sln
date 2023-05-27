@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Crosscutting", "Crosscutting\Crosscutting.vcxproj", "{5784969B-BFB2-4A52-AE5A-007445BEFDD5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\GameEngine.vcxproj", "{5340CC3A-00A5-4659-BD16-639701437989}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{5340CC3A-00A5-4659-BD16-639701437989}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
