@@ -17,7 +17,7 @@ namespace IoC {
 		class Instance : public AbstractInstance
 		{
 		public:
-			Instance(T* ptr) : m_ptr(ptr) {}
+			Instance(T* ptr);
 			std::shared_ptr<T> m_ptr;
 		};
 	}

@@ -5,23 +5,24 @@
 #include <iostream>
 #include "Services/GraphicServices.hpp"
 #include "Services/AudioService.hpp"
-#include "../Crosscutting/IoC/Container/Container.hpp"
-
+#include "Container.hpp"
+#include "Container.cpp"
 int main(int argc, char** argv)
 {
-    IoC::Container::Container container;
-    container.registerType<Services::GraphicServices>([]() {
+    
+    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    container->registerType<Services::GraphicServices>([]() {
         return new Services::GraphicServices();
         });
 
-    auto graphic_services = container.make<Services::GraphicServices>();
+    auto graphic_services = container->make<Services::GraphicServices>();
     graphic_services->Init();
 
-    container.registerType<Services::AudioService>([]() {
+    container->registerType<Services::AudioService>([]() {
         return new Services::AudioService();
         });
     
-    auto audio_services = container.make<Services::AudioService>();
+    auto audio_services = container->make<Services::AudioService>();
     audio_services->Init();
 
     std::cout << std::endl;

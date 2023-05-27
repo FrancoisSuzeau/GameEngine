@@ -11,5 +11,3 @@ Instance<T>::Instance(T* ptr) : m_ptr(ptr)
 {
 
 }
-
-template class Instance<int>;
