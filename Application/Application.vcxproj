@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Builders\ServiceBuilder.cpp" />
+    <ClCompile Include="Starting\Builders\ServiceBuilder.cpp" />
     <ClCompile Include="Starting\Director.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Builders\ServiceBuilder.hpp" />
+    <ClInclude Include="Starting\Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Starting\Director.hpp" />
   </ItemGroup>
   <ItemGroup>

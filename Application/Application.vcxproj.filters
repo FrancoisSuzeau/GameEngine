@@ -18,7 +18,7 @@
     <ClCompile Include="Starting\Director.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Builders\ServiceBuilder.cpp">
+    <ClCompile Include="Starting\Builders\ServiceBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +26,7 @@
     <ClInclude Include="Starting\Director.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Builders\ServiceBuilder.hpp">
+    <ClInclude Include="Starting\Builders\ServiceBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
