@@ -9,6 +9,7 @@
 #include "Services/AudioInitializerService.hpp"
 #include "Director.hpp"
 #include "Director.cpp"
+#include "Engines/Engine.hpp"
 
  
 int main(int argc, char** argv)
@@ -25,6 +26,9 @@ int main(int argc, char** argv)
 
     SDL_GLContext gl_context = graph_service_init->GetGLContext();
     SDL_Window* sdl_window = graph_service_init->GetSDLWindow();
+
+    Engines::Engine main_engine(sdl_window);
+    main_engine.MainLoop();
 
     dir.EndingBuilder();
 
