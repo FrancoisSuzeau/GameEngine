@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enums\EngineEnum.hpp" />
     <ClInclude Include="IoC\Container\Container.hpp" />
     <ClInclude Include="IoC\Instance\Instance.hpp" />
     <ClInclude Include="IoC\IocModule.hpp" />
