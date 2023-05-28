@@ -6,6 +6,8 @@
 #define IBUILDER_H
 
 #include "IService.hpp"
+#include <memory>
+#include <string>
 
 namespace Builders {
     class IBuilder {

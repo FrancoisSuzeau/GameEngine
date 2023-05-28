@@ -21,6 +21,9 @@ namespace Services {
 	public : 
 		void Init() override;
 		void DeInit() override;
+
+		SDL_GLContext GetGLContext() const;
+		SDL_Window* GetSDLWindow() const;
  
 	private:
 		void InitialiseSDL();

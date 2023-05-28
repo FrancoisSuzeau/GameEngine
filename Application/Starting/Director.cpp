@@ -22,6 +22,13 @@ void Director::SetBuilder()
     ioc_module.reset();
 }
 
+template<typename T>
+std::shared_ptr<Services::IService> Director::GetServiceInitializer()
+{
+    auto type = std::type_index(typeid(T));
+    return m_service_builder->GetServiceInitalizer(type.name());
+}
+
 
 
 void Director::EndingBuilder()

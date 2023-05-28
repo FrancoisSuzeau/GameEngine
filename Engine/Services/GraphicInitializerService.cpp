@@ -49,6 +49,16 @@ void GraphicInitializerService::DeInit()
 	std::cout << ">> All SDL / OpenGL Services destroyed" << std::endl;
 }
 
+SDL_GLContext GraphicInitializerService::GetGLContext() const
+{
+	return gl_context;
+}
+
+SDL_Window* GraphicInitializerService::GetSDLWindow() const
+{
+	return m_window;
+}
+
 void GraphicInitializerService::InitialiseSDL()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
