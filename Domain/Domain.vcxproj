@@ -19,25 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IoC\Container\Container.hpp" />
-    <ClInclude Include="IoC\Instance\Instance.hpp" />
-    <ClInclude Include="IoC\IocModule.hpp" />
+    <ClInclude Include="Interfaces\IBuilder.hpp" />
+    <ClInclude Include="Interfaces\IInstance.hpp" />
+    <ClInclude Include="Interfaces\IService.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IoC\Container\Container.cpp" />
-    <ClCompile Include="IoC\Instance\Instance.cpp" />
-    <ClCompile Include="IoC\IocModule.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.vcxproj">
-      <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
-    </ProjectReference>
+    <ClCompile Include="Build.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5784969b-bfb2-4a52-ae5a-007445befdd5}</ProjectGuid>
-    <RootNamespace>Crosscutting</RootNamespace>
+    <ProjectGuid>{73c22434-0261-4229-8081-1b070803ae72}</ProjectGuid>
+    <RootNamespace>Domain</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -119,7 +112,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +126,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

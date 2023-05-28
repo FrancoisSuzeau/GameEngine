@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : GraphicService.hpp
+// File : GraphicInitializerService.hpp
 // Purpose : A service initialising Opengl / SDL
 /******************************************************************************************************************************************/
-#ifndef GRAPHICSERVICES_H
-#define GRAPHICSERVICES_H
+#ifndef GRPHINITSERVICE_H
+#define GRPHINITSERVICE_H
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -11,14 +11,16 @@
 #include <cassert>
 #include <windows.h>
 
+#include "IService.hpp"
+
 namespace Services {
 
-	class GraphicServices 
+	class GraphicInitializerService : public IService
 	{
 
 	public : 
-		void Init();
-		void DeInit();
+		void Init() override;
+		void DeInit() override;
  
 	private:
 		void InitialiseSDL();

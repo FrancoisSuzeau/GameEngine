@@ -6,6 +6,7 @@
 #define IOCMODULE
 #include "Container/Container.hpp"
 #include "Container/Container.cpp"
+#include "IBuilder.hpp"
 
 namespace IoC {
 
@@ -15,7 +16,9 @@ namespace IoC {
 		IocModule();
 		~IocModule();
 
-		void Load();
+		template<typename T>
+		void Load(Builders::IBuilder *builder);
+		void StartBuilder(Builders::IBuilder* builder);
 
 	private:
 

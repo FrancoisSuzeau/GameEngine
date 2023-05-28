@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : AbstractInstance.hpp
-// Purpose : the abstract instance for container
+// File : IInstance.hpp
+// Purpose : the interface instance for container
 /******************************************************************************************************************************************/
-#ifndef ABINSTANCE_H
-#define ABINSTANCE_H
+#ifndef IINSTANCE_H
+#define IINSTANCE_H
 
 #include <typeinfo>
 #include <typeindex>
@@ -16,10 +16,10 @@ namespace IoC {
 
 	namespace Instances
 	{
-		class AbstractInstance
+		class IInstance
 		{
 		public:
-			virtual ~AbstractInstance() {}
+			virtual ~IInstance() {}
 		};
 	}
 }

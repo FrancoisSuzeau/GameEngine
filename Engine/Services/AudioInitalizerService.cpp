@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : AudioService.cpp
+// File : AudioInitializerService.cpp
 // Purpose : Implementing Audio service  Initialisation
 /******************************************************************************************************************************************/
-#include "AudioService.hpp"
+#include "AudioInitializerService.hpp"
 
 using namespace Services;
 
-void AudioService::Init()
+void AudioInitializerService::Init()
 {
 	init_succeded = true;
 	title = "Audio Services Initialization";
@@ -19,14 +19,14 @@ void AudioService::Init()
     std::cout << ">> Initialise SDL mixer : SUCCESS" << std::endl;
 }
 
-void AudioService::DeInit()
+void AudioInitializerService::DeInit()
 {
 	title = "Graphic Services De-initialization";
 	Mix_CloseAudio();
 	std::cout << ">> SDL mixer service destroyed" << std::endl;
 }
 
-void AudioService::ShowError(std::string error_message)
+void AudioInitializerService::ShowError(std::string error_message)
 {
 	std::string sdl_error(Mix_GetError());
 	if (sdl_error != "")

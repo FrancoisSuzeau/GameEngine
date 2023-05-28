@@ -5,7 +5,7 @@
 #ifndef INSTANCE_H
 #define INSTANCE_H
 
-#include "AbstractInstance.hpp"
+#include "IInstance.hpp"
 
 namespace IoC {
 
@@ -14,7 +14,7 @@ namespace IoC {
 	namespace Instances
 	{
 		template<typename T>
-		class Instance : public AbstractInstance
+		class Instance : public IInstance
 		{
 		public:
 			Instance(T* ptr);
