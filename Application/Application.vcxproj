@@ -19,18 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Interfaces\IBuilder.hpp" />
-    <ClInclude Include="Interfaces\IInstance.hpp" />
-    <ClInclude Include="Interfaces\IService.hpp" />
+    <ClCompile Include="Builders\ServiceBuilder.cpp" />
+    <ClCompile Include="Starting\Director.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Build.cpp" />
+    <ClInclude Include="Builders\ServiceBuilder.hpp" />
+    <ClInclude Include="Starting\Director.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
+      <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.vcxproj">
+      <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{73c22434-0261-4229-8081-1b070803ae72}</ProjectGuid>
-    <RootNamespace>Domain</RootNamespace>
+    <ProjectGuid>{4e6e3f97-3794-4a25-a002-2a3a5a58794b}</ProjectGuid>
+    <RootNamespace>Application</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -54,7 +62,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -112,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,17 +134,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Builders\ServiceBuilder.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Application\Application.vcxproj">
+      <Project>{4e6e3f97-3794-4a25-a002-2a3a5a58794b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
       <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
     </ProjectReference>

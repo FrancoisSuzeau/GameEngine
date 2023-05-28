@@ -5,31 +5,20 @@
 #include <iostream>
 #include "Services/GraphicInitializerService.hpp"
 #include "Services/AudioInitializerService.hpp"
-#include "IocModule.hpp"
-#include "Container/Container.hpp"
+#include "Director.hpp"
+#include "Director.cpp"
 
+ 
 int main(int argc, char** argv)
 {
-    
-    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-    container->registerType<Services::GraphicInitializerService>([]() {
-        return new Services::GraphicInitializerService();
-        });
+    Starting::Director dir;
 
-    auto graphic_services = container->make<Services::GraphicInitializerService>();
-    graphic_services->Init();
+    dir.SetBuilder<Services::GraphicInitializerService>();
+    dir.SetBuilder<Services::AudioInitializerService>();
 
-    container->registerType<Services::AudioInitializerService>([]() {
-        return new Services::AudioInitializerService();
-        });
-    
-    auto audio_services = container->make<Services::AudioInitializerService>();
-    audio_services->Init();
+    dir.StartAllBuilder();
 
-    std::cout << std::endl;
-
-    audio_services->DeInit();
-    graphic_services->DeInit();
+    dir.EndingBuilder();
 
     return EXIT_SUCCESS;
 }
