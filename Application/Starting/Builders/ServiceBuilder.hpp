@@ -5,7 +5,7 @@
 #ifndef SERVICEBUILDER_H
 #define SERVICEBUILDER_H
 
-#include <map>
+#include <unordered_map>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -28,7 +28,7 @@ namespace Builders {
 
  	private:
 
-		std::map<std::string, std::shared_ptr<Services::IService>> m_services_initializer;
+		std::unordered_map<std::string, std::shared_ptr<Services::IService>> m_services_initializer;
 	};
 }
 
