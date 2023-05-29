@@ -6,7 +6,11 @@
 
 using namespace Engines;
 
-Engine::Engine()
+Engine::~Engine()
+{
+}
+
+void Engine::Construct()
 {
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
@@ -14,10 +18,6 @@ Engine::Engine()
     m_window = graph_service_init->GetSDLWindow();
     m_width = graph_service_init->GetWidth();
     m_height = graph_service_init->GetHeight();
-}
-
-Engine::~Engine()
-{
 }
 
 void Engine::MainLoop()

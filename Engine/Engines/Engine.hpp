@@ -30,8 +30,9 @@ namespace Engines {
 	class Engine : public IEngine
 	{
 	public:
-		Engine();
+
 		~Engine();
+		void Construct() override;
 		void MainLoop();
 
 	private:

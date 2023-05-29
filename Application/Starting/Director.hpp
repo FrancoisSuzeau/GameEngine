@@ -6,6 +6,7 @@
 #define DIRECTOR_H
 
 #include "Builders/ServiceBuilder.hpp"
+#include "Builders/EngineBuilder.hpp"
 #include "IocModule.hpp"
 #include "IocModule.cpp"
 #include "IService.hpp"
@@ -18,12 +19,15 @@ namespace Starting {
 	public:
 		Director();
 		template<typename T>
-		void SetBuilder();
-		void EndingBuilder();
-		void StartAllBuilder();
+		void SetServiceBuilder();
+		template<typename T>
+		void SetEngineBuilder();
+		void EndingBuilders();
+		void StartAllBuilders();
 
 	private:
 		Builders::ServiceBuilder* m_service_builder = nullptr;
+		Builders::EngineBuilder* m_engine_builder = nullptr;
 	};
 
 }

@@ -20,7 +20,7 @@ void IocModule::StartBuilder(Builders::IBuilder* builder)
 }
 
 template<typename T>
-void IocModule::Load(Builders::IBuilder* builder)
+void IocModule::LoadService(Builders::IBuilder* builder)
 {
     auto type = std::type_index(typeid(T));
 
@@ -32,4 +32,16 @@ void IocModule::Load(Builders::IBuilder* builder)
     auto service = container->make<T>();
 
     builder->Build(type.name(), service);
+}
+
+template<typename T>
+void IocModule::LoadEngine(Builders::IBuilder* builder)
+{
+    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    container->registerType<T>([]() {
+        return new T();
+        });
+    auto engine = container->make<T>();
+
+    builder->Build(engine);
 }

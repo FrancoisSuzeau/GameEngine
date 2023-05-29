@@ -21,12 +21,18 @@
     <ClCompile Include="Starting\Builders\ServiceBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Starting\Builders\EngineBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Starting\Director.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Starting\Builders\ServiceBuilder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Starting\Builders\EngineBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
