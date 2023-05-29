@@ -22,13 +22,15 @@
 
 #include "IEngine.hpp"
 #include "EngineEnum.hpp"
+#include "Container/Container.hpp"
+#include "../Services/GraphicInitializerService.hpp"
 
 namespace Engines {
 
 	class Engine : public IEngine
 	{
 	public:
-		Engine(SDL_Window *window, int width, int height);
+		Engine();
 		~Engine();
 		void MainLoop();
 
