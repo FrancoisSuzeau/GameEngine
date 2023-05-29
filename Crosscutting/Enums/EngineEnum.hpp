@@ -8,6 +8,7 @@
 namespace Enums {
 
 	enum EngineEnum {BEGIN, END};
+	enum ServiceEnum {SDL, OPENGL, IMGUI};
 }
 
 #endif

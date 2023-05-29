@@ -5,7 +5,7 @@
 #ifndef SERVICEBUILDER_H
 #define SERVICEBUILDER_H
 
-#include <unordered_map>
+#include <map>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -24,11 +24,9 @@ namespace Builders {
 		void Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer) override;
 		void OnServicesEnd() override;
 
-		std::shared_ptr<Services::IService> GetServiceInitalizer(std::string service_name) const;
-
  	private:
 
-		std::unordered_map<std::string, std::shared_ptr<Services::IService>> m_services_initializer;
+		std::map<std::string, std::shared_ptr<Services::IService>> m_services_initializer;
 	};
 }
 
