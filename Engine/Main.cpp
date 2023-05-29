@@ -16,16 +16,20 @@ int main(int argc, char** argv)
 {
     Starting::Director dir;
 
-    dir.SetBuilder<Services::GraphicInitializerService>();
-    dir.SetBuilder<Services::AudioInitializerService>();
-    dir.SetBuilder<Services::ImGUIServiceInitializer>();
+    dir.SetServiceBuilder<Services::GraphicInitializerService>();
+    dir.SetServiceBuilder<Services::AudioInitializerService>();
+    dir.SetServiceBuilder<Services::ImGUIServiceInitializer>();
 
-    dir.StartAllBuilder();
+    dir.SetEngineBuilder<Engines::Engine>();
 
-    Engines::Engine main_engine;
+    dir.StartAllBuilders();
+
+    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    Engines::Engine main_engine = *container->make<Engines::Engine>().get();
+
     main_engine.MainLoop();
 
-    dir.EndingBuilder();
+    dir.EndingBuilders();
 
     return EXIT_SUCCESS;
 }

@@ -12,6 +12,7 @@ namespace Engines {
 	{
 	public:
 		virtual ~IEngine() {}
+		virtual void Construct() = 0;
 	};
 }
 #endif

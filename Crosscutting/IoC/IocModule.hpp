@@ -17,7 +17,9 @@ namespace IoC {
 		~IocModule();
 
 		template<typename T>
-		void Load(Builders::IBuilder *builder);
+		void LoadService(Builders::IBuilder *builder);
+		template<typename T>
+		void LoadEngine(Builders::IBuilder* builder);
 		void StartBuilder(Builders::IBuilder* builder);
 
 	private:
