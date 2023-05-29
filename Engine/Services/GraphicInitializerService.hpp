@@ -24,6 +24,8 @@ namespace Services {
 
 		SDL_GLContext GetGLContext() const;
 		SDL_Window* GetSDLWindow() const;
+		int GetWidth() const;
+		int GetHeight() const;
  
 	private:
 		void InitialiseSDL();

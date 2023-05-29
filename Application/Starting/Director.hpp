@@ -21,8 +21,6 @@ namespace Starting {
 		void SetBuilder();
 		void EndingBuilder();
 		void StartAllBuilder();
-		template<typename T>
-		std::shared_ptr<Services::IService> GetServiceInitializer();
 
 	private:
 		Builders::ServiceBuilder* m_service_builder = nullptr;

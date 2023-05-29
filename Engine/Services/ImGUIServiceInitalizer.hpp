@@ -1,14 +1,15 @@
 /******************************************************************************************************************************************/
-// File : Engine.hpp
-// Purpose : The main engine of the application
+// File : ImGUIServiceInitializer.hpp
+// Purpose : A service initialising ImGUI
 /******************************************************************************************************************************************/
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef IMGUIINITSERVICE_H
+#define IMGUIINITSERVICE_H
 
-#include <string>
-
+#include "IService.hpp"
+#include "Container/Container.hpp"
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
+#include "GraphicInitializerService.hpp"
 
 #define  IMGUI_INITIALIZE 0
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -20,29 +21,14 @@
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
 
-#include "IEngine.hpp"
-#include "EngineEnum.hpp"
-
-namespace Engines {
-
-	class Engine : public IEngine
+namespace Services {
+	class ImGUIServiceInitializer : public IService
 	{
 	public:
-		Engine(SDL_Window *window, int width, int height);
-		~Engine();
-		void MainLoop();
-
+		void Init() override;
+		void DeInit() override;
 	private:
-		SDL_Window* m_window;
-		Uint32                  start_loop = 0, end_loop = 0, time_past = 0;
-		unsigned int            frame_rate = 0;
-		int m_width = 0, m_height = 0;
-
-
-		void InitFrame();
-		void EndFrame();
-		void FpsCalculation(Enums::EngineEnum ee);
+		ImGuiIO m_io;
 	};
 }
-
 #endif
