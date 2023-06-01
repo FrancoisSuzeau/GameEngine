@@ -21,7 +21,7 @@
 #include <imgui_impl_opengl3.h>
 
 #include "IEngine.hpp"
-#include "EngineEnum.hpp"
+#include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
 #include "../Services/GraphicInitializerService.hpp"
 
