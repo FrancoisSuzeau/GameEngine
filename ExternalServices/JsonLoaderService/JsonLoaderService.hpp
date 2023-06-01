@@ -7,6 +7,9 @@
 
 #include <chilkat/CkJsonArray.h>
 #include <chilkat/CkJsonObject.h>
+#include <iostream>
+#include <fstream>
+#include <cassert>
 
 #include "IService.hpp"
 
@@ -17,6 +20,8 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
+	private:
+		CkJsonObject *all_file = nullptr;
 	};
 }
 
