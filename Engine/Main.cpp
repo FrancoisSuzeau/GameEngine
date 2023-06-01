@@ -10,6 +10,7 @@
 #include "Director.hpp"
 #include "Director.cpp"
 #include "Engines/Engine.hpp"
+#include "JsonLoaderService.hpp"
 
  
 int main(int argc, char** argv)
@@ -19,6 +20,7 @@ int main(int argc, char** argv)
     dir.SetServiceBuilder<Services::GraphicInitializerService>();
     dir.SetServiceBuilder<Services::AudioInitializerService>();
     dir.SetServiceBuilder<Services::ImGUIServiceInitializer>();
+    dir.SetServiceBuilder<Services::JsonLoaderService>();
 
     dir.SetEngineBuilder<Engines::Engine>();
 

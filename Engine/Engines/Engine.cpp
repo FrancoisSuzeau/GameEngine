@@ -18,6 +18,8 @@ void Engine::Construct()
     m_window = graph_service_init->GetSDLWindow();
     m_width = graph_service_init->GetWidth();
     m_height = graph_service_init->GetHeight();
+
+    graph_service_init.reset();
 }
 
 void Engine::MainLoop()
