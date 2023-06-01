@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\Enums;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Enums;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,6 +158,9 @@
     </ProjectReference>
     <ProjectReference Include="..\ImGUI\ImGUI.vcxproj">
       <Project>{189c4c4f-0346-4c49-b023-3b6bc04f6eef}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.vcxproj">
+      <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
