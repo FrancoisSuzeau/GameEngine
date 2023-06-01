@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{5340CC3A-00A5-4659-BD16-639701437989}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Domain", "Domain\Domain.vcxproj", "{73C22434-0261-4229-8081-1B070803AE72}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Application", "Application\Application.vcxproj", "{4E6E3F97-3794-4A25-A002-2A3A5A58794B}"
@@ -17,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shared", "Shared\Shared.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Data", "Data\Data.vcxproj", "{73DBCA07-0AB4-484E-AA17-2D5919FC2080}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{5340CC3A-00A5-4659-BD16-639701437989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -25,14 +25,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x64.ActiveCfg = Debug|x64
-		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x64.Build.0 = Debug|x64
-		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x86.ActiveCfg = Debug|Win32
-		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x86.Build.0 = Debug|Win32
-		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x64.ActiveCfg = Release|x64
-		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x64.Build.0 = Release|x64
-		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x86.ActiveCfg = Release|Win32
-		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x86.Build.0 = Release|Win32
 		{73C22434-0261-4229-8081-1B070803AE72}.Debug|x64.ActiveCfg = Debug|x64
 		{73C22434-0261-4229-8081-1B070803AE72}.Debug|x64.Build.0 = Debug|x64
 		{73C22434-0261-4229-8081-1B070803AE72}.Debug|x86.ActiveCfg = Debug|Win32
@@ -81,6 +73,14 @@ Global
 		{73DBCA07-0AB4-484E-AA17-2D5919FC2080}.Release|x64.Build.0 = Release|x64
 		{73DBCA07-0AB4-484E-AA17-2D5919FC2080}.Release|x86.ActiveCfg = Release|Win32
 		{73DBCA07-0AB4-484E-AA17-2D5919FC2080}.Release|x86.Build.0 = Release|Win32
+		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x64.ActiveCfg = Debug|x64
+		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x64.Build.0 = Debug|x64
+		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x86.ActiveCfg = Debug|Win32
+		{5340CC3A-00A5-4659-BD16-639701437989}.Debug|x86.Build.0 = Debug|Win32
+		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x64.ActiveCfg = Release|x64
+		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x64.Build.0 = Release|x64
+		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x86.ActiveCfg = Release|Win32
+		{5340CC3A-00A5-4659-BD16-639701437989}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
