@@ -105,13 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ImGUI;$(SolutionDir)Application\Services;$(SolutionDir)Application\Starting;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;ChilkatDbgDll_x64.lib;crypt32.lib;ws2_32.lib;dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,15 +136,9 @@
   <ItemGroup>
     <ClCompile Include="Engines\Engine.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Services\AudioInitalizerService.cpp" />
-    <ClCompile Include="Services\GraphicInitializerService.cpp" />
-    <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engines\Engine.hpp" />
-    <ClInclude Include="Services\AudioInitializerService.hpp" />
-    <ClInclude Include="Services\GraphicInitializerService.hpp" />
-    <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">

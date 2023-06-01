@@ -4,9 +4,9 @@
 /******************************************************************************************************************************************/
 #include <iostream>
 
-#include "Services/GraphicInitializerService.hpp"
-#include "Services/AudioInitializerService.hpp"
-#include "Services/ImGUIServiceInitalizer.hpp"
+#include "GraphicInitializerService.hpp"
+#include "AudioInitializerService.hpp"
+#include "ImGUIServiceInitalizer.hpp"
 #include "Director.hpp"
 #include "Director.cpp"
 #include "Engines/Engine.hpp"
