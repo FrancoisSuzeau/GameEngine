@@ -24,7 +24,7 @@
     <ClInclude Include="IoC\IocModule.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\EngineEnum.hpp">
+    <ClInclude Include="Crosscutting\EngineEnum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

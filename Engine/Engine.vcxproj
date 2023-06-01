@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Enums;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
