@@ -150,9 +150,6 @@
     <ProjectReference Include="..\Application\Application.vcxproj">
       <Project>{4e6e3f97-3794-4a25-a002-2a3a5a58794b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
-      <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.vcxproj">
       <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
     </ProjectReference>
