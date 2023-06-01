@@ -16,14 +16,15 @@
 #else
 #include <SDL2/SDL_opengl.h>
 #endif
-#include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_opengl3.h>
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
+
 
 #include "IEngine.hpp"
-#include "EngineEnum.hpp"
+#include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "../Services/GraphicInitializerService.hpp"
+#include "GraphicInitializerService.hpp"
 
 namespace Engines {
 

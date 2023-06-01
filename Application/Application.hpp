@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : Director.hpp
-// Purpose : Director creating, setting the builders and produce them via Ioc
+// File : Application.hpp
+// Purpose : Application creating, setting the builders and produce them via Ioc
 /******************************************************************************************************************************************/
-#ifndef DIRECTOR_H
-#define DIRECTOR_H
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 #include "Builders/ServiceBuilder.hpp"
 #include "Builders/EngineBuilder.hpp"
@@ -14,10 +14,10 @@
 
 namespace Starting {
 
-	class Director
+	class Application
 	{
 	public:
-		Director();
+		Application();
 		template<typename T>
 		void SetServiceBuilder();
 		template<typename T>

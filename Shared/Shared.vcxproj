@@ -18,13 +18,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Crosscutting\Enums\EngineEnum.hpp" />
+    <ClInclude Include="IoC\Container\Container.hpp" />
+    <ClInclude Include="IoC\Instance\Instance.hpp" />
+    <ClInclude Include="IoC\IocModule.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IoC\Container\Container.cpp" />
+    <ClCompile Include="IoC\Instance\Instance.cpp" />
+    <ClCompile Include="IoC\IocModule.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.vcxproj">
+      <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5340cc3a-00a5-4659-bd16-639701437989}</ProjectGuid>
-    <RootNamespace>GameEngine</RootNamespace>
+    <ProjectGuid>{5784969b-bfb2-4a52-ae5a-007445befdd5}</ProjectGuid>
+    <RootNamespace>Crosscutting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Engine</ProjectName>
+    <ProjectName>Shared</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,13 +57,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -105,13 +121,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Application\Starting;$(SolutionDir)ImGUI;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\Enums;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,47 +136,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Shadow\Documents\Dev\GameEngine\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Engines\Engine.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Services\AudioInitalizerService.cpp" />
-    <ClCompile Include="Services\GraphicInitializerService.cpp" />
-    <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Engines\Engine.hpp" />
-    <ClInclude Include="Services\AudioInitializerService.hpp" />
-    <ClInclude Include="Services\GraphicInitializerService.hpp" />
-    <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Application\Application.vcxproj">
-      <Project>{4e6e3f97-3794-4a25-a002-2a3a5a58794b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
-      <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.vcxproj">
-      <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ExternalServices\ExternalServices.vcxproj">
-      <Project>{753fde61-c6f1-4274-a05e-6534d363f569}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ImGUI\ImGUI.vcxproj">
-      <Project>{189c4c4f-0346-4c49-b023-3b6bc04f6eef}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
