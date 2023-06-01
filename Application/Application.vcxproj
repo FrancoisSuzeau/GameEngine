@@ -22,17 +22,17 @@
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
     <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
-    <ClCompile Include="Starting\Builders\EngineBuilder.cpp" />
-    <ClCompile Include="Starting\Builders\ServiceBuilder.cpp" />
-    <ClCompile Include="Starting\Director.cpp" />
+    <ClCompile Include="Builders\EngineBuilder.cpp" />
+    <ClCompile Include="Builders\ServiceBuilder.cpp" />
+    <ClCompile Include="Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />
     <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />
-    <ClInclude Include="Starting\Builders\EngineBuilder.hpp" />
-    <ClInclude Include="Starting\Builders\ServiceBuilder.hpp" />
-    <ClInclude Include="Starting\Director.hpp" />
+    <ClInclude Include="Builders\EngineBuilder.hpp" />
+    <ClInclude Include="Builders\ServiceBuilder.hpp" />
+    <ClInclude Include="Application.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">

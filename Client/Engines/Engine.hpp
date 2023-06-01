@@ -24,7 +24,7 @@
 #include "IEngine.hpp"
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "../Services/GraphicInitializerService.hpp"
+#include "GraphicInitializerService.hpp"
 
 namespace Engines {
 

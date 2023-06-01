@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Starting\Director.cpp">
+    <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Starting\Builders\ServiceBuilder.cpp">
+    <ClCompile Include="Builders\ServiceBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Starting\Builders\EngineBuilder.cpp">
+    <ClCompile Include="Builders\EngineBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Services\AudioInitalizerService.cpp">
@@ -35,13 +35,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Starting\Director.hpp">
+    <ClInclude Include="Application.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Starting\Builders\ServiceBuilder.hpp">
+    <ClInclude Include="Builders\ServiceBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Starting\Builders\EngineBuilder.hpp">
+    <ClInclude Include="Builders\EngineBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\AudioInitializerService.hpp">

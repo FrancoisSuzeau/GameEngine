@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : Director.cpp
-// Purpose : Implementing the director
+// File : Application.cpp
+// Purpose : Implementing the Application
 /******************************************************************************************************************************************/
-#include "Director.hpp"
+#include "Application.hpp"
 
 using namespace Starting;
 
-Director::Director()
+Application::Application()
 {
     if (m_service_builder == nullptr)
     {
@@ -21,7 +21,7 @@ Director::Director()
     }
 }
 template<typename T>
-void Director::SetServiceBuilder()
+void Application::SetServiceBuilder()
 {
     std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
     ioc_module->LoadService<T>(m_service_builder);
@@ -29,14 +29,14 @@ void Director::SetServiceBuilder()
 }
 
 template<typename T>
-void Director::SetEngineBuilder()
+void Application::SetEngineBuilder()
 {
     std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
     ioc_module->LoadEngine<T>(m_engine_builder);
     ioc_module.reset();
 }
 
-void Director::EndingBuilders()
+void Application::EndingBuilders()
 {
     if (m_service_builder != nullptr)
     {
@@ -53,7 +53,7 @@ void Director::EndingBuilders()
     }
 }
 
-void Director::StartAllBuilders()
+void Application::StartAllBuilders()
 {
     std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
     ioc_module->StartBuilder(m_service_builder);
