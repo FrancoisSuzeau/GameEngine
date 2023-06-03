@@ -7,31 +7,35 @@
 #include "GraphicInitializerService.hpp"
 #include "AudioInitializerService.hpp"
 #include "ImGUIServiceInitalizer.hpp"
-#include "Application.hpp"
-#include "Application.cpp"
 #include "Engines/Engine.hpp"
 #include "JsonLoaderService.hpp"
+#include "ExitCommand.hpp"
+#include "Application.hpp"
 
- 
 int main(int argc, char** argv)
 {
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-    Starting::Application app;
 
-    app.SetServiceBuilder<Services::GraphicInitializerService>();
-    app.SetServiceBuilder<Services::AudioInitializerService>();
-    app.SetServiceBuilder<Services::ImGUIServiceInitializer>();
-    app.SetServiceBuilder<Services::JsonLoaderService>();
+    std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
+    std::shared_ptr<Commands::ExitCommand> exit_command = std::shared_ptr<Commands::ExitCommand>(new Commands::ExitCommand(app));
+    
+    app->SetServiceBuilder<Services::GraphicInitializerService>();
+    app->SetServiceBuilder<Services::AudioInitializerService>();
+    app->SetServiceBuilder<Services::ImGUIServiceInitializer>();
+    app->SetServiceBuilder<Services::JsonLoaderService>();
 
-    app.SetEngineBuilder<Engines::Engine>();
+    app->SetEngineBuilder<Engines::Engine>();
 
-    app.StartAllBuilders();
+    app->StartAllBuilders();
 
     Engines::Engine main_engine = *container->make<Engines::Engine>().get();
 
     main_engine.MainLoop();
 
-    app.EndingBuilders();
+    exit_command->Execute();
+
+    exit_command.reset();
+    app.reset();
 
     return EXIT_SUCCESS;
 }

@@ -1,18 +1,17 @@
 /******************************************************************************************************************************************/
-// File : IService.hpp
-// Purpose : A service interface
+// File : ICommand.hpp
+// Purpose : An interface for the command pattern
 /******************************************************************************************************************************************/
-#ifndef ISERVICE_H
-#define ISERVICE_H
+#ifndef ICOMMAND_H
+#define ICOMMAND_H
 
-namespace Services {
+namespace Commands {
 
-	class IService
+	class ICommand
 	{
 	public:
-		virtual ~IService() {}
-		virtual void Init() = 0;
-		virtual void DeInit() = 0;
+		virtual ~ICommand() {}
+		virtual void Execute() = 0;
 	};
 }
 
