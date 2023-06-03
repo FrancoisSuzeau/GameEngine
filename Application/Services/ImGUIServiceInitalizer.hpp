@@ -28,6 +28,8 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
+
+		ImGuiIO GetIO();
 	private:
 		ImGuiIO m_io;
 	};

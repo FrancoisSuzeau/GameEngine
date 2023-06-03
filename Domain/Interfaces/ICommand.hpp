@@ -1,13 +1,18 @@
 /******************************************************************************************************************************************/
-// File : Instance.cpp
-// Purpose : Implementing Instance for Container
+// File : ICommand.hpp
+// Purpose : An interface for the command pattern
 /******************************************************************************************************************************************/
-#include "Instance.hpp"
+#ifndef ICOMMAND_H
+#define ICOMMAND_H
 
-using namespace IoC::Instances;
+namespace Commands {
 
-template<typename T>
-Instance<T>::Instance(T* ptr) : m_ptr(ptr) 
-{
-
+	class ICommand
+	{
+	public:
+		virtual ~ICommand() {}
+		virtual void Execute() = 0;
+	};
 }
+
+#endif

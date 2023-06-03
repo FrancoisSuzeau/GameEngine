@@ -111,7 +111,7 @@ void GraphicInitializerService::SetDimensions()
 
 void GraphicInitializerService::SetSDLWindow()
 {
-	m_window = SDL_CreateWindow("Squeamish", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("GameEngineStarter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	if (m_window == nullptr)
 	{
 		std::string error_message = "Cannot create SDL window\n";

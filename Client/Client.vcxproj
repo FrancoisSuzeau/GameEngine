@@ -105,13 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ImGUI;$(SolutionDir)Application\Services;$(SolutionDir)Application;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ImGUI;$(SolutionDir)Application\Services;$(SolutionDir)Application;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Application\Commands;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;ChilkatDbgDll_x64.lib;crypt32.lib;ws2_32.lib;dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,10 +136,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engines\Engine.cpp" />
+    <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engines\Engine.hpp" />
+    <ClInclude Include="Engines\GUIEngine.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">

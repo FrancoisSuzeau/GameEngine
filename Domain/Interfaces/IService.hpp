@@ -1,6 +1,6 @@
 /******************************************************************************************************************************************/
-// File : GraphicInitializerService.hpp
-// Purpose : A service initialising Opengl / SDL
+// File : IService.hpp
+// Purpose : A service interface
 /******************************************************************************************************************************************/
 #ifndef ISERVICE_H
 #define ISERVICE_H

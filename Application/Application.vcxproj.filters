@@ -33,6 +33,9 @@
     <ClCompile Include="Services\ImGUIServiceInitalizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commands\ExitCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\ImGUIServiceInitalizer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\ExitCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

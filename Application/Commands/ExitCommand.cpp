@@ -1,13 +1,18 @@
 /******************************************************************************************************************************************/
-// File : Instance.cpp
-// Purpose : Implementing Instance for Container
+// File : ExitCommand.cpp
+// Purpose : Implementing the exit command
 /******************************************************************************************************************************************/
-#include "Instance.hpp"
+#include "ExitCommand.hpp"
 
-using namespace IoC::Instances;
+using namespace Commands;
 
-template<typename T>
-Instance<T>::Instance(T* ptr) : m_ptr(ptr) 
+ExitCommand::ExitCommand(std::shared_ptr<Starting::Application> app_ptr)
 {
+	m_app_ptr = app_ptr;
 
+}
+
+void ExitCommand::Execute()
+{
+	this->m_app_ptr->EndingBuilders();
 }

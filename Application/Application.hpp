@@ -11,6 +11,7 @@
 #include "IocModule.cpp"
 #include "IService.hpp"
 #include <cassert>
+#include <memory>
 
 namespace Starting {
 
@@ -26,8 +27,8 @@ namespace Starting {
 		void StartAllBuilders();
 
 	private:
-		Builders::ServiceBuilder* m_service_builder = nullptr;
-		Builders::EngineBuilder* m_engine_builder = nullptr;
+		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
+		std::unique_ptr<Builders::EngineBuilder> m_engine_builder;
 	};
 
 }

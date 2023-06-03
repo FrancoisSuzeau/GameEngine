@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : Engine.hpp
-// Purpose : The main engine of the application
+// File : GUIEngine.hpp
+// Purpose : The GUI engine of the application
 /******************************************************************************************************************************************/
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef GUIENGINE_H
+#define GUIENGINE_H
 
 #include <string>
 
@@ -20,33 +20,35 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-
-#include "GUIEngine.hpp"
-#include "Enums/EngineEnum.hpp"
+#include "IEngine.hpp"
 #include "Container/Container.hpp"
-#include "GraphicInitializerService.hpp"
+#include "ImGUIServiceInitalizer.hpp"
+
+#include <iostream>
+
 
 namespace Engines {
 
-	class Engine : public IEngine
+	class GUIEngine : public IEngine
 	{
 	public:
 
-		~Engine();
+		~GUIEngine();
 		void Construct() override;
-		void MainLoop();
+
+		void InitFrame() override; 
+		void EndFrame() override;
+
+		void Render();
+		bool* GetExit();
+
+		
 
 	private:
-		SDL_Window* m_window;
-		Uint32                  start_loop = 0, end_loop = 0, time_past = 0;
-		unsigned int            frame_rate = 0;
-		int m_width = 0, m_height = 0;
-
-		std::shared_ptr<GUIEngine> m_gui_engine;
-
-		void InitFrame() override;
-		void EndFrame() override;
-		void FpsCalculation(Enums::EngineEnum ee);
+		ImGuiIO m_io;
+		void RenderMainMenuBar();
+		void RenderMenuFile();
+		std::unique_ptr<bool> m_exit;
 	};
 }
 

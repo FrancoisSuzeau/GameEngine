@@ -13,6 +13,11 @@ namespace Engines {
 	public:
 		virtual ~IEngine() {}
 		virtual void Construct() = 0;
+
+	protected:
+
+		virtual void InitFrame() = 0;
+		virtual void EndFrame() = 0;
 	};
 }
 #endif

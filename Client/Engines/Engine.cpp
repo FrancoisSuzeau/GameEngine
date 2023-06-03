@@ -15,6 +15,7 @@ void Engine::Construct()
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
 
+    m_gui_engine = container->make<GUIEngine>();
     m_window = graph_service_init->GetSDLWindow();
     m_width = graph_service_init->GetWidth();
     m_height = graph_service_init->GetHeight();
@@ -24,10 +25,10 @@ void Engine::Construct()
 
 void Engine::MainLoop()
 {
-    bool exit = false;
+    bool *exit = m_gui_engine->GetExit();
     SDL_Event event;
 
-    while (!exit)
+    while (!*exit)
     {
         
         this->FpsCalculation(Enums::BEGIN);
@@ -41,21 +42,8 @@ void Engine::MainLoop()
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            ImGuiWindowFlags window_flags = 0;
-            ImGuiStyle& style = ImGui::GetStyle();
-            ImVec2 frame_padding_save = style.FramePadding;
-
-            window_flags |= ImGuiWindowFlags_NoResize;
-            window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
-            window_flags |= ImGuiWindowFlags_NoScrollbar;
-            ImGui::SetNextWindowPos(ImVec2(((float)m_width / 2.f) - 200.f, ((float)m_height / 2.f) - 200.f));
-            ImGui::SetNextWindowSize(ImVec2(400, 400));
-
-            ImGui::Begin("Settings", NULL, window_flags);
-
-            exit = ImGui::Button("Stop Simulation", ImVec2(385.0f, 30.0f));
-
-            ImGui::End();
+            m_gui_engine->Render();
+            //ImGui::ShowDemoWindow();
 
             this->EndFrame();
         }
@@ -66,15 +54,12 @@ void Engine::MainLoop()
 
 void Engine::InitFrame()
 {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
+    m_gui_engine->InitFrame();
 }
 
 void Engine::EndFrame()
 {
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    m_gui_engine->EndFrame();
     SDL_GL_SwapWindow(m_window);
 }
 
