@@ -33,22 +33,19 @@ void GUIEngine::EndFrame()
 
 void GUIEngine::RenderExitButton(bool& exit, int width, int height)
 {
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     ImGuiWindowFlags window_flags = 0;
     ImGuiStyle& style = ImGui::GetStyle();
-    ImVec2 frame_padding_save = style.FramePadding;
+    style.FrameRounding = 15;
 
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
     window_flags |= ImGuiWindowFlags_NoResize;
-    window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+    window_flags |= ImGuiWindowFlags_NoBackground;
     window_flags |= ImGuiWindowFlags_NoScrollbar;
+
     ImGui::SetNextWindowPos(ImVec2(((float)width / 2.f) - 200.f, ((float)height / 2.f) - 200.f));
     ImGui::SetNextWindowSize(ImVec2(400, 400));
 
-    ImGui::Begin("Settings", NULL, window_flags);
+    ImGui::Begin("Exit", NULL, window_flags);
 
     exit = ImGui::Button("Stop Simulation", ImVec2(385.0f, 30.0f));
 

@@ -103,6 +103,7 @@ StyleCopReport.xml
 x64/[Dd]ebug/*.exe
 x64/[Dd]ebug/*.idb
 x64/[Dd]ebug/*.lib
+*.ini
 
 # Chutzpah Test files
 _Chutzpah*

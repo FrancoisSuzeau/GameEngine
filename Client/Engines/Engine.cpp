@@ -37,6 +37,11 @@ void Engine::MainLoop()
         {
             this->InitFrame();
 
+            glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
             m_gui_engine->RenderExitButton(exit, m_width, m_height);
 
             this->EndFrame();
