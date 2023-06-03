@@ -17,18 +17,18 @@ void Engine::Construct()
 
     m_gui_engine = container->make<GUIEngine>();
     m_window = graph_service_init->GetSDLWindow();
-    m_width = graph_service_init->GetWidth();
-    m_height = graph_service_init->GetHeight();
 
     graph_service_init.reset();
 }
 
 void Engine::MainLoop()
 {
-    bool *exit = m_gui_engine->GetExit();
     SDL_Event event;
+    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    std::shared_ptr<Services::StateService> state_service = container->make<Services::StateService>();
+    
 
-    while (!*exit)
+    while (!state_service->getExit())
     {
         
         this->FpsCalculation(Enums::BEGIN);
@@ -50,6 +50,8 @@ void Engine::MainLoop()
 
         this->FpsCalculation(Enums::END);
     }
+
+    state_service.reset();
 }
 
 void Engine::InitFrame()
