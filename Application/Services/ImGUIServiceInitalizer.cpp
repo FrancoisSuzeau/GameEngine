@@ -31,3 +31,8 @@ void ImGUIServiceInitializer::DeInit()
     ImGui::DestroyContext();
     std::cout << ">> Destroying ImGui context : SUCCESS" << std::endl;
 }
+
+ImGuiIO ImGUIServiceInitializer::GetIO()
+{
+    return m_io;
+}

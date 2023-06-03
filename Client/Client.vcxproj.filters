@@ -21,9 +21,15 @@
     <ClCompile Include="Engines\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engines\GUIEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engines\Engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engines\GUIEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

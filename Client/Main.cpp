@@ -8,6 +8,7 @@
 #include "AudioInitializerService.hpp"
 #include "ImGUIServiceInitalizer.hpp"
 #include "Engines/Engine.hpp"
+#include "Engines/GUIEngine.hpp"
 #include "JsonLoaderService.hpp"
 #include "ExitCommand.hpp"
 #include "Application.hpp"
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     app->SetServiceBuilder<Services::ImGUIServiceInitializer>();
     app->SetServiceBuilder<Services::JsonLoaderService>();
 
+    app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();
 
     app->StartAllBuilders();
