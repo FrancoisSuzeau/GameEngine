@@ -25,10 +25,10 @@ void Engine::Construct()
 
 void Engine::MainLoop()
 {
-    bool exit = false;
+    bool *exit = m_gui_engine->GetExit();
     SDL_Event event;
 
-    while (!exit)
+    while (!*exit)
     {
         
         this->FpsCalculation(Enums::BEGIN);
@@ -42,7 +42,8 @@ void Engine::MainLoop()
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            m_gui_engine->RenderExitButton(exit, m_width, m_height);
+            m_gui_engine->Render();
+            //ImGui::ShowDemoWindow();
 
             this->EndFrame();
         }

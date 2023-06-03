@@ -39,10 +39,16 @@ namespace Engines {
 		void InitFrame() override; 
 		void EndFrame() override;
 
-		void RenderExitButton(bool &exit, int width, int height);
+		void Render();
+		bool* GetExit();
+
+		
 
 	private:
 		ImGuiIO m_io;
+		void RenderMainMenuBar();
+		void RenderMenuFile();
+		std::unique_ptr<bool> m_exit;
 	};
 }
 
