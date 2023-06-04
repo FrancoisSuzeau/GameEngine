@@ -40,13 +40,14 @@ namespace Engines {
 		SDL_Window* m_window;
 		Uint32                  start_loop = 0, end_loop = 0, time_past = 0;
 		unsigned int            frame_rate = 0;
-		int m_width = 0, m_height = 0;
 
 		std::shared_ptr<GUIEngine> m_gui_engine;
 
 		void InitFrame() override;
 		void EndFrame() override;
 		void FpsCalculation(Enums::EngineEnum ee);
+
+		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
 

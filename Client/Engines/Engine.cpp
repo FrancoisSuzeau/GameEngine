@@ -14,21 +14,21 @@ void Engine::Construct()
 {
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
-
+    m_state_service = container->make<Services::StateService>();
     m_gui_engine = container->make<GUIEngine>();
     m_window = graph_service_init->GetSDLWindow();
-    m_width = graph_service_init->GetWidth();
-    m_height = graph_service_init->GetHeight();
 
     graph_service_init.reset();
 }
 
 void Engine::MainLoop()
 {
-    bool *exit = m_gui_engine->GetExit();
     SDL_Event event;
+    //IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+    
+    
 
-    while (!*exit)
+    while (!m_state_service->getExit())
     {
         
         this->FpsCalculation(Enums::BEGIN);

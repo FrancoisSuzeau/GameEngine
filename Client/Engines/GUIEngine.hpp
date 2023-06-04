@@ -23,6 +23,8 @@
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
 #include "ImGUIServiceInitalizer.hpp"
+#include "StateService.hpp"
+#include "Commands/ExitCommand.hpp"
 
 #include <iostream>
 
@@ -40,7 +42,6 @@ namespace Engines {
 		void EndFrame() override;
 
 		void Render();
-		bool* GetExit();
 
 		
 
@@ -48,7 +49,7 @@ namespace Engines {
 		ImGuiIO m_io;
 		void RenderMainMenuBar();
 		void RenderMenuFile();
-		std::unique_ptr<bool> m_exit;
+		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
 
