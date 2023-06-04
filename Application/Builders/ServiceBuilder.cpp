@@ -36,5 +36,6 @@ void ServiceBuilder::OnBuilderEnd()
 		it != m_services_initializer.rend(); ++it)
 	{
 		it->second->DeInit();
+		it->second.reset();
 	}
 }

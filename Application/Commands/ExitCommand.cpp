@@ -6,13 +6,12 @@
 
 using namespace Commands;
 
-ExitCommand::ExitCommand(std::shared_ptr<Starting::Application> app_ptr)
+ExitCommand::ExitCommand(std::shared_ptr<Services::StateService> state_services)
 {
-	m_app_ptr = app_ptr;
-
+	m_state_service = state_services;
 }
 
 void ExitCommand::Execute()
 {
-	this->m_app_ptr->EndingBuilders();
+	this->m_state_service->setExit(true);
 }

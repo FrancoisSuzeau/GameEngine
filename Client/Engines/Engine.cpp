@@ -50,8 +50,6 @@ void Engine::MainLoop()
 
         this->FpsCalculation(Enums::END);
     }
-
-    m_state_service.reset();
 }
 
 void Engine::InitFrame()

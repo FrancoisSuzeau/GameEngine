@@ -29,4 +29,8 @@ void EngineBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
 
 void EngineBuilder::OnBuilderEnd()
 {
+	for (std::vector<std::shared_ptr<Engines::IEngine>>::iterator it = m_engine.begin(); it != m_engine.end(); ++it)
+	{
+		it->reset();
+	}
 }

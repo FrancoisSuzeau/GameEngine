@@ -19,7 +19,6 @@ int main(int argc, char** argv)
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
-    std::shared_ptr<Commands::ExitCommand> exit_command = std::shared_ptr<Commands::ExitCommand>(new Commands::ExitCommand(app));
     
     app->SetServiceBuilder<Services::GraphicInitializerService>();
     app->SetServiceBuilder<Services::AudioInitializerService>();
@@ -36,9 +35,7 @@ int main(int argc, char** argv)
 
     main_engine.MainLoop();
 
-    exit_command->Execute();
-
-    exit_command.reset();
+    app->EndingBuilders();
     app.reset();
 
     return EXIT_SUCCESS;
