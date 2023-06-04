@@ -14,7 +14,7 @@ void GUIEngine::Construct()
 {
 	IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 	std::shared_ptr<Services::ImGUIServiceInitializer> imgui_service_init = container->make<Services::ImGUIServiceInitializer>();
-
+    m_state_service = container->make<Services::StateService>();
 	m_io = imgui_service_init->GetIO();
 
     imgui_service_init.reset();
@@ -63,9 +63,6 @@ void GUIEngine::RenderMainMenuBar()
 
 void GUIEngine::RenderMenuFile()
 {
-    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-    std::shared_ptr<Services::StateService> state_service = container->make<Services::StateService>();
-
     if (ImGui::MenuItem("New")) {}
     if (ImGui::MenuItem("Open", "Ctrl+O")) {}
     if (ImGui::BeginMenu("Open Recent"))
@@ -110,8 +107,6 @@ void GUIEngine::RenderMenuFile()
     }*/
     if (ImGui::MenuItem("Quit", "Alt+F4")) 
     {
-        state_service->setExit(true);
+       m_state_service->setExit(true);
     }
-
-    state_service.reset();
 }

@@ -46,6 +46,8 @@ namespace Engines {
 		void InitFrame() override;
 		void EndFrame() override;
 		void FpsCalculation(Enums::EngineEnum ee);
+
+		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
 
