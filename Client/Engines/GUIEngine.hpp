@@ -49,6 +49,7 @@ namespace Engines {
 		ImGuiIO m_io;
 		void RenderMainMenuBar();
 		void RenderMenuFile();
+		void RenderMenuEdit();
 		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
