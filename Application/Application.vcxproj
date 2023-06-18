@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\ExitCommand.cpp" />
-    <ClCompile Include="Commands\ShowDebugWindowCommand.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
     <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
@@ -31,7 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ExitCommand.hpp" />
-    <ClInclude Include="Commands\ShowDebugWindowCommand.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />
     <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />

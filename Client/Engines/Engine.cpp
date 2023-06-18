@@ -24,10 +24,7 @@ void Engine::Construct()
 void Engine::MainLoop()
 {
     SDL_Event event;
-    //IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-    
-    
-
+   
     while (!m_state_service->getExit())
     {
         
@@ -43,7 +40,7 @@ void Engine::MainLoop()
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             m_gui_engine->Render();
-            ImGui::ShowDemoWindow();
+            //ImGui::ShowDemoWindow();
 
             this->EndFrame();
         }

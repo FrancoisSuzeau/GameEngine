@@ -5,6 +5,8 @@
 #include "GUIEngine.hpp"
 
 using namespace Engines;
+static bool show_app_metrics = false;
+
 
 GUIEngine::~GUIEngine()
 {
@@ -35,6 +37,7 @@ void GUIEngine::EndFrame()
 
 void GUIEngine::Render()
 {
+	if (show_app_metrics) { ImGui::ShowMetricsWindow(&show_app_metrics); }
 	this->RenderMainMenuBar();
 }
 
@@ -94,11 +97,7 @@ void GUIEngine::RenderMenuEdit()
 
 void GUIEngine::RenderMenuTools()
 {
-	if(ImGui::MenuItem("Metrics/Debugger"))
-	{
-		std::shared_ptr<Commands::ShowDebugWindowCommand> show_debug_window_command = std::shared_ptr<Commands::ShowDebugWindowCommand>(new Commands::ShowDebugWindowCommand(m_state_service));
-		show_debug_window_command->Execute();
-	}
+	ImGui::MenuItem("Metrics/Debugger", NULL, &show_app_metrics);
 	ImGui::MenuItem("Stack Tool");
 	ImGui::MenuItem("Style Editor");
 	ImGui::MenuItem("About Dear ImGui");

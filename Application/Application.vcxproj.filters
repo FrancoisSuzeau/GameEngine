@@ -39,9 +39,6 @@
     <ClCompile Include="Services\StateService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Commands\ShowDebugWindowCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -66,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\StateService.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\ShowDebugWindowCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

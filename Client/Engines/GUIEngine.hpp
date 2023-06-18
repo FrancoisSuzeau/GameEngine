@@ -25,7 +25,7 @@
 #include "ImGUIServiceInitalizer.hpp"
 #include "StateService.hpp"
 #include "Commands/ExitCommand.hpp"
-#include "Commands/ShowDebugWindowCommand.hpp"
+
 
 #include <iostream>
 
