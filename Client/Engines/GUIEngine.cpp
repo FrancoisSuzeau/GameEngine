@@ -5,10 +5,7 @@
 #include "GUIEngine.hpp"
 
 using namespace Engines;
-static bool show_app_metrics = false;
-static bool show_app_stack_tool = false;
-static bool show_app_style_editor = false;
-static bool show_app_about = false;
+
 
 GUIEngine::~GUIEngine()
 {
