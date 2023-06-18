@@ -24,10 +24,7 @@ void Engine::Construct()
 void Engine::MainLoop()
 {
     SDL_Event event;
-    //IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-    
-    
-
+   
     while (!m_state_service->getExit())
     {
         

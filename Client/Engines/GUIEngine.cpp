@@ -6,6 +6,7 @@
 
 using namespace Engines;
 
+
 GUIEngine::~GUIEngine()
 {
 }
@@ -35,6 +36,15 @@ void GUIEngine::EndFrame()
 
 void GUIEngine::Render()
 {
+	if (show_app_metrics) { ImGui::ShowMetricsWindow(&show_app_metrics); }
+	if (show_app_stack_tool) { ImGui::ShowStackToolWindow(&show_app_stack_tool); }
+	if (show_app_about) { ImGui::ShowAboutWindow(&show_app_about); }
+	if (show_app_style_editor)
+	{
+		ImGui::Begin("Dear ImGui Style Editor", &show_app_style_editor);
+		ImGui::ShowStyleEditor();
+		ImGui::End();
+	}
 	this->RenderMainMenuBar();
 }
 
@@ -49,12 +59,12 @@ void GUIEngine::RenderMainMenuBar()
 		}
 		if (ImGui::BeginMenu("Edit"))
 		{
-			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-			ImGui::Separator();
-			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			RenderMenuEdit();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Tools"))
+		{
+			RenderMenuTools();
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -75,39 +85,27 @@ void GUIEngine::RenderMenuFile()
 
 	ImGui::Separator();
 
-	/*if (ImGui::BeginMenu("Options"))
-	{
-		static bool enabled = true;
-		ImGui::MenuItem("Enabled", "", &enabled);
-		ImGui::BeginChild("child", ImVec2(0, 60), true);
-		for (int i = 0; i < 10; i++)
-			ImGui::Text("Scrolling Text %d", i);
-		ImGui::EndChild();
-		static float f = 0.5f;
-		static int n = 0;
-		ImGui::SliderFloat("Value", &f, 0.0f, 1.0f);
-		ImGui::InputFloat("Input", &f, 0.1f);
-		ImGui::Combo("Combo", &n, "Yes\0No\0Maybe\0\0");
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Colors"))
-	{
-		float sz = ImGui::GetTextLineHeight();
-		for (int i = 0; i < ImGuiCol_COUNT; i++)
-		{
-			const char* name = ImGui::GetStyleColorName((ImGuiCol)i);
-			ImVec2 p = ImGui::GetCursorScreenPos();
-			ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), ImGui::GetColorU32((ImGuiCol)i));
-			ImGui::Dummy(ImVec2(sz, sz));
-			ImGui::SameLine();
-			ImGui::MenuItem(name);
-		}
-		ImGui::EndMenu();
-	}*/
 	if (ImGui::MenuItem("Quit", "Alt+F4"))
 	{
 		std::shared_ptr<Commands::ExitCommand> exit_command = std::shared_ptr<Commands::ExitCommand>(new Commands::ExitCommand(m_state_service));
 		exit_command->Execute();
 	}
+}
+
+void GUIEngine::RenderMenuEdit() 
+{
+	if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+	if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+	ImGui::Separator();
+	if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+	if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+	if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+}
+
+void GUIEngine::RenderMenuTools()
+{
+	ImGui::MenuItem("Metrics/Debugger", NULL, &show_app_metrics);
+	ImGui::MenuItem("Stack Tool", NULL, &show_app_stack_tool);
+	ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+	ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
 }

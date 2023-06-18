@@ -24,6 +24,8 @@ namespace Services {
 		void setExit(bool const new_val);
 		int getWidth() const;
 		int getHeight() const;
+		bool getDebugWindow() const;
+		void setDebugWindow(bool const new_val);
 
 
 	private:
@@ -31,6 +33,7 @@ namespace Services {
 		int m_width;
 		int m_height;
 		bool m_exit;
+		bool m_show_debug_window;
 	};
 }
 

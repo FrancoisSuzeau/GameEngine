@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IoC\Instance\Instance.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IoC\Container\Container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,12 +24,12 @@
     <ClInclude Include="Crosscutting\Enums\EngineEnum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IoC\Instance\Instance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IoC\Container\Container.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IoC\Instance\Instance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IoC\IocModule.cpp">

@@ -8,7 +8,6 @@
 #include "Builders/ServiceBuilder.hpp"
 #include "Builders/EngineBuilder.hpp"
 #include "IocModule.hpp"
-#include "IocModule.cpp"
 #include "IService.hpp"
 #include <cassert>
 #include <memory>
@@ -20,9 +19,19 @@ namespace Starting {
 	public:
 		Application();
 		template<typename T>
-		void SetServiceBuilder();
+		void SetServiceBuilder()
+		{
+			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+			ioc_module->LoadService<T>(m_service_builder.get());
+			ioc_module.reset();
+		}
 		template<typename T>
-		void SetEngineBuilder();
+		void SetEngineBuilder()
+		{
+			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+			ioc_module->LoadEngine<T>(m_engine_builder.get());
+			ioc_module.reset();
+		}
 		void EndingBuilders();
 		void StartAllBuilders();
 
