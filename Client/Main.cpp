@@ -7,11 +7,10 @@
 #include "GraphicInitializerService.hpp"
 #include "AudioInitializerService.hpp"
 #include "ImGUIServiceInitalizer.hpp"
+#include "JsonLoaderService.hpp"
+#include "ShaderLoaderService.hpp"
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
-#include "JsonLoaderService.hpp"
-#include "StateService.hpp"
-#include "ExitCommand.hpp"
 #include "Application.hpp"
 
 int main(int argc, char** argv)
@@ -25,6 +24,7 @@ int main(int argc, char** argv)
     app->SetServiceBuilder<Services::ImGUIServiceInitializer>();
     app->SetServiceBuilder<Services::JsonLoaderService>();
     app->SetServiceBuilder<Services::StateService>();
+    app->SetServiceBuilder<Services::ShaderLoaderService>();
 
     app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();

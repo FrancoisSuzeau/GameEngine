@@ -2,8 +2,8 @@
 // File : JsonLoaderService.hpp
 // Purpose : A service loading json files
 /******************************************************************************************************************************************/
-#ifndef JSONLOADERSERVICE_h
-#define JSONLOADERSERVICE_h
+#ifndef JSONLOADERSERVICE_H
+#define JSONLOADERSERVICE_H
 
 #include <chilkat/CkJsonArray.h>
 #include <chilkat/CkJsonObject.h>
