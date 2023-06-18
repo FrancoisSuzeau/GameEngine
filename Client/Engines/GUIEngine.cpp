@@ -6,7 +6,9 @@
 
 using namespace Engines;
 static bool show_app_metrics = false;
-
+static bool show_app_stack_tool = false;
+static bool show_app_style_editor = false;
+static bool show_app_about = false;
 
 GUIEngine::~GUIEngine()
 {
@@ -38,6 +40,14 @@ void GUIEngine::EndFrame()
 void GUIEngine::Render()
 {
 	if (show_app_metrics) { ImGui::ShowMetricsWindow(&show_app_metrics); }
+	if (show_app_stack_tool) { ImGui::ShowStackToolWindow(&show_app_stack_tool); }
+	if (show_app_about) { ImGui::ShowAboutWindow(&show_app_about); }
+	if (show_app_style_editor)
+	{
+		ImGui::Begin("Dear ImGui Style Editor", &show_app_style_editor);
+		ImGui::ShowStyleEditor();
+		ImGui::End();
+	}
 	this->RenderMainMenuBar();
 }
 
@@ -98,8 +108,7 @@ void GUIEngine::RenderMenuEdit()
 void GUIEngine::RenderMenuTools()
 {
 	ImGui::MenuItem("Metrics/Debugger", NULL, &show_app_metrics);
-	ImGui::MenuItem("Stack Tool");
-	ImGui::MenuItem("Style Editor");
-	ImGui::MenuItem("About Dear ImGui");
-	
+	ImGui::MenuItem("Stack Tool", NULL, &show_app_stack_tool);
+	ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+	ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
 }
