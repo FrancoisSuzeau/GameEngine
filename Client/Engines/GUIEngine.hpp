@@ -25,6 +25,7 @@
 #include "ImGUIServiceInitalizer.hpp"
 #include "StateService.hpp"
 #include "Commands/ExitCommand.hpp"
+#include "Commands/ShowDebugWindowCommand.hpp"
 
 #include <iostream>
 
@@ -50,6 +51,7 @@ namespace Engines {
 		void RenderMainMenuBar();
 		void RenderMenuFile();
 		void RenderMenuEdit();
+		void RenderMenuTools();
 		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }

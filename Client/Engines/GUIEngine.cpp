@@ -52,6 +52,11 @@ void GUIEngine::RenderMainMenuBar()
 			RenderMenuEdit();
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Tools"))
+		{
+			RenderMenuTools();
+			ImGui::EndMenu();
+		}
 		ImGui::EndMainMenuBar();
 	}
 }
@@ -77,7 +82,7 @@ void GUIEngine::RenderMenuFile()
 	}
 }
 
-void GUIEngine::RenderMenuEdit()
+void GUIEngine::RenderMenuEdit() 
 {
 	if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
 	if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
@@ -85,4 +90,17 @@ void GUIEngine::RenderMenuEdit()
 	if (ImGui::MenuItem("Cut", "CTRL+X")) {}
 	if (ImGui::MenuItem("Copy", "CTRL+C")) {}
 	if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+}
+
+void GUIEngine::RenderMenuTools()
+{
+	if(ImGui::MenuItem("Metrics/Debugger"))
+	{
+		std::shared_ptr<Commands::ShowDebugWindowCommand> show_debug_window_command = std::shared_ptr<Commands::ShowDebugWindowCommand>(new Commands::ShowDebugWindowCommand(m_state_service));
+		show_debug_window_command->Execute();
+	}
+	ImGui::MenuItem("Stack Tool");
+	ImGui::MenuItem("Style Editor");
+	ImGui::MenuItem("About Dear ImGui");
+	
 }

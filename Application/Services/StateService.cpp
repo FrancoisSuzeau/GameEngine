@@ -14,6 +14,7 @@ void StateService::Init()
 	m_height = graph_service_init->GetHeight();
 
 	m_exit = false;
+	m_show_debug_window = false;
 }
 
 void StateService::DeInit()
@@ -39,6 +40,16 @@ int StateService::getWidth() const
 int StateService::getHeight() const
 {
 	return m_height;
+}
+
+bool StateService::getDebugWindow() const
+{
+	return m_show_debug_window;
+}
+
+void StateService::setDebugWindow(bool const new_val)
+{
+	m_show_debug_window = new_val;
 }
 
 

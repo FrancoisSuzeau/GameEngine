@@ -5,7 +5,6 @@
 #ifndef IOCMODULE
 #define IOCMODULE
 #include "Container/Container.hpp"
-#include "Container/Container.cpp"
 #include "IBuilder.hpp"
 
 namespace IoC {
@@ -17,9 +16,30 @@ namespace IoC {
 		~IocModule();
 
 		template<typename T>
-		void LoadService(Builders::IBuilder *builder);
+		void LoadService(Builders::IBuilder *builder)
+		{
+			auto type = std::type_index(typeid(T));
+
+			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+			container->registerType<T>([]() {
+				return new T();
+				});
+
+			auto service = container->make<T>();
+
+			builder->Build(type.name(), service);
+		}
 		template<typename T>
-		void LoadEngine(Builders::IBuilder* builder);
+		void LoadEngine(Builders::IBuilder* builder)
+		{
+			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+			container->registerType<T>([]() {
+				return new T();
+				});
+			auto engine = container->make<T>();
+
+			builder->Build(engine);
+		}
 		void StartBuilder(Builders::IBuilder* builder);
 
 	private:

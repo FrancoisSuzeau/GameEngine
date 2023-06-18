@@ -43,7 +43,7 @@ void Engine::MainLoop()
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             m_gui_engine->Render();
-            //ImGui::ShowDemoWindow();
+            ImGui::ShowDemoWindow();
 
             this->EndFrame();
         }
