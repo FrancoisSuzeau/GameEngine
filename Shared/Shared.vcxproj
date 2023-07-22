@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Crosscutting\Constants\StringConstants.hpp" />
     <ClInclude Include="Crosscutting\Enums\EngineEnum.hpp" />
     <ClInclude Include="IoC\Container\Container.hpp" />
     <ClInclude Include="IoC\Instance\Instance.hpp" />

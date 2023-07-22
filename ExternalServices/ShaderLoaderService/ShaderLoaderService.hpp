@@ -16,6 +16,9 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Constants/StringConstants.hpp"
+#include "Enums/EngineEnum.hpp"
+
 namespace Services {
 
 	class ShaderLoaderService : public IService
@@ -25,15 +28,12 @@ namespace Services {
 		void DeInit() override;
 
 		ShaderLoaderService();
-		ShaderLoaderService(std::string vertex_path, std::string fragment_path, std::string geometry_path = "NONE");
-		~ShaderLoaderService();
 
-		ShaderLoaderService(ShaderLoaderService const& ShaderLoaderService_to_copy);
-		ShaderLoaderService& operator=(ShaderLoaderService const& ShaderLoaderService_to_copy);
+		~ShaderLoaderService();
 		void clean();
 
 		GLuint          getProgramID() const;
-		bool            loadShader();
+		bool            loadShader(std::string const shader_name, Enums::ShaderType shader_type);
 		
 	private:
 

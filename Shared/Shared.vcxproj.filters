@@ -27,6 +27,9 @@
     <ClInclude Include="IoC\Instance\Instance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Crosscutting\Constants\StringConstants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IoC\Container\Container.cpp">

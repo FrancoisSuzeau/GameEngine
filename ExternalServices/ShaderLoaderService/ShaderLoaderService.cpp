@@ -20,36 +20,6 @@ ShaderLoaderService::ShaderLoaderService() : m_vertex_ID(0), m_fragment_ID(0), m
 
 }
 
-ShaderLoaderService::ShaderLoaderService(std::string vertex_path, std::string fragment_path, std::string geometry_path) :
-    m_vertex_ID(0), m_fragment_ID(0), m_geometry_ID(0), m_program_ID(0), m_vertex_path(vertex_path), m_fragment_path(fragment_path), m_geometry_path(geometry_path)
-{
-
-}
-
-ShaderLoaderService::ShaderLoaderService(ShaderLoaderService const& shader_to_copy) //copy constructor
-{
-    //copying source files
-    m_vertex_path = shader_to_copy.m_vertex_path;
-    m_fragment_path = shader_to_copy.m_fragment_path;
-    m_geometry_path = shader_to_copy.m_geometry_path;
-
-    //loading new shader
-    loadShader();
-}
-
-ShaderLoaderService& ShaderLoaderService::operator=(ShaderLoaderService const& shader_to_copy)
-{
-    //copying source files
-    m_vertex_path = shader_to_copy.m_vertex_path;
-    m_fragment_path = shader_to_copy.m_fragment_path;
-    m_geometry_path = shader_to_copy.m_geometry_path;
-
-    //loading new shader
-    loadShader();
-
-    return *this;
-}
-
 ShaderLoaderService::~ShaderLoaderService()
 {
 
@@ -65,15 +35,25 @@ GLuint ShaderLoaderService::getProgramID() const
     return m_program_ID;
 }
 
-bool ShaderLoaderService::loadShader()
+bool ShaderLoaderService::loadShader(std::string const shader_name, Enums::ShaderType shader_type)
 {
     deleteShader(m_vertex_ID, GL_FALSE);
     deleteShader(m_fragment_ID, GL_FALSE);
-    if (m_geometry_path != "NONE")
+    if (m_geometry_path != Constants::NONE)
     {
         deleteShader(m_geometry_ID, GL_FALSE);
     }
     deleteProgram();
+    m_vertex_path = Constants::SHADERSPATH + shader_name + Constants::SHADERVERTEXT;
+    m_fragment_path = Constants::SHADERSPATH + shader_name + Constants::SHADERFRAGEXT;
+    if (shader_type == Enums::ShaderType::GEOMETRIC)
+    {
+        m_geometry_path = Constants::SHADERSPATH + shader_name + Constants::SHADERGEOEXT;
+    }
+    else
+    {
+        m_geometry_path = Constants::NONE;
+    }
     /************************************************* compiling shader source code ********************************************************/
     if (!compileShader(m_vertex_ID, GL_VERTEX_SHADER, m_vertex_path))
     {
@@ -93,7 +73,7 @@ bool ShaderLoaderService::loadShader()
     //======================================================================================================================================
 
     /************************************************* compiling geometry source code ********************************************************/
-    if (m_geometry_path != "NONE")
+    if (m_geometry_path != Constants::NONE)
     {
         if (!compileShader(m_geometry_ID, GL_GEOMETRY_SHADER, m_geometry_path))
         {
@@ -110,7 +90,7 @@ bool ShaderLoaderService::loadShader()
     //shader association
     glAttachShader(m_program_ID, m_vertex_ID);
     glAttachShader(m_program_ID, m_fragment_ID);
-    if (m_geometry_path != "NONE")
+    if (m_geometry_path != Constants::NONE)
     {
         glAttachShader(m_program_ID, m_geometry_ID);
     }
@@ -149,7 +129,7 @@ bool ShaderLoaderService::loadShader()
         deleteProgram();
         deleteShader(m_vertex_ID, link_error);
         deleteShader(m_fragment_ID, link_error);
-        if (m_geometry_path != "NONE")
+        if (m_geometry_path != Constants::NONE)
         {
             deleteShader(m_geometry_ID, link_error);
         }
@@ -161,14 +141,14 @@ bool ShaderLoaderService::loadShader()
         std::cout << ">> Linking program : SUCCESS" << std::endl;
         deleteShader(m_vertex_ID, link_error);
         deleteShader(m_fragment_ID, link_error);
-        if (m_geometry_path != "NONE")
+        if (m_geometry_path != Constants::NONE)
         {
             deleteShader(m_geometry_ID, link_error);
         }
 
-        std::cout << ">> SHADER :: delete >>> SUCCESS" << m_vertex_path << std::endl;
-        std::cout << ">> SHADER :: delete >>> SUCCESS" << m_fragment_path << std::endl;
-        if (m_geometry_path != "NONE")
+        std::cout << ">> SHADER :: delete >>> SUCCESS " << m_vertex_path << std::endl;
+        std::cout << ">> SHADER :: delete >>> SUCCESS " << m_fragment_path << std::endl;
+        if (m_geometry_path != Constants::NONE)
         {
             std::cout << ">> SHADER :: delete >>> SUCCESS" << m_geometry_path << std::endl;
         }
@@ -184,7 +164,7 @@ bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string
     shader = glCreateShader(type);
     if (shader == 0)
     {
-        std::cout << ">> Compiling (" << type << ") : ERROR" << std::endl;
+        std::cout << ">> Compiling (" << type << ") : ERROR"  << std::endl;
         return false;
     }
     std::cout << ">> Compiling (" << type << ") : SUCCESS" << std::endl;
@@ -192,9 +172,9 @@ bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string
 
     /************************************************* read flow ********************************************************/
     std::ifstream file(file_src.c_str());
-    if (!file)
+     if (!file.is_open())
     {
-        std::cout << ">> Read file (" << file_src << ") : ERROR" << std::endl;
+        std::cerr << ">> Read file (" << file_src << ") : ERROR" << std::endl;
         deleteShader(shader, false);
         return false;
     }

@@ -27,6 +27,7 @@
 #include "GraphicInitializerService.hpp"
 #include "ShaderLoaderService.hpp"
 #include "SceneEngine/SceneEngine.hpp"
+#include "Constants/StringConstants.hpp"
 
 namespace Engines {
 

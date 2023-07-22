@@ -12,6 +12,7 @@
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
 #include "Application.hpp"
+#include <Windows.h>
 
 int main(int argc, char** argv)
 {
@@ -32,7 +33,7 @@ int main(int argc, char** argv)
     app->StartAllBuilders();
 
     std::shared_ptr<Engines::Engine> main_engine = container->make<Engines::Engine>();
-
+    
     main_engine->MainLoop();
 
     app->EndingBuilders();
