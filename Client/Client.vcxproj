@@ -134,13 +134,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engines\SceneEngine\SceneEngine.cpp" />
     <ClCompile Include="Engines\Engine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Engines\Shaders\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engines\SceneEngine\SceneEngine.hpp" />
     <ClInclude Include="Engines\Engine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
+    <ClInclude Include="Engines\Shaders\Shader.hpp" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
@@ -158,6 +163,9 @@
     <ProjectReference Include="..\Shared\Shared.vcxproj">
       <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
