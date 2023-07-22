@@ -7,12 +7,12 @@
 #include "GraphicInitializerService.hpp"
 #include "AudioInitializerService.hpp"
 #include "ImGUIServiceInitalizer.hpp"
+#include "JsonLoaderService.hpp"
+#include "ShaderLoaderService.hpp"
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
-#include "JsonLoaderService.hpp"
-#include "StateService.hpp"
-#include "ExitCommand.hpp"
 #include "Application.hpp"
+#include <Windows.h>
 
 int main(int argc, char** argv)
 {
@@ -25,18 +25,20 @@ int main(int argc, char** argv)
     app->SetServiceBuilder<Services::ImGUIServiceInitializer>();
     app->SetServiceBuilder<Services::JsonLoaderService>();
     app->SetServiceBuilder<Services::StateService>();
+    app->SetServiceBuilder<Services::ShaderLoaderService>();
 
     app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();
 
     app->StartAllBuilders();
 
-    Engines::Engine main_engine = *container->make<Engines::Engine>().get();
-
-    main_engine.MainLoop();
+    std::shared_ptr<Engines::Engine> main_engine = container->make<Engines::Engine>();
+    
+    main_engine->MainLoop();
 
     app->EndingBuilders();
     app.reset();
+    main_engine.reset();
 
     return EXIT_SUCCESS;
 }

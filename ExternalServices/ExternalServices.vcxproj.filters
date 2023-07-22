@@ -18,9 +18,15 @@
     <ClCompile Include="JsonLoaderService\JsonLoaderService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderLoaderService\ShaderLoaderService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JsonLoaderService\JsonLoaderService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoaderService\ShaderLoaderService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

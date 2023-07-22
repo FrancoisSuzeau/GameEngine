@@ -24,6 +24,12 @@
     <ClCompile Include="Engines\GUIEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engines\SceneEngine\SceneEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engines\Shaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engines\Engine.hpp">
@@ -32,5 +38,27 @@
     <ClInclude Include="Engines\GUIEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engines\SceneEngine\SceneEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engines\Shaders\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\SqueamishIcon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

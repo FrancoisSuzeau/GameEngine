@@ -16,7 +16,10 @@ void Engine::Construct()
     std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
     m_state_service = container->make<Services::StateService>();
     m_gui_engine = container->make<GUIEngine>();
+    m_shader_loader = container->make<Services::ShaderLoaderService>();
     m_window = graph_service_init->GetSDLWindow();
+    m_scene = std::make_unique<SceneEngine::SceneEngine>();
+    m_shader_loader->loadShader("sphere", Enums::NORMAL);
 
     graph_service_init.reset();
 }
