@@ -31,12 +31,13 @@ int main(int argc, char** argv)
 
     app->StartAllBuilders();
 
-    Engines::Engine main_engine = *container->make<Engines::Engine>().get();
+    std::shared_ptr<Engines::Engine> main_engine = container->make<Engines::Engine>();
 
-    main_engine.MainLoop();
+    main_engine->MainLoop();
 
     app->EndingBuilders();
     app.reset();
+    main_engine.reset();
 
     return EXIT_SUCCESS;
 }
