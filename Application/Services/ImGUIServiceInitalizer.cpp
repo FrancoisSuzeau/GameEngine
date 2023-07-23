@@ -19,9 +19,9 @@ void ImGUIServiceInitializer::Init()
     m_io = ImGui::GetIO();
     ImGui::StyleColorsDark();
     ImGui_ImplSDL2_InitForOpenGL(sdl_window, gl_context);
-    ImGui_ImplOpenGL3_Init("#version 400");
+    ImGui_ImplOpenGL3_Init(Constants::IMGUIVERSION.c_str());
 
-    std::cout << ">> Initialize ImGui : SUCCESS" << std::endl;
+    SQ_APP_DEBUG("ImGui service SUCCESSFULLY initialized");
 }
 
 void ImGUIServiceInitializer::DeInit()
@@ -29,7 +29,7 @@ void ImGUIServiceInitializer::DeInit()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    std::cout << ">> Destroying ImGui context : SUCCESS" << std::endl;
+    SQ_APP_DEBUG("ImGui service shutdown");
 }
 
 ImGuiIO ImGUIServiceInitializer::GetIO()

@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include "GraphicInitializerService.hpp"
+#include "Constants/StringConstants.hpp"
 
 #define  IMGUI_INITIALIZE 0
 #if defined(IMGUI_IMPL_OPENGL_ES2)

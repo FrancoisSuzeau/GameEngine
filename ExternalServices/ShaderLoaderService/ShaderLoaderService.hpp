@@ -19,6 +19,8 @@
 #include "Constants/StringConstants.hpp"
 #include "Enums/EngineEnum.hpp"
 
+#include "Logger.hpp"
+
 namespace Services {
 
 	class ShaderLoaderService : public IService

@@ -12,10 +12,12 @@
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
 #include "Application.hpp"
-#include <Windows.h>
+#include "Logger.hpp"
 
 int main(int argc, char** argv)
 {
+    Logger::Log::InitAllLogger();
+    SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
@@ -39,6 +41,8 @@ int main(int argc, char** argv)
     app->EndingBuilders();
     app.reset();
     main_engine.reset();
+    SQ_CLIENT_INFO("Squeamish shutdown");
+    Logger::Log::Shutdown();
 
     return EXIT_SUCCESS;
 }

@@ -9,33 +9,18 @@ using namespace Services;
 void AudioInitializerService::Init()
 {
 	init_succeded = true;
-	title = "Audio Services Initialization";
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) < 0)
     {
-        std::string error_message = "Cannot initialize SDL mixer with param : 44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024\n";
-        ShowError(error_message);
+        SQ_APP_ERROR("SDL mixer FAILED to initialize - MIX error : {}", Mix_GetError());
+		init_succeded = false;
+        
     }
 	assert(init_succeded);
-    std::cout << ">> Initialise SDL mixer : SUCCESS" << std::endl;
+    SQ_APP_DEBUG("All audio services SUCCESSFULLY initialized");
 }
 
 void AudioInitializerService::DeInit()
 {
-	title = "Graphic Services De-initialization";
 	Mix_CloseAudio();
-	std::cout << ">> SDL mixer service destroyed" << std::endl;
-}
-
-void AudioInitializerService::ShowError(std::string error_message)
-{
-	std::string sdl_error(Mix_GetError());
-	if (sdl_error != "")
-	{
-		error_message.append("SDL Error : ");
-		error_message.append(sdl_error.c_str());
-		error_message.append("\n");
-	}
-
-	MessageBoxA(0, error_message.c_str(), title.c_str(), MB_ICONERROR | MB_OK);
-	init_succeded = false;
+	SQ_APP_DEBUG("All audio services shutdown");
 }

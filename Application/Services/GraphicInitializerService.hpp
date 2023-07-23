@@ -5,13 +5,14 @@
 #ifndef GRPHINITSERVICE_H
 #define GRPHINITSERVICE_H
 
-#include <iostream>
+#include <string>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <cassert>
-#include <windows.h>
 
 #include "IService.hpp"
+#include "Logger.hpp"
+#include "Constants/NumberConstants.hpp"
 
 namespace Services {
 
@@ -39,14 +40,11 @@ namespace Services {
 		void DestroySDLGLContext();
 		void DeInitSDL();
 
-		void ShowError(std::string error_message);
-
 		int m_width;
 		int m_height;
 		SDL_Window* m_window = nullptr;
 		SDL_GLContext gl_context = 0;
 		bool init_succeded;
-		std::string title;
 	};
 }
 

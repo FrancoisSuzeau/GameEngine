@@ -19,15 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Crosscutting\Constants\NumberConstants.hpp" />
     <ClInclude Include="Crosscutting\Constants\StringConstants.hpp" />
     <ClInclude Include="Crosscutting\Enums\EngineEnum.hpp" />
     <ClInclude Include="IoC\Container\Container.hpp" />
     <ClInclude Include="IoC\Instance\Instance.hpp" />
     <ClInclude Include="IoC\IocModule.hpp" />
+    <ClInclude Include="Logger\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IoC\Container\Container.cpp" />
     <ClCompile Include="IoC\IocModule.cpp" />
+    <ClCompile Include="Logger\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.vcxproj">
@@ -121,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\spdlog\include;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
