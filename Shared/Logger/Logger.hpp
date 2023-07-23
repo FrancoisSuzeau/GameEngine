@@ -5,36 +5,44 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include <fstream>
+
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "../Crosscutting/Constants/StringConstants.hpp"
 
 namespace Logger
 {
 	class Log
 	{
 	public:
-		static void Init();
-		inline static std::shared_ptr<spdlog::logger>& GetAppLogger() { return m_app_logger; };
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return m_client_logger; };
-	private:
-		static std::shared_ptr<spdlog::logger> m_app_logger;
-		static std::shared_ptr<spdlog::logger> m_client_logger;
+		static void InitAllLogger();
+		static void Shutdown();
+	private: 
+		static void InitTraceLogger(std::string const logger_name, std::string const filename);
+		static void InitDebugLogger(std::string const logger_name, std::string const filename);
+		static void InitWarnLogger(std::string const logger_name, std::string const filename);
+		static void InitErrorLogger(std::string const logger_name, std::string const filename);
+		static void InitCriticalLogger(std::string const logger_name, std::string const filename);
+		static void CleanFile(std::string const filename);
 	};
 }
+#define CLIENTNAME(a, b) a + b
 
-// App log macros
-#define SQ_APP_ERROR(...)		::Logger::Log::GetAppLogger()->error(__VA_ARGS__)
-#define SQ_APP_WARN(...)		::Logger::Log::GetAppLogger()->warn(__VA_ARGS__)
-#define SQ_APP_INFO(...)		::Logger::Log::GetAppLogger()->info(__VA_ARGS__)
-#define SQ_APP_TRACE(...)		::Logger::Log::GetAppLogger()->trace(__VA_ARGS__)
-#define SQ_APP_FATAL(...)		::Logger::Log::GetAppLogger()->fatal(__VA_ARGS__)
-#define SQ_CLIENT_TRACE(...)	::Logger::Log::GetClientLogger()->trace(__VA_ARGS__)
-// Client log macros
-#define SQ_CLIENT_ERROR(...)	::Logger::Log::GetClientLogger()->error(__VA_ARGS__)
-#define SQ_CLIENT_WARN(...)		::Logger::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define SQ_CLIENT_INFO(...)		::Logger::Log::GetClientLogger()->info(__VA_ARGS__)
-#define SQ_CLIENT_TRACE(...)	::Logger::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define SQ_CLIENT_FATAL(...)	::Logger::Log::GetClientLogger()->fatal(__VA_ARGS__)
+// Client logs macros
+#define SQ_CLIENT_TRACE(...) if(spdlog::get(Constants::CLIENT + Constants::TRACEFILE  + "]") != nullptr) {spdlog::get(Constants::CLIENT + Constants::TRACEFILE  + "]")->trace(__VA_ARGS__);}
+#define SQ_CLIENT_DEBUG(...) if(spdlog::get(Constants::CLIENT + Constants::DEBUGFILE  + "]") != nullptr) {spdlog::get(Constants::CLIENT + Constants::DEBUGFILE  + "]")->debug(__VA_ARGS__);}
+#define SQ_CLIENT_WARN(...) if(spdlog::get(Constants::CLIENT + Constants::WARNFILE + "]") != nullptr) {spdlog::get(Constants::CLIENT + Constants::WARNFILE + "]")->warn(__VA_ARGS__);}
+#define SQ_CLIENT_ERROR(...) if(spdlog::get(Constants::CLIENT + Constants::ERRFILE + "]") != nullptr) {spdlog::get(Constants::CLIENT + Constants::ERRFILE  + "]")->error(__VA_ARGS__);}
+#define SQ_CLIENT_CRITICAL(...) if(spdlog::get(Constants::CLIENT + Constants::CRITFILE  + "]") != nullptr) {spdlog::get(Constants::CLIENT + Constants::CRITFILE + "]")->critical(__VA_ARGS__);}
 
+// App logs macros
+
+#define SQ_APP_TRACE(...) if(spdlog::get(Constants::APP + Constants::TRACEFILE  + "]") != nullptr) {spdlog::get(Constants::APP + Constants::TRACEFILE + "]")->trace(__VA_ARGS__);}
+#define SQ_APP_DEBUG(...) if(spdlog::get(Constants::APP + Constants::DEBUGFILE  + "]") != nullptr) {spdlog::get(Constants::APP + Constants::DEBUGFILE + "]")->debug(__VA_ARGS__);}
+#define SQ_APP_WARN(...) if(spdlog::get(Constants::APP + Constants::WARNFILE  + "]") != nullptr) {spdlog::get(Constants::APP + Constants::WARNFILE + "]")->warn(__VA_ARGS__);}
+#define SQ_APP_ERROR(...) if(spdlog::get(Constants::APP + Constants::ERRFILE  + "]") != nullptr) {spdlog::get(Constants::APP + Constants::ERRFILE + "]")->error(__VA_ARGS__);}
+#define SQ_APP_CRITICAL(...) if(spdlog::get(Constants::APP + Constants::CRITFILE + "]") != nullptr) {spdlog::get(Constants::APP + Constants::CRITFILE + "]")->critical(__VA_ARGS__);}
 
 #endif

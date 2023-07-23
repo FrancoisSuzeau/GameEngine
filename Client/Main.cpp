@@ -16,10 +16,8 @@
 
 int main(int argc, char** argv)
 {
-    Logger::Log::Init();
-    SQ_APP_WARN("Starting application");
-    int a = 5;
-    SQ_CLIENT_INFO("Starting application var={0}", a);
+    Logger::Log::InitAllLogger();
+    SQ_CLIENT_TRACE("Squeamish v{}.{}", 0, 1);
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
@@ -43,6 +41,8 @@ int main(int argc, char** argv)
     app->EndingBuilders();
     app.reset();
     main_engine.reset();
+
+    Logger::Log::Shutdown();
 
     return EXIT_SUCCESS;
 }

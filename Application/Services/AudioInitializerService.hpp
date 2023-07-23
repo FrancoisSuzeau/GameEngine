@@ -5,10 +5,10 @@
 #ifndef AINITSERVICE_H
 #define AINITSERVICE_H
 
-#include <iostream>
 #include <SDL2/SDL_mixer.h>
 #include <cassert>
-#include <windows.h>
+#include <string>
+#include "Logger.hpp"
 
 #include "IService.hpp"
 
@@ -21,9 +21,7 @@ namespace Services {
 		void DeInit();
 
 	private:
-		void ShowError(std::string error_message);
 		bool init_succeded;
-		std::string title;
 	};
 }
 

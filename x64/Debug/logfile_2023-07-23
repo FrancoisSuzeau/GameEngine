@@ -1,0 +1,12 @@
+[2023-07-23 14:17:35.255] [hw] [debug] debug test
+[2023-07-23 14:17:35.256] [hw] [warning] warn test
+[2023-07-23 14:17:35.256] [hw] [error] error test
+[2023-07-23 14:17:35.256] [hw] [critical] critical test
+[2023-07-23 14:18:07.864] [hw] [debug] debug test
+[2023-07-23 14:18:07.864] [hw] [warning] warn test
+[2023-07-23 14:18:07.864] [hw] [error] error test
+[2023-07-23 14:18:07.864] [hw] [critical] critical test
+[14:18:57] hw: debug test
+[14:18:57] hw: warn test
+[14:18:57] hw: error test
+[14:18:57] hw: critical test
