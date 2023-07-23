@@ -7,9 +7,10 @@
 
 #include <chilkat/CkJsonArray.h>
 #include <chilkat/CkJsonObject.h>
-#include <iostream>
 #include <fstream>
 #include <cassert>
+#include "Constants/StringConstants.hpp"
+//#include "Logger.hpp"
 
 #include "IService.hpp"
 

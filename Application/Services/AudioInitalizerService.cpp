@@ -16,11 +16,11 @@ void AudioInitializerService::Init()
         
     }
 	assert(init_succeded);
-    SQ_APP_DEBUG("SDL mixer SUCCESSFULLY initialized");
+    SQ_APP_DEBUG("All audio services SUCCESSFULLY initialized");
 }
 
 void AudioInitializerService::DeInit()
 {
 	Mix_CloseAudio();
-	SQ_APP_DEBUG("SDL mixer process destroyed");
+	SQ_APP_DEBUG("All audio services shutdown");
 }

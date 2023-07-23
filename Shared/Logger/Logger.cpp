@@ -10,9 +10,10 @@ namespace Logger
 
 	void Log::InitAllLogger()
 	{
-		for (auto logger_name : { Constants::APP })
+		for (auto logger_name : { Constants::CLIENT, Constants::APP, Constants::EXTSERVICE })
 		{
 			InitTraceLogger(logger_name, Constants::TRACEFILE);
+			InitInfoLogger(logger_name, Constants::INFOFILE);
 			InitDebugLogger(logger_name, Constants::DEBUGFILE);
 			InitWarnLogger(logger_name, Constants::WARNFILE);
 			InitErrorLogger(logger_name, Constants::ERRFILE);
@@ -40,6 +41,25 @@ namespace Logger
 
 		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
 		logger->set_level(spdlog::level::trace);
+
+		spdlog::register_logger(logger);
+	}
+
+	void Log::InitInfoLogger(std::string const logger_name, std::string const filename)
+	{
+		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
+		console->set_level(spdlog::level::info);
+		console->set_pattern(Constants::LOGPATTERN);
+
+		CleanFile(filename);
+		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+		file_sink->set_level(spdlog::level::info);
+		file_sink->set_pattern(Constants::LOGPATTERN);
+
+		spdlog::sinks_init_list sink_list = { file_sink, console };
+
+		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+		logger->set_level(spdlog::level::info);
 
 		spdlog::register_logger(logger);
 	}
