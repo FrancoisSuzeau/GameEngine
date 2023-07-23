@@ -12,10 +12,14 @@
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
 #include "Application.hpp"
-#include <Windows.h>
+#include "Logger.hpp"
 
 int main(int argc, char** argv)
 {
+    Logger::Log::Init();
+    SQ_APP_WARN("Starting application");
+    int a = 5;
+    SQ_CLIENT_INFO("Starting application var={0}", a);
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
