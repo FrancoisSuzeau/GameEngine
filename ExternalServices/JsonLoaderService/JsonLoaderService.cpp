@@ -4,28 +4,55 @@
 /******************************************************************************************************************************************/
 #include "JsonLoaderService.hpp"
 
-using namespace Services;
-
-void JsonLoaderService::Init()
+namespace Services
 {
-	//std::ifstream flux_in(Constants::CONFIGFILE + Constants::JSONEXT);
-	//if (flux_in && all_file == nullptr)
-	//{
-	//	all_file = new CkJsonObject();
- //		assert(all_file);
-	//	bool load_success = all_file->Load(std::string((std::istreambuf_iterator<char>(flux_in)), std::istreambuf_iterator<char>()).c_str());
-	//	assert(load_success);
-	//	flux_in.close();
-	//	//SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
-	//}
-}
-
-void JsonLoaderService::DeInit()
-{
-	/*if (all_file != nullptr)
+	using json = nlohmann::json;
+	void JsonLoaderService::Init()
 	{
-		delete all_file;
-		all_file = nullptr;
-	}*/
-	//SQ_EXTSERVICE_DEBUG("JSON service shutdown");
+		for (auto filename : {Constants::CONFIGFILE})
+		{
+			ReadFile(filename);
+			SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
+		}
+		
+	}
+
+	void JsonLoaderService::DeInit()
+	{
+		SQ_EXTSERVICE_DEBUG("JSON service shutdown");
+	}
+
+	void JsonLoaderService::ReadFile(std::string filename)
+	{
+		std::ifstream flux_in(filename + Constants::JSONEXT);
+		if (flux_in.is_open())
+		{
+			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
+			datas.reset();
+			datas = std::make_unique<nlohmann::json>(json::parse(flux_in));
+			std::string test = GetStringNode(Constants::USERPREFNODE);
+		}
+		else
+		{
+			SQ_EXTSERVICE_ERROR("Cannot read or found [{}] file", Constants::CONFIGFILE + Constants::JSONEXT);
+		}
+	}
+
+	std::string JsonLoaderService::GetStringNode(std::string node_name)
+	{
+		std::string node = datas->value(node_name, Constants::NONE);
+		if (node != Constants::NONE)
+		{
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			return node;
+		}
+		else
+		{
+			SQ_EXTSERVICE_ERROR("Cannot found [{}] node", Constants::USERPREFNODE);
+			return Constants::NONE;
+		}
+		
+	}
+
 }
+
