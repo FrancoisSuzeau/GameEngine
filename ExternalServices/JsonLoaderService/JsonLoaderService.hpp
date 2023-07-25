@@ -22,8 +22,9 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 	private:
-		std::unique_ptr<nlohmann::json> config_datas;
+		std::unique_ptr<nlohmann::json> datas;
 		void ReadFile(std::string filename);
+		std::string GetStringNode(std::string node_name);
 	};
 }
 
