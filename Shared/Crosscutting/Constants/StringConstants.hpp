@@ -29,7 +29,8 @@ namespace Constants {
 	std::string const CRITFILE = "crit";
 	std::string const IMGUIVERSION = "#version 400";
 	std::string const JSONEXT = ".json";
-	std::string const CONFIGFILE = "config";
+	std::string const CONFIGFILE = "configs";
+	std::string const USERPREFNODE = "userpreferences";
 }
 
 #endif

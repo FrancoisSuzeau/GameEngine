@@ -5,11 +5,12 @@
 #ifndef JSONLOADERSERVICE_H
 #define JSONLOADERSERVICE_H
 
-//#include <chilkat/CkJsonObject.h>
 #include <fstream>
 #include <cassert>
 #include "Constants/StringConstants.hpp"
 #include "Logger.hpp"
+
+#include <nlohmann/json.hpp>
 
 #include "IService.hpp"
 
@@ -21,7 +22,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 	private:
-		//CkJsonObject *all_file = nullptr;
+		std::unique_ptr<nlohmann::json> config_datas;
 	};
 }
 
