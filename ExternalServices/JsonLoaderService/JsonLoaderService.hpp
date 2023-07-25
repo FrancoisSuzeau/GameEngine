@@ -23,6 +23,7 @@ namespace Services {
 		void DeInit() override;
 	private:
 		std::unique_ptr<nlohmann::json> config_datas;
+		void ReadFile(std::string filename);
 	};
 }
 
