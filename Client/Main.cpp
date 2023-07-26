@@ -4,9 +4,6 @@
 /******************************************************************************************************************************************/
 #include <iostream>
 
-#include "GraphicInitializerService.hpp"
-#include "AudioInitializerService.hpp"
-#include "ImGUIServiceInitalizer.hpp"
 #include "JsonLoaderService.hpp"
 #include "ShaderLoaderService.hpp"
 #include "Engines/Engine.hpp"
@@ -22,11 +19,9 @@ int main(int argc, char** argv)
 
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
     
-    app->SetServiceBuilder<Services::GraphicInitializerService>();
-    app->SetServiceBuilder<Services::AudioInitializerService>();
-    app->SetServiceBuilder<Services::ImGUIServiceInitializer>();
+    app->SetAllServices();
     app->SetServiceBuilder<Services::JsonLoaderService>();
-    app->SetServiceBuilder<Services::StateService>();
+    
     app->SetServiceBuilder<Services::ShaderLoaderService>();
 
     app->SetEngineBuilder<Engines::GUIEngine>();

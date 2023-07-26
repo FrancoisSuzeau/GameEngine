@@ -9,6 +9,11 @@
 #include "Builders/EngineBuilder.hpp"
 #include "IocModule.hpp"
 #include "IService.hpp"
+#include "Services/GraphicInitializerService.hpp"
+#include "Services/AudioInitializerService.hpp"
+#include "Services/ImGUIServiceInitalizer.hpp"
+#include "Services/StateService.hpp"
+
 #include <cassert>
 #include <memory>
 
@@ -18,6 +23,7 @@ namespace Starting {
 	{
 	public:
 		Application();
+		void SetAllServices();
 		template<typename T>
 		void SetServiceBuilder()
 		{
