@@ -4,8 +4,6 @@
 /******************************************************************************************************************************************/
 #include <iostream>
 
-#include "JsonLoaderService.hpp"
-#include "ShaderLoaderService.hpp"
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
 #include "Application.hpp"
@@ -25,13 +23,13 @@ int main(int argc, char** argv)
     app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();
 
-    app->StartAllBuilders();
+    app->Run();
 
     std::shared_ptr<Engines::Engine> main_engine = container->make<Engines::Engine>();
     
     main_engine->MainLoop();
 
-    app->EndingBuilders();
+    app->Shutdown();
     app.reset();
     main_engine.reset();
     SQ_CLIENT_INFO("Squeamish shutdown");

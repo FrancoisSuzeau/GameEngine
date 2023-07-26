@@ -22,6 +22,16 @@ namespace Starting
         this->SetServiceBuilder<Services::ShaderLoaderService>();
     }
 
+    void Application::Run()
+    {
+        this->StartAllBuilders();
+    }
+
+    void Application::Shutdown()
+    {
+        this->EndingBuilders();
+    }
+
     void Application::EndingBuilders()
     {
         m_service_builder->OnBuilderEnd();

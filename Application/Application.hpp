@@ -26,6 +26,8 @@ namespace Starting {
 	public:
 		Application();
 		void SetAllServices();
+		void Run();
+		void Shutdown();
 		template<typename T>
 		void SetEngineBuilder()
 		{
@@ -33,8 +35,7 @@ namespace Starting {
 			ioc_module->LoadEngine<T>(m_engine_builder.get());
 			ioc_module.reset();
 		}
-		void EndingBuilders();
-		void StartAllBuilders();
+		
 
 	private:
 		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
@@ -47,6 +48,9 @@ namespace Starting {
 			ioc_module->LoadService<T>(m_service_builder.get());
 			ioc_module.reset();
 		}
+
+		void EndingBuilders();
+		void StartAllBuilders();
 	};
 
 }
