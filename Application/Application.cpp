@@ -18,6 +18,8 @@ namespace Starting
         this->SetServiceBuilder<Services::AudioInitializerService>();
         this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
         this->SetServiceBuilder<Services::StateService>();
+        this->SetServiceBuilder<Services::JsonLoaderService>();
+        this->SetServiceBuilder<Services::ShaderLoaderService>();
     }
 
     void Application::EndingBuilders()

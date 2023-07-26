@@ -20,9 +20,7 @@ int main(int argc, char** argv)
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
     
     app->SetAllServices();
-    app->SetServiceBuilder<Services::JsonLoaderService>();
     
-    app->SetServiceBuilder<Services::ShaderLoaderService>();
 
     app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();
