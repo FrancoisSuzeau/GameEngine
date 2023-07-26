@@ -24,12 +24,14 @@ namespace Starting
 
     void Application::Run()
     {
+        Logger::Log::InitAllLogger();
         this->StartAllBuilders();
     }
 
     void Application::Shutdown()
     {
         this->EndingBuilders();
+        Logger::Log::Shutdown();
     }
 
     void Application::EndingBuilders()

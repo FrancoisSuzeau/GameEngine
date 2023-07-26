@@ -7,11 +7,11 @@
 #include "Engines/Engine.hpp"
 #include "Engines/GUIEngine.hpp"
 #include "Application.hpp"
-#include "Logger.hpp"
+
 
 int main(int argc, char** argv)
 {
-    Logger::Log::InitAllLogger();
+    
     SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 
@@ -29,11 +29,10 @@ int main(int argc, char** argv)
     
     main_engine->MainLoop();
 
-    app->Shutdown();
-    app.reset();
     main_engine.reset();
     SQ_CLIENT_INFO("Squeamish shutdown");
-    Logger::Log::Shutdown();
 
+    app->Shutdown();
+    app.reset();
     return EXIT_SUCCESS;
 }

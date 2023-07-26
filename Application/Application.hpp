@@ -15,6 +15,7 @@
 #include "Services/StateService.hpp"
 #include "JsonLoaderService.hpp"
 #include "ShaderLoaderService.hpp"
+#include "Logger.hpp"
 
 #include <cassert>
 #include <memory>
