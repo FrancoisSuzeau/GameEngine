@@ -19,8 +19,7 @@ void Engine::Construct()
     m_shader_loader = container->make<Services::ShaderLoaderService>();
     m_window = graph_service_init->GetSDLWindow();
     m_scene = std::make_unique<SceneEngine::SceneEngine>();
-    m_shader_loader->loadShader("sphere", Enums::NORMAL);
-
+    GLuint program_id = m_shader_loader->loadShader("sphere", Enums::NORMAL);
     graph_service_init.reset();
 }
 

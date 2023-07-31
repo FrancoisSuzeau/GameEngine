@@ -32,26 +32,24 @@ namespace Services {
 		ShaderLoaderService();
 
 		~ShaderLoaderService();
-		void clean();
 
-		GLuint          getProgramID() const;
-		bool            loadShader(std::string const shader_name, Enums::ShaderType shader_type);
+		GLuint            loadShader(std::string const shader_name, Enums::ShaderType shader_type);
+		void				deleteProgram(GLuint program_id);
 		
 	private:
 
 		GLuint          m_vertex_ID;
 		GLuint          m_fragment_ID;
 		GLuint          m_geometry_ID;
-		GLuint          m_program_ID;
 
 		std::string     m_vertex_path;
 		std::string     m_fragment_path;
 		std::string     m_geometry_path = "NONE";
 
-		void            deleteShader(GLuint& shader, GLint detach_shader);
-		void            deleteProgram();
+		void            deleteShader(GLuint& shader, GLint detach_shader, GLuint program_id);
+		
 		GLint           checkStatus(GLuint obj_id, std::string type);
-		bool            compileShader(GLuint& shader, GLenum type, std::string const& file_src);
+		bool            compileShader(GLuint& shader, GLenum type, std::string const& file_src, GLuint program_id);
 
 		
 		
