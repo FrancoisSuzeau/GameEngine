@@ -138,13 +138,11 @@
     <ClCompile Include="Engines\Engine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Engines\Shaders\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engines\SceneEngine\SceneEngine.hpp" />
     <ClInclude Include="Engines\Engine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
-    <ClInclude Include="Engines\Shaders\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
