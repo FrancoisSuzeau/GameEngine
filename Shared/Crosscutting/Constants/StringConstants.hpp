@@ -20,6 +20,7 @@ namespace Constants {
 	std::string const APP = "[APP ";
 	std::string const CLIENT = "[CLIENT ";
 	std::string const EXTSERVICE = "[EXT SERVICE ";
+	std::string const SHARED = "[SHARED ";
 	std::string const LOGPATTERN = "%^[%T] %n: %v%$";
 	std::string const TRACEFILE = "trace";
 	std::string const INFOFILE = "info";

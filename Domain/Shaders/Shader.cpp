@@ -23,6 +23,7 @@ GLuint Shader::getProgramID() const
 void Shader::setProgramID(GLuint const new_program_id)
 {
 	m_program_id = new_program_id;
+
 }
 
 void Shader::setVec3(std::string const location, float x, float y, float z)

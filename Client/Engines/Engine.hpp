@@ -52,7 +52,7 @@ namespace Engines {
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::ShaderLoaderService> m_shader_loader;
-		std::unique_ptr<SceneEngine::SceneEngine> m_scene;
+		std::shared_ptr<SceneEngine::SceneEngine> m_scene;
 	};
 }
 
