@@ -8,6 +8,7 @@ namespace Starting
 {
     Application::Application()
     {
+        Logger::Log::InitAllLogger();
         m_service_builder = std::make_unique<Builders::ServiceBuilder>();
         m_engine_builder = std::make_unique<Builders::EngineBuilder>();
     }
@@ -24,7 +25,6 @@ namespace Starting
 
     void Application::Run()
     {
-        Logger::Log::InitAllLogger();
         this->StartAllBuilders();
     }
 

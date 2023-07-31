@@ -11,15 +11,12 @@
 
 int main(int argc, char** argv)
 {
+    std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
+    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     
     SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
-    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-
-    std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
     
     app->SetAllServices();
-    
-
     app->SetEngineBuilder<Engines::GUIEngine>();
     app->SetEngineBuilder<Engines::Engine>();
 
