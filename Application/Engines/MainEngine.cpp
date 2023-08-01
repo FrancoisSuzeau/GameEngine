@@ -1,16 +1,16 @@
 /******************************************************************************************************************************************/
-// File : Engine.cpp
+// File : MainEngine.cpp
 // Purpose : Implementing the main engine
 /******************************************************************************************************************************************/
-#include "Engine.hpp"
+#include "MainEngine.hpp"
 
 using namespace Engines;
 
-Engine::~Engine()
+MainEngine::~MainEngine()
 {
 }
 
-void Engine::Construct()
+void MainEngine::Construct()
 {
     IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
@@ -22,7 +22,7 @@ void Engine::Construct()
     graph_service_init.reset();
 }
 
-void Engine::MainLoop()
+void MainEngine::MainLoop()
 {
     SDL_Event event;
    
@@ -50,18 +50,18 @@ void Engine::MainLoop()
     }
 }
 
-void Engine::InitFrame()
+void MainEngine::InitFrame()
 {
     m_gui_engine->InitFrame();
 }
 
-void Engine::EndFrame()
+void MainEngine::EndFrame()
 {
     m_gui_engine->EndFrame();
     SDL_GL_SwapWindow(m_window);
 }
 
-void Engine::FpsCalculation(Enums::EngineEnum ee)
+void MainEngine::FpsCalculation(Enums::EngineEnum ee)
 {
     switch (ee)
     {

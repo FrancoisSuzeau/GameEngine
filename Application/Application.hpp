@@ -17,7 +17,7 @@
 #include "ShaderLoaderService.hpp"
 #include "Engines/SceneEngine.hpp"
 #include "Engines/GUIEngine.hpp"
-#include "Engines/Engine.hpp"
+#include "Engines/MainEngine.hpp"
 #include "Logger.hpp"
 
 #include <cassert>
@@ -46,7 +46,7 @@ namespace Starting {
 	private:
 		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
 		std::unique_ptr<Builders::EngineBuilder> m_engine_builder;
-		std::shared_ptr<Engines::Engine> main_engine;
+		std::shared_ptr<Engines::MainEngine> main_engine;
 
 		template<typename T>
 		void SetServiceBuilder()

@@ -1,5 +1,5 @@
 /******************************************************************************************************************************************/
-// File : Engine.hpp
+// File : MainEngine.hpp
 // Purpose : The main engine of the application
 /******************************************************************************************************************************************/
 #ifndef ENGINE_H
@@ -30,11 +30,11 @@
 
 namespace Engines {
 
-	class Engine : public IEngine
+	class MainEngine : public IEngine
 	{
 	public:
 
-		~Engine();
+		~MainEngine();
 		void Construct() override;
 		void MainLoop();
 

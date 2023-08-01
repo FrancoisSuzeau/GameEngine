@@ -29,13 +29,13 @@ namespace Starting
     {
         this->SetEngineBuilder<Engines::GUIEngine>();
         this->SetEngineBuilder<Engines::SceneEngine>();
-        this->SetEngineBuilder<Engines::Engine>();
+        this->SetEngineBuilder<Engines::MainEngine>();
     }
 
     void Application::Run()
     {
         this->StartAllBuilder();
-        std::shared_ptr<Engines::Engine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::Engine>();
+        std::shared_ptr<Engines::MainEngine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
         main_engine->MainLoop();
     }
 

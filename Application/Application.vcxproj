@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\ExitCommand.cpp" />
-    <ClCompile Include="Engines\Engine.cpp" />
+    <ClCompile Include="Engines\MainEngine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Engines\SceneEngine.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
@@ -33,7 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ExitCommand.hpp" />
-    <ClInclude Include="Engines\Engine.hpp" />
+    <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
