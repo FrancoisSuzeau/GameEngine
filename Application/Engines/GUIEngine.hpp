@@ -22,9 +22,9 @@
 
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
-#include "ImGUIServiceInitalizer.hpp"
-#include "StateService.hpp"
-#include "Commands/ExitCommand.hpp"
+#include "../Services/ImGUIServiceInitalizer.hpp"
+#include "../Services/StateService.hpp"
+#include "../Commands/ExitCommand.hpp"
 
 
 #include <iostream>

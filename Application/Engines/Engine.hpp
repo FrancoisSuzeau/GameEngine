@@ -24,7 +24,7 @@
 #include "GUIEngine.hpp"
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "GraphicInitializerService.hpp"
+#include "../Services/GraphicInitializerService.hpp"
 #include "ShaderLoaderService.hpp"
 #include "Constants/StringConstants.hpp"
 

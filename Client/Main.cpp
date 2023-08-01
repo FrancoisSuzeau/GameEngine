@@ -12,22 +12,13 @@
 int main(int argc, char** argv)
 {
     std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
-    IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
     
     SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
     
-    app->SetAllServices();
-    app->SetEngineBuilder<Engines::GUIEngine>();
-    app->SetAllEngines();
-    app->SetEngineBuilder<Engines::Engine>();
-
+    app->Initialize();
+  
     app->Run();
-
-    std::shared_ptr<Engines::Engine> main_engine = container->make<Engines::Engine>();
     
-    main_engine->MainLoop();
-
-    main_engine.reset();
     SQ_CLIENT_INFO("Squeamish shutdown");
 
     app->Shutdown();

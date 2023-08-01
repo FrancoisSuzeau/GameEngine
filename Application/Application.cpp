@@ -6,14 +6,16 @@
 
 namespace Starting
 {
-    Application::Application()
+    void Application::Initialize()
     {
         Logger::Log::InitAllLogger();
         m_service_builder = std::make_unique<Builders::ServiceBuilder>();
         m_engine_builder = std::make_unique<Builders::EngineBuilder>();
+        this->SetAllService();
+        this->SetAllEngine();
     }
 
-    void Application::SetAllServices()
+    void Application::SetAllService()
     {
         this->SetServiceBuilder<Services::GraphicInitializerService>();
         this->SetServiceBuilder<Services::AudioInitializerService>();
@@ -23,23 +25,28 @@ namespace Starting
         this->SetServiceBuilder<Services::ShaderLoaderService>();
     }
 
-    void Application::SetAllEngines()
+    void Application::SetAllEngine()
     {
+        this->SetEngineBuilder<Engines::GUIEngine>();
         this->SetEngineBuilder<Engines::SceneEngine>();
+        this->SetEngineBuilder<Engines::Engine>();
     }
 
     void Application::Run()
     {
-        this->StartAllBuilders();
+        this->StartAllBuilder();
+        std::shared_ptr<Engines::Engine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::Engine>();
+        main_engine->MainLoop();
     }
 
     void Application::Shutdown()
     {
-        this->EndingBuilders();
+        main_engine.reset();
+        this->EndAllBuilder();
         Logger::Log::Shutdown();
     }
 
-    void Application::EndingBuilders()
+    void Application::EndAllBuilder()
     {
         m_service_builder->OnBuilderEnd();
         m_engine_builder->OnBuilderEnd();
@@ -48,7 +55,7 @@ namespace Starting
         m_engine_builder.reset();
     }
 
-    void Application::StartAllBuilders()
+    void Application::StartAllBuilder()
     {
         std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
         ioc_module->StartBuilder(m_service_builder.get());
