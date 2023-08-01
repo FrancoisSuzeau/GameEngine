@@ -15,7 +15,7 @@ void ShaderLoaderService::DeInit()
 {
 }
 
-ShaderLoaderService::ShaderLoaderService() : m_vertex_ID(0), m_fragment_ID(0), m_geometry_ID(0), m_program_ID(0), m_vertex_path(), m_fragment_path()
+ShaderLoaderService::ShaderLoaderService() : m_vertex_ID(0), m_fragment_ID(0), m_geometry_ID(0), m_vertex_path(), m_fragment_path()
 {
 
 }
@@ -25,25 +25,16 @@ ShaderLoaderService::~ShaderLoaderService()
 
 }
 
-void ShaderLoaderService::clean()
+GLuint ShaderLoaderService::loadShader(std::string const shader_name, Enums::ShaderType shader_type)
 {
-	deleteProgram();
-}
-
-GLuint ShaderLoaderService::getProgramID() const
-{
-	return m_program_ID;
-}
-
-bool ShaderLoaderService::loadShader(std::string const shader_name, Enums::ShaderType shader_type)
-{
-	deleteShader(m_vertex_ID, GL_FALSE);
-	deleteShader(m_fragment_ID, GL_FALSE);
+	GLuint program_id = 0;
+	deleteShader(m_vertex_ID, GL_FALSE, program_id);
+	deleteShader(m_fragment_ID, GL_FALSE, program_id);
 	if (m_geometry_path != Constants::NONE)
 	{
-		deleteShader(m_geometry_ID, GL_FALSE);
+		deleteShader(m_geometry_ID, GL_FALSE, program_id);
 	}
-	deleteProgram();
+	deleteProgram(program_id);
 	m_vertex_path = Constants::SHADERSPATH + shader_name + Constants::SHADERVERTEXT;
 	m_fragment_path = Constants::SHADERSPATH + shader_name + Constants::SHADERFRAGEXT;
 	if (shader_type == Enums::ShaderType::GEOMETRIC)
@@ -56,20 +47,20 @@ bool ShaderLoaderService::loadShader(std::string const shader_name, Enums::Shade
 	}
 	/************************************************* compiling shader source code ********************************************************/
 	SQ_EXTSERVICE_TRACE("Compiling : {}", m_vertex_path);
-	if (!compileShader(m_vertex_ID, GL_VERTEX_SHADER, m_vertex_path))
+	if (!compileShader(m_vertex_ID, GL_VERTEX_SHADER, m_vertex_path, program_id))
 	{
 		SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_vertex_path);
-		return false;
+		return 0;
 	}
 	SQ_EXTSERVICE_TRACE("Compilation success");
 	//======================================================================================================================================
 
 	/************************************************* compiling fragment source code ********************************************************/
 	SQ_EXTSERVICE_TRACE("Compiling : {}", m_fragment_path);
-	if (!compileShader(m_fragment_ID, GL_FRAGMENT_SHADER, m_fragment_path))
+	if (!compileShader(m_fragment_ID, GL_FRAGMENT_SHADER, m_fragment_path, program_id))
 	{
 		SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_fragment_path);
-		return false;
+		return 0;
 	}
 	SQ_EXTSERVICE_TRACE("Compilation success");
 	//======================================================================================================================================
@@ -78,50 +69,50 @@ bool ShaderLoaderService::loadShader(std::string const shader_name, Enums::Shade
 	if (m_geometry_path != Constants::NONE)
 	{
 		SQ_EXTSERVICE_TRACE("Compiling : {}", m_geometry_path);
-		if (!compileShader(m_geometry_ID, GL_GEOMETRY_SHADER, m_geometry_path))
+		if (!compileShader(m_geometry_ID, GL_GEOMETRY_SHADER, m_geometry_path, program_id))
 		{
 			SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_geometry_path);
-			return false;
+			return 0;
 		}
 		SQ_EXTSERVICE_TRACE("Compilation success");
 	}
 	//======================================================================================================================================
 
 	/************************************************* creating program for GPU ********************************************************/
-	m_program_ID = glCreateProgram();
+	program_id = glCreateProgram();
 
 	//shader association
-	glAttachShader(m_program_ID, m_vertex_ID);
-	glAttachShader(m_program_ID, m_fragment_ID);
+	glAttachShader(program_id, m_vertex_ID);
+	glAttachShader(program_id, m_fragment_ID);
 	if (m_geometry_path != Constants::NONE)
 	{
-		glAttachShader(m_program_ID, m_geometry_ID);
+		glAttachShader(program_id, m_geometry_ID);
 	}
 	//======================================================================================================================================
 
 	/**************************************** lock entrees shader (vertices, colors, texture's coordonates *****************************/
-	glBindAttribLocation(m_program_ID, 0, "in_Vertex");
-	glBindAttribLocation(m_program_ID, 1, "in_Color");
-	glBindAttribLocation(m_program_ID, 2, "in_TexCoord0");
+	glBindAttribLocation(program_id, 0, "in_Vertex");
+	glBindAttribLocation(program_id, 1, "in_Color");
+	glBindAttribLocation(program_id, 2, "in_TexCoord0");
 	//======================================================================================================================================
 
 	/************************************************* linkage ********************************************************/
-	glLinkProgram(m_program_ID);
+	glLinkProgram(program_id);
 
 	//linkage verification
-	GLint link_error = checkStatus(m_program_ID, "linking");
+	GLint link_error = checkStatus(program_id, "linking");
 
 	if (link_error != GL_TRUE)//there is an link error
 	{
 		//size error recovery
 		GLint   size_error(0);
-		glGetProgramiv(m_program_ID, GL_INFO_LOG_LENGTH, &size_error);
+		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &size_error);
 
 		//memory allocation
 		char* error = new char[size_error + 1]; // '\0' character needed
 
 		//error recovery
-		glGetShaderInfoLog(m_program_ID, size_error, &size_error, error);
+		glGetShaderInfoLog(program_id, size_error, &size_error, error);
 		error[size_error] = '\0';
 
 		//displayiong error message
@@ -129,33 +120,33 @@ bool ShaderLoaderService::loadShader(std::string const shader_name, Enums::Shade
 
 		//memory release
 		delete[] error;
-		deleteProgram();
-		deleteShader(m_vertex_ID, link_error);
-		deleteShader(m_fragment_ID, link_error);
+		deleteProgram(program_id);
+		deleteShader(m_vertex_ID, link_error, program_id);
+		deleteShader(m_fragment_ID, link_error, program_id);
 		if (m_geometry_path != Constants::NONE)
 		{
-			deleteShader(m_geometry_ID, link_error);
+			deleteShader(m_geometry_ID, link_error, program_id);
 		}
 
-		return false;
+		return 0;
 	}
 	else
 	{
-		deleteShader(m_vertex_ID, link_error);
-		deleteShader(m_fragment_ID, link_error);
+		deleteShader(m_vertex_ID, link_error, program_id);
+		deleteShader(m_fragment_ID, link_error, program_id);
 		if (m_geometry_path != Constants::NONE)
 		{
-			deleteShader(m_geometry_ID, link_error);
+			deleteShader(m_geometry_ID, link_error, program_id);
 		}
 
 		SQ_EXTSERVICE_INFO("Successfully linked {} program", shader_name);
-		return true;
+		return program_id;
 	}
 	//======================================================================================================================================
 
 }
 
-bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string const& file_src)
+bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string const& file_src, GLuint program_id)
 {
 	std::string shader_type;
 	switch (type)
@@ -187,7 +178,7 @@ bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string
 	if (!file.is_open())
 	{
 		SQ_EXTSERVICE_ERROR("Unable to read file : {}", file_src);
-		deleteShader(shader, false);
+		deleteShader(shader, false, program_id);
 		return false;
 	}
 
@@ -237,7 +228,7 @@ bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string
 
 		//memory release
 		delete[] error;
-		deleteShader(shader, false);
+		deleteShader(shader, false, program_id);
 
 		return false;
 
@@ -250,25 +241,28 @@ bool ShaderLoaderService::compileShader(GLuint& shader, GLenum type, std::string
 
 }
 
-void ShaderLoaderService::deleteShader(GLuint& shader, GLint detach_shader)
+void ShaderLoaderService::deleteShader(GLuint& shader, GLint detach_shader, GLuint program_id)
 {
 	if (glIsShader(shader) == GL_TRUE)
 	{
 		if (detach_shader == GL_TRUE)
 		{
-			glDetachShader(m_program_ID, shader);
+			glDetachShader(program_id, shader);
+			SQ_EXTSERVICE_TRACE("Detach shader");
 		}
 		glDeleteShader(shader);
+		SQ_EXTSERVICE_TRACE("Delete shader");
 		shader = 0;
 	}
 }
 
-void ShaderLoaderService::deleteProgram()
+void ShaderLoaderService::deleteProgram(GLuint program_id)
 {
-	if (glIsProgram(m_program_ID) == GL_TRUE)
+	if (glIsProgram(program_id) == GL_TRUE)
 	{
-		glDeleteProgram(m_program_ID);
-		m_program_ID = 0;
+		glDeleteProgram(program_id);
+		SQ_EXTSERVICE_TRACE("Delete program");
+		program_id = 0;
 	}
 }
 

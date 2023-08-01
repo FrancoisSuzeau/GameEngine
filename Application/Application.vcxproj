@@ -20,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\ExitCommand.cpp" />
+    <ClCompile Include="Engines\MainEngine.cpp" />
+    <ClCompile Include="Engines\GUIEngine.cpp" />
+    <ClCompile Include="Engines\SceneEngine.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
     <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
@@ -30,6 +33,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ExitCommand.hpp" />
+    <ClInclude Include="Engines\MainEngine.hpp" />
+    <ClInclude Include="Engines\GUIEngine.hpp" />
+    <ClInclude Include="Engines\SceneEngine.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />
     <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />
@@ -44,6 +50,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.vcxproj">
       <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ExternalServices\ExternalServices.vcxproj">
+      <Project>{753fde61-c6f1-4274-a05e-6534d363f569}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ImGUI\ImGUI.vcxproj">
       <Project>{189c4c4f-0346-4c49-b023-3b6bc04f6eef}</Project>
@@ -138,7 +147,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

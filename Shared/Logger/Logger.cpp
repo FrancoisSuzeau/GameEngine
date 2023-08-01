@@ -10,7 +10,7 @@ namespace Logger
 
 	void Log::InitAllLogger()
 	{
-		for (auto logger_name : { Constants::CLIENT, Constants::APP, Constants::EXTSERVICE })
+		for (auto logger_name : { Constants::CLIENT, Constants::APP, Constants::EXTSERVICE, Constants::SHARED})
 		{
 			InitTraceLogger(logger_name, Constants::TRACEFILE);
 			InitInfoLogger(logger_name, Constants::INFOFILE);

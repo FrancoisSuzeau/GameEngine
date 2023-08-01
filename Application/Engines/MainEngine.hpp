@@ -1,5 +1,5 @@
 /******************************************************************************************************************************************/
-// File : Engine.hpp
+// File : MainEngine.hpp
 // Purpose : The main engine of the application
 /******************************************************************************************************************************************/
 #ifndef ENGINE_H
@@ -24,18 +24,17 @@
 #include "GUIEngine.hpp"
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "GraphicInitializerService.hpp"
+#include "../Services/GraphicInitializerService.hpp"
 #include "ShaderLoaderService.hpp"
-#include "SceneEngine/SceneEngine.hpp"
 #include "Constants/StringConstants.hpp"
 
 namespace Engines {
 
-	class Engine : public IEngine
+	class MainEngine : public IEngine
 	{
 	public:
 
-		~Engine();
+		~MainEngine();
 		void Construct() override;
 		void MainLoop();
 
@@ -52,7 +51,6 @@ namespace Engines {
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::ShaderLoaderService> m_shader_loader;
-		std::unique_ptr<SceneEngine::SceneEngine> m_scene;
 	};
 }
 

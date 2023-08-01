@@ -55,4 +55,12 @@ namespace Logger
 #define SQ_EXTSERVICE_ERROR(...) if(spdlog::get(Constants::EXTSERVICE + Constants::ERRFILE  + "]") != nullptr) {spdlog::get(Constants::EXTSERVICE + Constants::ERRFILE + "]")->error(__VA_ARGS__);}
 #define SQ_EXTSERVICE_CRITICAL(...) if(spdlog::get(Constants::EXTSERVICE + Constants::CRITFILE + "]") != nullptr) {spdlog::get(Constants::EXTSERVICE + Constants::CRITFILE + "]")->critical(__VA_ARGS__);}
 
+
+// Shared logs macros
+#define SQ_SHARED_TRACE(...) if(spdlog::get(Constants::SHARED + Constants::TRACEFILE  + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::TRACEFILE + "]")->trace(__VA_ARGS__);}
+#define SQ_SHARED_INFO(...) if(spdlog::get(Constants::SHARED + Constants::INFOFILE  + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::INFOFILE + "]")->info(__VA_ARGS__);}
+#define SQ_SHARED_DEBUG(...) if(spdlog::get(Constants::SHARED + Constants::DEBUGFILE  + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::DEBUGFILE + "]")->debug(__VA_ARGS__);}
+#define SQ_SHARED_WARN(...) if(spdlog::get(Constants::SHARED + Constants::WARNFILE  + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::WARNFILE + "]")->warn(__VA_ARGS__);}
+#define SQ_SHARED_ERROR(...) if(spdlog::get(Constants::SHARED + Constants::ERRFILE  + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::ERRFILE + "]")->error(__VA_ARGS__);}
+#define SQ_SHARED_CRITICAL(...) if(spdlog::get(Constants::SHARED + Constants::CRITFILE + "]") != nullptr) {spdlog::get(Constants::SHARED + Constants::CRITFILE + "]")->critical(__VA_ARGS__);}
 #endif

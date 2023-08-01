@@ -4,27 +4,62 @@
 /******************************************************************************************************************************************/
 #include "Application.hpp"
 
-using namespace Starting;
-
-Application::Application()
+namespace Starting
 {
-    m_service_builder = std::make_unique<Builders::ServiceBuilder>();
-    m_engine_builder = std::make_unique<Builders::EngineBuilder>();
-}
+    void Application::Initialize()
+    {
+        Logger::Log::InitAllLogger();
+        m_service_builder = std::make_unique<Builders::ServiceBuilder>();
+        m_engine_builder = std::make_unique<Builders::EngineBuilder>();
+        this->SetAllService();
+        this->SetAllEngine();
+    }
 
-void Application::EndingBuilders()
-{
-    m_service_builder->OnBuilderEnd();
-    m_engine_builder->OnBuilderEnd();
+    void Application::SetAllService()
+    {
+        this->SetServiceBuilder<Services::GraphicInitializerService>();
+        this->SetServiceBuilder<Services::AudioInitializerService>();
+        this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
+        this->SetServiceBuilder<Services::StateService>();
+        this->SetServiceBuilder<Services::JsonLoaderService>();
+        this->SetServiceBuilder<Services::ShaderLoaderService>();
+    }
 
-    m_service_builder.reset();
-    m_engine_builder.reset();
-}
+    void Application::SetAllEngine()
+    {
+        this->SetEngineBuilder<Engines::GUIEngine>();
+        this->SetEngineBuilder<Engines::SceneEngine>();
+        this->SetEngineBuilder<Engines::MainEngine>();
+    }
 
-void Application::StartAllBuilders()
-{
-    std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-    ioc_module->StartBuilder(m_service_builder.get());
-    ioc_module->StartBuilder(m_engine_builder.get());
-    ioc_module.reset();
+    void Application::Run()
+    {
+        this->StartAllBuilder();
+        std::shared_ptr<Engines::MainEngine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
+        main_engine->MainLoop();
+    }
+
+    void Application::Shutdown()
+    {
+        main_engine.reset();
+        this->EndAllBuilder();
+        Logger::Log::Shutdown();
+    }
+
+    void Application::EndAllBuilder()
+    {
+        m_service_builder->OnBuilderEnd();
+        m_engine_builder->OnBuilderEnd();
+
+        m_service_builder.reset();
+        m_engine_builder.reset();
+    }
+
+    void Application::StartAllBuilder()
+    {
+        std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+        ioc_module->StartBuilder(m_service_builder.get());
+        ioc_module->StartBuilder(m_engine_builder.get());
+        ioc_module.reset();
+    }
 }
