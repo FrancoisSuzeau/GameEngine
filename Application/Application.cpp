@@ -23,6 +23,11 @@ namespace Starting
         this->SetServiceBuilder<Services::ShaderLoaderService>();
     }
 
+    void Application::SetAllEngines()
+    {
+        this->SetEngineBuilder<Engines::SceneEngine>();
+    }
+
     void Application::Run()
     {
         this->StartAllBuilders();

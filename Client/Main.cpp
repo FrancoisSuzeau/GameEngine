@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     
     app->SetAllServices();
     app->SetEngineBuilder<Engines::GUIEngine>();
-    app->SetEngineBuilder<Engines::SceneEngine::SceneEngine>();
+    app->SetAllEngines();
     app->SetEngineBuilder<Engines::Engine>();
 
     app->Run();

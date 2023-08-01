@@ -39,6 +39,9 @@
     <ClCompile Include="Services\StateService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engines\SceneEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\StateService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engines\SceneEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

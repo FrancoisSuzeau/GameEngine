@@ -15,6 +15,7 @@
 #include "Services/StateService.hpp"
 #include "JsonLoaderService.hpp"
 #include "ShaderLoaderService.hpp"
+#include "Engines/SceneEngine.hpp"
 #include "Logger.hpp"
 
 #include <cassert>
@@ -27,6 +28,7 @@ namespace Starting {
 	public:
 		Application();
 		void SetAllServices();
+		void SetAllEngines();
 		void Run();
 		void Shutdown();
 		template<typename T>

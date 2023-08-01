@@ -134,13 +134,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engines\SceneEngine\SceneEngine.cpp" />
     <ClCompile Include="Engines\Engine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engines\SceneEngine\SceneEngine.hpp" />
     <ClInclude Include="Engines\Engine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
   </ItemGroup>
