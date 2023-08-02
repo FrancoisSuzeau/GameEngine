@@ -134,6 +134,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\MetricsComponent.cpp" />
+    <ClCompile Include="ViewModels\GUIViewModel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +154,10 @@
     <ProjectReference Include="..\Shared\Shared.vcxproj">
       <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\MetricsComponent.hpp" />
+    <ClInclude Include="ViewModels\GUIViewModel.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

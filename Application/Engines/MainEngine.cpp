@@ -40,7 +40,7 @@ void MainEngine::MainLoop()
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            m_gui_engine->Render();
+            m_gui_engine->RenderGuiComponents();
             //ImGui::ShowDemoWindow();
 
             this->EndFrame();

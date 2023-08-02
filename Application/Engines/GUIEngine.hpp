@@ -29,7 +29,6 @@
 
 #include <iostream>
 
-
 namespace Engines {
 
 	class GUIEngine : public IEngine
@@ -42,7 +41,7 @@ namespace Engines {
 		void InitFrame() override; 
 		void EndFrame() override;
 
-		void Render();
+		void RenderGuiComponents();
 
 		
 

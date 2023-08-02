@@ -22,6 +22,7 @@
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
     <ClInclude Include="Interfaces\IEngine.hpp" />
+    <ClInclude Include="Interfaces\IGuiComponent.hpp" />
     <ClInclude Include="Interfaces\IInstance.hpp" />
     <ClInclude Include="Interfaces\IService.hpp" />
     <ClInclude Include="Shaders\Shader.hpp" />

@@ -34,7 +34,7 @@ void GUIEngine::EndFrame()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void GUIEngine::Render()
+void GUIEngine::RenderGuiComponents()
 {
 	if (show_app_metrics) { ImGui::ShowMetricsWindow(&show_app_metrics); }
 	if (show_app_stack_tool) { ImGui::ShowStackToolWindow(&show_app_stack_tool); }

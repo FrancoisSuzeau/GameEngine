@@ -44,6 +44,18 @@ namespace IoC {
 			builder->Build(engine);
 			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
 		}
+
+		template<typename T>
+		void LoadComponent()
+		{
+			auto type = std::type_index(typeid(T));
+			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+			container->registerType<T>([]() {
+				return new T();
+				});
+			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+		}
+
 		void StartBuilder(Builders::IBuilder* builder);
 
 	private:
