@@ -35,10 +35,10 @@ namespace Starting {
 		void Shutdown();
 
 		template<typename T>
-		void SetGuiComponent()
+		void AddView()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->LoadComponent<T>();
+			ioc_module->AddView<T>();
 			ioc_module.reset();
 		}
 		

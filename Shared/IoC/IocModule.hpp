@@ -46,7 +46,7 @@ namespace IoC {
 		}
 
 		template<typename T>
-		void LoadComponent()
+		void AddView()
 		{
 			auto type = std::type_index(typeid(T));
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();

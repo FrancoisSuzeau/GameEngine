@@ -16,8 +16,7 @@ int main(int argc, char** argv)
     SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
     
     app->Initialize();
-    app->SetGuiComponent<Views::MetricsComponent>();
-    app->SetGuiComponent<ViewModels::GuiViewModel>();
+    app->AddView<Views::MetricsComponent>();
   
     app->Run();
     
