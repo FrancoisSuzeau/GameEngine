@@ -18,17 +18,18 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "IGuiComponent.hpp"
+#include "IView.hpp"
 
 #include <iostream>
 #include <list>
 
 namespace Views
 {
-	class MetricsComponent : public IGuiComponent
+	class MetricsComponent : public IView
 	{
-
+		
 	public:
+
 		void Render(bool show = true) override;
 	};
 }

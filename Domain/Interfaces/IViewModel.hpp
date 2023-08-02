@@ -1,25 +1,26 @@
 /******************************************************************************************************************************************/
-// File : GUIViewModel.hpp
-// Purpose : The GUI view model of the application
+// File : IViewModel.hpp
+// Purpose : the view model interface
 /******************************************************************************************************************************************/
-#ifndef GUIVIEWMODEL_H
-#define GUIVIEWMODEL_H
-
-#include "IViewModel.hpp"
+#ifndef IVIEWMODEL_H
+#define IVIEWMODEL_H
 
 #include <iostream>
+#include <functional>
 #include <list>
 
-namespace ViewModels
-{
-	class GuiViewModel : public IViewModel
+#include "IView.hpp"
+
+namespace ViewModels {
+
+	class IViewModel
 	{
-
 	public:
-		void Construct() override;
-	private:
-		std::list<std::shared_ptr<Views::IView>> m_views;
-	};
-}
+		virtual ~IViewModel() {}
 
+		virtual void Construct() = 0;
+
+	};
+
+}
 #endif

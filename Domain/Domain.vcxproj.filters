@@ -33,7 +33,10 @@
     <ClInclude Include="Shaders\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IGuiComponent.hpp">
+    <ClInclude Include="Interfaces\IView.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IViewModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

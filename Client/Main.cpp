@@ -6,7 +6,7 @@
 
 #include "Application.hpp"
 #include "Views/GuiComponents/MetricsComponent.hpp"
-#include "ViewModels/GUIViewModel.hpp"
+
 
 
 int main(int argc, char** argv)
