@@ -36,12 +36,11 @@ void GUIEngine::EndFrame()
 
 void GUIEngine::RenderGuiComponents()
 {
-	for (auto test : Builders::ViewModelBuilder::m_view_models)
+	for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 	{
-		test.get()->RenderViews();
+		view_models.get()->RenderViews();
 	}
 	
-	if (show_app_about) { ImGui::ShowAboutWindow(&show_app_about); }
 	if (show_app_style_editor)
 	{
 		ImGui::Begin("Dear ImGui Style Editor", &show_app_style_editor);
@@ -109,10 +108,12 @@ void GUIEngine::RenderMenuTools()
 {
 	bool metrics = m_state_service->getShowMetrics();
 	bool tools = m_state_service->getShowTools();
+	bool infos = m_state_service->getShowInfos();
 	ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
 	ImGui::MenuItem("Stack Tool", NULL, &tools);
 	ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
-	ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
+	ImGui::MenuItem("About Dear ImGui", NULL, &infos);
 	m_state_service->setShowMetrics(metrics);
 	m_state_service->setShowTools(tools);
+	m_state_service->setShowInfos(infos);
 }

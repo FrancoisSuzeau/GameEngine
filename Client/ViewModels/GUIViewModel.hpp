@@ -8,6 +8,7 @@
 #include "IViewModel.hpp"
 #include "../Views/GuiComponents/MetricsComponent.hpp"
 #include "../Views/GuiComponents/StackToolsComponent.hpp"
+#include "../Views/GuiComponents/AppAboutComponent.hpp"
 #include "Container/Container.hpp"
 
 #include <iostream>

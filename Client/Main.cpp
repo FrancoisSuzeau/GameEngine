@@ -7,6 +7,7 @@
 #include "Application.hpp"
 #include "Views/GuiComponents/MetricsComponent.hpp"
 #include "Views/GuiComponents/StackToolsComponent.hpp"
+#include "Views/GuiComponents/AppAboutComponent.hpp"
 #include "ViewModels/GUIViewModel.hpp"
 
 
@@ -20,6 +21,7 @@ int main(int argc, char** argv)
 
     app->AddView<Views::MetricsComponent>();
     app->AddView<Views::StackToolsComponent>();
+    app->AddView<Views::AppAboutComponent>();
     app->AddViewModel<ViewModels::GuiViewModel>();
   
     app->Run();

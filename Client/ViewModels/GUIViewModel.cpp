@@ -12,9 +12,11 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		std::shared_ptr<Views::MetricsComponent> component_1 = container->make< Views::MetricsComponent>();
 		std::shared_ptr<Views::StackToolsComponent> component_2 = container->make< Views::StackToolsComponent>();
+		std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
 
 		m_views.push_back(component_1);
 		m_views.push_back(component_2);
+		m_views.push_back(component_3);
 	}
 
 	void GuiViewModel::DeConstruct()

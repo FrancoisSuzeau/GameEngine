@@ -27,6 +27,9 @@
     <ClCompile Include="Views\GuiComponents\StackToolsComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\AppAboutComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\GuiComponents\StackToolsComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\AppAboutComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

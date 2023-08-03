@@ -54,7 +54,6 @@ namespace Engines {
 		void RenderMenuTools();
 		std::shared_ptr<Services::StateService> m_state_service;
 		bool show_app_style_editor = false;
-		bool show_app_about = false;
 	};
 }
 
