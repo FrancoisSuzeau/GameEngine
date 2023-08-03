@@ -9,6 +9,7 @@ namespace Starting
     void Application::Initialize()
     {
         Logger::Log::InitAllLogger();
+        SQ_APP_INFO(Constants::SQUEAMISHSAYHI, 0, 1);
         m_service_builder = std::make_unique<Builders::ServiceBuilder>();
         m_engine_builder = std::make_unique<Builders::EngineBuilder>();
         m_view_model_builder = std::make_unique<Builders::ViewModelBuilder>();
@@ -44,6 +45,7 @@ namespace Starting
     {
         main_engine.reset();
         this->EndAllBuilder();
+        SQ_APP_INFO(Constants::SQUEAMISHGOODBYE);
         Logger::Log::Shutdown();
     }
 

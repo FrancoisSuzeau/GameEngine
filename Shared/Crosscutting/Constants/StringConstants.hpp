@@ -32,6 +32,8 @@ namespace Constants {
 	std::string const JSONEXT = ".json";
 	std::string const CONFIGFILE = "configs";
 	std::string const USERPREFNODE = "userpreferences";
+	std::string const SQUEAMISHSAYHI = "Squeamish v{}.{}";
+	std::string const SQUEAMISHGOODBYE = "Squeamish shutdown";
 }
 
 #endif
