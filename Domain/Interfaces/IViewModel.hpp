@@ -20,7 +20,7 @@ namespace ViewModels {
 
 		virtual void DeConstruct() = 0;
 
-		virtual void RenderViews() = 0;
+		virtual void RenderViews(std::string const type_view) = 0;
 
 	};
 

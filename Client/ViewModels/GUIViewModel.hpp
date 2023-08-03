@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <list>
+#include <map>
 
 namespace ViewModels
 {
@@ -20,9 +21,10 @@ namespace ViewModels
 	public:
 		void Construct() override;
 		void DeConstruct() override;
-		void RenderViews() override;
+		void RenderViews(std::string const type_view) override;
+
 	private:
-		std::list<std::shared_ptr<Views::IView>> m_views;
+		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
 	};
 }
 

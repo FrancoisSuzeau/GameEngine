@@ -14,20 +14,27 @@ namespace ViewModels
 		std::shared_ptr<Views::StackToolsComponent> component_2 = container->make< Views::StackToolsComponent>();
 		std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
 		std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->make< Views::AppStyleEditorComponent>();
+		std::shared_ptr<Views::MenuToolsComponent> component_5 = container->make< Views::MenuToolsComponent>();
 
-		m_views.push_back(component_1);
-		m_views.push_back(component_2);
-		m_views.push_back(component_3);
-		m_views.push_back(component_4);
+		std::list<std::shared_ptr<Views::IView>> simple_views;
+		simple_views.push_back(component_1);
+		simple_views.push_back(component_2);
+		simple_views.push_back(component_3);
+		simple_views.push_back(component_4);
+		m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
+		std::list<std::shared_ptr<Views::IView>> menu_views;
+		menu_views.push_back(component_5);
+		m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 	}
 
 	void GuiViewModel::DeConstruct()
 	{
-		m_views.clear();
+		m_views_map.clear();
 	}
-	void GuiViewModel::RenderViews()
+	void GuiViewModel::RenderViews(std::string const type_view)
 	{
-		for (std::list<std::shared_ptr<Views::IView>>::iterator it = m_views.begin(); it != m_views.end(); it++)
+		for (std::list<std::shared_ptr<Views::IView>>::iterator it = m_views_map.at(type_view).begin(); 
+			it != m_views_map.at(type_view).end(); it++)
 		{
 			it->get()->Render();
 		}

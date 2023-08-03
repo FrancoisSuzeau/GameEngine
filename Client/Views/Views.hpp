@@ -9,4 +9,5 @@
 #include "GuiComponents/StackToolsComponent.hpp"
 #include "GuiComponents/AppAboutComponent.hpp"
 #include "GuiComponents/AppStyleEditorComponent.hpp"
+#include "GuiComponents/MenuToolsComponent.hpp"
 #endif

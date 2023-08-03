@@ -38,7 +38,7 @@ void GUIEngine::RenderGuiComponents()
 {
 	for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 	{
-		view_models.get()->RenderViews();
+		view_models.get()->RenderViews(Constants::SIMPLECPT);
 	}
 	
 	
@@ -59,11 +59,12 @@ void GUIEngine::RenderMainMenuBar()
 			RenderMenuEdit();
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Tools"))
+
+		for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 		{
-			RenderMenuTools();
-			ImGui::EndMenu();
+			view_models.get()->RenderViews(Constants::MENUSCPT);
 		}
+		
 		ImGui::EndMainMenuBar();
 	}
 }
@@ -97,20 +98,4 @@ void GUIEngine::RenderMenuEdit()
 	if (ImGui::MenuItem("Cut", "CTRL+X")) {}
 	if (ImGui::MenuItem("Copy", "CTRL+C")) {}
 	if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-}
-
-void GUIEngine::RenderMenuTools()
-{
-	bool metrics = m_state_service->getShowMetrics();
-	bool tools = m_state_service->getShowTools();
-	bool infos = m_state_service->getShowInfos();
-	bool style = m_state_service->getShowStyleEditor();
-	ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
-	ImGui::MenuItem("Stack Tool", NULL, &tools);
-	ImGui::MenuItem("Style Editor", NULL, &style);
-	ImGui::MenuItem("About Dear ImGui", NULL, &infos);
-	m_state_service->setShowMetrics(metrics);
-	m_state_service->setShowTools(tools);
-	m_state_service->setShowInfos(infos);
-	m_state_service->setShowStyleEditor(style);
 }
