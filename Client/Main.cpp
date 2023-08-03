@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     app->AddView<Views::MetricsComponent>();
     app->AddView<Views::StackToolsComponent>();
     app->AddView<Views::AppAboutComponent>();
+    app->AddView<Views::AppStyleEditorComponent>();
     app->AddViewModel<ViewModels::GuiViewModel>();
   
     app->Run();

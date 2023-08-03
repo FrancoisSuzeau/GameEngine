@@ -31,6 +31,8 @@ namespace Services {
 		void setShowTools(bool const new_val);
 		bool getShowInfos() const;
 		void setShowInfos(bool const new_val);
+		bool getShowStyleEditor() const;
+		void setShowStyleEditor(bool const new_val);
 
 
 	private:
@@ -41,6 +43,7 @@ namespace Services {
 		bool m_show_metrics;
 		bool m_show_tools;
 		bool m_show_app_info;
+		bool m_show_style_editor;
 	};
 }
 

@@ -8,4 +8,5 @@
 #include "GuiComponents/MetricsComponent.hpp"
 #include "GuiComponents/StackToolsComponent.hpp"
 #include "GuiComponents/AppAboutComponent.hpp"
+#include "GuiComponents/AppStyleEditorComponent.hpp"
 #endif

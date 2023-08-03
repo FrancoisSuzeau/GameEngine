@@ -6,7 +6,8 @@
 
 namespace Services
 {
-	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false)
+	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
+		m_show_style_editor(false)
 	{
 	}
 
@@ -70,6 +71,14 @@ namespace Services
 	void StateService::setShowInfos(bool const new_val)
 	{
 		m_show_app_info = new_val;
+	}
+	bool StateService::getShowStyleEditor() const
+	{
+		return m_show_style_editor;
+	}
+	void StateService::setShowStyleEditor(bool const new_val)
+	{
+		m_show_style_editor = new_val;
 	}
 }
 

@@ -41,12 +41,7 @@ void GUIEngine::RenderGuiComponents()
 		view_models.get()->RenderViews();
 	}
 	
-	if (show_app_style_editor)
-	{
-		ImGui::Begin("Dear ImGui Style Editor", &show_app_style_editor);
-		ImGui::ShowStyleEditor();
-		ImGui::End();
-	}
+	
 	this->RenderMainMenuBar();
 }
 
@@ -109,11 +104,13 @@ void GUIEngine::RenderMenuTools()
 	bool metrics = m_state_service->getShowMetrics();
 	bool tools = m_state_service->getShowTools();
 	bool infos = m_state_service->getShowInfos();
+	bool style = m_state_service->getShowStyleEditor();
 	ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
 	ImGui::MenuItem("Stack Tool", NULL, &tools);
-	ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+	ImGui::MenuItem("Style Editor", NULL, &style);
 	ImGui::MenuItem("About Dear ImGui", NULL, &infos);
 	m_state_service->setShowMetrics(metrics);
 	m_state_service->setShowTools(tools);
 	m_state_service->setShowInfos(infos);
+	m_state_service->setShowStyleEditor(style);
 }

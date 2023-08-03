@@ -30,6 +30,9 @@
     <ClCompile Include="Views\GuiComponents\AppAboutComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\AppStyleEditorComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\Views.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\AppStyleEditorComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

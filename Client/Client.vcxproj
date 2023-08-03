@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\AppStyleEditorComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\AppAboutComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\StackToolsComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\MetricsComponent.cpp" />
@@ -158,6 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\AppStyleEditorComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\AppAboutComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\StackToolsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\MetricsComponent.hpp" />
