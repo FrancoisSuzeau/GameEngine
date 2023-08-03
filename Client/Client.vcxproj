@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\StackToolsComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\MetricsComponent.cpp" />
     <ClCompile Include="ViewModels\GUIViewModel.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -156,6 +157,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\StackToolsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
   </ItemGroup>

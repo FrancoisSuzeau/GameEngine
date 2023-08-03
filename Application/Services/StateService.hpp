@@ -27,6 +27,8 @@ namespace Services {
 		int getHeight() const;
 		bool getShowMetrics() const;
 		void setShowMetrics(bool const new_val);
+		bool getShowTools() const;
+		void setShowTools(bool const new_val);
 
 
 	private:
@@ -34,7 +36,8 @@ namespace Services {
 		int m_width;
 		int m_height;
 		bool m_exit;
-		bool m_show_metrics = false;
+		bool m_show_metrics;
+		bool m_show_tools;
 	};
 }
 

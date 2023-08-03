@@ -6,6 +6,7 @@
 
 #include "Application.hpp"
 #include "Views/GuiComponents/MetricsComponent.hpp"
+#include "Views/GuiComponents/StackToolsComponent.hpp"
 #include "ViewModels/GUIViewModel.hpp"
 
 
@@ -16,7 +17,9 @@ int main(int argc, char** argv)
     SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
     
     app->Initialize();
+
     app->AddView<Views::MetricsComponent>();
+    app->AddView<Views::StackToolsComponent>();
     app->AddViewModel<ViewModels::GuiViewModel>();
   
     app->Run();

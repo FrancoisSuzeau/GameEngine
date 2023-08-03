@@ -7,6 +7,7 @@
 
 #include "IViewModel.hpp"
 #include "../Views/GuiComponents/MetricsComponent.hpp"
+#include "../Views/GuiComponents/StackToolsComponent.hpp"
 #include "Container/Container.hpp"
 
 #include <iostream>

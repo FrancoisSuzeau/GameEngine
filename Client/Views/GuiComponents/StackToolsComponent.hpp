@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : MetricsComponent.hpp
-// Purpose : The GUI view of metrics
+// File : StackToolsComponent.hpp
+// Purpose : The GUI view of tools
 /******************************************************************************************************************************************/
-#ifndef METRICSCOMPONENT_H
-#define METRICSCOMPONENT_H
+#ifndef STACKTOOLSCOMPONENT_H
+#define STACKTOOLSCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -27,12 +27,12 @@
 
 namespace Views
 {
-	class MetricsComponent : public IView
+	class StackToolsComponent : public IView
 	{
-		
+
 	public:
 
-		MetricsComponent();
+		StackToolsComponent();
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;

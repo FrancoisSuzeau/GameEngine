@@ -1,20 +1,20 @@
 /******************************************************************************************************************************************/
-// File : MetricsComponent.cpp
-// Purpose : Implementing the GUI view metrics
+// File : StackToolsComponent.cpp
+// Purpose : Implementing the GUI view tools
 /******************************************************************************************************************************************/
 
-#include "MetricsComponent.hpp"
+#include "StackToolsComponent.hpp"
 
 namespace Views
 {
-	MetricsComponent::MetricsComponent()
+	StackToolsComponent::StackToolsComponent()
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
 	}
-	void MetricsComponent::Render()
+	void StackToolsComponent::Render()
 	{
-		bool test = m_state_service->getShowMetrics();
-		if (test) { ImGui::ShowMetricsWindow(&test); }
-		m_state_service->setShowMetrics(test);
+		bool test = m_state_service->getShowTools();
+		if (test) { ImGui::ShowStackToolWindow(&test); }
+		m_state_service->setShowTools(test);
 	}
 }
