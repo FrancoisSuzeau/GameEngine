@@ -4,25 +4,18 @@
 /******************************************************************************************************************************************/
 #include <iostream>
 
-#include "Application.hpp"
-#include "Views/Views.hpp"
-#include "ViewModels/GUIViewModel.hpp"
+#include "Startup.hpp"
 
+using namespace Starting;
 
 int main(int argc, char** argv)
 {
-    std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
+    std::shared_ptr<Application> app = std::make_shared<Application>();
     
     app->Initialize();
 
-    app->AddView<Views::MetricsComponent>();
-    app->AddView<Views::StackToolsComponent>();
-    app->AddView<Views::AppAboutComponent>();
-    app->AddView<Views::AppStyleEditorComponent>();
-    app->AddView<Views::MenuToolsComponent>();
-    app->AddView<Views::MenuEditComponent>();
-    app->AddViewModel<ViewModels::GuiViewModel>();
-  
+    Startup::ConfigureClientViews(app);
+
     app->Run();
 
     app->Shutdown();

@@ -39,6 +39,9 @@
     <ClCompile Include="Views\GuiComponents\MenuEditComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Startup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\GuiComponents\MenuEditComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Startup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
