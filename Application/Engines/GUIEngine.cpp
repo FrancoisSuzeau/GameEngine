@@ -54,11 +54,6 @@ void GUIEngine::RenderMainMenuBar()
 			RenderMenuFile();
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Edit"))
-		{
-			RenderMenuEdit();
-			ImGui::EndMenu();
-		}
 
 		for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 		{
@@ -92,10 +87,5 @@ void GUIEngine::RenderMenuFile()
 
 void GUIEngine::RenderMenuEdit() 
 {
-	if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-	if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-	ImGui::Separator();
-	if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-	if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-	if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+	
 }

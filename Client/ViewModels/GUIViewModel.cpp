@@ -15,6 +15,7 @@ namespace ViewModels
 		std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
 		std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->make< Views::AppStyleEditorComponent>();
 		std::shared_ptr<Views::MenuToolsComponent> component_5 = container->make< Views::MenuToolsComponent>();
+		std::shared_ptr<Views::MenuEditComponent> component_6 = container->make< Views::MenuEditComponent>();
 
 		std::list<std::shared_ptr<Views::IView>> simple_views;
 		simple_views.push_back(component_1);
@@ -24,6 +25,7 @@ namespace ViewModels
 		m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 		std::list<std::shared_ptr<Views::IView>> menu_views;
 		menu_views.push_back(component_5);
+		menu_views.push_back(component_6);
 		m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 	}
 
