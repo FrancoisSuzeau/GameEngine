@@ -162,6 +162,7 @@
     <ClInclude Include="Views\GuiComponents\StackToolsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
+    <ClInclude Include="Views\Views.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

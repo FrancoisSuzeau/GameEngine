@@ -5,9 +5,7 @@
 #include <iostream>
 
 #include "Application.hpp"
-#include "Views/GuiComponents/MetricsComponent.hpp"
-#include "Views/GuiComponents/StackToolsComponent.hpp"
-#include "Views/GuiComponents/AppAboutComponent.hpp"
+#include "Views/Views.hpp"
 #include "ViewModels/GUIViewModel.hpp"
 
 

@@ -44,5 +44,8 @@
     <ClInclude Include="Views\GuiComponents\AppAboutComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Views\Views.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

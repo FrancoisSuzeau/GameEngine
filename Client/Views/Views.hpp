@@ -1,0 +1,11 @@
+/******************************************************************************************************************************************/
+// File : Views.hpp
+// Purpose : Global views header
+/******************************************************************************************************************************************/
+#ifndef VIEWS_H
+#define VIEWS_H
+
+#include "GuiComponents/MetricsComponent.hpp"
+#include "GuiComponents/StackToolsComponent.hpp"
+#include "GuiComponents/AppAboutComponent.hpp"
+#endif
