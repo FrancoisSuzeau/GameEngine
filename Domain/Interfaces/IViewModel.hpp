@@ -9,8 +9,6 @@
 #include <functional>
 #include <list>
 
-#include "IView.hpp"
-
 namespace ViewModels {
 
 	class IViewModel
@@ -19,6 +17,10 @@ namespace ViewModels {
 		virtual ~IViewModel() {}
 
 		virtual void Construct() = 0;
+
+		virtual void DeConstruct() = 0;
+
+		virtual void RenderViews() = 0;
 
 	};
 

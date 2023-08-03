@@ -6,7 +6,7 @@
 
 #include "Application.hpp"
 #include "Views/GuiComponents/MetricsComponent.hpp"
-
+#include "ViewModels/GUIViewModel.hpp"
 
 
 int main(int argc, char** argv)
@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     
     app->Initialize();
     app->AddView<Views::MetricsComponent>();
+    app->AddViewModel<ViewModels::GuiViewModel>();
   
     app->Run();
     

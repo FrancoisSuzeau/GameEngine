@@ -25,6 +25,7 @@
 #include "../Services/ImGUIServiceInitalizer.hpp"
 #include "../Services/StateService.hpp"
 #include "../Commands/ExitCommand.hpp"
+#include "../Builders/ViewModelBuilder.hpp"
 
 
 #include <iostream>
@@ -52,7 +53,6 @@ namespace Engines {
 		void RenderMenuEdit();
 		void RenderMenuTools();
 		std::shared_ptr<Services::StateService> m_state_service;
-		bool show_app_metrics = false;
 		bool show_app_stack_tool = false;
 		bool show_app_style_editor = false;
 		bool show_app_about = false;

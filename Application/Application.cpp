@@ -11,6 +11,7 @@ namespace Starting
         Logger::Log::InitAllLogger();
         m_service_builder = std::make_unique<Builders::ServiceBuilder>();
         m_engine_builder = std::make_unique<Builders::EngineBuilder>();
+        m_view_model_builder = std::make_unique<Builders::ViewModelBuilder>();
         this->SetAllService();
         this->SetAllEngine();
     }
@@ -50,9 +51,11 @@ namespace Starting
     {
         m_service_builder->OnBuilderEnd();
         m_engine_builder->OnBuilderEnd();
+        m_view_model_builder->OnBuilderEnd();
 
         m_service_builder.reset();
         m_engine_builder.reset();
+        m_view_model_builder.reset();
     }
 
     void Application::StartAllBuilder()
@@ -60,6 +63,7 @@ namespace Starting
         std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
         ioc_module->StartBuilder(m_service_builder.get());
         ioc_module->StartBuilder(m_engine_builder.get());
+        ioc_module->StartBuilder(m_view_model_builder.get());
         ioc_module.reset();
     }
 }

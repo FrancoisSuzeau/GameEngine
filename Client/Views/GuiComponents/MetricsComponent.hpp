@@ -19,6 +19,8 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
+#include "Services/StateService.hpp"
+#include "Container/Container.hpp"
 
 #include <iostream>
 #include <list>
@@ -30,7 +32,10 @@ namespace Views
 		
 	public:
 
-		void Render(bool show = true) override;
+		MetricsComponent();
+		void Render() override;
+	private:
+		std::shared_ptr < Services::StateService> m_state_service;
 	};
 }
 

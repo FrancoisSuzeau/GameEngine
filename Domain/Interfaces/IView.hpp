@@ -15,7 +15,7 @@ namespace Views {
 	{
 	public:
 		virtual ~IView() {}
-		virtual void Render(bool show = true) = 0;
+		virtual void Render() = 0;
 
 	protected:
 		
