@@ -21,7 +21,7 @@
 #include "IView.hpp"
 #include "Services/StateService.hpp"
 #include "Container/Container.hpp"
-#include "Commands/ExitCommand.hpp"
+#include "Commands/Commands.hpp"
 
 #include <iostream>
 #include <list>

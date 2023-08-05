@@ -31,9 +31,13 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Services\StateService.cpp" />
     <ClCompile Include="Builders\ViewModelBuilder.cpp" />
+    <ClCompile Include="Services\ShaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Builders\Builders.hpp" />
+    <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
+    <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
@@ -43,8 +47,10 @@
     <ClInclude Include="Builders\EngineBuilder.hpp" />
     <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="Services\Services.hpp" />
     <ClInclude Include="Services\StateService.hpp" />
     <ClInclude Include="Builders\ViewModelBuilder.hpp" />
+    <ClInclude Include="Services\ShaderService.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
@@ -149,7 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

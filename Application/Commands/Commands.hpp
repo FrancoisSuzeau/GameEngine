@@ -1,22 +1,10 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : Commands.hpp
+// Purpose : The Commands header
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#ifndef COMMANDS_H
+#define COMMANDS_H
 
-namespace IoC
-{
-	IocModule::IocModule()
-	{
-	}
+#include "ExitCommand.hpp"
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
-}
-
+#endif

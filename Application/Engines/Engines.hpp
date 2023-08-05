@@ -1,22 +1,12 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : Engines.hpp
+// Purpose : The engines header
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#ifndef ENGINES_H
+#define ENGINES_H
 
-namespace IoC
-{
-	IocModule::IocModule()
-	{
-	}
+#include "SceneEngine.hpp"
+#include "GUIEngine.hpp"
+#include "MainEngine.hpp"
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
-}
-
+#endif

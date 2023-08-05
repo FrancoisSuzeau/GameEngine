@@ -29,7 +29,6 @@
     <ClInclude Include="Shaders\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Build.cpp" />
     <ClCompile Include="Shaders\Shader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

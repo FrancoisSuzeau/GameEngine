@@ -1,22 +1,13 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : Services.hpp
+// Purpose : A service reference header
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#ifndef SERVICES_H
+#define SERVICES_H
 
-namespace IoC
-{
-	IocModule::IocModule()
-	{
-	}
+#include "GraphicInitializerService.hpp"
+#include "AudioInitializerService.hpp"
+#include "ImGUIServiceInitalizer.hpp"
+#include "StateService.hpp"
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
-}
-
+#endif

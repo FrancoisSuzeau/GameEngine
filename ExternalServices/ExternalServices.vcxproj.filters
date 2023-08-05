@@ -29,5 +29,8 @@
     <ClInclude Include="ShaderLoaderService\ShaderLoaderService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExternalServices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

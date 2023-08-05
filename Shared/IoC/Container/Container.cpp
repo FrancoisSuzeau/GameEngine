@@ -4,21 +4,25 @@
 /******************************************************************************************************************************************/
 #include "Container.hpp"
 
-using namespace IoC::Container;
-
-Container* Container::m_container = nullptr;
-
-Container::Container()
+namespace IoC
 {
-
-}
-
-Container* Container::GetInstanceContainer()
-{
-	if (m_container == nullptr)
+	namespace Container
 	{
-		m_container = new Container();
-	}
+		Container* Container::m_container = nullptr;
 
-	return m_container;
+		Container::Container()
+		{
+
+		}
+
+		Container* Container::GetInstanceContainer()
+		{
+			if (m_container == nullptr)
+			{
+				m_container = new Container();
+			}
+
+			return m_container;
+		}
+	}
 }

@@ -1,22 +1,17 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : ShaderService.cpp
+// Purpose : Implementing service shader
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#include "ShaderService.hpp"
 
-namespace IoC
+using namespace Services;
+
+void ShaderService::Init()
 {
-	IocModule::IocModule()
-	{
-	}
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
 }
 
+void ShaderService::DeInit()
+{
+	
+}
