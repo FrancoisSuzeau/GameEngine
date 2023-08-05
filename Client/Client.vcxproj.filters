@@ -21,28 +21,28 @@
     <ClCompile Include="ViewModels\GUIViewModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\MetricsComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Simple\MetricsComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\StackToolsComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Simple\StackToolsComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\AppAboutComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Simple\AppAboutComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\AppStyleEditorComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Simple\AppStyleEditorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\MenuToolsComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Menus\MenuToolsComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\MenuEditComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Menus\MenuEditComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\MenuFileComponent.cpp">
+    <ClCompile Include="Views\GuiComponents\Menus\MenuFileComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,31 +50,31 @@
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\MetricsComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\StackToolsComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Simple\StackToolsComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\AppAboutComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Simple\AppAboutComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\Views.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\AppStyleEditorComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Simple\AppStyleEditorComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\MenuToolsComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Menus\MenuToolsComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\MenuEditComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Menus\MenuEditComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Startup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\MenuFileComponent.hpp">
+    <ClInclude Include="Views\GuiComponents\Menus\MenuFileComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

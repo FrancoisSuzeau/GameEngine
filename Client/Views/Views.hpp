@@ -5,12 +5,12 @@
 #ifndef VIEWS_H
 #define VIEWS_H
 
-#include "GuiComponents/MetricsComponent.hpp"
-#include "GuiComponents/StackToolsComponent.hpp"
-#include "GuiComponents/AppAboutComponent.hpp"
-#include "GuiComponents/AppStyleEditorComponent.hpp"
-#include "GuiComponents/MenuToolsComponent.hpp"
-#include "GuiComponents/MenuEditComponent.hpp"
-#include "GuiComponents/MenuFileComponent.hpp"
+#include "GuiComponents/Simple/MetricsComponent.hpp"
+#include "GuiComponents/Simple/StackToolsComponent.hpp"
+#include "GuiComponents/Simple/AppAboutComponent.hpp"
+#include "GuiComponents/Simple/AppStyleEditorComponent.hpp"
+#include "GuiComponents/Menus/MenuToolsComponent.hpp"
+#include "GuiComponents/Menus/MenuEditComponent.hpp"
+#include "GuiComponents/Menus/MenuFileComponent.hpp"
 
 #endif
