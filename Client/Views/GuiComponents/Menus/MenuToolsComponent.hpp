@@ -1,11 +1,9 @@
 /******************************************************************************************************************************************/
-// File : GUIEngine.hpp
-// Purpose : The GUI engine of the application
+// File : MenuToolsComponent.hpp
+// Purpose : The GUI view of the tools menu
 /******************************************************************************************************************************************/
-#ifndef GUIENGINE_H
-#define GUIENGINE_H
-
-#include <string>
+#ifndef MENUTOOLSCOMPONENT_H
+#define MENUTOOLSCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -20,35 +18,28 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "IEngine.hpp"
+#include "IView.hpp"
+#include "Services/StateService.hpp"
 #include "Container/Container.hpp"
-#include "../Services/ImGUIServiceInitalizer.hpp"
-#include "../Services/StateService.hpp"
-#include "../Commands/ExitCommand.hpp"
-#include "../Builders/ViewModelBuilder.hpp"
-
 
 #include <iostream>
+#include <list>
 
-namespace Engines {
-
-	class GUIEngine : public IEngine
+namespace Views
+{
+	class MenuToolsComponent : public IView
 	{
+
 	public:
 
-		~GUIEngine();
-		void Construct() override;
-
-		void InitFrame() override; 
-		void EndFrame() override;
-
-		void RenderGuiComponents();
-		void RenderMainMenuBar();
-		
-
+		MenuToolsComponent();
+		void Render() override;
 	private:
-		ImGuiIO m_io;
-		
+		std::shared_ptr < Services::StateService> m_state_service;
+		bool metrics;
+		bool tools;
+		bool infos;
+		bool style;
 	};
 }
 

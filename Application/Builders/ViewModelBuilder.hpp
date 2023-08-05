@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : EngineBuilder.hpp
-// Purpose : A builder for engines
+// File : ViewModelBuilder.hpp
+// Purpose : A builder for view model
 /******************************************************************************************************************************************/
-#ifndef ENGINEBUILDER_H
-#define ENGINEBUILDER_H
+#ifndef VIEWMODELBUILDER_H
+#define VIEWMODELBUILDER_H
 
 #include <iostream>
 #include <memory>
@@ -15,19 +15,17 @@
 
 namespace Builders {
 
-	class EngineBuilder : public IBuilder
+	class ViewModelBuilder : public IBuilder
 	{
 	public:
-		~EngineBuilder() override;
+		~ViewModelBuilder() override;
 		void Produce() override;
 		void Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer) override;
 		void Build(std::shared_ptr<Engines::IEngine> engine) override;
 		void Build(std::shared_ptr<ViewModels::IViewModel> view_model) override;
 		void OnBuilderEnd() override;
 
-	private:
-
-		std::vector<std::shared_ptr<Engines::IEngine>> m_engine;
+		static std::vector<std::shared_ptr<ViewModels::IViewModel>> m_view_models;
 	};
 }
 

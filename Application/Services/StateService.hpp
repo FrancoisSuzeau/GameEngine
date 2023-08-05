@@ -17,6 +17,7 @@ namespace Services {
 	{
 
 	public:
+		StateService();
 		void Init() override;
 		void DeInit() override;
 
@@ -24,8 +25,14 @@ namespace Services {
 		void setExit(bool const new_val);
 		int getWidth() const;
 		int getHeight() const;
-		bool getDebugWindow() const;
-		void setDebugWindow(bool const new_val);
+		bool getShowMetrics() const;
+		void setShowMetrics(bool const new_val);
+		bool getShowTools() const;
+		void setShowTools(bool const new_val);
+		bool getShowInfos() const;
+		void setShowInfos(bool const new_val);
+		bool getShowStyleEditor() const;
+		void setShowStyleEditor(bool const new_val);
 
 
 	private:
@@ -33,7 +40,10 @@ namespace Services {
 		int m_width;
 		int m_height;
 		bool m_exit;
-		bool m_show_debug_window;
+		bool m_show_metrics;
+		bool m_show_tools;
+		bool m_show_app_info;
+		bool m_show_style_editor;
 	};
 }
 

@@ -44,6 +44,31 @@ namespace IoC {
 			builder->Build(engine);
 			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
 		}
+
+		template<typename T>
+		void AddView()
+		{
+			auto type = std::type_index(typeid(T));
+			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+			container->registerType<T>([]() {
+				return new T();
+				});
+			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+		}
+
+		template<typename T>
+		void AddViewModel(Builders::IBuilder* builder)
+		{
+			auto type = std::type_index(typeid(T));
+			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+			container->registerType<T>([]() {
+				return new T();
+				});
+			auto view_model = container->make<T>();
+			builder->Build(view_model);
+			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+		}
+
 		void StartBuilder(Builders::IBuilder* builder);
 
 	private:

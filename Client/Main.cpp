@@ -4,22 +4,22 @@
 /******************************************************************************************************************************************/
 #include <iostream>
 
-#include "Application.hpp"
+#include "Startup.hpp"
 
+using namespace Starting;
 
 int main(int argc, char** argv)
 {
-    std::shared_ptr<Starting::Application> app = std::make_shared<Starting::Application>();
-    
-    SQ_CLIENT_INFO("Squeamish v{}.{}", 0, 1);
+    std::shared_ptr<Application> app = std::make_shared<Application>();
     
     app->Initialize();
-  
+
+    Startup::ConfigureClientViews(app);
+
     app->Run();
-    
-    SQ_CLIENT_INFO("Squeamish shutdown");
 
     app->Shutdown();
     app.reset();
+
     return EXIT_SUCCESS;
 }

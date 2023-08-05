@@ -1,11 +1,9 @@
 /******************************************************************************************************************************************/
-// File : GUIEngine.hpp
-// Purpose : The GUI engine of the application
+// File : MetricsComponent.hpp
+// Purpose : The GUI view of metrics
 /******************************************************************************************************************************************/
-#ifndef GUIENGINE_H
-#define GUIENGINE_H
-
-#include <string>
+#ifndef METRICSCOMPONENT_H
+#define METRICSCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -20,35 +18,24 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "IEngine.hpp"
+#include "IView.hpp"
+#include "Services/StateService.hpp"
 #include "Container/Container.hpp"
-#include "../Services/ImGUIServiceInitalizer.hpp"
-#include "../Services/StateService.hpp"
-#include "../Commands/ExitCommand.hpp"
-#include "../Builders/ViewModelBuilder.hpp"
-
 
 #include <iostream>
+#include <list>
 
-namespace Engines {
-
-	class GUIEngine : public IEngine
+namespace Views
+{
+	class MetricsComponent : public IView
 	{
+		
 	public:
 
-		~GUIEngine();
-		void Construct() override;
-
-		void InitFrame() override; 
-		void EndFrame() override;
-
-		void RenderGuiComponents();
-		void RenderMainMenuBar();
-		
-
+		MetricsComponent();
+		void Render() override;
 	private:
-		ImGuiIO m_io;
-		
+		std::shared_ptr < Services::StateService> m_state_service;
 	};
 }
 

@@ -30,6 +30,7 @@
     <ClCompile Include="Builders\ServiceBuilder.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Services\StateService.cpp" />
+    <ClCompile Include="Builders\ViewModelBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ExitCommand.hpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Services\StateService.hpp" />
+    <ClInclude Include="Builders\ViewModelBuilder.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">

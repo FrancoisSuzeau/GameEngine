@@ -7,6 +7,7 @@
 
 #include "Builders/ServiceBuilder.hpp"
 #include "Builders/EngineBuilder.hpp"
+#include "Builders/ViewModelBuilder.hpp"
 #include "IocModule.hpp"
 #include "IService.hpp"
 #include "Services/GraphicInitializerService.hpp"
@@ -35,10 +36,18 @@ namespace Starting {
 		void Shutdown();
 
 		template<typename T>
-		void SetEngineBuilder()
+		void AddView()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->LoadEngine<T>(m_engine_builder.get());
+			ioc_module->AddView<T>();
+			ioc_module.reset();
+		}
+
+		template<typename T>
+		void AddViewModel()
+		{
+			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+			ioc_module->AddViewModel<T>(m_view_model_builder.get());
 			ioc_module.reset();
 		}
 		
@@ -46,6 +55,7 @@ namespace Starting {
 	private:
 		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
 		std::unique_ptr<Builders::EngineBuilder> m_engine_builder;
+		std::unique_ptr<Builders::ViewModelBuilder> m_view_model_builder;
 		std::shared_ptr<Engines::MainEngine> main_engine;
 
 		template<typename T>
@@ -53,6 +63,14 @@ namespace Starting {
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
 			ioc_module->LoadService<T>(m_service_builder.get());
+			ioc_module.reset();
+		}
+
+		template<typename T>
+		void SetEngineBuilder()
+		{
+			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+			ioc_module->LoadEngine<T>(m_engine_builder.get());
 			ioc_module.reset();
 		}
 

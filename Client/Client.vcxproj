@@ -134,6 +134,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\Menus\MenuFileComponent.cpp" />
+    <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="Views\GuiComponents\Menus\MenuEditComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Menus\MenuToolsComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\AppStyleEditorComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\AppAboutComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\StackToolsComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\MetricsComponent.cpp" />
+    <ClCompile Include="ViewModels\GUIViewModel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +161,18 @@
     <ProjectReference Include="..\Shared\Shared.vcxproj">
       <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\Menus\MenuFileComponent.hpp" />
+    <ClInclude Include="Startup.hpp" />
+    <ClInclude Include="Views\GuiComponents\Menus\MenuEditComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Menus\MenuToolsComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\AppStyleEditorComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\AppAboutComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\StackToolsComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
+    <ClInclude Include="ViewModels\GUIViewModel.hpp" />
+    <ClInclude Include="Views\Views.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
