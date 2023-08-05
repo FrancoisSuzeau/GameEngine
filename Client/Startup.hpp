@@ -19,6 +19,8 @@ namespace Starting {
 	{
 	public:
 		static void ConfigureClientViews(std::shared_ptr<Application> app);
+	private:
+		static void ConfigureClientGUI(std::shared_ptr<Application> app);
 	};
 }
 
