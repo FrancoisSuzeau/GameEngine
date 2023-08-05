@@ -1,25 +1,27 @@
 /******************************************************************************************************************************************/
-// File : ExitCommand.hpp
-// Purpose : An exit command
+// File : DeleteShaderCommand.hpp
+// Purpose : A delete shader command
 /******************************************************************************************************************************************/
-#ifndef EXITCOMMAND_H
-#define EXITCOMMAND_H
+#ifndef DELETESHADERCOMMAND_H
+#define DELETESHADERCOMMAND_H
 
 #include "ICommand.hpp"
-
-#include <memory>
-#include "../Services/StateService.hpp"
+#include "Logger.hpp"
 #include "Container/Container.hpp"
+#include "../Services/Services.hpp"
+#include <memory>
 
 namespace Commands {
 
-	class ExitCommand : public ICommand
+	class DeleteShaderCommand : public ICommand
 	{
 	public:
-		ExitCommand();
+		DeleteShaderCommand(std::string const shader_name);
 		void Execute() override;
 	private:
-		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
+		std::string const m_shader_name;
+
 
 	};
 }

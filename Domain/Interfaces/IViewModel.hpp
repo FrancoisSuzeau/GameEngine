@@ -8,6 +8,7 @@
 #include <iostream>
 #include <functional>
 #include <list>
+#include "ICommand.hpp"
 
 namespace ViewModels {
 
@@ -21,6 +22,10 @@ namespace ViewModels {
 		virtual void DeConstruct() = 0;
 
 		virtual void RenderViews(std::string const type_view) = 0;
+		virtual void OnCommand(Commands::ICommand *command) = 0;
+
+	protected:
+		std::unique_ptr<Commands::ICommand> m_command;
 
 	};
 

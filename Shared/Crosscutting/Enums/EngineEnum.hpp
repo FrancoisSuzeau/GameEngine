@@ -10,6 +10,7 @@ namespace Enums {
 	enum EngineEnum {BEGIN, END};
 	enum ServiceEnum {SDL, OPENGL, IMGUI};
 	enum ShaderType {NORMAL, GEOMETRIC};
+	enum ShaderModifier {VEC3, MAT4, TEXTURE, FLOAT, INT };
 }
 
 #endif

@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\ExitCommand.cpp" />
+    <ClCompile Include="Commands\DeleteShaderCommand.cpp" />
     <ClCompile Include="Engines\MainEngine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Engines\SceneEngine.cpp" />
+    <ClCompile Include="Commands\LoadNewShaderCommand.cpp" />
+    <ClCompile Include="Commands\ModifyShaderCommand.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
     <ClCompile Include="Services\ImGUIServiceInitalizer.cpp" />
@@ -31,20 +34,29 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Services\StateService.cpp" />
     <ClCompile Include="Builders\ViewModelBuilder.cpp" />
+    <ClCompile Include="Services\ShaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Builders\Builders.hpp" />
+    <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
+    <ClInclude Include="Commands\DeleteShaderCommand.hpp" />
+    <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
+    <ClInclude Include="Commands\LoadNewShaderCommand.hpp" />
+    <ClInclude Include="Commands\ModifyShaderCommand.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />
     <ClInclude Include="Services\ImGUIServiceInitalizer.hpp" />
     <ClInclude Include="Builders\EngineBuilder.hpp" />
     <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="Services\Services.hpp" />
     <ClInclude Include="Services\StateService.hpp" />
     <ClInclude Include="Builders\ViewModelBuilder.hpp" />
+    <ClInclude Include="Services\ShaderService.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
@@ -149,7 +161,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Shaders;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

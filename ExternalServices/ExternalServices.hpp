@@ -1,22 +1,11 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : ExternalServices.hpp
+// Purpose : The ExternalServices header
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#ifndef EXTERNALSERVICES_H
+#define EXTERNALSERVICES_H
 
-namespace IoC
-{
-	IocModule::IocModule()
-	{
-	}
+#include "JsonLoaderService/JsonLoaderService.hpp"
+#include "ShaderLoaderService/ShaderLoaderService.hpp"
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
-}
-
+#endif

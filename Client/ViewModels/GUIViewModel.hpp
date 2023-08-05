@@ -8,6 +8,8 @@
 #include "IViewModel.hpp"
 #include "../Views/Views.hpp"
 #include "Container/Container.hpp"
+#include "Services/StateService.hpp"
+#include "Commands/Commands.hpp"
 
 #include <iostream>
 #include <list>
@@ -22,9 +24,11 @@ namespace ViewModels
 		void Construct() override;
 		void DeConstruct() override;
 		void RenderViews(std::string const type_view) override;
+		void OnCommand(Commands::ICommand* command) override;
 
 	private:
 		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
+		std::shared_ptr < Services::StateService> m_state_service;
 	};
 }
 

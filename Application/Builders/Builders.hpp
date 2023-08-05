@@ -1,22 +1,12 @@
 /******************************************************************************************************************************************/
-// File : IocModule.cpp
-// Purpose : Implementing the inversion of control module
+// File : Builders.hpp
+// Purpose : The builders header
 /******************************************************************************************************************************************/
-#include "IocModule.hpp"
+#ifndef BUILDERS_H
+#define BUILDERS_H
 
-namespace IoC
-{
-	IocModule::IocModule()
-	{
-	}
+#include "ServiceBuilder.hpp"
+#include "EngineBuilder.hpp"
+#include "ViewModelBuilder.hpp"
 
-	IocModule::~IocModule()
-	{
-	}
-
-	void IocModule::StartBuilder(Builders::IBuilder* builder)
-	{
-		builder->Produce();
-	}
-}
-
+#endif

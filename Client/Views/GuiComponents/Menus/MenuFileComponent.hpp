@@ -19,9 +19,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
-#include "Services/StateService.hpp"
-#include "Container/Container.hpp"
-#include "Commands/ExitCommand.hpp"
+#include "Commands/Commands.hpp"
 
 #include <iostream>
 #include <list>
@@ -36,7 +34,7 @@ namespace Views
 		MenuFileComponent();
 		void Render() override;
 	private:
-		std::shared_ptr < Services::StateService> m_state_service;
+		
 	};
 }
 

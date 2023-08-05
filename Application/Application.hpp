@@ -5,20 +5,11 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "Builders/ServiceBuilder.hpp"
-#include "Builders/EngineBuilder.hpp"
-#include "Builders/ViewModelBuilder.hpp"
+#include "Builders/Builders.hpp"
 #include "IocModule.hpp"
-#include "IService.hpp"
-#include "Services/GraphicInitializerService.hpp"
-#include "Services/AudioInitializerService.hpp"
-#include "Services/ImGUIServiceInitalizer.hpp"
-#include "Services/StateService.hpp"
-#include "JsonLoaderService.hpp"
-#include "ShaderLoaderService.hpp"
-#include "Engines/SceneEngine.hpp"
-#include "Engines/GUIEngine.hpp"
-#include "Engines/MainEngine.hpp"
+#include "Services/Services.hpp"
+#include "ExternalServices.hpp"
+#include "Engines/Engines.hpp"
 #include "Logger.hpp"
 
 #include <cassert>
