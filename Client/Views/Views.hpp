@@ -11,4 +11,6 @@
 #include "GuiComponents/AppStyleEditorComponent.hpp"
 #include "GuiComponents/MenuToolsComponent.hpp"
 #include "GuiComponents/MenuEditComponent.hpp"
+#include "GuiComponents/MenuFileComponent.hpp"
+
 #endif

@@ -15,6 +15,8 @@ namespace Starting
         app->AddView<Views::AppStyleEditorComponent>();
         app->AddView<Views::MenuToolsComponent>();
         app->AddView<Views::MenuEditComponent>();
+        app->AddView<Views::MenuFileComponent>();
+
         app->AddViewModel<ViewModels::GuiViewModel>();
     }
 }

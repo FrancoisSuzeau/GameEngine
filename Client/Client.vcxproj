@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\MenuFileComponent.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Views\GuiComponents\MenuEditComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\MenuToolsComponent.cpp" />
@@ -162,6 +163,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\MenuFileComponent.hpp" />
     <ClInclude Include="Startup.hpp" />
     <ClInclude Include="Views\GuiComponents\MenuEditComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\MenuToolsComponent.hpp" />

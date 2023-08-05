@@ -42,6 +42,9 @@
     <ClCompile Include="Startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\MenuFileComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Startup.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\MenuFileComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
