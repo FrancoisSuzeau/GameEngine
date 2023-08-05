@@ -13,7 +13,7 @@ DeleteShaderCommand::DeleteShaderCommand(std::string const shader_name) : m_shad
 
 void DeleteShaderCommand::Execute()
 {
-	SQ_APP_TRACE("New shader command is called");
+	SQ_APP_INFO("New shader command is called");
 	m_shader_service->DeleteShader(m_shader_name);
 	
 }

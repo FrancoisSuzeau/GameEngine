@@ -14,13 +14,28 @@ namespace Services
 
 	void ShaderService::DeInit()
 	{
+		for (std::map<std::string, std::unique_ptr<Shaders::Shader>>::iterator it = m_shader_map.begin(); it != m_shader_map.end(); it++)
+		{
+			GLuint program_id = m_shader_map.at(it->first)->getProgramId();
+			m_shader_loader->deleteProgram(program_id);
+			m_shader_map.at(it->first).reset();
+		}
 
+		m_shader_map.clear();
 	}
 
 	void ShaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)
 	{
-		GLuint program_id = m_shader_loader->loadShader(shader_name, shader_type);
-		m_shader_map.insert_or_assign(shader_name, std::unique_ptr<Shaders::Shader>(new Shaders::Shader(program_id)));
+		if (!m_shader_map.contains(shader_name))
+		{
+			GLuint program_id = m_shader_loader->loadShader(shader_name, shader_type);
+			m_shader_map.insert_or_assign(shader_name, std::unique_ptr<Shaders::Shader>(new Shaders::Shader(program_id)));
+		}
+		else
+		{
+			SQ_APP_ERROR("Shader {} already exist", shader_name);
+		}
+		
 	}
 
 	void ShaderService::DeleteShader(std::string shader_name)

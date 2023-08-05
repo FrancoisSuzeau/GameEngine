@@ -17,7 +17,7 @@ namespace Commands
 
 	void ModifyShaderCommand::Execute()
 	{
-		SQ_APP_TRACE("Modify shader command is called");
+		SQ_APP_INFO("Modify shader command is called");
 		switch (m_shader_modifier)
 		{	
 		case Enums::VEC3:
