@@ -18,8 +18,7 @@ namespace Engines
 	{
 	public:
 		void Construct() override;
-		void addShader(std::string shader_name, GLuint program_id);
-		void deleteShader(std::string shader_name);
+		
 	private:
 		void InitFrame() override;
 		void EndFrame() override;

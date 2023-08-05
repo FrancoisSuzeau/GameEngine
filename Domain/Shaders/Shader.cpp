@@ -7,7 +7,7 @@
 
 namespace Shaders
 {
-    Shader::Shader()
+    Shader::Shader(GLuint program_id) : m_program_id(program_id)
     {
     }
 
@@ -15,20 +15,9 @@ namespace Shaders
     {
     }
 
-    GLuint Shader::getProgramID() const
+    GLuint Shader::getProgramId() const
     {
         return m_program_id;
-    }
-
-    void Shader::setProgramID(GLuint const new_program_id)
-    {
-        m_program_id = new_program_id;
-
-    }
-
-    void Shader::setVec3(std::string const location, float x, float y, float z)
-    {
-        glUniform3f(glGetUniformLocation(m_program_id, location.c_str()), x, y, z);
     }
 
     void Shader::setVec3(std::string const location, glm::vec3 const& vec_to_add)

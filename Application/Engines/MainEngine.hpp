@@ -14,7 +14,7 @@
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
 #include "../Services/Services.hpp"
-#include "ExternalServices.hpp"
+
 #include "Constants/StringConstants.hpp"
 
 namespace Engines {
@@ -39,7 +39,7 @@ namespace Engines {
 		void FpsCalculation(Enums::EngineEnum ee);
 
 		std::shared_ptr<Services::StateService> m_state_service;
-		std::shared_ptr<Services::ShaderLoaderService> m_shader_loader;
+		
 	};
 }
 

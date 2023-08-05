@@ -19,7 +19,7 @@ namespace Views
 			if (ImGui::MenuItem("Open", "Ctrl+O")) {}
 			if (ImGui::BeginMenu("Open Recent"))
 			{
-				ImGui::MenuItem("NewFile");
+				if(ImGui::MenuItem("NewFile")) {}
 				ImGui::EndMenu();
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {}
@@ -29,7 +29,7 @@ namespace Views
 
 			if (ImGui::MenuItem("Quit", "Alt+F4"))
 			{
-				std::shared_ptr<Commands::ExitCommand> exit_command = std::shared_ptr<Commands::ExitCommand>(new Commands::ExitCommand(m_state_service));
+				std::unique_ptr<Commands::ExitCommand> exit_command = std::unique_ptr<Commands::ExitCommand>(new Commands::ExitCommand(m_state_service));
 				exit_command->Execute();
 			}
 			ImGui::EndMenu();

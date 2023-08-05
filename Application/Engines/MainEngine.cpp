@@ -16,10 +16,10 @@ namespace Engines
         std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
         m_state_service = container->make<Services::StateService>();
         m_gui_engine = container->make<GUIEngine>();
-        m_shader_loader = container->make<Services::ShaderLoaderService>();
+        std::shared_ptr<Services::ShaderService> shader_service = container->make<Services::ShaderService>();
+        shader_service->LoadShader("sphere", Enums::NORMAL);
+        shader_service->DeleteShader("sphere");
         m_window = graph_service_init->GetSDLWindow();
-        GLuint program_id = m_shader_loader->loadShader("sphere", Enums::NORMAL);
-        graph_service_init.reset();
     }
 
     void MainEngine::MainLoop()
