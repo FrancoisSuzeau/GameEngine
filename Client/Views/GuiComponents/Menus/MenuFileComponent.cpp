@@ -9,7 +9,7 @@ namespace Views
 {
 	MenuFileComponent::MenuFileComponent()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		
 	}
 	void MenuFileComponent::Render()
 	{
@@ -19,7 +19,10 @@ namespace Views
 			if (ImGui::MenuItem("Open", "Ctrl+O")) {}
 			if (ImGui::BeginMenu("Open Recent"))
 			{
-				if(ImGui::MenuItem("NewFile")) {}
+				if(ImGui::MenuItem("NewFile") && m_parent_view_model.get() != nullptr)
+				{
+					m_parent_view_model->OnCommand(new Commands::LoadNewShaderCommand("sphere", Enums::NORMAL));
+				}
 				ImGui::EndMenu();
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {}
@@ -27,10 +30,9 @@ namespace Views
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Quit", "Alt+F4"))
+			if (ImGui::MenuItem("Quit", "Alt+F4") && m_parent_view_model.get() != nullptr)
 			{
-				std::unique_ptr<Commands::ExitCommand> exit_command = std::unique_ptr<Commands::ExitCommand>(new Commands::ExitCommand(m_state_service));
-				exit_command->Execute();
+				m_parent_view_model->OnCommand(new Commands::ExitCommand());
 			}
 			ImGui::EndMenu();
 		}

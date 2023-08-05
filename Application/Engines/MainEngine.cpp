@@ -16,9 +16,7 @@ namespace Engines
         std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
         m_state_service = container->make<Services::StateService>();
         m_gui_engine = container->make<GUIEngine>();
-        std::shared_ptr<Services::ShaderService> shader_service = container->make<Services::ShaderService>();
-        shader_service->LoadShader("sphere", Enums::NORMAL);
-        shader_service->DeleteShader("sphere");
+        
         m_window = graph_service_init->GetSDLWindow();
     }
 

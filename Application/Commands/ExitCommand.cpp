@@ -6,13 +6,15 @@
 
 using namespace Commands;
 
-ExitCommand::ExitCommand(std::shared_ptr<Services::StateService> state_services)
+ExitCommand::ExitCommand()
 {
-	m_state_service = state_services;
+	m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
 }
 
 void ExitCommand::Execute()
 {
 	SQ_APP_TRACE("Exit command is called");
 	this->m_state_service->setExit(true);
+	
+	
 }

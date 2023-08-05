@@ -6,5 +6,8 @@
 #define COMMANDS_H
 
 #include "ExitCommand.hpp"
+#include "DeleteShaderCommand.hpp"
+#include "ModifyShaderCommand.hpp"
+#include "LoadNewShaderCommand.hpp"
 
 #endif
