@@ -17,47 +17,59 @@ namespace Engines
         m_state_service = container->make<Services::StateService>();
         m_gui_engine = container->make<GUIEngine>();
         
-        m_window = graph_service_init->GetSDLWindow();
+        if (graph_service_init)
+        {
+            m_window = graph_service_init->GetSDLWindow();
+        }
     }
 
     void MainEngine::MainLoop()
     {
         SDL_Event event;
 
-        while (!m_state_service->getExit())
+        if (m_state_service && m_gui_engine)
         {
-
-            this->FpsCalculation(Enums::BEGIN);
-
-            while (SDL_PollEvent(&event))
+            while (!m_state_service->getExit())
             {
-                this->InitFrame();
 
-                glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                this->FpsCalculation(Enums::BEGIN);
 
-                m_gui_engine->RenderMainMenuBar();
-                m_gui_engine->RenderGuiComponents();
-                //ImGui::ShowDemoWindow();
+                while (SDL_PollEvent(&event))
+                {
+                    this->InitFrame();
 
-                this->EndFrame();
+                    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                    glEnable(GL_BLEND);
+                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+                    m_gui_engine->RenderMainMenuBar();
+                    m_gui_engine->RenderGuiComponents();
+                    //ImGui::ShowDemoWindow();
+
+                    this->EndFrame();
+                }
+
+                this->FpsCalculation(Enums::END);
             }
-
-            this->FpsCalculation(Enums::END);
         }
     }
 
     void MainEngine::InitFrame()
     {
-        m_gui_engine->InitFrame();
+        if (m_gui_engine)
+        {
+            m_gui_engine->InitFrame();
+        }
     }
 
     void MainEngine::EndFrame()
     {
-        m_gui_engine->EndFrame();
-        SDL_GL_SwapWindow(m_window);
+        if (m_gui_engine && m_window)
+        {
+            m_gui_engine->EndFrame();
+            SDL_GL_SwapWindow(m_window);
+        }
     }
 
     void MainEngine::FpsCalculation(Enums::EngineEnum ee)

@@ -14,7 +14,10 @@ namespace Builders
 	{
 		for (std::vector<std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
 		{
-			it[0]->Construct();
+			if (it[0])
+			{
+				it[0]->Construct();
+			}
 		}
 	}
 
@@ -23,7 +26,10 @@ namespace Builders
 	}
 	void ViewModelBuilder::Build(std::shared_ptr<ViewModels::IViewModel> view_model)
 	{
-		m_view_models.push_back(view_model);
+		if (view_model)
+		{
+			m_view_models.push_back(view_model);
+		}
 	}
 	void ViewModelBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
 	{
@@ -34,8 +40,11 @@ namespace Builders
 	{
 		for (std::vector<std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
 		{
-			it[0]->DeConstruct();
-			it->reset();
+			if (it[0])
+			{
+				it[0]->DeConstruct();
+				it->reset();
+			}
 		}
 	}
 }

@@ -17,26 +17,29 @@ namespace Commands
 
 	void ModifyShaderCommand::Execute()
 	{
-		SQ_APP_INFO("Modify shader command is called");
-		switch (m_shader_modifier)
-		{	
-		case Enums::VEC3:
-			m_shader_service->setVec3(m_shader_name, m_location, m_vec_to_add);
-			break;
-		case Enums::MAT4:
-			m_shader_service->setMat4(m_shader_name, m_location, m_matrice_to_add);
-			break;
-		case Enums::TEXTURE:
-			m_shader_service->setTexture(m_shader_name, m_location, m_count);
-			break;
-		case Enums::FLOAT:
-			m_shader_service->setFloat(m_shader_name, m_location, m_to_ad);
-			break;
-		case Enums::INT:
-			m_shader_service->setInt(m_shader_name, m_location, m_to_add);
-			break;
-		default:
-			break;
+		if (m_shader_service)
+		{
+			SQ_APP_INFO("Modify shader command is called");
+			switch (m_shader_modifier)
+			{
+			case Enums::VEC3:
+				m_shader_service->setVec3(m_shader_name, m_location, m_vec_to_add);
+				break;
+			case Enums::MAT4:
+				m_shader_service->setMat4(m_shader_name, m_location, m_matrice_to_add);
+				break;
+			case Enums::TEXTURE:
+				m_shader_service->setTexture(m_shader_name, m_location, m_count);
+				break;
+			case Enums::FLOAT:
+				m_shader_service->setFloat(m_shader_name, m_location, m_to_ad);
+				break;
+			case Enums::INT:
+				m_shader_service->setInt(m_shader_name, m_location, m_to_add);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

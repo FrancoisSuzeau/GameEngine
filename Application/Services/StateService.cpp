@@ -15,8 +15,11 @@ namespace Services
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
-		m_width = graph_service_init->GetWidth();
-		m_height = graph_service_init->GetHeight();
+		if (graph_service_init)
+		{
+			m_width = graph_service_init->GetWidth();
+			m_height = graph_service_init->GetHeight();
+		}
 
 		m_exit = false;
 		m_show_metrics = false;

@@ -14,7 +14,10 @@ m_shader_type(shader_type)
 
 void LoadNewShaderCommand::Execute()
 {
-	SQ_APP_INFO("New shader command is called");
-	m_shader_service->LoadShader(m_shader_name, m_shader_type);
+	if (m_shader_service)
+	{
+		SQ_APP_INFO("New shader command is called");
+		m_shader_service->LoadShader(m_shader_name, m_shader_type);
+	}
 	
 }

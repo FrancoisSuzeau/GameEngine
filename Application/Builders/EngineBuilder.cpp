@@ -14,7 +14,10 @@ void EngineBuilder::Produce()
 {
 	for (std::vector<std::shared_ptr<Engines::IEngine>>::iterator it = m_engine.begin(); it != m_engine.end(); ++it)
 	{
-		it[0]->Construct();
+		if (it[0])
+		{
+			it[0]->Construct();
+		}
 	}
 }
 
@@ -27,13 +30,19 @@ void EngineBuilder::Build(std::shared_ptr<ViewModels::IViewModel> view_model)
 }
 void EngineBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
 {
-	m_engine.push_back(engine);
+	if (engine)
+	{
+		m_engine.push_back(engine);
+	}
 }
 
 void EngineBuilder::OnBuilderEnd()
 {
 	for (std::vector<std::shared_ptr<Engines::IEngine>>::iterator it = m_engine.begin(); it != m_engine.end(); ++it)
 	{
-		it->reset();
+		if (it[0])
+		{
+			it[0].reset();
+		}
 	}
 }
