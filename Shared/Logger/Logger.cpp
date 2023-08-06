@@ -29,113 +29,167 @@ namespace Logger
 	void Log::InitTraceLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::trace);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::trace);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::trace);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::trace);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::trace);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::trace);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 
 	void Log::InitInfoLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::info);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::info);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::info);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::info);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::info);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::info);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 
 	void Log::InitDebugLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::debug);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::debug);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::debug);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::debug);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::debug);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::debug);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 
 	void Log::InitWarnLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::warn);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::warn);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::warn);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::warn);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::warn);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::warn);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 	void Log::InitErrorLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::err);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::err);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::err);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::err);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::err);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::err);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 	void Log::InitCriticalLogger(std::string const logger_name, std::string const filename)
 	{
 		auto console = std::make_shared <spdlog::sinks::stdout_color_sink_mt>();
-		console->set_level(spdlog::level::critical);
-		console->set_pattern(Constants::LOGPATTERN);
+		if (console)
+		{
+			console->set_level(spdlog::level::critical);
+			console->set_pattern(Constants::LOGPATTERN);
 
-		CleanFile(filename);
-		auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
-		file_sink->set_level(spdlog::level::critical);
-		file_sink->set_pattern(Constants::LOGPATTERN);
+			CleanFile(filename);
+			auto file_sink = std::make_shared <spdlog::sinks::basic_file_sink_mt>(Constants::LOGPATH + filename + Constants::LOGEXT);
+			if (file_sink)
+			{
+				file_sink->set_level(spdlog::level::critical);
+				file_sink->set_pattern(Constants::LOGPATTERN);
 
-		spdlog::sinks_init_list sink_list = { file_sink, console };
+				spdlog::sinks_init_list sink_list = { file_sink, console };
 
-		auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
-		logger->set_level(spdlog::level::critical);
+				auto logger = std::make_shared<spdlog::logger>(logger_name + filename + "]", sink_list.begin(), sink_list.end());
+				if (logger)
+				{
+					logger->set_level(spdlog::level::critical);
 
-		spdlog::register_logger(logger);
+					spdlog::register_logger(logger);
+				}
+			}
+		}
 	}
 
 	void Log::CleanFile(std::string const filename)

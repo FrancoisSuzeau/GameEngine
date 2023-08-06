@@ -15,18 +15,21 @@ namespace Views
 	{
 		if (ImGui::BeginMenu("Tools"))
 		{
-			metrics = m_state_service->getShowMetrics();
-			tools = m_state_service->getShowTools();
-			infos = m_state_service->getShowInfos();
-			style = m_state_service->getShowStyleEditor();
-			ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
-			ImGui::MenuItem("Stack Tool", NULL, &tools);
-			ImGui::MenuItem("Style Editor", NULL, &style);
-			ImGui::MenuItem("About Dear ImGui", NULL, &infos);
-			m_state_service->setShowMetrics(metrics);
-			m_state_service->setShowTools(tools);
-			m_state_service->setShowInfos(infos);
-			m_state_service->setShowStyleEditor(style);
+			if (m_state_service)
+			{
+				metrics = m_state_service->getShowMetrics();
+				tools = m_state_service->getShowTools();
+				infos = m_state_service->getShowInfos();
+				style = m_state_service->getShowStyleEditor();
+				ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
+				ImGui::MenuItem("Stack Tool", NULL, &tools);
+				ImGui::MenuItem("Style Editor", NULL, &style);
+				ImGui::MenuItem("About Dear ImGui", NULL, &infos);
+				m_state_service->setShowMetrics(metrics);
+				m_state_service->setShowTools(tools);
+				m_state_service->setShowInfos(infos);
+				m_state_service->setShowStyleEditor(style);
+			}
 			ImGui::EndMenu();
 		}
 		

@@ -13,8 +13,11 @@ namespace Views
 	}
 	void StackToolsComponent::Render()
 	{
-		bool test = m_state_service->getShowTools();
-		if (test) { ImGui::ShowStackToolWindow(&test); }
-		m_state_service->setShowTools(test);
+		if (m_state_service)
+		{
+			bool test = m_state_service->getShowTools();
+			if (test) { ImGui::ShowStackToolWindow(&test); }
+			m_state_service->setShowTools(test);
+		}
 	}
 }

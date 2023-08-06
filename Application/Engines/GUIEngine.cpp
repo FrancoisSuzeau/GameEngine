@@ -13,9 +13,11 @@ namespace Engines
 	void GUIEngine::Construct()
 	{
 		std::shared_ptr<Services::ImGUIServiceInitializer> imgui_service_init = IoC::Container::Container::GetInstanceContainer()->make<Services::ImGUIServiceInitializer>();
-		m_io = imgui_service_init->GetIO();
-
-		imgui_service_init.reset();
+		if (imgui_service_init)
+		{
+			m_io = imgui_service_init->GetIO();
+			imgui_service_init.reset();
+		}
 	}
 
 	void GUIEngine::InitFrame()
@@ -35,7 +37,10 @@ namespace Engines
 	{
 		for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 		{
-			view_models.get()->RenderViews(Constants::SIMPLECPT);
+			if (view_models)
+			{
+				view_models->RenderViews(Constants::SIMPLECPT);
+			}
 		}
 	}
 
@@ -45,7 +50,10 @@ namespace Engines
 		{
 			for (auto view_models : Builders::ViewModelBuilder::m_view_models)
 			{
-				view_models.get()->RenderViews(Constants::MENUSCPT);
+				if (view_models)
+				{
+					view_models->RenderViews(Constants::MENUSCPT);
+				}
 			}
 
 			ImGui::EndMainMenuBar();

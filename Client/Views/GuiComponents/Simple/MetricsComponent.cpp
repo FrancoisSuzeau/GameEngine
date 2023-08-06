@@ -13,8 +13,11 @@ namespace Views
 	}
 	void MetricsComponent::Render()
 	{
-		bool test = m_state_service->getShowMetrics();
-		if (test) { ImGui::ShowMetricsWindow(&test); }
-		m_state_service->setShowMetrics(test);
+		if (m_state_service)
+		{
+			bool test = m_state_service->getShowMetrics();
+			if (test) { ImGui::ShowMetricsWindow(&test); }
+			m_state_service->setShowMetrics(test);
+		}
 	}
 }

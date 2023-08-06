@@ -30,16 +30,22 @@ namespace Starting {
 		void AddView()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->AddView<T>();
-			ioc_module.reset();
+			if (ioc_module)
+			{
+				ioc_module->AddView<T>();
+				ioc_module.reset();
+			}
 		}
 
 		template<typename T>
 		void AddViewModel()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->AddViewModel<T>(m_view_model_builder.get());
-			ioc_module.reset();
+			if (ioc_module && m_view_model_builder)
+			{
+				ioc_module->AddViewModel<T>(m_view_model_builder.get());
+				ioc_module.reset();
+			}
 		}
 		
 
@@ -53,16 +59,22 @@ namespace Starting {
 		void SetServiceBuilder()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->LoadService<T>(m_service_builder.get());
-			ioc_module.reset();
+			if (ioc_module && m_service_builder)
+			{
+				ioc_module->LoadService<T>(m_service_builder.get());
+				ioc_module.reset();
+			}
 		}
 
 		template<typename T>
 		void SetEngineBuilder()
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-			ioc_module->LoadEngine<T>(m_engine_builder.get());
-			ioc_module.reset();
+			if (ioc_module && m_engine_builder)
+			{
+				ioc_module->LoadEngine<T>(m_engine_builder.get());
+				ioc_module.reset();
+			}
 		}
 
 		void EndAllBuilder();

@@ -22,27 +22,33 @@ namespace IoC {
 			auto type = std::type_index(typeid(T));
 
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-			container->registerType<T>([]() {
-				return new T();
-				});
+			if (builder && container)
+			{
+				container->registerType<T>([]() {
+					return new T();
+					});
 
-			auto service = container->make<T>();
+				auto service = container->make<T>();
 
-			builder->Build(type.name(), service);
-			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+				builder->Build(type.name(), service);
+				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			}
 		}
 		template<typename T>
 		void LoadEngine(Builders::IBuilder* builder)
 		{
 			auto type = std::type_index(typeid(T));
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-			container->registerType<T>([]() {
-				return new T();
-				});
-			auto engine = container->make<T>();
+			if (builder && container)
+			{
+				container->registerType<T>([]() {
+					return new T();
+					});
+				auto engine = container->make<T>();
 
-			builder->Build(engine);
-			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+				builder->Build(engine);
+				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			}
 		}
 
 		template<typename T>
@@ -50,10 +56,13 @@ namespace IoC {
 		{
 			auto type = std::type_index(typeid(T));
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-			container->registerType<T>([]() {
-				return new T();
-				});
-			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			if (container)
+			{
+				container->registerType<T>([]() {
+					return new T();
+					});
+				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			}
 		}
 
 		template<typename T>
@@ -61,12 +70,15 @@ namespace IoC {
 		{
 			auto type = std::type_index(typeid(T));
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-			container->registerType<T>([]() {
-				return new T();
-				});
-			auto view_model = container->make<T>();
-			builder->Build(view_model);
-			SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			if (builder && container)
+			{
+				container->registerType<T>([]() {
+					return new T();
+					});
+				auto view_model = container->make<T>();
+				builder->Build(view_model);
+				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
+			}
 		}
 
 		void StartBuilder(Builders::IBuilder* builder);

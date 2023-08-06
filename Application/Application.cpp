@@ -39,12 +39,20 @@ namespace Starting
     {
         this->StartAllBuilder();
         std::shared_ptr<Engines::MainEngine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
-        main_engine->MainLoop();
+        if (main_engine)
+        {
+            main_engine->MainLoop();
+        }
+        
     }
 
     void Application::Shutdown()
     {
-        main_engine.reset();
+
+        if (main_engine)
+        {
+            main_engine.reset();
+        }
         this->EndAllBuilder();
         SQ_APP_INFO("Squeamish shutdown");
         Logger::Log::Shutdown();
@@ -52,21 +60,33 @@ namespace Starting
 
     void Application::EndAllBuilder()
     {
-        m_service_builder->OnBuilderEnd();
-        m_engine_builder->OnBuilderEnd();
-        m_view_model_builder->OnBuilderEnd();
 
-        m_service_builder.reset();
-        m_engine_builder.reset();
-        m_view_model_builder.reset();
+        if (m_service_builder)
+        {
+            m_service_builder->OnBuilderEnd();
+            m_service_builder.reset();
+        }
+        if (m_engine_builder)
+        {
+            m_engine_builder->OnBuilderEnd();
+            m_engine_builder.reset();
+        }
+        if (m_view_model_builder)
+        {
+            m_view_model_builder->OnBuilderEnd();
+            m_view_model_builder.reset();
+        }
     }
 
     void Application::StartAllBuilder()
     {
         std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
-        ioc_module->StartBuilder(m_service_builder.get());
-        ioc_module->StartBuilder(m_engine_builder.get());
-        ioc_module->StartBuilder(m_view_model_builder.get());
-        ioc_module.reset();
+        if (ioc_module)
+        {
+            ioc_module->StartBuilder(m_service_builder.get());
+            ioc_module->StartBuilder(m_engine_builder.get());
+            ioc_module->StartBuilder(m_view_model_builder.get());
+            ioc_module.reset();
+        }
     }
 }

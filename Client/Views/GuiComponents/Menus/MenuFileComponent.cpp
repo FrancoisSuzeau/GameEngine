@@ -19,7 +19,7 @@ namespace Views
 			if (ImGui::MenuItem("Open", "Ctrl+O")) {}
 			if (ImGui::BeginMenu("Open Recent"))
 			{
-				if(ImGui::MenuItem("NewFile") && m_parent_view_model.get() != nullptr)
+				if(ImGui::MenuItem("NewFile") && m_parent_view_model)
 				{
 					m_parent_view_model->OnCommand(new Commands::LoadNewShaderCommand("sphere", Enums::NORMAL));
 				}
@@ -30,7 +30,7 @@ namespace Views
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Quit", "Alt+F4") && m_parent_view_model.get() != nullptr)
+			if (ImGui::MenuItem("Quit", "Alt+F4") && m_parent_view_model)
 			{
 				m_parent_view_model->OnCommand(new Commands::ExitCommand());
 			}
