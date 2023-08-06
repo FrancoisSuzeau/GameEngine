@@ -28,7 +28,10 @@ namespace Services
 		if (flux_in.is_open())
 		{
 			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
-			datas.reset();
+			if (datas)
+			{
+				datas.reset();
+			}
 			datas = std::make_unique<nlohmann::json>(json::parse(flux_in));
 			std::string test = GetStringNode(Constants::USERPREFNODE);
 		}
@@ -40,16 +43,19 @@ namespace Services
 
 	std::string JsonLoaderService::GetStringNode(std::string node_name)
 	{
-		std::string node = datas->value(node_name, Constants::NONE);
-		if (node != Constants::NONE)
+		if (datas)
 		{
-			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
-			return node;
-		}
-		else
-		{
-			SQ_EXTSERVICE_ERROR("Cannot found [{}] node", Constants::USERPREFNODE);
-			return Constants::NONE;
+			std::string node = datas->value(node_name, Constants::NONE);
+			if (node != Constants::NONE)
+			{
+				SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+				return node;
+			}
+			else
+			{
+				SQ_EXTSERVICE_ERROR("Cannot found [{}] node", Constants::USERPREFNODE);
+				return Constants::NONE;
+			}
 		}
 		
 	}

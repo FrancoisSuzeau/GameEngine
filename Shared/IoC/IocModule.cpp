@@ -16,7 +16,10 @@ namespace IoC
 
 	void IocModule::StartBuilder(Builders::IBuilder* builder)
 	{
-		builder->Produce();
+		if (builder)
+		{
+			builder->Produce();
+		}
 	}
 }
 
