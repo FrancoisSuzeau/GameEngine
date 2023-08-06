@@ -10,35 +10,57 @@ namespace ViewModels
 	void GuiViewModel::Construct()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		std::shared_ptr<Views::MetricsComponent> component_1 = container->make< Views::MetricsComponent>();
-		std::shared_ptr<Views::StackToolsComponent> component_2 = container->make< Views::StackToolsComponent>();
-		std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
-		std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->make< Views::AppStyleEditorComponent>();
-		std::shared_ptr<Views::MenuFileComponent> component_5 = container->make<Views::MenuFileComponent>();
-		std::shared_ptr<Views::MenuToolsComponent> component_6 = container->make< Views::MenuToolsComponent>();
-		std::shared_ptr<Views::MenuEditComponent> component_7 = container->make< Views::MenuEditComponent>();
+		if (container)
+		{
+			std::shared_ptr<Views::MetricsComponent> component_1 = container->make< Views::MetricsComponent>();
+			std::shared_ptr<Views::StackToolsComponent> component_2 = container->make< Views::StackToolsComponent>();
+			std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
+			std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->make< Views::AppStyleEditorComponent>();
+			std::shared_ptr<Views::MenuFileComponent> component_5 = container->make<Views::MenuFileComponent>();
+			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->make< Views::MenuToolsComponent>();
+			std::shared_ptr<Views::MenuEditComponent> component_7 = container->make< Views::MenuEditComponent>();
 
-		component_1->SetParent(this);
-		component_2->SetParent(this);
-		component_3->SetParent(this);
-		component_4->SetParent(this);
-		component_5->SetParent(this);
-		component_6->SetParent(this);
-		component_7->SetParent(this);
+			std::list<std::shared_ptr<Views::IView>> simple_views;
+			if (component_1)
+			{
+				component_1->SetParent(this);
+				simple_views.push_back(component_1);
+			}
+			if (component_2)
+			{
+				component_2->SetParent(this);
+				simple_views.push_back(component_2);
+			}
+			if (component_3)
+			{
+				component_3->SetParent(this);
+				simple_views.push_back(component_3);
+			}
+			if (component_4)
+			{
+				component_4->SetParent(this);
+				simple_views.push_back(component_4);
+			}
+			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 
-		std::list<std::shared_ptr<Views::IView>> simple_views;
-		simple_views.push_back(component_1);
-		simple_views.push_back(component_2);
-		simple_views.push_back(component_3);
-		simple_views.push_back(component_4);
-		m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
-		std::list<std::shared_ptr<Views::IView>> menu_views;
-		menu_views.push_back(component_5);
-		menu_views.push_back(component_6);
-		menu_views.push_back(component_7);
-		m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
-
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+			std::list<std::shared_ptr<Views::IView>> menu_views;
+			if (component_5)
+			{
+				component_5->SetParent(this);
+				menu_views.push_back(component_5);
+			}
+			if (component_6)
+			{
+				component_6->SetParent(this);
+				menu_views.push_back(component_6);
+			}
+			if (component_7)
+			{
+				component_7->SetParent(this);
+				menu_views.push_back(component_7);
+			}
+			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
+		}
 	}
 
 	void GuiViewModel::DeConstruct()
@@ -50,14 +72,23 @@ namespace ViewModels
 		for (std::list<std::shared_ptr<Views::IView>>::iterator it = m_views_map.at(type_view).begin(); 
 			it != m_views_map.at(type_view).end(); it++)
 		{
-			it->get()->Render();
+			if (it->get())
+			{
+				it->get()->Render();
+			}
 		}
 	}
 	void GuiViewModel::OnCommand(Commands::ICommand* command)
 	{
-		m_command = std::unique_ptr<Commands::ICommand>(command);
-		m_command->Execute();
-		m_command.reset();
+		if (command)
+		{
+			m_command = std::unique_ptr<Commands::ICommand>(command);
+			if (m_command)
+			{
+				m_command->Execute();
+				m_command.reset();
+			}
+		}
 	}
 }
 

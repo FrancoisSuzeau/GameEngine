@@ -13,13 +13,16 @@ namespace Views
 	}
 	void AppStyleEditorComponent::Render()
 	{
-		bool test = m_state_service->getShowStyleEditor();
-		if (test)
+		if (m_state_service)
 		{
-			ImGui::Begin("Dear ImGui Style Editor", &test);
-			ImGui::ShowStyleEditor();
-			ImGui::End();
+			bool test = m_state_service->getShowStyleEditor();
+			if (test)
+			{
+				ImGui::Begin("Dear ImGui Style Editor", &test);
+				ImGui::ShowStyleEditor();
+				ImGui::End();
+			}
+			m_state_service->setShowStyleEditor(test);
 		}
-		m_state_service->setShowStyleEditor(test);
 	}
 }

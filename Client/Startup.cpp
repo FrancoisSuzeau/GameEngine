@@ -14,15 +14,18 @@ namespace Starting
 
     void Startup::ConfigureClientGUI(std::shared_ptr<Application> app)
     {
-        app->AddView<Views::MetricsComponent>();
-        app->AddView<Views::StackToolsComponent>();
-        app->AddView<Views::AppAboutComponent>();
-        app->AddView<Views::AppStyleEditorComponent>();
-        app->AddView<Views::MenuToolsComponent>();
-        app->AddView<Views::MenuEditComponent>();
-        app->AddView<Views::MenuFileComponent>();
+        if (app)
+        {
+            app->AddView<Views::MetricsComponent>();
+            app->AddView<Views::StackToolsComponent>();
+            app->AddView<Views::AppAboutComponent>();
+            app->AddView<Views::AppStyleEditorComponent>();
+            app->AddView<Views::MenuToolsComponent>();
+            app->AddView<Views::MenuEditComponent>();
+            app->AddView<Views::MenuFileComponent>();
 
-        app->AddViewModel<ViewModels::GuiViewModel>();
+            app->AddViewModel<ViewModels::GuiViewModel>();
+        }
     }
 }
 

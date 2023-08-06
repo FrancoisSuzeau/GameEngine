@@ -12,14 +12,17 @@ int main(int argc, char** argv)
 {
     std::shared_ptr<Application> app = std::make_shared<Application>();
     
-    app->Initialize();
+    if (app)
+    {
+        app->Initialize();
 
-    Startup::ConfigureClientViews(app);
+        Startup::ConfigureClientViews(app);
 
-    app->Run();
+        app->Run();
 
-    app->Shutdown();
-    app.reset();
+        app->Shutdown();
+        app.reset();
+    }
 
     return EXIT_SUCCESS;
 }

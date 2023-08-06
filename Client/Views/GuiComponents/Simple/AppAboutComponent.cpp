@@ -13,8 +13,11 @@ namespace Views
 	}
 	void AppAboutComponent::Render()
 	{
-		bool test = m_state_service->getShowInfos();
-		if (test) { ImGui::ShowAboutWindow(&test); }
-		m_state_service->setShowInfos(test);
+		if (m_state_service)
+		{
+			bool test = m_state_service->getShowInfos();
+			if (test) { ImGui::ShowAboutWindow(&test); }
+			m_state_service->setShowInfos(test);
+		}
 	}
 }
