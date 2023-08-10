@@ -23,7 +23,7 @@ namespace Engines
         }
     }
 
-    void MainEngine::MainLoop()
+    void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
     {
         SDL_Event event;
 
@@ -43,8 +43,8 @@ namespace Engines
                     glEnable(GL_BLEND);
                     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-                    m_gui_engine->RenderMainMenuBar();
-                    m_gui_engine->RenderGuiComponents();
+                    m_gui_engine->RenderMainMenuBar(view_model_builder);
+                    m_gui_engine->RenderGuiComponents(view_model_builder);
                     //ImGui::ShowDemoWindow();
 
                     this->EndFrame();

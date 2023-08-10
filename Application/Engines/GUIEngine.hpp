@@ -41,12 +41,13 @@ namespace Engines {
 		void InitFrame() override; 
 		void EndFrame() override;
 
-		void RenderGuiComponents();
-		void RenderMainMenuBar();
+		void RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
+		void RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		
 
 	private:
 		ImGuiIO m_io;
+		
 		
 	};
 }

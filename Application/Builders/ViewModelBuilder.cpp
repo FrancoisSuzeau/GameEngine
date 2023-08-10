@@ -3,7 +3,7 @@
 // Purpose : Implementing the engine builder
 /******************************************************************************************************************************************/
 #include "ViewModelBuilder.hpp"
-std::vector<std::shared_ptr<ViewModels::IViewModel>> Builders::ViewModelBuilder::m_view_models;
+
 namespace Builders
 {
 	ViewModelBuilder::~ViewModelBuilder()
@@ -12,11 +12,11 @@ namespace Builders
 
 	void ViewModelBuilder::Produce()
 	{
-		for (std::vector<std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
+		for (std::map<std::string, std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
 		{
-			if (it[0])
+			if (it->second)
 			{
-				it[0]->Construct();
+				it->second->Construct();
 			}
 		}
 	}
@@ -24,11 +24,11 @@ namespace Builders
 	void ViewModelBuilder::Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer)
 	{
 	}
-	void ViewModelBuilder::Build(std::shared_ptr<ViewModels::IViewModel> view_model)
+	void ViewModelBuilder::Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model)
 	{
-		if (view_model)
+		if (view_model && !m_view_models.contains(view_model_name))
 		{
-			m_view_models.push_back(view_model);
+			m_view_models.insert_or_assign(view_model_name, view_model);
 		}
 	}
 	void ViewModelBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
@@ -38,14 +38,23 @@ namespace Builders
 
 	void ViewModelBuilder::OnBuilderEnd()
 	{
-		for (std::vector<std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
+		for (std::map<std::string, std::shared_ptr<ViewModels::IViewModel>>::iterator it = m_view_models.begin(); it != m_view_models.end(); ++it)
 		{
-			if (it[0])
+			if (it->second)
 			{
-				it[0]->DeConstruct();
-				it->reset();
+				it->second->DeConstruct();
+				it->second.reset();
 			}
 		}
+	}
+	std::shared_ptr<ViewModels::IViewModel> ViewModelBuilder::GetViewModel(std::string const view_model_name)
+	{
+		if (m_view_models.contains(view_model_name))
+		{
+			return m_view_models.at(view_model_name);
+		}
+
+		return nullptr;
 	}
 }
 

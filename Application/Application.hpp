@@ -52,7 +52,7 @@ namespace Starting {
 	private:
 		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
 		std::unique_ptr<Builders::EngineBuilder> m_engine_builder;
-		std::unique_ptr<Builders::ViewModelBuilder> m_view_model_builder;
+		std::shared_ptr<Builders::ViewModelBuilder> m_view_model_builder;
 		std::shared_ptr<Engines::MainEngine> main_engine;
 
 		template<typename T>

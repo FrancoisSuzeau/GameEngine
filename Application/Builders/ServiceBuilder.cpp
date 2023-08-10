@@ -36,7 +36,7 @@ void ServiceBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
 	
 }
 
-void ServiceBuilder::Build(std::shared_ptr<ViewModels::IViewModel> view_model)
+void ServiceBuilder::Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model)
 {
 
 }

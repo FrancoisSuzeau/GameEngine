@@ -14,6 +14,7 @@
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
 #include "../Services/Services.hpp"
+#include "../Builders/ViewModelBuilder.hpp"
 
 #include "Constants/StringConstants.hpp"
 
@@ -25,7 +26,7 @@ namespace Engines {
 
 		~MainEngine();
 		void Construct() override;
-		void MainLoop();
+		void MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 
 	private:
 		SDL_Window* m_window;

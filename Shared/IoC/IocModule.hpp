@@ -76,7 +76,7 @@ namespace IoC {
 					return new T();
 					});
 				auto view_model = container->make<T>();
-				builder->Build(view_model);
+				builder->Build(Constants::GUIVIEWMODEL, view_model);
 				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
 			}
 		}

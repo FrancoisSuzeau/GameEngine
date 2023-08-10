@@ -12,7 +12,7 @@ namespace Starting
         SQ_APP_INFO("Squeamish v{}.{}", 0, 1);
         m_service_builder = std::make_unique<Builders::ServiceBuilder>();
         m_engine_builder = std::make_unique<Builders::EngineBuilder>();
-        m_view_model_builder = std::make_unique<Builders::ViewModelBuilder>();
+        m_view_model_builder = std::make_shared<Builders::ViewModelBuilder>();
         this->SetAllService();
         this->SetAllEngine();
     }
@@ -38,10 +38,10 @@ namespace Starting
     void Application::Run()
     {
         this->StartAllBuilder();
-        std::shared_ptr<Engines::MainEngine> main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
+        main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
         if (main_engine)
         {
-            main_engine->MainLoop();
+            main_engine->MainLoop(m_view_model_builder);
         }
         
     }

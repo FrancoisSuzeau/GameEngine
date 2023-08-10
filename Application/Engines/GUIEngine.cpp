@@ -33,26 +33,31 @@ namespace Engines
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void GUIEngine::RenderGuiComponents()
+	void GUIEngine::RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		for (auto view_models : Builders::ViewModelBuilder::m_view_models)
+		if (view_model_builder)
 		{
-			if (view_models)
+			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::GUIVIEWMODEL);
+
+			if (view_model)
 			{
-				view_models->RenderViews(Constants::SIMPLECPT);
+				view_model->RenderViews(Constants::SIMPLECPT);
 			}
 		}
+
 	}
 
-	void GUIEngine::RenderMainMenuBar()
+	void GUIEngine::RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		if (ImGui::BeginMainMenuBar())
 		{
-			for (auto view_models : Builders::ViewModelBuilder::m_view_models)
+			if (view_model_builder)
 			{
-				if (view_models)
+				std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::GUIVIEWMODEL);
+
+				if (view_model)
 				{
-					view_models->RenderViews(Constants::MENUSCPT);
+					view_model->RenderViews(Constants::MENUSCPT);
 				}
 			}
 

@@ -46,17 +46,19 @@ namespace Services
 		if (datas)
 		{
 			std::string node = datas->value(node_name, Constants::NONE);
-			if (node != Constants::NONE)
-			{
-				SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
-				return node;
-			}
-			else
+			if (node == Constants::NONE)
 			{
 				SQ_EXTSERVICE_ERROR("Cannot found [{}] node", Constants::USERPREFNODE);
 				return Constants::NONE;
+				
 			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			return node;
 		}
+
+		SQ_EXTSERVICE_ERROR("No json was serialized - Cannot read node");
+		return Constants::NONE;;
 		
 	}
 
