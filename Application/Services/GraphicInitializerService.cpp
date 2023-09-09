@@ -103,7 +103,7 @@ namespace Services
 
 	void GraphicInitializerService::SetSDLWindow()
 	{
-		m_window = SDL_CreateWindow("GameEngineStarter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+		m_window = SDL_CreateWindow("Squeamish", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 		if (m_window == nullptr)
 		{
 			SQ_APP_ERROR("Cannot create SDL Window - SDL Error : {}", SDL_GetError());

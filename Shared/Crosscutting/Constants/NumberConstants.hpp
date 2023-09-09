@@ -10,7 +10,7 @@
 namespace Constants {
 
 	int const Major_version = 4;
-	int const Minor_version = 0;
+	int const Minor_version = 6;
 }
 
 #endif
