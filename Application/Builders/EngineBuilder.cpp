@@ -21,13 +21,6 @@ void EngineBuilder::Produce()
 	}
 }
 
-void EngineBuilder::Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer)
-{
-}
-void EngineBuilder::Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model)
-{
-
-}
 void EngineBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
 {
 	if (engine)

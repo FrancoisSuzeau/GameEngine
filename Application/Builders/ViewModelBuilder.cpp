@@ -20,20 +20,13 @@ namespace Builders
 			}
 		}
 	}
-
-	void ViewModelBuilder::Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer)
-	{
-	}
+	
 	void ViewModelBuilder::Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model)
 	{
 		if (view_model && !m_view_models.contains(view_model_name))
 		{
 			m_view_models.insert_or_assign(view_model_name, view_model);
 		}
-	}
-	void ViewModelBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
-	{
-
 	}
 
 	void ViewModelBuilder::OnBuilderEnd()

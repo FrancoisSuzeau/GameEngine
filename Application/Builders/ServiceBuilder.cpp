@@ -31,16 +31,6 @@ void ServiceBuilder::Build(std::string service_name, std::shared_ptr<Services::I
 	}
 }
 
-void ServiceBuilder::Build(std::shared_ptr<Engines::IEngine> engine)
-{
-	
-}
-
-void ServiceBuilder::Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model)
-{
-
-}
-
 void ServiceBuilder::OnBuilderEnd()
 {
 	for (std::map<std::string, std::shared_ptr<Services::IService>>::reverse_iterator it = m_services_initializer.rbegin();
