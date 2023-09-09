@@ -13,21 +13,26 @@ namespace Engines
     void MainEngine::Construct()
     {
         IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-        std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
-        m_state_service = container->make<Services::StateService>();
-        m_gui_engine = container->make<GUIEngine>();
-        
-        if (graph_service_init)
+        if (container)
         {
-            m_window = graph_service_init->GetSDLWindow();
+            std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+            if (graph_service_init)
+            {
+                m_window = graph_service_init->GetSDLWindow();
+            }
+            m_state_service = container->make<Services::StateService>();
+            m_gui_engine = container->make<GUIEngine>();
+            m_scene_engine = container->make<SceneEngine>();
         }
+        
+        
     }
 
     void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
     {
         SDL_Event event;
 
-        if (m_state_service && m_gui_engine)
+        if (m_state_service && m_gui_engine && m_scene_engine)
         {
             while (!m_state_service->getExit())
             {
@@ -45,6 +50,7 @@ namespace Engines
 
                     m_gui_engine->RenderMainMenuBar(view_model_builder);
                     m_gui_engine->RenderGuiComponents(view_model_builder);
+                    m_scene_engine->RenderScene(view_model_builder);
                     //ImGui::ShowDemoWindow();
 
                     this->EndFrame();

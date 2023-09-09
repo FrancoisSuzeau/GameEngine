@@ -19,17 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
     <ClInclude Include="Interfaces\IEngine.hpp" />
+    <ClInclude Include="Interfaces\IRenderer.hpp" />
     <ClInclude Include="Interfaces\IView.hpp" />
     <ClInclude Include="Interfaces\IInstance.hpp" />
     <ClInclude Include="Interfaces\IService.hpp" />
     <ClInclude Include="Interfaces\IViewModel.hpp" />
     <ClInclude Include="Shaders\Shader.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\Shader.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

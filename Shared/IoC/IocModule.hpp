@@ -66,7 +66,7 @@ namespace IoC {
 		}
 
 		template<typename T>
-		void AddViewModel(Builders::IBuilder* builder)
+		void AddViewModel(Builders::IBuilder* builder, std::string const view_model_type)
 		{
 			auto type = std::type_index(typeid(T));
 			IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -76,7 +76,7 @@ namespace IoC {
 					return new T();
 					});
 				auto view_model = container->make<T>();
-				builder->Build(Constants::GUIVIEWMODEL, view_model);
+				builder->Build(view_model_type, view_model);
 				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
 			}
 		}

@@ -134,6 +134,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ViewModels\SceneViewModel.cpp" />
+    <ClCompile Include="Views\Scene\Canvas.cpp" />
     <ClCompile Include="Views\GuiComponents\Menus\MenuFileComponent.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Views\GuiComponents\Menus\MenuEditComponent.cpp" />
@@ -163,6 +165,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ViewModels\SceneViewModel.hpp" />
+    <ClInclude Include="Views\Scene\Canvas.hpp" />
     <ClInclude Include="Views\GuiComponents\Menus\MenuFileComponent.hpp" />
     <ClInclude Include="Startup.hpp" />
     <ClInclude Include="Views\GuiComponents\Menus\MenuEditComponent.hpp" />

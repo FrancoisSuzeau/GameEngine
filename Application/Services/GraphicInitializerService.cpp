@@ -33,6 +33,7 @@ namespace Services
 		glEnable(GL_DEPTH_TEST);
 	}
 
+
 	void GraphicInitializerService::DeInit()
 	{
 		DestroySDLGLContext();
