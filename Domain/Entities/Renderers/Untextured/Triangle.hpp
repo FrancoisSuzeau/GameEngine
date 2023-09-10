@@ -14,6 +14,18 @@ namespace Renderers {
 	public:
 		Triangle();
 		~Triangle();
+
+		void Construct() override;
+		void Clean() override;
+		void Render(GLuint const program_id) override;
+
+	private:
+		void Attach();
+		void Load();
+		void CleanVbo();
+		void CleanVao();
+
+		
 	};
 }
 

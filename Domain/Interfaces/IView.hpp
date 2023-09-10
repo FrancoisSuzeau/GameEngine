@@ -16,6 +16,7 @@ namespace Views {
 	public:
 		virtual ~IView() {}
 		virtual void Render() = 0;
+		virtual void Clean() {};
 		void SetParent(ViewModels::IViewModel* parent) 
 		{
 			m_parent_view_model = std::shared_ptr<ViewModels::IViewModel>(parent);

@@ -5,7 +5,14 @@
 #ifndef IRENDERER_H
 #define IRENDERER_H
 
-#include "glm/vec3.hpp"
+#include <GL/glew.h>
+#include <vector>
+#include "../Shaders/Shader.hpp"
+
+//usefull macro for VBO
+#ifndef BUFFER_OFFSET
+#define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
+#endif
 
 namespace Renderers {
 
@@ -13,9 +20,17 @@ namespace Renderers {
 	{
 	public:
 		virtual ~IRenderer() {}
+		virtual void Construct() = 0;
+		virtual void Clean() = 0;
+		virtual void Render(GLuint const program_id) = 0;
 
 	protected:
-		glm::vec3 m_position;
+		std::vector<GLfloat> m_vertices;
+		int m_bytes_vertices_size;
+		GLuint m_vbo;
+		GLuint m_vao;
+
+		
 	};
 }
 

@@ -37,6 +37,7 @@ namespace Constants {
 	std::string const CANVAS = "canvas";
 	std::string const GUIVIEWMODEL = "GUI";
 	std::string const SCENEVIEWMODEL = "SCENE";
+	std::string const TRIANGLE_SHADER = "triangle";
 }
 
 #endif

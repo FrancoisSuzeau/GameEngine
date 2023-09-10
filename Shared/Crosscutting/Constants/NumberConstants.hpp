@@ -11,6 +11,7 @@ namespace Constants {
 
 	int const Major_version = 4;
 	int const Minor_version = 6;
+	int const Return_error = -1;
 }
 
 #endif

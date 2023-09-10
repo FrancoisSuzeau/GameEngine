@@ -13,6 +13,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include "Constants/NumberConstants.hpp"
 
 namespace Services {
 
@@ -24,6 +25,7 @@ namespace Services {
 		void DeInit() override;
 		void LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 		void DeleteShader(std::string shader_name);
+		GLuint GetProgramId(std::string const shader_name);
 
 		void            setVec3(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add);
 		void            setMat4(std::string shader_name, std::string const location, glm::mat4 const& matrice_to_add);

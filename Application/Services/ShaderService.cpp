@@ -51,6 +51,16 @@ namespace Services
 			m_shader_map.erase(shader_name);
 		}
 	}
+
+	GLuint ShaderService::GetProgramId(std::string const shader_name)
+	{
+		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
+		{
+			return m_shader_map.at(shader_name)->getProgramId();
+		}
+
+		return Constants::Return_error;
+	}
 	 
 	void ShaderService::setVec3(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add)
 	{
