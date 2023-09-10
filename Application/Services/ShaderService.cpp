@@ -67,35 +67,45 @@ namespace Services
 
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
+			glUseProgram(m_shader_map.at(shader_name)->getProgramId());
 			m_shader_map.at(shader_name)->setVec3(location, vec_to_add);
+			glUseProgram(0);
 		}
 	}
 	void ShaderService::setMat4(std::string shader_name, std::string const location, glm::mat4 const& matrice_to_add)
 	{
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
+			glUseProgram(m_shader_map.at(shader_name)->getProgramId());
 			m_shader_map.at(shader_name)->setMat4(location, matrice_to_add);
+			glUseProgram(0);
 		}
 	}
 	void ShaderService::setTexture(std::string shader_name, std::string const location, int const count)
 	{
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
+			glUseProgram(m_shader_map.at(shader_name)->getProgramId());
 			m_shader_map.at(shader_name)->setTexture(location, count);
+			glUseProgram(0);
 		}
 	}
 	void ShaderService::setFloat(std::string shader_name, std::string const location, float const to_ad)
 	{
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
+			glUseProgram(m_shader_map.at(shader_name)->getProgramId());
 			m_shader_map.at(shader_name)->setFloat(location, to_ad);
+			glUseProgram(0);
 		}
 	}
 	void ShaderService::setInt(std::string shader_name, std::string const location, int const to_ad)
 	{
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
+			glUseProgram(m_shader_map.at(shader_name)->getProgramId());
 			m_shader_map.at(shader_name)->setInt(location, to_ad);
+			glUseProgram(0);
 		}
 	}
 }

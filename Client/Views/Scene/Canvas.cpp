@@ -27,6 +27,7 @@ namespace Views
 		if (m_triangle)
 		{
 			m_triangle->Clean();
+			m_triangle.reset();
 		}
 
 		if (m_shader_service)
@@ -41,6 +42,7 @@ namespace Views
 		if (m_shader_service)
 		{
 			GLuint program_id = m_shader_service->GetProgramId(Constants::TRIANGLE_SHADER);
+			m_shader_service->setVec3(Constants::TRIANGLE_SHADER, "background_color", glm::vec3(0.f, 1.f, 0.f));
 			if (program_id != Constants::Return_error && m_triangle)
 			{
 				m_triangle->Render(program_id);

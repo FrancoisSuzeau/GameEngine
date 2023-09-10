@@ -26,6 +26,13 @@ namespace ViewModels
 
 	void SceneViewModel::DeConstruct()
 	{
+		for (std::map<std::string, std::shared_ptr<Views::IView>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
+		{
+			if (it->second)
+			{
+				it->second->Clean();
+			}
+		}
 		m_views_map.clear();
 	}
 	void SceneViewModel::RenderViews(std::string const type_view)
