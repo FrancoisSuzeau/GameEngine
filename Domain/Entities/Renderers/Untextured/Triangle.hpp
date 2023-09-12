@@ -17,7 +17,6 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
-		void Render(GLuint const program_id) override;
 
 	private:
 		void Attach();

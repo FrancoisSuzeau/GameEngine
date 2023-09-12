@@ -20,8 +20,13 @@ namespace ViewModels
 				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
 			}
 			
-		}
-		
+			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
+			if (triangle)
+			{
+				triangle->Construct();
+				m_renderers.push_back(triangle);
+			}
+		}	
 	}
 
 	void SceneViewModel::DeConstruct()
@@ -31,15 +36,27 @@ namespace ViewModels
 			if (it->second)
 			{
 				it->second->Clean();
+				it->second.reset();
 			}
 		}
 		m_views_map.clear();
+
+		for (std::vector<std::shared_ptr<Renderers::Triangle>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it[0].reset();
+			}
+		}
+
+		m_renderers.clear();
 	}
 	void SceneViewModel::RenderViews(std::string const type_view)
 	{
 		if (m_views_map.at(type_view))
 		{
-			m_views_map.at(type_view)->Render();
+			m_views_map.at(type_view)->Render(m_renderers);
 		}
 	}
 	void SceneViewModel::OnCommand(Commands::ICommand* command)

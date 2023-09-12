@@ -32,18 +32,6 @@ namespace Renderers {
 		m_vertices.clear();
 	}
 
-	void Triangle::Render(GLuint const program_id)
-	{
-		glUseProgram(program_id);
-		glBindVertexArray(m_vao);
-		if (glIsVertexArray(m_vao) == GL_TRUE)
-		{
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-			glBindVertexArray(0);
-		}
-		glUseProgram(0);
-	}
-
 	void Triangle::Attach()
 	{
 		/************************************************* VBO management ********************************************************/

@@ -26,6 +26,7 @@ namespace ViewModels
 
 	private:
 		std::map<std::string, std::shared_ptr<Views::IView>> m_views_map;
+		std::vector < std::shared_ptr<Renderers::Triangle> > m_renderers;
 	};
 }
 

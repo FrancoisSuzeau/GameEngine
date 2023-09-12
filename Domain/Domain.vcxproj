@@ -22,6 +22,7 @@
     <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
+    <ClInclude Include="Interfaces\IComponent.hpp" />
     <ClInclude Include="Interfaces\IEngine.hpp" />
     <ClInclude Include="Interfaces\IRenderer.hpp" />
     <ClInclude Include="Interfaces\IView.hpp" />
@@ -121,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared/Crosscutting;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

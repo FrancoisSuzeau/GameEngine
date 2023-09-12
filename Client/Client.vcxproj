@@ -106,6 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Domain\Shaders;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Interfaces;$(SolutionDir)ExternalServices;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Application;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\Scene\ComponentBase.cpp" />
     <ClCompile Include="ViewModels\SceneViewModel.cpp" />
     <ClCompile Include="Views\Scene\Canvas.cpp" />
     <ClCompile Include="Views\GuiComponents\Menus\MenuFileComponent.cpp" />
@@ -165,6 +167,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\Scene\ComponentBase.hpp" />
     <ClInclude Include="ViewModels\SceneViewModel.hpp" />
     <ClInclude Include="Views\Scene\Canvas.hpp" />
     <ClInclude Include="Views\GuiComponents\Menus\MenuFileComponent.hpp" />

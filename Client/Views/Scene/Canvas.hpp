@@ -6,10 +6,8 @@
 #define CANVAS_H
 
 #include "IView.hpp"
-#include "Services/ShaderService.hpp"
-#include "Container/Container.hpp"
-#include "Constants/NumberConstants.hpp"
-#include "Renderers/Renderers.hpp"
+#include "ComponentBase.hpp"
+#include <map>
 
 namespace Views
 {
@@ -18,10 +16,9 @@ namespace Views
 	public:
 		Canvas();
 		void Clean() override;
-		void Render() override;
+		void Render(std::vector<std::shared_ptr<Renderers::Triangle>>) override;
 	private:
-		std::shared_ptr<Services::ShaderService> m_shader_service;
-		std::unique_ptr<Renderers::Triangle> m_triangle;
+		std::map<std::string, std::unique_ptr<Component::ComponentBase>> m_components_map;
 	};
 }
 

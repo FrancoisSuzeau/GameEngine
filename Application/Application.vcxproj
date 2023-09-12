@@ -161,7 +161,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Shaders;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Shaders;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

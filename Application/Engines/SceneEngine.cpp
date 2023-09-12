@@ -8,6 +8,7 @@ namespace Engines
 {
 	void SceneEngine::Construct()
 	{
+		
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)

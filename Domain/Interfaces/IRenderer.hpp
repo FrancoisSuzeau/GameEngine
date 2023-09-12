@@ -22,14 +22,18 @@ namespace Renderers {
 		virtual ~IRenderer() {}
 		virtual void Construct() = 0;
 		virtual void Clean() = 0;
-		virtual void Render(GLuint const program_id) = 0;
+		GLuint GetVAO()
+		{
+			return m_vao;
+		}
 
 	protected:
 		std::vector<GLfloat> m_vertices;
 		int m_bytes_vertices_size;
-
 		GLuint m_vbo;
 		GLuint m_vao;
+
+		
 
 		
 	};
