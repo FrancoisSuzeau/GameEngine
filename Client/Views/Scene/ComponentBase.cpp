@@ -23,7 +23,7 @@ namespace Component
 
 	void ComponentBase::Clean()
 	{
-		
+
 
 		if (m_shader_service)
 		{
@@ -36,17 +36,17 @@ namespace Component
 	{
 		if (m_shader_service && renderer)
 		{
-			GLuint program_id = m_shader_service->GetProgramId(Constants::TRIANGLE_SHADER);
-			m_shader_service->setVec3(Constants::TRIANGLE_SHADER, "background_color", m_background_color);
-			m_shader_service->setMat4(Constants::TRIANGLE_SHADER, "model", m_model_mat);
-			glUseProgram(program_id);
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
+				GLuint program_id = m_shader_service->GetProgramId(Constants::TRIANGLE_SHADER);
+				glUseProgram(program_id);
+				m_shader_service->setVec3(Constants::TRIANGLE_SHADER, "background_color", m_background_color);
+				m_shader_service->setMat4(Constants::TRIANGLE_SHADER, "model", m_model_mat);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glUseProgram(0);
 				glBindVertexArray(0);
 			}
-			glUseProgram(0);
 		}
 	}
 	void ComponentBase::Transform()
