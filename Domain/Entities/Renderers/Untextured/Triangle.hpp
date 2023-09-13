@@ -16,14 +16,12 @@ namespace Renderers {
 		~Triangle();
 
 		void Construct() override;
-		void Clean() override;
+		void Clean();
+		
 
 	private:
 		void Attach();
 		void Load();
-		void CleanVbo();
-		void CleanVao();
-
 		
 	};
 }

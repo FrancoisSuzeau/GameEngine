@@ -26,16 +26,12 @@ namespace Renderers {
 
 	void Triangle::Clean()
 	{
-		this->CleanVbo();
-		this->CleanVao();
-
-		m_vertices.clear();
+		base::Clean();
 	}
 
 	void Triangle::Attach()
 	{
 		/************************************************* VBO management ********************************************************/
-		this->CleanVbo();
 		glGenBuffers(1, &m_vbo);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -48,7 +44,6 @@ namespace Renderers {
 		}
 
 		/************************************************* VAO management ********************************************************/
-		this->CleanVao();
 		glGenVertexArrays(1, &m_vao);
 
 		glBindVertexArray(m_vao);
@@ -81,22 +76,5 @@ namespace Renderers {
 		m_vertices.push_back(0.5f);
 		m_vertices.push_back(0.f);
 	}
-
-	void Triangle::CleanVbo()
-	{
-		if (m_vbo != 0)
-		{
-			glDeleteBuffers(1, &m_vbo);
-			m_vbo = 0;
-		}
-	}
-	void Triangle::CleanVao()
-	{
-		if (m_vao != 0)
-		{
-			glDeleteVertexArrays(1, &m_vao);
-			m_vao = 0;
-
-		}
-	}
+	
 }

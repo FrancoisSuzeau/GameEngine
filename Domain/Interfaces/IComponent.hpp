@@ -18,7 +18,7 @@ namespace Component {
 	public:
 		virtual ~IComponent() {}
 		virtual void Clean() = 0;
-		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer) = 0;
+		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer) {};
 		virtual void Transform() = 0;
 		
 
