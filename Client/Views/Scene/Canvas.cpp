@@ -24,13 +24,26 @@ namespace Views
 		}
 	}
 
-	void Canvas::Render(std::vector<std::shared_ptr<Renderers::Triangle>> renderer)
+	void Canvas::Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
 	{
-		for (std::vector<std::shared_ptr<Renderers::Triangle>>::iterator it = renderer.begin(); it != renderer.end(); it++)
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
 			if (m_components_map.contains(Constants::COMPONENT_BASE) && m_components_map.at(Constants::COMPONENT_BASE))
 			{
-				m_components_map.at(Constants::COMPONENT_BASE)->Render(it[0]);
+				switch (it[0]->GetType())
+				{
+				case Enums::RendererType::TRIANGLE:
+				{
+					std::shared_ptr<Renderers::Triangle> t = std::dynamic_pointer_cast<Renderers::Triangle> (it[0]);
+					m_components_map.at(Constants::COMPONENT_BASE)->Render(t);
+					t.reset();
+				}
+					break;
+				case Enums::RendererType::NONE:
+				default:
+					break;
+				}
+				
 			}
 		}
 	}

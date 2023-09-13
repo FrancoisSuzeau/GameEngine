@@ -12,6 +12,7 @@ namespace Renderers {
 		m_vao = 0;
 		m_vertices.reserve(9);
 		m_bytes_vertices_size = 9 * sizeof(GLfloat);
+		m_type = Enums::RendererType::TRIANGLE;
 	}
 
 	Triangle::~Triangle()

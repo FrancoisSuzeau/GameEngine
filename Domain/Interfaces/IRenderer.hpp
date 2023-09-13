@@ -14,20 +14,31 @@
 #define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
 #endif
 
+namespace Enums {
+	enum RendererType {NONE, TRIANGLE};
+}
+
 namespace Renderers {
+
+	
 
 	class IRenderer
 	{
 	public:
 		virtual ~IRenderer() {}
 		virtual void Construct() = 0;
-		void Clean()
+		virtual void Clean()
 		{
 			CleanVbo();
 			CleanVao(),
 			m_vertices.clear();
 		}
-		GLuint GetVAO()
+		virtual Enums::RendererType GetType()
+		{
+			return m_type;
+		}
+
+		virtual GLuint GetVAO()
 		{
 			return m_vao;
 		}
@@ -37,6 +48,8 @@ namespace Renderers {
 		int m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
+		Enums::RendererType m_type;
+
 	private:
 		void CleanVbo()
 		{

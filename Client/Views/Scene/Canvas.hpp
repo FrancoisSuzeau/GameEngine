@@ -8,6 +8,7 @@
 #include "IView.hpp"
 #include "ComponentBase.hpp"
 #include <map>
+#include <iostream>
 
 namespace Views
 {
@@ -16,7 +17,7 @@ namespace Views
 	public:
 		Canvas();
 		void Clean() override;
-		void Render(std::vector<std::shared_ptr<Renderers::Triangle>>) override;
+		void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
 		std::map<std::string, std::unique_ptr<Component::ComponentBase>> m_components_map;
 	};

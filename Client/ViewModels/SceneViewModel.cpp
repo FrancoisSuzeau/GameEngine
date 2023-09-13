@@ -41,7 +41,7 @@ namespace ViewModels
 		}
 		m_views_map.clear();
 
-		for (std::vector<std::shared_ptr<Renderers::Triangle>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it[0])
 			{

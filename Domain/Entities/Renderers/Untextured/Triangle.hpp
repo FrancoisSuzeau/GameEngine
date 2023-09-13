@@ -9,6 +9,8 @@
 
 namespace Renderers {
 
+	typedef IRenderer base;
+
 	class Triangle : public IRenderer
 	{
 	public:
@@ -22,6 +24,7 @@ namespace Renderers {
 	private:
 		void Attach();
 		void Load();
+		
 		
 	};
 }
