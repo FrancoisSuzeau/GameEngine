@@ -26,6 +26,13 @@ namespace ViewModels
 				triangle->Construct();
 				m_renderers.push_back(triangle);
 			}
+
+			std::shared_ptr<Renderers::Square> square = std::make_shared<Renderers::Square>();
+			if (square)
+			{
+				square->Construct();
+				m_renderers.push_back(square);
+			}
 		}	
 	}
 

@@ -15,7 +15,7 @@
 #endif
 
 namespace Enums {
-	enum RendererType {NONE, TRIANGLE};
+	enum RendererType {NONE, TRIANGLE, SQUARE};
 }
 
 namespace Renderers {
@@ -45,13 +45,14 @@ namespace Renderers {
 
 	protected:
 		std::vector<GLfloat> m_vertices;
-		int m_bytes_vertices_size;
+		unsigned int m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
+		GLuint  m_ebo;
 		Enums::RendererType m_type;
 
 	private:
-		void CleanVbo()
+		virtual void CleanVbo()
 		{
 			if (m_vbo != 0)
 			{
@@ -60,7 +61,7 @@ namespace Renderers {
 			}
 		}
 
-		void CleanVao()
+		 virtual void CleanVao()
 		{
 			if (m_vao != 0)
 			{

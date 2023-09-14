@@ -35,8 +35,15 @@ namespace Views
 				case Enums::RendererType::TRIANGLE:
 				{
 					std::shared_ptr<Renderers::Triangle> t = std::dynamic_pointer_cast<Renderers::Triangle> (it[0]);
-					m_components_map.at(Constants::COMPONENT_BASE)->Render(t);
+					//m_components_map.at(Constants::COMPONENT_BASE)->Render(t);
 					t.reset();
+				}
+					break;
+				case Enums::RendererType::SQUARE:
+				{
+					std::shared_ptr<Renderers::Square> s = std::dynamic_pointer_cast<Renderers::Square> (it[0]);
+					m_components_map.at(Constants::COMPONENT_BASE)->Render(s);
+					s.reset();
 				}
 					break;
 				case Enums::RendererType::NONE:

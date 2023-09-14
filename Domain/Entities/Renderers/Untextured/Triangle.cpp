@@ -32,6 +32,7 @@ namespace Renderers {
 
 	void Triangle::Attach()
 	{
+		base::Clean();
 		/************************************************* VBO management ********************************************************/
 		glGenBuffers(1, &m_vbo);
 

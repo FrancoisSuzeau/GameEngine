@@ -31,10 +31,12 @@
     <ClInclude Include="Interfaces\IViewModel.hpp" />
     <ClInclude Include="Shaders\Shader.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\Shader.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -6,6 +6,7 @@
 #define RENDERERS_H
 
 #include "Untextured/Triangle.hpp"
+#include "Untextured/Square.hpp"
 
 
 #endif

@@ -12,7 +12,7 @@ namespace Component
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
 		if (m_shader_service)
 		{
-			m_shader_service->LoadShader(Constants::TRIANGLE_SHADER, Enums::NORMAL);
+			m_shader_service->LoadShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
 		}
 
 		m_background_color = glm::vec3(0.f, 1.f, 0.f);
@@ -39,11 +39,28 @@ namespace Component
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
-				GLuint program_id = m_shader_service->GetProgramId(Constants::TRIANGLE_SHADER);
+				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				m_shader_service->setVec3(Constants::TRIANGLE_SHADER, "background_color", m_background_color);
-				m_shader_service->setMat4(Constants::TRIANGLE_SHADER, "model", m_model_mat);
+				m_shader_service->setVec3(Constants::UNTEXTURED_SHADER, "background_color", m_background_color);
+				m_shader_service->setMat4(Constants::UNTEXTURED_SHADER, "model", m_model_mat);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glUseProgram(0);
+				glBindVertexArray(0);
+			}
+		}
+	}
+	void ComponentBase::Render(std::shared_ptr<Renderers::Square> renderer)
+	{
+		if (m_shader_service && renderer)
+		{
+			glBindVertexArray(renderer->GetVAO());
+			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
+			{
+				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
+				glUseProgram(program_id);
+				m_shader_service->setVec3(Constants::UNTEXTURED_SHADER, "background_color", m_background_color);
+				m_shader_service->setMat4(Constants::UNTEXTURED_SHADER, "model", m_model_mat);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
