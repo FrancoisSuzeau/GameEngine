@@ -40,6 +40,7 @@ namespace Component
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
+				m_position = glm::vec3(-0.5f, 0.f, 0.f);
 				glUseProgram(program_id);
 				m_shader_service->setVec3(Constants::UNTEXTURED_SHADER, "background_color", m_background_color);
 				m_shader_service->setMat4(Constants::UNTEXTURED_SHADER, "model", m_model_mat);
@@ -58,7 +59,8 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				m_shader_service->setVec3(Constants::UNTEXTURED_SHADER, "background_color", m_background_color);
+				m_position = glm::vec3(0.5f, 0.f, 0.f);
+				m_shader_service->setVec3(Constants::UNTEXTURED_SHADER, "background_color", glm::vec3(1.f, 0.f, 0.f));
 				m_shader_service->setMat4(Constants::UNTEXTURED_SHADER, "model", m_model_mat);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 				glUseProgram(0);

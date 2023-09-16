@@ -38,7 +38,7 @@ namespace Engines
             {
 
                 this->FpsCalculation(Enums::BEGIN);
-
+                
                 while (SDL_PollEvent(&event))
                 {
                     this->InitFrame();
