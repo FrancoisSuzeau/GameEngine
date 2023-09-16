@@ -13,5 +13,6 @@
 #include "GuiComponents/Menus/MenuEditComponent.hpp"
 #include "GuiComponents/Menus/MenuFileComponent.hpp"
 #include "Scene/Canvas.hpp"
+#include "Transformer.hpp"
 
 #endif

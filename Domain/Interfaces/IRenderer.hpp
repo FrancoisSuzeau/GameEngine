@@ -33,14 +33,34 @@ namespace Renderers {
 			CleanVao(),
 			m_vertices.clear();
 		}
-		virtual Enums::RendererType GetType()
+		virtual Enums::RendererType GetType() const
 		{
 			return m_type;
 		}
 
-		virtual GLuint GetVAO()
+		virtual GLuint GetVAO() const
 		{
 			return m_vao;
+		}
+
+		virtual glm::mat4 GetModelMat() const
+		{
+			return m_model_mat;
+		}
+
+		virtual void SetModelMat(glm::mat4 model_mat)
+		{
+			m_model_mat = model_mat;
+		}
+
+		virtual void SetBackgroundColor(glm::vec3 new_bacground_color)
+		{
+			m_back_ground_color = new_bacground_color;
+		}
+
+		virtual glm::vec3 GetBackgroundColor() const
+		{
+			return m_back_ground_color;
 		}
 
 	protected:
@@ -51,7 +71,6 @@ namespace Renderers {
 		GLuint  m_ebo;
 		Enums::RendererType m_type;
 
-		glm::vec3 m_position;
 		glm::mat4 m_model_mat;
 		glm::vec3 m_back_ground_color;
 

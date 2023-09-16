@@ -1,31 +1,25 @@
 /******************************************************************************************************************************************/
-// File : ComponentBase.hpp
-// Purpose : The Component view implementing basis of element on canvas
+// File : Transformer.hpp
+// Purpose : The Transformer of all component
 /******************************************************************************************************************************************/
-#ifndef COMPONENTBASE_H
-#define COMPONENTBASE_H
+#ifndef TRANSFORMER_H
+#define TRANSFORMER_H
 
 #include "IComponent.hpp"
 #include "Services/ShaderService.hpp"
 #include "Container/Container.hpp"
 #include "Constants/NumberConstants.hpp"
 #include "Renderers/Renderers.hpp"
-#include "../Transformer.hpp"
-#include <GL/glew.h>
 
 namespace Component
 {
-	class ComponentBase : public IComponent
+	class Transformer
 	{
 	public:
-		ComponentBase();
-		void Clean() override;
-		void Render(std::shared_ptr<Renderers::Triangle> renderer) override;
-		void Render(std::shared_ptr<Renderers::Square> renderer) override;
-
-	private:
-		std::shared_ptr<Services::ShaderService> m_shader_service;
-		
+		static void PutIntoShader(std::shared_ptr<Renderers::IRenderer> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
+		static void Move(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_position);
+		static void Colorize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_color);
+	
 	};
 }
 

@@ -54,7 +54,7 @@
     <ClCompile Include="Views\Scene\ComponentBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\Modifier.cpp">
+    <ClCompile Include="Views\Transformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="Views\Scene\ComponentBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\Modifier.hpp">
+    <ClInclude Include="Views\Transformer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

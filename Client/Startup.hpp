@@ -16,7 +16,7 @@
 
 namespace Starting {
 	
-	static class Startup
+	class Startup
 	{
 	public:
 		static void ConfigureClientViews(std::shared_ptr<Application> app);
