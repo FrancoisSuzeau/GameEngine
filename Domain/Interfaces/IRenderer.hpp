@@ -51,6 +51,10 @@ namespace Renderers {
 		GLuint  m_ebo;
 		Enums::RendererType m_type;
 
+		glm::vec3 m_position;
+		glm::mat4 m_model_mat;
+		glm::vec3 m_back_ground_color;
+
 	private:
 		virtual void CleanVbo()
 		{

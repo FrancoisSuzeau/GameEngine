@@ -16,6 +16,10 @@ namespace Renderers {
 		m_type = Enums::RendererType::SQUARE;
 		m_indices.reserve(6);
 		m_bytes_indices_size = 6 * sizeof(unsigned int);
+
+		m_model_mat = glm::mat4(1.f);
+		m_back_ground_color = glm::vec3(1.f);
+		m_position = glm::vec3(0.f);
 	}
 
 	Square::~Square()

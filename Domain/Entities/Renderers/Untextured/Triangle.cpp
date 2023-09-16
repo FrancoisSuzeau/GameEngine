@@ -13,6 +13,10 @@ namespace Renderers {
 		m_vertices.reserve(9);
 		m_bytes_vertices_size = 9 * sizeof(GLfloat);
 		m_type = Enums::RendererType::TRIANGLE;
+
+		m_model_mat = glm::mat4(1.f);
+		m_back_ground_color = glm::vec3(1.f);
+		m_position = glm::vec3(0.f);
 	}
 
 	Triangle::~Triangle()

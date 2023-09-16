@@ -21,10 +21,9 @@ namespace Component
 		void Clean() override;
 		void Render(std::shared_ptr<Renderers::Triangle> renderer) override;
 		void Render(std::shared_ptr<Renderers::Square> renderer) override;
-		void Transform() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
-		glm::vec3 m_background_color;
+		
 	};
 }
 

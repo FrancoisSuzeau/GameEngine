@@ -20,12 +20,7 @@ namespace Component {
 		virtual void Clean() = 0;
 		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer) {};
 		virtual void Render(std::shared_ptr<Renderers::Square> renderer) {};
-		virtual void Transform() = 0;
 		
-
-	protected:
-		glm::vec3 m_position;
-		glm::mat4 m_model_mat;
 
 	};
 }

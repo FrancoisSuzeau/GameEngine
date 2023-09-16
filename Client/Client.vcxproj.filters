@@ -54,6 +54,9 @@
     <ClCompile Include="Views\Scene\ComponentBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\Modifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\Scene\ComponentBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Modifier.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
