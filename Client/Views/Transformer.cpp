@@ -20,7 +20,7 @@ namespace Component
 	{
 		if (renderer)
 		{
-			glm::mat4 model = glm::mat4(1.f);
+			glm::mat4 model = renderer->GetModelMat();
 			model = glm::translate(model, new_position);
 			renderer->SetModelMat(model);
 		}
@@ -31,6 +31,28 @@ namespace Component
 		if (renderer)
 		{
 			renderer->SetBackgroundColor(new_color);
+		}
+	}
+	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, float size)
+	{
+		if (renderer)
+		{
+			glm::mat4 model = renderer->GetModelMat();
+			model = glm::scale(model, glm::vec3(size));
+			renderer->SetModelMat(model);
+		}
+	}
+	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, float angle, glm::vec3 axis)
+	{
+		glm::mat4 model = renderer->GetModelMat();
+		model = glm::rotate(model, glm::radians(angle), axis);
+		renderer->SetModelMat(model);
+	}
+	void Transformer::ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer)
+	{
+		if (renderer)
+		{
+			renderer->SetModelMat(glm::mat4(1.f));
 		}
 	}
 }
