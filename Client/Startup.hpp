@@ -8,6 +8,7 @@
 #include "Application.hpp"
 #include "Views/Views.hpp"
 #include "ViewModels/GUIViewModel.hpp"
+#include "ViewModels/SceneViewModel.hpp"
 
 #include <iostream>
 #include <list>
@@ -15,12 +16,13 @@
 
 namespace Starting {
 	
-	static class Startup
+	class Startup
 	{
 	public:
 		static void ConfigureClientViews(std::shared_ptr<Application> app);
 	private:
 		static void ConfigureClientGUI(std::shared_ptr<Application> app);
+		static void ConfigureClientScene(std::shared_ptr<Application> app);
 	};
 }
 

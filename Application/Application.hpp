@@ -38,12 +38,12 @@ namespace Starting {
 		}
 
 		template<typename T>
-		void AddViewModel()
+		void AddViewModel(std::string const view_model_type)
 		{
 			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
 			if (ioc_module && m_view_model_builder)
 			{
-				ioc_module->AddViewModel<T>(m_view_model_builder.get());
+				ioc_module->AddViewModel<T>(m_view_model_builder.get(), view_model_type);
 				ioc_module.reset();
 			}
 		}
@@ -52,7 +52,7 @@ namespace Starting {
 	private:
 		std::unique_ptr<Builders::ServiceBuilder> m_service_builder;
 		std::unique_ptr<Builders::EngineBuilder> m_engine_builder;
-		std::unique_ptr<Builders::ViewModelBuilder> m_view_model_builder;
+		std::shared_ptr<Builders::ViewModelBuilder> m_view_model_builder;
 		std::shared_ptr<Engines::MainEngine> main_engine;
 
 		template<typename T>

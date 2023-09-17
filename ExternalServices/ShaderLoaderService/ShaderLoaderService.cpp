@@ -91,9 +91,7 @@ namespace Services
 		//======================================================================================================================================
 
 		/**************************************** lock entrees shader (vertices, colors, texture's coordonates *****************************/
-		glBindAttribLocation(program_id, 0, "in_Vertex");
-		glBindAttribLocation(program_id, 1, "in_Color");
-		glBindAttribLocation(program_id, 2, "in_TexCoord0");
+		glBindAttribLocation(program_id, 0, "obj_pos");
 		//======================================================================================================================================
 
 		/************************************************* linkage ********************************************************/

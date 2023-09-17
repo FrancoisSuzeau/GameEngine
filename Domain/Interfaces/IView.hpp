@@ -8,6 +8,8 @@
 #include <iostream>
 #include <functional>
 #include "IViewModel.hpp"
+#include <vector>
+#include "../Entities/Renderers/Renderers.hpp"
 
 namespace Views {
 
@@ -15,7 +17,9 @@ namespace Views {
 	{
 	public:
 		virtual ~IView() {}
-		virtual void Render() = 0;
+		virtual void Render() {};
+		virtual void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {};
+		virtual void Clean() {};
 		void SetParent(ViewModels::IViewModel* parent) 
 		{
 			m_parent_view_model = std::shared_ptr<ViewModels::IViewModel>(parent);

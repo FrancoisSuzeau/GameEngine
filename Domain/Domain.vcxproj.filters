@@ -39,9 +39,30 @@
     <ClInclude Include="Interfaces\IViewModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Renderers\Renderers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Renderers\Untextured\Square.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Untextured\Square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

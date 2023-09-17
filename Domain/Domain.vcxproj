@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,17 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
+    <ClInclude Include="Interfaces\IComponent.hpp" />
     <ClInclude Include="Interfaces\IEngine.hpp" />
+    <ClInclude Include="Interfaces\IRenderer.hpp" />
     <ClInclude Include="Interfaces\IView.hpp" />
     <ClInclude Include="Interfaces\IInstance.hpp" />
     <ClInclude Include="Interfaces\IService.hpp" />
     <ClInclude Include="Interfaces\IViewModel.hpp" />
     <ClInclude Include="Shaders\Shader.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\Shader.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -117,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared/Crosscutting;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

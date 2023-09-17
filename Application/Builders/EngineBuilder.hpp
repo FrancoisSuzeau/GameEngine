@@ -20,9 +20,7 @@ namespace Builders {
 	public:
 		~EngineBuilder() override;
 		void Produce() override;
-		void Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer) override;
 		void Build(std::shared_ptr<Engines::IEngine> engine) override;
-		void Build(std::shared_ptr<ViewModels::IViewModel> view_model) override;
 		void OnBuilderEnd() override;
 
 	private:

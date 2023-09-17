@@ -16,9 +16,9 @@ namespace Builders {
     public:
         virtual ~IBuilder() {}
         virtual void Produce() = 0;
-        virtual void Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer) = 0;
-        virtual void Build(std::shared_ptr<Engines::IEngine> engine) = 0;
-        virtual void Build(std::shared_ptr<ViewModels::IViewModel> view_model) = 0;
+        virtual void Build(std::string service_name, std::shared_ptr<Services::IService> service_initializer) {};
+        virtual void Build(std::shared_ptr<Engines::IEngine> engine) {};
+        virtual void Build(std::string view_model_name, std::shared_ptr<ViewModels::IViewModel> view_model) {};
         virtual void OnBuilderEnd() = 0;
     };
 }
