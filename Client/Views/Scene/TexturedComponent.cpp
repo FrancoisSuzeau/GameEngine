@@ -31,14 +31,18 @@ namespace Component {
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
-				GLuint program_id = m_shader_service->GetProgramId(Constants::SCREEN_SHADER);
-				glUseProgram(program_id);
+				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SCREEN_SHADER);
+
+				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, renderer->GetTextureId());
-				
-				glDrawArrays(GL_TRIANGLES, 0, 6);
-				
-				
+				if (glIsTexture(renderer->GetTextureId()) == GL_TRUE)
+				{
+					glDrawArrays(GL_TRIANGLES, 0, 6);
+
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}

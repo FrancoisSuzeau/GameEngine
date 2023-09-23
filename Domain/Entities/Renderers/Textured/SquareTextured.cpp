@@ -9,7 +9,6 @@ namespace Renderers {
 	{
 		m_vertices.reserve(24);
 		m_bytes_vertices_size = 24 * sizeof(GLfloat);
-		
 		m_texture_id = 0;
 	}
 	SquareTextured::~SquareTextured()
@@ -35,15 +34,38 @@ namespace Renderers {
 	}
 	void SquareTextured::Attach()
 	{
-		glGenVertexArrays(1, &m_vao);
 		glGenBuffers(1, &m_vbo);
-		glBindVertexArray(m_vao);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_vertices.data(), GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+		if (m_vbo != 0)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+			if (glIsBuffer(m_vbo) == GL_TRUE)
+			{
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+		}
+
+		glGenVertexArrays(1, &m_vao);
+		if (m_vao != 0)
+		{
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+				if (glIsBuffer(m_vbo) == GL_TRUE)
+				{
+					glEnableVertexAttribArray(0);
+					glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), BUFFER_OFFSET(0));
+					glEnableVertexAttribArray(1);
+					glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+				}
+
+				glBindVertexArray(0);
+			}
+
+		}
 	}
 	void SquareTextured::Load()
 	{

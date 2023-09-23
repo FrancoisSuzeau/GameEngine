@@ -28,7 +28,8 @@ namespace Renderers {
 		void Attach();
 		void Load();
 
-		
+		std::vector<GLfloat> m_texture_coord;
+		unsigned int m_bytes_textcoord_size;
 		typedef IRenderer base;
 		unsigned int m_texture_id;
 
