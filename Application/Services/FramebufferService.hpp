@@ -9,15 +9,6 @@
 #include "Logger.hpp"
 #include <GL/glew.h>
 #include <iostream>
-#include <map>
-#include <memory>
-#include "StateService.hpp"
-#include "ShaderService.hpp"
-
-//usefull macro for VBO
-#ifndef BUFFER_OFFSET
-#define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
-#endif
 
 namespace Services {
 
@@ -35,8 +26,6 @@ namespace Services {
 		void BindFramebuffer();
 		void UnbindFramebuffer();
 
-		void Render();
-
 	private:
 		unsigned int m_texture_fb;
 		unsigned int m_texture_id;
@@ -47,15 +36,7 @@ namespace Services {
 		void BuildTextureFB();
 		void BuildRenderFB();
 		void CheckFramebufferStatus();
-		std::shared_ptr<Services::StateService> m_state_service;
 
-		unsigned int quadVAO = 0;
-		unsigned int quadVBO = 0;
-
-		float quadVertices[24];
-		
-		void Load();
-		std::shared_ptr<Services::ShaderService> shader;
 	};
 }
 

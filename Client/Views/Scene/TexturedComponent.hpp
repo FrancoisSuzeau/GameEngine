@@ -20,7 +20,7 @@ namespace Component
 	public:
 		TexturedComponent();
 		void Clean() override;
-		void Render(std::shared_ptr<Renderers::SquareTextured> renderer, unsigned int t) override;
+		void Render(std::shared_ptr<Renderers::SquareTextured> renderer) override;
 
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

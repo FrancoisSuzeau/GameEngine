@@ -89,7 +89,7 @@ namespace ViewModels
 		if (m_framebuffer_component && m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
-			m_framebuffer_component->Render(m_framebuffer_renderer, fb_texture_id);
+			m_framebuffer_component->Render(m_framebuffer_renderer);
 		}
 	}
 	void SceneViewModel::OnCommand(Commands::ICommand* command)

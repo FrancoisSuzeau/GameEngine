@@ -24,18 +24,17 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr<Renderers::SquareTextured> renderer, unsigned int t)
+	void TexturedComponent::Render(std::shared_ptr<Renderers::SquareTextured> renderer)
 	{
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
-			glDisable(GL_DEPTH_TEST);
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::SCREEN_SHADER);
 				glUseProgram(program_id);
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SCREEN_SHADER);
-				glBindTexture(GL_TEXTURE_2D, t);
+				glBindTexture(GL_TEXTURE_2D, renderer->GetTextureId());
 				
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				

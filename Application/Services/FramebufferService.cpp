@@ -8,36 +8,10 @@ namespace Services
 {
 	void FramebufferService::Init()
 	{
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
-		{
-			m_state_service = container->make<Services::StateService>();
-		}
 		this->SetFrameBufferDim();
 		m_texture_fb = 0;
 		m_texture_id = 0;
 		m_render_fb = 0;
-
-		float vertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-			// positions   // texCoords
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			-1.0f, -1.0f,  0.0f, 0.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-			 1.0f,  1.0f,  1.0f, 1.0f
-		};
-
-		GLuint quadVBO = 0;
-		GLuint quadVAO = 0;
-
-		for (int i = 0; i < 24; i++)
-		{
-			quadVertices[i] = vertices[i];
-		}
-
-		
 		
 	}
 	void FramebufferService::DeInit()
@@ -57,10 +31,6 @@ namespace Services
 			glDeleteRenderbuffers(1, &m_render_fb);
 			m_render_fb = 0;
 		}
-		glDeleteVertexArrays(1, &quadVAO);
-		quadVAO = 0;
-		glDeleteBuffers(1, &quadVBO);
-		quadVBO = 0;
 		
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
@@ -71,7 +41,7 @@ namespace Services
 	}
 	void FramebufferService::BuildFrameBuffer()
 	{
-		this->Load();
+		//this->Load();
 		glGenFramebuffers(1, &m_texture_fb);
 		if (m_texture_fb != 0)
 		{
@@ -84,8 +54,6 @@ namespace Services
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 		}
-
-		shader = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
 	}
 
 	void FramebufferService::BindFramebuffer()
@@ -95,23 +63,8 @@ namespace Services
 
 	void FramebufferService::UnbindFramebuffer()
 	{
+		glDisable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	void FramebufferService::Render()
-	{
-		if (shader)
-		{
-			
-			GLuint p = shader->GetProgramId(Constants::SCREEN_SHADER);
-			glUseProgram(p);
-			shader->setTexture(Constants::SCREEN_SHADER, "texture0", 0);
-			glBindVertexArray(quadVAO);
-			glBindTexture(GL_TEXTURE_2D, m_texture_id);
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-			
-		}
-		
 	}
 	
 	void FramebufferService::SetFrameBufferDim()
@@ -173,17 +126,5 @@ namespace Services
 			SQ_APP_DEBUG("Framebuffer service initiated");
 		}
 		
-	}
-	void FramebufferService::Load()
-	{
-		glGenVertexArrays(1, &quadVAO);
-		glGenBuffers(1, &quadVBO);
-		glBindVertexArray(quadVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 	}
 }
