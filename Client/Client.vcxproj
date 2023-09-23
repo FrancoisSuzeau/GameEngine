@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\Scene\TexturedComponent.cpp" />
     <ClCompile Include="Views\Transformer.cpp" />
     <ClCompile Include="Views\Scene\ComponentBase.cpp" />
     <ClCompile Include="ViewModels\SceneViewModel.cpp" />
@@ -168,6 +169,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\Scene\TexturedComponent.hpp" />
     <ClInclude Include="Views\Transformer.hpp" />
     <ClInclude Include="Views\Scene\ComponentBase.hpp" />
     <ClInclude Include="ViewModels\SceneViewModel.hpp" />

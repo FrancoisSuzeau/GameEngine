@@ -13,6 +13,10 @@ namespace Component
 		{
 			shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
 			shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
+			if (shader_name == Constants::SCREEN_SHADER)
+			{
+				shader_service->setTexture(shader_name, "texture0", 0);
+			}
 		}
 	}
 

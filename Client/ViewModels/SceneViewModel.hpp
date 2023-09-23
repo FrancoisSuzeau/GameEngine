@@ -22,11 +22,14 @@ namespace ViewModels
 		void Construct() override;
 		void DeConstruct() override;
 		void RenderViews(std::string const type_view) override;
+		void RenderFrameBuffer(unsigned int fb_texture_id) override;
 		void OnCommand(Commands::ICommand* command) override;
 
 	private:
 		std::map<std::string, std::shared_ptr<Views::IView>> m_views_map;
 		std::vector < std::shared_ptr<Renderers::IRenderer> > m_renderers;
+		std::unique_ptr<Component::TexturedComponent> m_framebuffer_component;
+		std::shared_ptr<Renderers::SquareTextured> m_framebuffer_renderer;
 	};
 }
 

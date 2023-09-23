@@ -26,6 +26,7 @@ namespace Starting
         this->SetServiceBuilder<Services::JsonLoaderService>();
         this->SetServiceBuilder<Services::ShaderLoaderService>();
         this->SetServiceBuilder<Services::ShaderService>();
+        this->SetServiceBuilder<Services::FramebufferService>();
     }
 
     void Application::SetAllEngine()

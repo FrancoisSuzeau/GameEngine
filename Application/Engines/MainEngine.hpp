@@ -43,6 +43,7 @@ namespace Engines {
 		void FpsCalculation(Enums::EngineEnum ee);
 
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		
 	};
 }

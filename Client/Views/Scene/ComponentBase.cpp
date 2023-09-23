@@ -41,7 +41,7 @@ namespace Component
 				Transformer::ReinitModelMat(renderer);
 				this->IncrementAngle(0.1f);
 				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, 0.f));
-				Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
+				//Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
 				glUseProgram(0);

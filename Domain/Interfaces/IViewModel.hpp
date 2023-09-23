@@ -22,6 +22,7 @@ namespace ViewModels {
 		virtual void DeConstruct() = 0;
 
 		virtual void RenderViews(std::string const type_view) = 0;
+		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void OnCommand(Commands::ICommand *command) = 0;
 
 	protected:

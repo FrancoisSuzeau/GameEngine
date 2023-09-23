@@ -23,6 +23,11 @@ namespace Engines
             m_state_service = container->make<Services::StateService>();
             m_gui_engine = container->make<GUIEngine>();
             m_scene_engine = container->make<SceneEngine>();
+            m_framebuffer_service = container->make<Services::FramebufferService>();
+            if (m_framebuffer_service)
+            {
+                m_framebuffer_service->BuildFrameBuffer();
+            }
         }
         
         
@@ -32,23 +37,37 @@ namespace Engines
     {
         SDL_Event event;
 
-        if (m_state_service && m_gui_engine && m_scene_engine)
+        if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
         {
             while (!m_state_service->getExit())
             {
 
                 this->FpsCalculation(Enums::BEGIN);
-
-                this->InitFrame();
-                
                 while (SDL_PollEvent(&event))
                 {
                     // Keep this to let IMGUI capture event
                 }
+                this->InitFrame();
+               
+                m_framebuffer_service->BindFramebuffer();
+                glEnable(GL_DEPTH_TEST);
+                glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+                
+                m_scene_engine->RenderScene(view_model_builder);
+
+                m_framebuffer_service->UnbindFramebuffer();
+                glDisable(GL_DEPTH_TEST);
+                //glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
+                //glClear(GL_COLOR_BUFFER_BIT);
+
+                m_framebuffer_service->Render();
+                //m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
 
                 m_gui_engine->RenderMainMenuBar(view_model_builder);
                 m_gui_engine->RenderGuiComponents(view_model_builder);
-                m_scene_engine->RenderScene(view_model_builder);
+                
                 //ImGui::ShowDemoWindow();
 
                 this->EndFrame();
@@ -60,10 +79,11 @@ namespace Engines
 
     void MainEngine::InitFrame()
     {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        ////glEnable(GL_BLEND);
+        //glEnable(GL_DEPTH_TEST);
+        ////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         if (m_gui_engine)
         {
