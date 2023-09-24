@@ -19,6 +19,13 @@ namespace ViewModels
 				component_1->SetParent(this);
 				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
 			}
+
+			std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(24);
+			if (grid)
+			{
+				grid->Construct();
+				m_renderers.push_back(grid);
+			}
 			
 			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
 			if (triangle)
@@ -33,6 +40,8 @@ namespace ViewModels
 				square->Construct();
 				m_renderers.push_back(square);
 			}
+
+			
 
 			m_framebuffer_component = std::make_unique<Component::TexturedComponent>();
 			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();

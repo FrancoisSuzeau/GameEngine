@@ -8,6 +8,7 @@
 #include "Untextured/Triangle.hpp"
 #include "Untextured/Square.hpp"
 #include "Textured/ScreenRenderer.hpp"
+#include "Untextured/Grid.hpp"
 
 
 #endif
