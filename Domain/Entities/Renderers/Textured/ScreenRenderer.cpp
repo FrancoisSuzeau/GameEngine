@@ -1,38 +1,38 @@
 /******************************************************************************************************************************************/
-// File : SquareTextured.cpp
-// Purpose : Implementing the SquareTextured renderer
+// File : ScreenRenderer.cpp
+// Purpose : Implementing the ScreenRenderer renderer
 /******************************************************************************************************************************************/
-#include "SquareTextured.hpp"
+#include "ScreenRenderer.hpp"
 
 namespace Renderers {
-	SquareTextured::SquareTextured() : base()
+	ScreenRenderer::ScreenRenderer() : base()
 	{
 		m_vertices.reserve(24);
 		m_bytes_vertices_size = 24 * sizeof(GLfloat);
 		m_texture_id = 0;
 	}
-	SquareTextured::~SquareTextured()
+	ScreenRenderer::~ScreenRenderer()
 	{
 	}
-	void SquareTextured::Construct()
+	void ScreenRenderer::Construct()
 	{
 		this->Load();
 		this->Attach();
 	}
-	void SquareTextured::Clean()
+	void ScreenRenderer::Clean()
 	{
 		base::Clean();
 		
 	}
-	unsigned int SquareTextured::GetTextureId() const
+	unsigned int ScreenRenderer::GetTextureId() const
 	{
 		return m_texture_id;
 	}
-	void SquareTextured::SetTextureID(unsigned int const texture_id)
+	void ScreenRenderer::SetTextureID(unsigned int const texture_id)
 	{
 		m_texture_id = texture_id;
 	}
-	void SquareTextured::Attach()
+	void ScreenRenderer::Attach()
 	{
 		glGenBuffers(1, &m_vbo);
 		if (m_vbo != 0)
@@ -67,7 +67,7 @@ namespace Renderers {
 
 		}
 	}
-	void SquareTextured::Load()
+	void ScreenRenderer::Load()
 	{
 		float vertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 			// positions   // texCoords

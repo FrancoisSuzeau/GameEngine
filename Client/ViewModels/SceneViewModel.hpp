@@ -29,7 +29,7 @@ namespace ViewModels
 		std::map<std::string, std::shared_ptr<Views::IView>> m_views_map;
 		std::vector < std::shared_ptr<Renderers::IRenderer> > m_renderers;
 		std::unique_ptr<Component::TexturedComponent> m_framebuffer_component;
-		std::shared_ptr<Renderers::SquareTextured> m_framebuffer_renderer;
+		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
 	};
 }
 

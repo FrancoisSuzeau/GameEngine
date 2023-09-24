@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : SquareTextured.hpp
+// File : ScreenRenderer.hpp
 // Purpose : An interface for the SquareTextured renderer
 /******************************************************************************************************************************************/
-#ifndef SQUARETEXTURED_H
-#define SQUARETEXTURED_H
+#ifndef SCREENRENDERER_H
+#define SCREENRENDERER_H
 
 #include "../Untextured/Square.hpp"
 
@@ -11,12 +11,12 @@ namespace Renderers {
 
 	
 
-	class SquareTextured : public IRenderer
+	class ScreenRenderer : public IRenderer
 	{
 	public:
 
-		SquareTextured();
-		~SquareTextured();
+		ScreenRenderer();
+		~ScreenRenderer();
 
 		void Construct() override;
 		void Clean() override;

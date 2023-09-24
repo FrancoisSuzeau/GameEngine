@@ -35,7 +35,7 @@ namespace ViewModels
 			}
 
 			m_framebuffer_component = std::make_unique<Component::TexturedComponent>();
-			m_framebuffer_renderer = std::make_shared<Renderers::SquareTextured>();
+			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
 			if (m_framebuffer_renderer)
 			{
 				m_framebuffer_renderer->Construct();

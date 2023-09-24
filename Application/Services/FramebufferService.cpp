@@ -8,10 +8,11 @@ namespace Services
 {
 	void FramebufferService::Init()
 	{
-		this->SetFrameBufferDim();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+
 		m_texture_fb = 0;
 		m_texture_id = 0;
-		m_render_fb = 0;
+		m_render_fb = 0;		
 		
 	}
 	void FramebufferService::DeInit()
@@ -32,6 +33,8 @@ namespace Services
 			m_render_fb = 0;
 		}
 		
+		m_state_service.reset();
+
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
 	}
@@ -41,7 +44,7 @@ namespace Services
 	}
 	void FramebufferService::BuildFrameBuffer()
 	{
-		//this->Load();
+		this->SetFrameBufferDim();
 		glGenFramebuffers(1, &m_texture_fb);
 		if (m_texture_fb != 0)
 		{
@@ -69,13 +72,11 @@ namespace Services
 	
 	void FramebufferService::SetFrameBufferDim()
 	{
-		m_fb_width = 2560;
-		m_fb_height = 1440;
-		/*if (m_state_service)
+		if (m_state_service)
 		{
-			m_fb_width = m_state_service->getWidth() * 80 / 100;
-			m_fb_height = m_state_service->getHeight() * 80 / 100;
-		}*/
+			m_fb_width = m_state_service->getWidth();
+			m_fb_height = m_state_service->getHeight();
+		}
 	}
 	void FramebufferService::BuildTextureFB()
 	{
@@ -87,10 +88,11 @@ namespace Services
 			if (glIsTexture(m_texture_id) == GL_TRUE)
 			{
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture_id, 0);
 

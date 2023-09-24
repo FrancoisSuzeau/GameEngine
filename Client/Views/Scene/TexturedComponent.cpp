@@ -24,7 +24,7 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr<Renderers::SquareTextured> renderer)
+	void TexturedComponent::Render(std::shared_ptr<Renderers::ScreenRenderer> renderer)
 	{
 		if (m_shader_service && renderer)
 		{
@@ -32,6 +32,9 @@ namespace Component {
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
+				Transformer::ReinitModelMat(renderer);
+				Transformer::Resize(renderer, glm::vec3(0.9f));
+				Transformer::Move(renderer, glm::vec3(-0.1f, 0.f, 0.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SCREEN_SHADER);
 
 				glActiveTexture(GL_TEXTURE0);

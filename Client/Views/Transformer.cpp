@@ -37,12 +37,12 @@ namespace Component
 			renderer->SetBackgroundColor(new_color);
 		}
 	}
-	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, float size)
+	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector)
 	{
 		if (renderer)
 		{
 			glm::mat4 model = renderer->GetModelMat();
-			model = glm::scale(model, glm::vec3(size));
+			model = glm::scale(model, size_vector);
 			renderer->SetModelMat(model);
 		}
 	}

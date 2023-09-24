@@ -9,6 +9,7 @@
 #include "Logger.hpp"
 #include <GL/glew.h>
 #include <iostream>
+#include "StateService.hpp"
 
 namespace Services {
 
@@ -36,6 +37,8 @@ namespace Services {
 		void BuildTextureFB();
 		void BuildRenderFB();
 		void CheckFramebufferStatus();
+
+		std::shared_ptr<Services::StateService> m_state_service;
 
 	};
 }

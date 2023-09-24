@@ -7,7 +7,7 @@
 
 #include "Untextured/Triangle.hpp"
 #include "Untextured/Square.hpp"
-#include "Textured/SquareTextured.hpp"
+#include "Textured/ScreenRenderer.hpp"
 
 
 #endif
