@@ -7,8 +7,10 @@
 namespace Renderers {
 	ScreenRenderer::ScreenRenderer() : base()
 	{
-		m_vertices.reserve(24);
-		m_bytes_vertices_size = 24 * sizeof(GLfloat);
+		m_vertices.reserve(18);
+		m_bytes_vertices_size = 18 * sizeof(GLfloat);
+		m_texture_coord.reserve(12);
+		m_bytes_textcoord_size = 12 * sizeof(GLfloat);
 		m_texture_id = 0;
 	}
 	ScreenRenderer::~ScreenRenderer()
@@ -22,6 +24,7 @@ namespace Renderers {
 	void ScreenRenderer::Clean()
 	{
 		base::Clean();
+		m_texture_coord.clear();
 		
 	}
 	unsigned int ScreenRenderer::GetTextureId() const
@@ -40,8 +43,11 @@ namespace Renderers {
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 			if (glIsBuffer(m_vbo) == GL_TRUE)
 			{
-				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_textcoord_size, 0, GL_STATIC_DRAW);
+
 				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
+				glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_textcoord_size, m_texture_coord.data());
+
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 		}
@@ -56,9 +62,9 @@ namespace Renderers {
 				if (glIsBuffer(m_vbo) == GL_TRUE)
 				{
 					glEnableVertexAttribArray(0);
-					glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), BUFFER_OFFSET(0));
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 					glEnableVertexAttribArray(1);
-					glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
+					glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
 				}
 
@@ -69,20 +75,22 @@ namespace Renderers {
 	}
 	void ScreenRenderer::Load()
 	{
-		float vertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-			// positions   // texCoords
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			-1.0f, -1.0f,  0.0f, 0.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
 
-			-1.0f,  1.0f,  0.0f, 1.0f,
-			 1.0f, -1.0f,  1.0f, 0.0f,
-			 1.0f,  1.0f,  1.0f, 1.0f
+		float vertices[] = { -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,   1.0f, 1.0f, -1.0f,
+						-1.0f, -1.0f, -1.0f,   -1.0f, 1.0f, -1.0f,   1.0f, 1.0f, -1.0f
 		};
 
-		for (int i = 0; i < 24; i++)
+		float coord[] = { 0.0f, 0.0f,   1.0f, 0.0f,   1.0f, 1.0f,
+							  0.0f, 0.0f,   0.0f, 1.0f,   1.0f, 1.0f
+		};
+
+		for (int i = 0; i < 18; i++)
 		{
 			m_vertices.push_back(vertices[i]);
+			if (i < 12)
+			{
+				m_texture_coord.push_back(coord[i]);
+			}
 		}
 	}
 }
