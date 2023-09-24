@@ -60,7 +60,7 @@ namespace Component
 				glUseProgram(program_id);
 				Transformer::Colorize(renderer, glm::vec3(0.f, 1.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
-				Transformer::Resize(renderer, 0.2f);
+				Transformer::Resize(renderer, glm::vec3(0.2f));
 				Transformer::Move(renderer, glm::vec3(0.5f, 0.f, 0.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

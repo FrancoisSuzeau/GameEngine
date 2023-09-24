@@ -40,9 +40,7 @@ namespace Renderers {
 
 	void Square::Attach()
 	{
-		base::Clean();
-		this->CleanEbo();
-
+		
 		glGenVertexArrays(1, &m_vao);
 		glGenBuffers(1, &m_vbo);
 		glGenBuffers(1, &m_ebo);
@@ -61,6 +59,7 @@ namespace Renderers {
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, m_indices.data(), GL_STATIC_DRAW);
 					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 					glEnableVertexAttribArray(0);
+
 				}
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);

@@ -14,7 +14,7 @@ namespace Views
 
 	void Canvas::Clean()
 	{
-		for (std::map<std::string, std::unique_ptr<Component::ComponentBase>>::iterator it = m_components_map.begin(); it != m_components_map.end(); it++)
+		for (std::map<std::string, std::unique_ptr<Component::IComponent>>::iterator it = m_components_map.begin(); it != m_components_map.end(); it++)
 		{
 			if (it->second)
 			{

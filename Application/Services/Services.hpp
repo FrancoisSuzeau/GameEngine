@@ -10,5 +10,6 @@
 #include "ImGUIServiceInitalizer.hpp"
 #include "StateService.hpp"
 #include "ShaderService.hpp"
+#include "FramebufferService.hpp"
 
 #endif

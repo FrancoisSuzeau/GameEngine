@@ -33,6 +33,14 @@ namespace ViewModels
 				square->Construct();
 				m_renderers.push_back(square);
 			}
+
+			m_framebuffer_component = std::make_unique<Component::TexturedComponent>();
+			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
+			if (m_framebuffer_renderer)
+			{
+				m_framebuffer_renderer->Construct();
+			}
+
 		}	
 	}
 
@@ -57,6 +65,16 @@ namespace ViewModels
 			}
 		}
 
+		if (m_framebuffer_component)
+		{
+			m_framebuffer_component->Clean();
+		}
+
+		if (m_framebuffer_renderer)
+		{
+			m_framebuffer_renderer->Clean();
+		}
+
 		m_renderers.clear();
 	}
 	void SceneViewModel::RenderViews(std::string const type_view)
@@ -64,6 +82,14 @@ namespace ViewModels
 		if (m_views_map.at(type_view))
 		{
 			m_views_map.at(type_view)->Render(m_renderers);
+		}
+	}
+	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
+	{
+		if (m_framebuffer_component && m_framebuffer_renderer)
+		{
+			m_framebuffer_renderer->SetTextureID(fb_texture_id);
+			m_framebuffer_component->Render(m_framebuffer_renderer);
 		}
 	}
 	void SceneViewModel::OnCommand(Commands::ICommand* command)

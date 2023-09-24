@@ -20,6 +20,8 @@ namespace Component {
 		virtual void Clean() = 0;
 		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer) {};
 		virtual void Render(std::shared_ptr<Renderers::Square> renderer) {};
+		virtual void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) {}
+
 		
 
 	};

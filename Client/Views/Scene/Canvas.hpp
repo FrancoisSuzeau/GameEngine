@@ -7,6 +7,7 @@
 
 #include "IView.hpp"
 #include "ComponentBase.hpp"
+#include "TexturedComponent.hpp"
 #include <map>
 #include <iostream>
 
@@ -19,7 +20,7 @@ namespace Views
 		void Clean() override;
 		void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
-		std::map<std::string, std::unique_ptr<Component::ComponentBase>> m_components_map;
+		std::map<std::string, std::unique_ptr<Component::IComponent>> m_components_map;
 	};
 }
 
