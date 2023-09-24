@@ -9,6 +9,10 @@
 #include "Container/Container.hpp"
 #include "GraphicInitializerService.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "IService.hpp"
 
 namespace Services {
@@ -34,6 +38,9 @@ namespace Services {
 		bool getShowStyleEditor() const;
 		void setShowStyleEditor(bool const new_val);
 
+		glm::mat4 GetViewMatrix() const;
+		glm::mat4 GetProjectionMatrix() const;
+
 
 	private:
 
@@ -44,6 +51,8 @@ namespace Services {
 		bool m_show_tools;
 		bool m_show_app_info;
 		bool m_show_style_editor;
+		glm::mat4 m_projection_matrix;
+		glm::mat4 m_view;
 	};
 }
 

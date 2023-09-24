@@ -23,6 +23,9 @@ namespace Services
 
 		m_exit = false;
 		m_show_metrics = false;
+
+		m_view = glm::mat4(1.f);
+		m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 	}
 
 	void StateService::DeInit()
@@ -82,6 +85,14 @@ namespace Services
 	void StateService::setShowStyleEditor(bool const new_val)
 	{
 		m_show_style_editor = new_val;
+	}
+	glm::mat4 StateService::GetViewMatrix() const
+	{
+		return m_view;
+	}
+	glm::mat4 StateService::GetProjectionMatrix() const
+	{
+		return m_projection_matrix;
 	}
 }
 

@@ -40,7 +40,8 @@ namespace Component
 				Transformer::Colorize(renderer, glm::vec3(1.f, 0.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
 				this->IncrementAngle(0.1f);
-				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, 0.f));
+				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, -1.f));
+				Transformer::Resize(renderer, glm::vec3(0.2f));
 				Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -60,8 +61,8 @@ namespace Component
 				glUseProgram(program_id);
 				Transformer::Colorize(renderer, glm::vec3(0.f, 1.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
+				Transformer::Move(renderer, glm::vec3(0.f, 0.f, -1.f));
 				Transformer::Resize(renderer, glm::vec3(0.2f));
-				Transformer::Move(renderer, glm::vec3(0.5f, 0.f, 0.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 				glUseProgram(0);
