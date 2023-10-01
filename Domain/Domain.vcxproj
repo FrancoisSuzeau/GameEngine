@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
     <ClInclude Include="Interfaces\IComponent.hpp" />
@@ -36,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
     <ClCompile Include="Shaders\Shader.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />

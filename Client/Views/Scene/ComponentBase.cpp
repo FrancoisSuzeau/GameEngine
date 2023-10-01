@@ -40,7 +40,7 @@ namespace Component
 				Transformer::Colorize(renderer, glm::vec3(1.f, 0.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
 				this->IncrementAngle(0.1f);
-				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, -1.f));
+				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, -0.9f));
 				Transformer::Resize(renderer, glm::vec3(0.2f));
 				Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
@@ -61,7 +61,7 @@ namespace Component
 				glUseProgram(program_id);
 				Transformer::Colorize(renderer, glm::vec3(0.f, 1.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, glm::vec3(0.f, 0.f, -1.f));
+				Transformer::Move(renderer, glm::vec3(0.f, 0.f, -0.9f));
 				Transformer::Resize(renderer, glm::vec3(0.2f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -70,6 +70,30 @@ namespace Component
 			}
 		}
 	}
+
+	void ComponentBase::Render(std::shared_ptr<Renderers::Grid> renderer)
+	{
+		if (m_shader_service && renderer)
+		{
+			glBindVertexArray(renderer->GetVAO());
+			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
+			{
+				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
+				glUseProgram(program_id);
+				Transformer::ReinitModelMat(renderer);
+				Transformer::Move(renderer, glm::vec3(-0.8f, 0.0f, -1.f));
+				Transformer::Resize(renderer, glm::vec3(1.2f));
+				Transformer::Rotate(renderer, 25.f, glm::vec3(1.f, 0.f, 0.f));
+				Transformer::Rotate(renderer, 35.f, glm::vec3(0.f, 1.f, 0.f));
+				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+
+				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);
+				glUseProgram(0);
+				glBindVertexArray(0);
+			}
+		}
+	}
+
 	void ComponentBase::IncrementAngle(float incr)
 	{
 		if (angle > 360.f)

@@ -38,19 +38,26 @@ namespace Views
 					m_components_map.at(Constants::COMPONENT_BASE)->Render(t);
 					t.reset();
 				}
-					break;
+				break;
 				case Enums::RendererType::SQUARE:
 				{
 					std::shared_ptr<Renderers::Square> s = std::dynamic_pointer_cast<Renderers::Square> (it[0]);
 					m_components_map.at(Constants::COMPONENT_BASE)->Render(s);
 					s.reset();
 				}
-					break;
+				break;
+				case Enums::RendererType::GRID:
+				{
+					std::shared_ptr<Renderers::Grid>  g = std::dynamic_pointer_cast<Renderers::Grid>(it[0]);
+					m_components_map.at(Constants::COMPONENT_BASE)->Render(g);
+					g.reset();
+				}
+				break;
 				case Enums::RendererType::NONE:
 				default:
 					break;
 				}
-				
+
 			}
 		}
 	}

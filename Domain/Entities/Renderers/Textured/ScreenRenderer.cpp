@@ -5,8 +5,10 @@
 #include "ScreenRenderer.hpp"
 
 namespace Renderers {
-	ScreenRenderer::ScreenRenderer() : base()
+	ScreenRenderer::ScreenRenderer()
 	{
+		m_vbo = 0;
+		m_vao = 0;
 		m_vertices.reserve(18);
 		m_bytes_vertices_size = 18 * sizeof(GLfloat);
 		m_texture_coord.reserve(12);
