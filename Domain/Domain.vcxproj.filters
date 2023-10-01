@@ -60,6 +60,9 @@
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\Shader.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

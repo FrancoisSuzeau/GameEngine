@@ -10,6 +10,7 @@ namespace Views
 	Canvas::Canvas()
 	{
 		m_components_map.insert_or_assign(Constants::COMPONENT_BASE, std::make_unique<Component::ComponentBase >());
+		//m_components_map.insert_or_assign(Constants::COMPONENT_TEXTURED, std::make_unique<Component::TexturedComponent >());
 	}
 
 	void Canvas::Clean()
@@ -51,6 +52,13 @@ namespace Views
 					std::shared_ptr<Renderers::Grid>  g = std::dynamic_pointer_cast<Renderers::Grid>(it[0]);
 					m_components_map.at(Constants::COMPONENT_BASE)->Render(g);
 					g.reset();
+				}
+				break;
+				case Enums::RendererType::SKYBOX:
+				{
+					std::shared_ptr<Renderers::Skybox> sk = std::dynamic_pointer_cast<Renderers::Skybox>(it[0]);
+					m_components_map.at(Constants::COMPONENT_TEXTURED)->Render(sk);
+					sk.reset();
 				}
 				break;
 				case Enums::RendererType::NONE:

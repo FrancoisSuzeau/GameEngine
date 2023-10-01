@@ -27,6 +27,7 @@ namespace Starting
         this->SetServiceBuilder<Services::ShaderLoaderService>();
         this->SetServiceBuilder<Services::ShaderService>();
         this->SetServiceBuilder<Services::FramebufferService>();
+        this->SetServiceBuilder<Services::TextureLoaderService>();
     }
 
     void Application::SetAllEngine()

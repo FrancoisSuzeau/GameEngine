@@ -16,7 +16,7 @@ namespace Component
 			shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
 			shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
 			shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
-			if (shader_name == Constants::SCREEN_SHADER)
+			if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
 			{
 				shader_service->setTexture(shader_name, "texture0", 0);
 			}

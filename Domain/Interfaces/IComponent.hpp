@@ -22,6 +22,7 @@ namespace Component {
 		virtual void Render(std::shared_ptr<Renderers::Square> renderer) {}
 		virtual void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) {}
 		virtual void Render(std::shared_ptr<Renderers::Grid> renderer) {}
+		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer) {}
 
 		
 

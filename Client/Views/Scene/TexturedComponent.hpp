@@ -21,6 +21,7 @@ namespace Component
 		TexturedComponent();
 		void Clean() override;
 		void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) override;
+		void Render(std::shared_ptr < Renderers::Skybox>  renderer) override;
 
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

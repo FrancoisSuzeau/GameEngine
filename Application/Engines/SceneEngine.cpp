@@ -37,6 +37,19 @@ namespace Engines
 		}
 	}
 
+	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int skybox_texture_id)
+	{
+		if (view_model_builder)
+		{
+			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+			if (view_model)
+			{
+				view_model->RenderSkybox(skybox_texture_id);
+			}
+
+		}
+	}
+
 	void SceneEngine::InitFrame()
 	{
 	}

@@ -12,6 +12,7 @@ namespace Component {
 		if (m_shader_service)
 		{
 			m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
+			m_shader_service->LoadShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
 		}
 	}
 
@@ -48,6 +49,34 @@ namespace Component {
 				}
 				glUseProgram(0);
 				glBindVertexArray(0);
+			}
+		}
+	}
+
+	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer)
+	{
+		if (m_shader_service && renderer)
+		{
+			
+			glBindVertexArray(renderer->GetVAO());
+			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
+			{
+				glDepthMask(GL_FALSE);
+				glUseProgram(m_shader_service->GetProgramId(Constants::SKYBOX_SHADER));
+				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SKYBOX_SHADER);
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_CUBE_MAP, renderer->GetTextureId());
+				if (glIsTexture(renderer->GetTextureId()) == GL_TRUE)
+				{
+					glDrawArrays(GL_TRIANGLES, 0, 36);
+
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+				}
+				glUseProgram(0);
+				glBindVertexArray(0);
+				glDepthMask(GL_TRUE);
 			}
 		}
 	}

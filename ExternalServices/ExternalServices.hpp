@@ -7,5 +7,6 @@
 
 #include "JsonLoaderService/JsonLoaderService.hpp"
 #include "ShaderLoaderService/ShaderLoaderService.hpp"
+#include "TextureLoaderService/TextureLoaderService.hpp"
 
 #endif

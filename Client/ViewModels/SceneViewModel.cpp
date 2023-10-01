@@ -26,7 +26,9 @@ namespace ViewModels
 				grid->Construct();
 				m_renderers.push_back(grid);
 			}*/
+
 			
+
 			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
 			if (triangle)
 			{
@@ -43,11 +45,17 @@ namespace ViewModels
 
 			
 
-			m_framebuffer_component = std::make_unique<Component::TexturedComponent>();
+			m_textured_component = std::make_unique<Component::TexturedComponent>();
 			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
 			if (m_framebuffer_renderer)
 			{
 				m_framebuffer_renderer->Construct();
+			}
+
+			m_skybox_renderer = std::make_shared<Renderers::Skybox>();
+			if (m_skybox_renderer)
+			{
+				m_skybox_renderer->Construct();
 			}
 
 		}	
@@ -74,9 +82,9 @@ namespace ViewModels
 			}
 		}
 
-		if (m_framebuffer_component)
+		if (m_textured_component)
 		{
-			m_framebuffer_component->Clean();
+			m_textured_component->Clean();
 		}
 
 		if (m_framebuffer_renderer)
@@ -95,12 +103,21 @@ namespace ViewModels
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
 	{
-		if (m_framebuffer_component && m_framebuffer_renderer)
+		if (m_textured_component && m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
-			m_framebuffer_component->Render(m_framebuffer_renderer);
+			m_textured_component->Render(m_framebuffer_renderer);
 		}
 	}
+	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id)
+	{
+		if (m_textured_component && m_skybox_renderer)
+		{
+			m_skybox_renderer->SetTextureID(skybox_texture_id);
+			m_textured_component->Render(m_skybox_renderer);
+		}
+	}
+
 	void SceneViewModel::OnCommand(Commands::ICommand* command)
 	{
 		if (command)
