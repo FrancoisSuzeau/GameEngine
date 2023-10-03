@@ -14,11 +14,15 @@ namespace Services
 	void StateService::Init()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
-		if (graph_service_init)
+		if (container)
 		{
-			m_width = graph_service_init->GetWidth();
-			m_height = graph_service_init->GetHeight();
+			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+			if (graph_service_init)
+			{
+				m_width = graph_service_init->GetWidth();
+				m_height = graph_service_init->GetHeight();
+			}
+			m_camera_services = container->make<Services::CameraService>();
 		}
 
 		m_exit = false;
@@ -88,6 +92,11 @@ namespace Services
 	}
 	glm::mat4 StateService::GetViewMatrix() const
 	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetCameraView();
+		}
+
 		return m_view;
 	}
 	glm::mat4 StateService::GetProjectionMatrix() const

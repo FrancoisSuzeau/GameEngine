@@ -11,5 +11,6 @@
 #include "StateService.hpp"
 #include "ShaderService.hpp"
 #include "FramebufferService.hpp"
+#include "CameraService.hpp"
 
 #endif

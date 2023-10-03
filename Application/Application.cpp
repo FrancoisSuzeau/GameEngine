@@ -22,12 +22,13 @@ namespace Starting
         this->SetServiceBuilder<Services::GraphicInitializerService>();
         this->SetServiceBuilder<Services::AudioInitializerService>();
         this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
-        this->SetServiceBuilder<Services::StateService>();
         this->SetServiceBuilder<Services::JsonLoaderService>();
         this->SetServiceBuilder<Services::ShaderLoaderService>();
         this->SetServiceBuilder<Services::ShaderService>();
         this->SetServiceBuilder<Services::FramebufferService>();
         this->SetServiceBuilder<Services::TextureLoaderService>();
+        this->SetServiceBuilder<Services::CameraService>();
+        this->SetServiceBuilder<Services::StateService>();
     }
 
     void Application::SetAllEngine()

@@ -57,6 +57,7 @@ namespace Engines
 				while (SDL_PollEvent(&event))
 				{
 					// Keep this to let IMGUI capture event
+					m_scene_engine->MoveCamera(event);
 				}
 				
 
@@ -64,7 +65,7 @@ namespace Engines
 				this->InitFrame();
 
 				m_scene_engine->RenderScene(view_model_builder);
-				m_scene_engine->RenderSkybox(view_model_builder, skybox_texture);
+				//m_scene_engine->RenderSkybox(view_model_builder, skybox_texture);
 
 				/*m_framebuffer_service->UnbindFramebuffer();
 

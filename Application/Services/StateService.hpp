@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Container/Container.hpp"
 #include "GraphicInitializerService.hpp"
+#include "CameraService.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -53,6 +54,9 @@ namespace Services {
 		bool m_show_style_editor;
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
+		std::shared_ptr<Services::CameraService> m_camera_services;
+
+
 	};
 }
 
