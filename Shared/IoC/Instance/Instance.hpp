@@ -19,6 +19,14 @@ namespace IoC {
 		public:
 			Instance(T* ptr) : m_ptr(ptr) {}
 			std::shared_ptr<T> m_ptr;
+
+			void Destroy()
+			{
+				if (m_ptr)
+				{
+					delete m_ptr.get();
+				}
+			}
 		};
 	}
 }

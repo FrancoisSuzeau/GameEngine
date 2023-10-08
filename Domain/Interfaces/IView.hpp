@@ -16,7 +16,7 @@ namespace Views {
 	class IView
 	{
 	public:
-		virtual ~IView() {}
+		virtual ~IView() { SetParent(nullptr); }
 		virtual void Render() {};
 		virtual void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {};
 		virtual void Clean() {};

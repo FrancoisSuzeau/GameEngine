@@ -20,8 +20,9 @@ namespace ViewModels
 	{
 
 	public:
+		~GuiViewModel() override;
 		void Construct() override;
-		void DeConstruct() override;
+		
 		void RenderViews(std::string const type_view) override;
 		void OnCommand(Commands::ICommand* command) override;
 

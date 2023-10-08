@@ -5,13 +5,14 @@
 #ifndef IENGINE_H
 #define IENGINE_H
 
+#include <iostream>
 namespace Engines {
 
 
 	class IEngine
 	{
 	public:
-		virtual ~IEngine() {}
+		virtual ~IEngine() { }
 		virtual void Construct() = 0;
 
 	protected:

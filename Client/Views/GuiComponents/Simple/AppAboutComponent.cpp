@@ -7,6 +7,10 @@
 
 namespace Views
 {
+	AppAboutComponent::~AppAboutComponent()
+	{
+		m_state_service.reset();
+	}
 	AppAboutComponent::AppAboutComponent()
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();

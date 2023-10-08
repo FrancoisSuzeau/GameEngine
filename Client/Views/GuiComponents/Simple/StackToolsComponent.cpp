@@ -7,6 +7,10 @@
 
 namespace Views
 {
+	StackToolsComponent::~StackToolsComponent()
+	{
+		m_state_service.reset();
+	}
 	StackToolsComponent::StackToolsComponent()
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();

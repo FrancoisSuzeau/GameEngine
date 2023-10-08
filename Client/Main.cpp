@@ -20,7 +20,9 @@ int main(int argc, char** argv)
 
         app->Run();
 
+        Startup::DeleteClientViews(app);
         app->Shutdown();
+        
         app.reset();
     }
 

@@ -7,6 +7,10 @@
 
 namespace ViewModels
 {
+	GuiViewModel::~GuiViewModel()
+	{
+		
+	}
 	void GuiViewModel::Construct()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -63,10 +67,6 @@ namespace ViewModels
 		}
 	}
 
-	void GuiViewModel::DeConstruct()
-	{
-		m_views_map.clear();
-	}
 	void GuiViewModel::RenderViews(std::string const type_view)
 	{
 		for (std::list<std::shared_ptr<Views::IView>>::iterator it = m_views_map.at(type_view).begin(); 

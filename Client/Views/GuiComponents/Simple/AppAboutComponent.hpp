@@ -31,7 +31,7 @@ namespace Views
 	{
 
 	public:
-
+		~AppAboutComponent() override;
 		AppAboutComponent();
 		void Render() override;
 	private:

@@ -25,7 +25,7 @@ namespace Renderers {
 	class IRenderer
 	{
 	public:
-		virtual ~IRenderer() {}
+		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
 		virtual void Clean()
 		{

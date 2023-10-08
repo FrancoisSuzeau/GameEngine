@@ -83,6 +83,13 @@ namespace IoC {
 
 		void StartBuilder(Builders::IBuilder* builder);
 
+
+		template<typename T>
+		void DestroyReference()
+		{
+			IoC::Container::Container::GetInstanceContainer()->unmake<T>();
+		}
+
 	private:
 
 	};

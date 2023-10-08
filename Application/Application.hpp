@@ -47,6 +47,17 @@ namespace Starting {
 				ioc_module.reset();
 			}
 		}
+
+		template<typename T>
+		void DeleteReference()
+		{
+			std::unique_ptr<IoC::IocModule> ioc_module = std::make_unique<IoC::IocModule>();
+			if (ioc_module)
+			{
+				ioc_module->DestroyReference<T>();
+				ioc_module.reset();
+			}
+		}
 		
 
 	private:
@@ -77,10 +88,15 @@ namespace Starting {
 			}
 		}
 
+		
+
 		void EndAllBuilder();
 		void StartAllBuilder();
 		void SetAllService();
 		void SetAllEngine();
+
+		void ShutAllService();
+		void ShutAllEngine();
 	};
 
 }

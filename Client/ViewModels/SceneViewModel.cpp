@@ -7,6 +7,39 @@
 
 namespace ViewModels
 {
+	SceneViewModel::~SceneViewModel()
+	{
+		for (std::map<std::string, std::shared_ptr<Views::IView>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
+		{
+			if (it->second)
+			{
+				it->second->Clean();
+				it->second.reset();
+			}
+		}
+		m_views_map.clear();
+
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it[0].reset();
+			}
+		}
+
+		if (m_textured_component)
+		{
+			m_textured_component->Clean();
+		}
+
+		if (m_framebuffer_renderer)
+		{
+			m_framebuffer_renderer->Clean();
+		}
+
+		m_renderers.clear();
+	}
 	void SceneViewModel::Construct()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -61,39 +94,6 @@ namespace ViewModels
 		}	
 	}
 
-	void SceneViewModel::DeConstruct()
-	{
-		for (std::map<std::string, std::shared_ptr<Views::IView>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
-		{
-			if (it->second)
-			{
-				it->second->Clean();
-				it->second.reset();
-			}
-		}
-		m_views_map.clear();
-
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-		{
-			if (it[0])
-			{
-				it[0]->Clean();
-				it[0].reset();
-			}
-		}
-
-		if (m_textured_component)
-		{
-			m_textured_component->Clean();
-		}
-
-		if (m_framebuffer_renderer)
-		{
-			m_framebuffer_renderer->Clean();
-		}
-
-		m_renderers.clear();
-	}
 	void SceneViewModel::RenderViews(std::string const type_view)
 	{
 		if (m_views_map.at(type_view))

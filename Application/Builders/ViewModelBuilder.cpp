@@ -35,7 +35,6 @@ namespace Builders
 		{
 			if (it->second)
 			{
-				it->second->DeConstruct();
 				it->second.reset();
 			}
 		}

@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <functional>
+#include <map>
 
 #include "../Instance/Instance.hpp"
 
@@ -48,9 +49,21 @@ namespace IoC {
 				return instance->m_ptr;
 			}
 
+			template<typename T>
+			void unmake()
+			{
+				auto type = std::type_index(typeid(T));
+				if (m_instances.contains(type))
+				{
+					auto instance = m_instances.at(type);
+					instance->Destroy();
+					instance.reset();
+				}
+			}
+
 		private:
 			std::unordered_map<std::type_index, std::function<void* ()>> m_callbacks;
-			std::unordered_map<std::type_index, std::shared_ptr<Instances::IInstance>> m_instances;
+			std::map<std::type_index, std::shared_ptr<Instances::IInstance>> m_instances;
 		};
 	}
 };

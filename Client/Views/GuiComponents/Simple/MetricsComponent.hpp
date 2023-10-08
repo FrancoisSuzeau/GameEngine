@@ -31,7 +31,7 @@ namespace Views
 	{
 		
 	public:
-
+		~MetricsComponent() override;
 		MetricsComponent();
 		void Render() override;
 	private:

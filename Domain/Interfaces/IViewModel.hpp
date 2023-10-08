@@ -16,11 +16,9 @@ namespace ViewModels {
 	class IViewModel
 	{
 	public:
-		virtual ~IViewModel() {}
+		virtual ~IViewModel() { }
 
 		virtual void Construct() = 0;
-
-		virtual void DeConstruct() = 0;
 
 		virtual void RenderViews(std::string const type_view) = 0;
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};

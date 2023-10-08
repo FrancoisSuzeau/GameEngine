@@ -38,6 +38,27 @@ namespace Starting
         this->SetEngineBuilder<Engines::MainEngine>();
     }
 
+    void Application::ShutAllService()
+    {
+        this->DeleteReference<Services::GraphicInitializerService>();
+        this->DeleteReference<Services::AudioInitializerService>();
+        this->DeleteReference<Services::ImGUIServiceInitializer>();
+        this->DeleteReference<Services::JsonLoaderService>();
+        this->DeleteReference<Services::ShaderLoaderService>();
+        this->DeleteReference<Services::ShaderService>();
+        this->DeleteReference<Services::FramebufferService>();
+        this->DeleteReference<Services::TextureLoaderService>();
+        this->DeleteReference<Services::CameraService>();
+        this->DeleteReference<Services::StateService>();
+    }
+
+    void Application::ShutAllEngine()
+    {
+        this->DeleteReference<Engines::GUIEngine>();
+        this->DeleteReference<Engines::SceneEngine>();
+        this->DeleteReference<Engines::MainEngine>();
+    }
+
     void Application::Run()
     {
         this->StartAllBuilder();
@@ -57,6 +78,8 @@ namespace Starting
             main_engine.reset();
         }
         this->EndAllBuilder();
+        this->ShutAllEngine();
+        this->ShutAllService();
         SQ_APP_INFO("Squeamish shutdown");
         Logger::Log::Shutdown();
     }
