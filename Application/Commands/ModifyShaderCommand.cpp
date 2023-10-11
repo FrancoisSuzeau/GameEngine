@@ -12,7 +12,7 @@ namespace Commands
 		: m_shader_name(shader_name), m_shader_modifier(shader_modifier), m_location(location), m_vec_to_add(vec_to_add),
 		m_matrice_to_add(matrice_to_add), m_count(count), m_to_ad(to_ad), m_to_add(to_add)
 	{
-		m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
+		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 	}
 
 	void ModifyShaderCommand::Execute()

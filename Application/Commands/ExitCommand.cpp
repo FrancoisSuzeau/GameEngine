@@ -8,7 +8,7 @@ using namespace Commands;
 
 ExitCommand::ExitCommand()
 {
-	m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+	m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 }
 
 void ExitCommand::Execute()

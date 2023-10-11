@@ -45,7 +45,7 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Views::Canvas> component_1 = container->make<Views::Canvas>();
+			std::shared_ptr<Views::Canvas> component_1 = container->GetReference<Views::Canvas>();
 
 			if (component_1)
 			{

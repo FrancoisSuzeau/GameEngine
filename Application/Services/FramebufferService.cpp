@@ -8,7 +8,7 @@ namespace Services
 {
 	void FramebufferService::Init()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 
 		m_texture_fb = 0;
 		m_texture_id = 0;

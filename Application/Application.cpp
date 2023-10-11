@@ -62,7 +62,7 @@ namespace Starting
     void Application::Run()
     {
         this->StartAllBuilder();
-        main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
+        main_engine = IoC::Container::Container::GetInstanceContainer()->GetReference<Engines::MainEngine>();
         if (main_engine)
         {
             main_engine->MainLoop(m_view_model_builder);

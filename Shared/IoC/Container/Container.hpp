@@ -33,7 +33,7 @@ namespace IoC {
 			}
 
 			template<typename T>
-			std::shared_ptr<T> make()
+			std::shared_ptr<T> GetReference()
 			{
 				auto type = std::type_index(typeid(T));
 
@@ -50,7 +50,7 @@ namespace IoC {
 			}
 
 			template<typename T>
-			void unmake()
+			void DestroyReference()
 			{
 				auto type = std::type_index(typeid(T));
 				if (m_instances.contains(type))

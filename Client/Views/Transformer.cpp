@@ -9,7 +9,7 @@ namespace Component
 {
 	void Transformer::PutIntoShader(std::shared_ptr<Renderers::IRenderer> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
-		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (renderer && shader_service && state_service)
 		{
 			shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());

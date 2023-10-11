@@ -8,7 +8,7 @@ namespace Services
 {
 	void ShaderService::Init()
 	{
-		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderLoaderService>();
+		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
 		
 	}
 

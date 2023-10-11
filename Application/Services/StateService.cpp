@@ -16,13 +16,13 @@ namespace Services
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
 			if (graph_service_init)
 			{
 				m_width = graph_service_init->GetWidth();
 				m_height = graph_service_init->GetHeight();
 			}
-			m_camera_services = container->make<Services::CameraService>();
+			m_camera_services = container->GetReference<Services::CameraService>();
 		}
 
 		m_exit = false;

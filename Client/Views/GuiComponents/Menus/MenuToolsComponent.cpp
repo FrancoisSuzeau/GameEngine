@@ -9,7 +9,7 @@ namespace Views
 {
 	MenuToolsComponent::MenuToolsComponent() : metrics(false), tools(false), infos(false), style(false)
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 	}
 	void MenuToolsComponent::Render()
 	{

@@ -15,21 +15,21 @@ namespace Engines
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
 			if (graph_service_init)
 			{
 				m_window = graph_service_init->GetSDLWindow();
 			}
-			m_state_service = container->make<Services::StateService>();
-			m_gui_engine = container->make<GUIEngine>();
-			m_scene_engine = container->make<SceneEngine>();
-			m_framebuffer_service = container->make<Services::FramebufferService>();
+			m_state_service = container->GetReference<Services::StateService>();
+			m_gui_engine = container->GetReference<GUIEngine>();
+			m_scene_engine = container->GetReference<SceneEngine>();
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{
 				m_framebuffer_service->BuildFrameBuffer();
 			}
 
-			std::shared_ptr<Services::TextureLoaderService> tex = container->make<Services::TextureLoaderService>();
+			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
 
 			std::vector<std::string> paths;
 			paths.push_back("resources/skybox/right.jpg");

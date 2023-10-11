@@ -8,7 +8,7 @@ namespace Engines
 {
 	void SceneEngine::Construct()
 	{
-		m_camera_service = IoC::Container::Container::GetInstanceContainer()->make<Services::CameraService>();
+		m_camera_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::CameraService>();
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)

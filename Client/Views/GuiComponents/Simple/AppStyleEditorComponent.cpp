@@ -13,7 +13,7 @@ namespace Views
 	}
 	AppStyleEditorComponent::AppStyleEditorComponent()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 	}
 	void AppStyleEditorComponent::Render()
 	{

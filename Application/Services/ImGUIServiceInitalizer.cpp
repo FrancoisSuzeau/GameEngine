@@ -9,7 +9,7 @@ namespace Services
     void ImGUIServiceInitializer::Init()
     {
         IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-        std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+        std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
 
         SDL_GLContext gl_context = graph_service_init->GetGLContext();
         SDL_Window* sdl_window = graph_service_init->GetSDLWindow();

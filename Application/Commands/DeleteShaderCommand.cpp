@@ -8,7 +8,7 @@ using namespace Commands;
 
 DeleteShaderCommand::DeleteShaderCommand(std::string const shader_name) : m_shader_name(shader_name)
 {
-	m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
+	m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 }
 
 void DeleteShaderCommand::Execute()

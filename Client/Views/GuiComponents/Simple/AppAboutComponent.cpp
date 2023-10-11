@@ -13,7 +13,7 @@ namespace Views
 	}
 	AppAboutComponent::AppAboutComponent()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 	}
 	void AppAboutComponent::Render()
 	{

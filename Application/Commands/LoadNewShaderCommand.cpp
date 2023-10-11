@@ -9,7 +9,7 @@ using namespace Commands;
 LoadNewShaderCommand::LoadNewShaderCommand(std::string const shader_name, Enums::ShaderType const shader_type) : m_shader_name(shader_name),
 m_shader_type(shader_type)
 {
-	m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
+	m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 }
 
 void LoadNewShaderCommand::Execute()

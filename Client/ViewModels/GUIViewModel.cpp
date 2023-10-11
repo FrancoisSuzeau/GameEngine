@@ -16,13 +16,13 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Views::MetricsComponent> component_1 = container->make< Views::MetricsComponent>();
-			std::shared_ptr<Views::StackToolsComponent> component_2 = container->make< Views::StackToolsComponent>();
-			std::shared_ptr<Views::AppAboutComponent> component_3 = container->make< Views::AppAboutComponent>();
-			std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->make< Views::AppStyleEditorComponent>();
-			std::shared_ptr<Views::MenuFileComponent> component_5 = container->make<Views::MenuFileComponent>();
-			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->make< Views::MenuToolsComponent>();
-			std::shared_ptr<Views::MenuEditComponent> component_7 = container->make< Views::MenuEditComponent>();
+			std::shared_ptr<Views::MetricsComponent> component_1 = container->GetReference< Views::MetricsComponent>();
+			std::shared_ptr<Views::StackToolsComponent> component_2 = container->GetReference< Views::StackToolsComponent>();
+			std::shared_ptr<Views::AppAboutComponent> component_3 = container->GetReference< Views::AppAboutComponent>();
+			std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->GetReference< Views::AppStyleEditorComponent>();
+			std::shared_ptr<Views::MenuFileComponent> component_5 = container->GetReference<Views::MenuFileComponent>();
+			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->GetReference< Views::MenuToolsComponent>();
+			std::shared_ptr<Views::MenuEditComponent> component_7 = container->GetReference< Views::MenuEditComponent>();
 
 			std::list<std::shared_ptr<Views::IView>> simple_views;
 			if (component_1)
