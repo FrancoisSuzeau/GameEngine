@@ -9,6 +9,10 @@ namespace Component {
 	TexturedComponent::TexturedComponent()
 	{
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+		if (!m_shader_service)
+		{
+			SQ_CLIENT_ERROR("Shader service is not referenced yet");
+		}
 		
 	}
 

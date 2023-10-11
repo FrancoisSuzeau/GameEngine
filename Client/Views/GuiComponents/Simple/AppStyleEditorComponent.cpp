@@ -9,11 +9,18 @@ namespace Views
 {
 	AppStyleEditorComponent::~AppStyleEditorComponent()
 	{
-		m_state_service.reset();
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
 	}
 	AppStyleEditorComponent::AppStyleEditorComponent()
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_CLIENT_ERROR("State service is not referenced yet");
+		}
 	}
 	void AppStyleEditorComponent::Render()
 	{

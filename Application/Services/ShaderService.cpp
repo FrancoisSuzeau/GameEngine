@@ -9,6 +9,10 @@ namespace Services
 	void ShaderService::Init()
 	{
 		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
+		if (!m_shader_loader)
+		{
+			SQ_APP_ERROR("Shader service is not referenced yet");
+		}
 		
 	}
 

@@ -22,7 +22,15 @@ namespace Services
 				m_width = graph_service_init->GetWidth();
 				m_height = graph_service_init->GetHeight();
 			}
+			else
+			{
+				SQ_APP_ERROR("Graphic service initializer is not referenced yet");
+			}
 			m_camera_services = container->GetReference<Services::CameraService>();
+			if (m_camera_services)
+			{
+				SQ_APP_ERROR("Camera service is not referenced yet");
+			}
 		}
 
 		m_exit = false;

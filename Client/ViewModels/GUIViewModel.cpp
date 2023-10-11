@@ -30,20 +30,36 @@ namespace ViewModels
 				component_1->SetParent(this);
 				simple_views.push_back(component_1);
 			}
+			else
+			{
+				SQ_CLIENT_ERROR("Metrics component is not referenced yet");
+			}
 			if (component_2)
 			{
 				component_2->SetParent(this);
 				simple_views.push_back(component_2);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Stack tools component is not referenced yet");
 			}
 			if (component_3)
 			{
 				component_3->SetParent(this);
 				simple_views.push_back(component_3);
 			}
+			else
+			{
+				SQ_CLIENT_ERROR("Application about component is not referenced yet");
+			}
 			if (component_4)
 			{
 				component_4->SetParent(this);
 				simple_views.push_back(component_4);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Application style editor component is not referenced yet");
 			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 
@@ -53,15 +69,27 @@ namespace ViewModels
 				component_5->SetParent(this);
 				menu_views.push_back(component_5);
 			}
+			else
+			{
+				SQ_CLIENT_ERROR("Menu file component is not referenced yet");
+			}
 			if (component_6)
 			{
 				component_6->SetParent(this);
 				menu_views.push_back(component_6);
 			}
+			else
+			{
+				SQ_CLIENT_ERROR("Menu tools component is not referenced yet");
+			}
 			if (component_7)
 			{
 				component_7->SetParent(this);
 				menu_views.push_back(component_7);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Menu edit component is not referenced yet");
 			}
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}

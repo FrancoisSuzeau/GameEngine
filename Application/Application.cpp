@@ -67,6 +67,10 @@ namespace Starting
         {
             main_engine->MainLoop(m_view_model_builder);
         }
+        else
+        {
+            SQ_APP_ERROR("Main engine is not referenced yet");
+        }
         
     }
 

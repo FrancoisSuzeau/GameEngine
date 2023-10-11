@@ -10,18 +10,26 @@ namespace Services
     {
         IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
         std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
+        if (graph_service_init)
+        {
+            SDL_GLContext gl_context = graph_service_init->GetGLContext();
+            SDL_Window* sdl_window = graph_service_init->GetSDLWindow();
 
-        SDL_GLContext gl_context = graph_service_init->GetGLContext();
-        SDL_Window* sdl_window = graph_service_init->GetSDLWindow();
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            m_io = ImGui::GetIO();
+            ImGui::StyleColorsDark();
+            ImGui_ImplSDL2_InitForOpenGL(sdl_window, gl_context);
+            ImGui_ImplOpenGL3_Init(Constants::IMGUIVERSION.c_str());
 
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        m_io = ImGui::GetIO();
-        ImGui::StyleColorsDark();
-        ImGui_ImplSDL2_InitForOpenGL(sdl_window, gl_context);
-        ImGui_ImplOpenGL3_Init(Constants::IMGUIVERSION.c_str());
+            SQ_APP_DEBUG("ImGui service SUCCESSFULLY initialized");
+        }
+        else
+        {
+            SQ_APP_ERROR("Graphic service initializer is not referenced yet");
+        }
 
-        SQ_APP_DEBUG("ImGui service SUCCESSFULLY initialized");
+        
     }
 
     void ImGUIServiceInitializer::DeInit()

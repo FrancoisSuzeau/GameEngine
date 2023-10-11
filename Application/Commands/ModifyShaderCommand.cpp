@@ -13,6 +13,10 @@ namespace Commands
 		m_matrice_to_add(matrice_to_add), m_count(count), m_to_ad(to_ad), m_to_add(to_add)
 	{
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+		if (!m_shader_service)
+		{
+			SQ_APP_ERROR("Shader service is not referenced yet");
+		}
 	}
 
 	void ModifyShaderCommand::Execute()

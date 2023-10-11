@@ -18,6 +18,10 @@ namespace Engines
 			m_io = imgui_service_init->GetIO();
 			imgui_service_init.reset();
 		}
+		else
+		{
+			SQ_APP_ERROR("ImGUI service initializer is not referenced yet");
+		}
 	}
 
 	void GUIEngine::InitFrame()

@@ -10,17 +10,25 @@ namespace Component
 	void Transformer::PutIntoShader(std::shared_ptr<Renderers::IRenderer> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
 		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-		if (renderer && shader_service && state_service)
+		if (!state_service)
 		{
-			shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
-			shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
-			shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
-			shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
-			if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
+			SQ_CLIENT_ERROR("State service is not referenced yet");
+		}
+		else
+		{
+			if (renderer && shader_service)
 			{
-				shader_service->setTexture(shader_name, "texture0", 0);
+				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
+				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
+				shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
+				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
+				if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
+				{
+					shader_service->setTexture(shader_name, "texture0", 0);
+				}
 			}
 		}
+		
 	}
 
 	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_position)

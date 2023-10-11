@@ -20,25 +20,54 @@ namespace Engines
 			{
 				m_window = graph_service_init->GetSDLWindow();
 			}
+			else
+			{
+				SQ_APP_ERROR("Graphic service initializer is not referenced yet");
+			}
 			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("State service is not referenced yet");
+			}
 			m_gui_engine = container->GetReference<GUIEngine>();
+			if (!m_gui_engine)
+			{
+				SQ_APP_ERROR("GUI Engine is not referenced yet");
+			}
 			m_scene_engine = container->GetReference<SceneEngine>();
+			if (!m_scene_engine)
+			{
+				SQ_APP_ERROR("Scene engine is not referenced yet");
+			}
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{
 				m_framebuffer_service->BuildFrameBuffer();
 			}
+			else
+			{
+				SQ_APP_ERROR("Framebuffer service is not referenced yet");
+			}
 
 			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
+			if (tex)
+			{
+				
+				std::vector<std::string> paths;
+				paths.push_back("resources/skybox/right.jpg");
+				paths.push_back("resources/skybox/left.jpg");
+				paths.push_back("resources/skybox/top.jpg");
+				paths.push_back("resources/skybox/bottom.jpg");
+				paths.push_back("resources/skybox/front.jpg");
+				paths.push_back("resources/skybox/back.jpg");
+				skybox_texture = tex->LoadTexture(paths);
+			}
+			else
+			{
+				SQ_APP_ERROR("Texture service loader is not referenced yet");
+			}
 
-			std::vector<std::string> paths;
-			paths.push_back("resources/skybox/right.jpg");
-			paths.push_back("resources/skybox/left.jpg");
-			paths.push_back("resources/skybox/top.jpg");
-			paths.push_back("resources/skybox/bottom.jpg");
-			paths.push_back("resources/skybox/front.jpg");
-			paths.push_back("resources/skybox/back.jpg");
-			skybox_texture = tex->LoadTexture(paths);
+			
 		}
 
 

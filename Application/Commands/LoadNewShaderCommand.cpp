@@ -10,6 +10,10 @@ LoadNewShaderCommand::LoadNewShaderCommand(std::string const shader_name, Enums:
 m_shader_type(shader_type)
 {
 	m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+	if (!m_shader_service)
+	{
+		SQ_APP_ERROR("Shader service is not referenced yet");
+	}
 }
 
 void LoadNewShaderCommand::Execute()

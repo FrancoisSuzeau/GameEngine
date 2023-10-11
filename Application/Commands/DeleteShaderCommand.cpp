@@ -9,6 +9,10 @@ using namespace Commands;
 DeleteShaderCommand::DeleteShaderCommand(std::string const shader_name) : m_shader_name(shader_name)
 {
 	m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+	if (!m_shader_service)
+	{
+		SQ_APP_ERROR("Shader service is not referenced yet");
+	}
 }
 
 void DeleteShaderCommand::Execute()

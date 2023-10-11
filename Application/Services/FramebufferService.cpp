@@ -9,6 +9,10 @@ namespace Services
 	void FramebufferService::Init()
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_APP_ERROR("State service is not referenced yet");
+		}
 
 		m_texture_fb = 0;
 		m_texture_id = 0;

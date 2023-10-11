@@ -52,6 +52,10 @@ namespace ViewModels
 				component_1->SetParent(this);
 				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
 			}
+			else
+			{
+				SQ_CLIENT_ERROR("Canvas component is not referenced yet");
+			}
 
 			/*std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(24);
 			if (grid)

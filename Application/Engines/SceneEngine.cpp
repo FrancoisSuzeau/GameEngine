@@ -19,6 +19,15 @@ namespace Engines
 				m_shader_service->LoadShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
 				m_shader_service->LoadShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
 			}
+			else
+			{
+				SQ_APP_ERROR("Shader service is not referenced yet");
+			}
+
+			if (!m_camera_service)
+			{
+				SQ_APP_ERROR("Camera service is not referenced yet");
+			}
 		}
 		
 	}

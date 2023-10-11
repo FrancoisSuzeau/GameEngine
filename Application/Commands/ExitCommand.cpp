@@ -9,6 +9,10 @@ using namespace Commands;
 ExitCommand::ExitCommand()
 {
 	m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+	if (!m_state_service)
+	{
+		SQ_APP_ERROR("State service is not referenced yet");
+	}
 }
 
 void ExitCommand::Execute()

@@ -10,6 +10,10 @@ namespace Views
 	MenuToolsComponent::MenuToolsComponent() : metrics(false), tools(false), infos(false), style(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_CLIENT_ERROR("State service is not referenced yet");
+		}
 	}
 	void MenuToolsComponent::Render()
 	{
