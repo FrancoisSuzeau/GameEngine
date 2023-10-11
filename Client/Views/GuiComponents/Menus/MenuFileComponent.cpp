@@ -21,7 +21,7 @@ namespace Views
 			{
 				if(ImGui::MenuItem("NewFile") && m_parent_view_model)
 				{
-					m_parent_view_model->OnCommand(new Commands::LoadNewShaderCommand("triangle", Enums::NORMAL));
+					//m_parent_view_model->OnCommand(new Commands::LoadNewShaderCommand("triangle", Enums::NORMAL));
 				}
 				ImGui::EndMenu();
 			}

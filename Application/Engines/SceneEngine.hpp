@@ -31,7 +31,8 @@ namespace Engines
 	private:
 		void InitFrame() override;
 		void EndFrame() override;
-		std::map < std::string, std::unique_ptr<Shaders::Shader>> m_shader_map;
+		
+		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		
 	};

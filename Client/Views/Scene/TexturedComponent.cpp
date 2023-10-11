@@ -9,11 +9,7 @@ namespace Component {
 	TexturedComponent::TexturedComponent()
 	{
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
-		if (m_shader_service)
-		{
-			m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
-			m_shader_service->LoadShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
-		}
+		
 	}
 
 	void TexturedComponent::Clean()
