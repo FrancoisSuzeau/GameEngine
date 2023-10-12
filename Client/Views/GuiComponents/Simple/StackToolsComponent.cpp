@@ -19,7 +19,7 @@ namespace Views
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
 		{
-			SQ_CLIENT_ERROR("State service is not referenced yet");
+			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
 	}
 	void StackToolsComponent::Render()

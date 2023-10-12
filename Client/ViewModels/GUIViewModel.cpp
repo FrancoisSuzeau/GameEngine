@@ -32,7 +32,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Metrics component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Metrics component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			if (component_2)
 			{
@@ -41,7 +41,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Stack tools component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Stack tools component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			if (component_3)
 			{
@@ -50,7 +50,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Application about component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Application about component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			if (component_4)
 			{
@@ -59,7 +59,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Application style editor component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Application style editor component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 
@@ -71,7 +71,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Menu file component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Menu file component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			if (component_6)
 			{
@@ -80,7 +80,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Menu tools component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Menu tools component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			if (component_7)
 			{
@@ -89,7 +89,7 @@ namespace ViewModels
 			}
 			else
 			{
-				SQ_CLIENT_ERROR("Menu edit component is not referenced yet");
+				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}

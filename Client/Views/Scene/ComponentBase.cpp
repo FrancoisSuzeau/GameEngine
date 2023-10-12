@@ -12,7 +12,7 @@ namespace Component
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 		if (!m_shader_service)
 		{
-			SQ_CLIENT_ERROR("Shader service is not referenced yet");
+			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
 		
 		angle = 0.f;

@@ -66,7 +66,7 @@ namespace Services
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
-			SQ_APP_ERROR("SDL FAILED to initialize - SDL Error : {}", SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : SDL FAILED to initialize - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
 		}
 	}
@@ -76,21 +76,21 @@ namespace Services
 		std::string error_message;
 		if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, Constants::Major_version) < 0)
 		{
-			SQ_APP_ERROR("Cannot set Open GL Major version to {} - SDL Error : {}", Constants::Major_version, SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : Cannot set Open GL Major version to {} - SDL Error : {}", __FILE__, __FUNCTION__, Constants::Major_version, SDL_GetError());
 			init_succeded = false;
 			SDL_Quit();
 		}
 
 		if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, Constants::Minor_version) < 0)
 		{
-			SQ_APP_ERROR("Cannot set Open GL Minor version to {} - SDL Error : {}", Constants::Minor_version, SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : Cannot set Open GL Minor version to {} - SDL Error : {}", __FILE__, __FUNCTION__, Constants::Minor_version, SDL_GetError());
 			init_succeded = false;
 			SDL_Quit();
 		}
 
 		if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY) < 0)
 		{
-			SQ_APP_ERROR("Cannot use profile mask and compatibility - SDL Error : {}", SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : Cannot use profile mask and compatibility - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
 			SDL_Quit();
 		}
@@ -107,7 +107,7 @@ namespace Services
 		m_window = SDL_CreateWindow("Squeamish", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 		if (m_window == nullptr)
 		{
-			SQ_APP_ERROR("Cannot create SDL Window - SDL Error : {}", SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : Cannot create SDL Window - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
 			SDL_Quit();
 		}
@@ -118,7 +118,7 @@ namespace Services
 		gl_context = SDL_GL_CreateContext(m_window);
 		if (gl_context == 0)
 		{
-			SQ_APP_ERROR("Cannot create SDL GL context - SDL Error : {}", SDL_GetError());
+			SQ_APP_ERROR("Class {} in function {} : Cannot create SDL GL context - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
 			SDL_DestroyWindow(m_window);
 			SDL_Quit();
@@ -131,7 +131,7 @@ namespace Services
 		glew = glewInit();
 		if (glew != GLEW_OK)
 		{
-			SQ_APP_ERROR("Glew FAILED to initialize - Glew Error : {}", (const char*)glewGetErrorString(glew));
+			SQ_APP_ERROR("Class {} in function {} : Glew FAILED to initialize - Glew Error : {}", __FILE__,  __FUNCTION__, (const char*)glewGetErrorString(glew));
 			init_succeded = false;
 			SDL_GL_DeleteContext(gl_context);
 			SDL_DestroyWindow(m_window);

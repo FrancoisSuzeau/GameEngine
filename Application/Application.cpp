@@ -69,7 +69,7 @@ namespace Starting
         }
         else
         {
-            SQ_APP_ERROR("Main engine is not referenced yet");
+            SQ_APP_ERROR("Class {} in function {} : Main engine is not referenced yet", __FILE__, __FUNCTION__);
         }
         
     }

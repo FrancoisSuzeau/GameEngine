@@ -12,7 +12,7 @@ namespace Component
 		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!state_service)
 		{
-			SQ_CLIENT_ERROR("State service is not referenced yet");
+			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
 		else
 		{

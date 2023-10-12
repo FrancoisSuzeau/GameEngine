@@ -22,22 +22,22 @@ namespace Engines
 			}
 			else
 			{
-				SQ_APP_ERROR("Graphic service initializer is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__ , __FUNCTION__);
 			}
 			m_state_service = container->GetReference<Services::StateService>();
 			if (!m_state_service)
 			{
-				SQ_APP_ERROR("State service is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__ , __FUNCTION__);
 			}
 			m_gui_engine = container->GetReference<GUIEngine>();
 			if (!m_gui_engine)
 			{
-				SQ_APP_ERROR("GUI Engine is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : GUI Engine is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
 			{
-				SQ_APP_ERROR("Scene engine is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Scene engine is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
@@ -46,7 +46,7 @@ namespace Engines
 			}
 			else
 			{
-				SQ_APP_ERROR("Framebuffer service is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
 			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
@@ -64,7 +64,7 @@ namespace Engines
 			}
 			else
 			{
-				SQ_APP_ERROR("Texture service loader is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
 			

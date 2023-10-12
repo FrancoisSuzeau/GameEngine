@@ -20,7 +20,7 @@ namespace Engines
 		}
 		else
 		{
-			SQ_APP_ERROR("ImGUI service initializer is not referenced yet");
+			SQ_APP_ERROR("Class {} in function {} : ImGUI service initializer is not referenced yet", __FILE__, __FUNCTION__);
 		}
 	}
 

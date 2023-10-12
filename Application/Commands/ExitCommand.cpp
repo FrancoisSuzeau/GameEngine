@@ -11,7 +11,7 @@ ExitCommand::ExitCommand()
 	m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 	if (!m_state_service)
 	{
-		SQ_APP_ERROR("State service is not referenced yet");
+		SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 	}
 }
 

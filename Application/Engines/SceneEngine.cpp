@@ -21,12 +21,12 @@ namespace Engines
 			}
 			else
 			{
-				SQ_APP_ERROR("Shader service is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
 			if (!m_camera_service)
 			{
-				SQ_APP_ERROR("Camera service is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 		

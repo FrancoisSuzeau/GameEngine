@@ -37,7 +37,7 @@ namespace Services
 		}
 		else
 		{
-			SQ_EXTSERVICE_ERROR("Cannot read or found [{}] file", Constants::CONFIGFILE + Constants::JSONEXT);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot read or found [{}] file", __FILE__, __FUNCTION__, Constants::CONFIGFILE + Constants::JSONEXT);
 		}
 	}
 
@@ -48,7 +48,7 @@ namespace Services
 			std::string node = datas->value(node_name, Constants::NONE);
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Cannot found [{}] node", Constants::USERPREFNODE);
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
 				return Constants::NONE;
 				
 			}
@@ -57,7 +57,7 @@ namespace Services
 			return node;
 		}
 
-		SQ_EXTSERVICE_ERROR("No json was serialized - Cannot read node");
+		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
 		return Constants::NONE;;
 		
 	}

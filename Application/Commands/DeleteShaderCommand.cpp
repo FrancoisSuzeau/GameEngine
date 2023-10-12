@@ -11,7 +11,7 @@ DeleteShaderCommand::DeleteShaderCommand(std::string const shader_name) : m_shad
 	m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 	if (!m_shader_service)
 	{
-		SQ_APP_ERROR("Shader service is not referenced yet");
+		SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 	}
 }
 

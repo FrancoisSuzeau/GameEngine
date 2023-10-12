@@ -24,12 +24,12 @@ namespace Services
 			}
 			else
 			{
-				SQ_APP_ERROR("Graphic service initializer is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_camera_services = container->GetReference<Services::CameraService>();
 			if (!m_camera_services)
 			{
-				SQ_APP_ERROR("Camera service is not referenced yet");
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 
