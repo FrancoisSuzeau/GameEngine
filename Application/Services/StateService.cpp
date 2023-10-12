@@ -27,7 +27,7 @@ namespace Services
 				SQ_APP_ERROR("Graphic service initializer is not referenced yet");
 			}
 			m_camera_services = container->GetReference<Services::CameraService>();
-			if (m_camera_services)
+			if (!m_camera_services)
 			{
 				SQ_APP_ERROR("Camera service is not referenced yet");
 			}
