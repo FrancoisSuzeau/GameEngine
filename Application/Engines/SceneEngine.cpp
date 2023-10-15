@@ -28,6 +28,24 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
+			if (tex)
+			{
+
+				std::vector<std::string> paths;
+				paths.push_back("resources/skybox/right.jpg");
+				paths.push_back("resources/skybox/left.jpg");
+				paths.push_back("resources/skybox/top.jpg");
+				paths.push_back("resources/skybox/bottom.jpg");
+				paths.push_back("resources/skybox/front.jpg");
+				paths.push_back("resources/skybox/back.jpg");
+				m_skybox_texture = tex->LoadTexture(paths);
+			}
+			else
+			{
+				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 		
 	}
@@ -58,14 +76,14 @@ namespace Engines
 		}
 	}
 
-	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int skybox_texture_id)
+	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderSkybox(skybox_texture_id);
+				view_model->RenderSkybox(m_skybox_texture);
 			}
 
 		}

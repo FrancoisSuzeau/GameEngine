@@ -49,23 +49,7 @@ namespace Engines
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
-			if (tex)
-			{
-				
-				std::vector<std::string> paths;
-				paths.push_back("resources/skybox/right.jpg");
-				paths.push_back("resources/skybox/left.jpg");
-				paths.push_back("resources/skybox/top.jpg");
-				paths.push_back("resources/skybox/bottom.jpg");
-				paths.push_back("resources/skybox/front.jpg");
-				paths.push_back("resources/skybox/back.jpg");
-				skybox_texture = tex->LoadTexture(paths);
-			}
-			else
-			{
-				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
-			}
+			
 
 			
 		}
@@ -92,7 +76,7 @@ namespace Engines
 				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
-				m_scene_engine->RenderSkybox(view_model_builder, skybox_texture);
+				m_scene_engine->RenderSkybox(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();
