@@ -15,6 +15,8 @@ namespace Services
 		}
 
 		m_texture_fb = 0;
+		m_depth_fb = 0;
+		m_depth_id = 0;
 		m_texture_id = 0;
 		m_render_fb = 0;		
 		
@@ -26,10 +28,20 @@ namespace Services
 			glDeleteFramebuffers(1, &m_texture_fb);
 			m_texture_fb = 0;
 		}
+		if (m_depth_fb != 0)
+		{
+			glDeleteFramebuffers(1, &m_depth_fb);
+			m_depth_fb = 0;
+		}
 		if (m_texture_id != 0)
 		{
 			glDeleteTextures(1, &m_texture_id);
 			m_texture_id = 0;
+		}
+		if (m_depth_id != 0)
+		{
+			glDeleteTextures(1, &m_depth_id);
+			m_depth_id = 0;
 		}
 		if (m_render_fb != 0)
 		{
@@ -46,9 +58,49 @@ namespace Services
 	{
 		return m_texture_id;
 	}
-	void FramebufferService::BuildFrameBuffer()
+	void FramebufferService::BuildFrameBufferDepth()
+	{
+		glGenTextures(1, &m_depth_id);
+
+		if (m_depth_id != 0)
+		{
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_depth_id);
+
+			if (glIsTexture(m_depth_id) == GL_TRUE)
+			{
+				for (unsigned int i = 0; i < 6; ++i)
+				{
+					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, m_state_service->getWidth(), m_state_service->getWidth(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+				}
+				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+				glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_depth_id, 0);
+
+				glDrawBuffer(GL_NONE);
+				glReadBuffer(GL_NONE);
+
+				glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+			}
+		}
+	}
+	void FramebufferService::BuildFrameBufferTexture()
 	{
 		this->SetFrameBufferDim();
+		glGenFramebuffers(1, &m_depth_fb);
+		if (m_depth_fb != 0)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, m_depth_fb);
+			if (glIsFramebuffer(m_depth_fb) == GL_TRUE)
+			{
+				this->BuildFrameBufferDepth();
+				this->CheckFramebufferStatus("Depth");
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+		}
 		glGenFramebuffers(1, &m_texture_fb);
 		if (m_texture_fb != 0)
 		{
@@ -57,7 +109,7 @@ namespace Services
 			{
 				this->BuildTextureFB();
 				this->BuildRenderFB();
-				this->CheckFramebufferStatus();
+				this->CheckFramebufferStatus("Texture");
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 		}
@@ -120,16 +172,16 @@ namespace Services
 			}
 		}
 	}
-	void FramebufferService::CheckFramebufferStatus()
+	void FramebufferService::CheckFramebufferStatus(std::string const framebuffer_name)
 	{
 		auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 		if (status != GL_FRAMEBUFFER_COMPLETE)
 		{
-			SQ_APP_CRITICAL("Frame buffer is not complete || Status : {}", status);
+			SQ_APP_CRITICAL("{} frame buffer is not complete || Status : {}", framebuffer_name, status);
 		}
 		else
 		{
-			SQ_APP_DEBUG("Framebuffer service initiated");
+			SQ_APP_DEBUG("{} framebuffer ready", framebuffer_name);
 		}
 		
 	}

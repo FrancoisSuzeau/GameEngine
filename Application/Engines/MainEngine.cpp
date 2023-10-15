@@ -42,7 +42,7 @@ namespace Engines
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{
-				m_framebuffer_service->BuildFrameBuffer();
+				m_framebuffer_service->BuildFrameBufferTexture();
 			}
 			else
 			{
@@ -89,15 +89,15 @@ namespace Engines
 				}
 				
 
-				//m_framebuffer_service->BindFramebuffer();
+				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
-				m_scene_engine->RenderScene(view_model_builder);
 				m_scene_engine->RenderSkybox(view_model_builder, skybox_texture);
+				m_scene_engine->RenderScene(view_model_builder);
 
-				//m_framebuffer_service->UnbindFramebuffer();
+				m_framebuffer_service->UnbindFramebuffer();
 
-				/*m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());*/
+				m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);
