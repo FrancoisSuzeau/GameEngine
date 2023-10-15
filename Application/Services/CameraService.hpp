@@ -44,6 +44,7 @@ namespace Services {
 		float m_pitch;
 
 		void ChangePitch();
+		void ChangeYaw();
 
 	};
 }

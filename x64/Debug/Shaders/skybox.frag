@@ -7,5 +7,7 @@ uniform samplerCube texture0;
 
 void main()
 {    
-    FragColor = texture(texture0, TexCoords);
+
+    vec3 objectColor = texture(texture0, TexCoords).rgb;
+    FragColor = vec4(objectColor, 1.0);
 }

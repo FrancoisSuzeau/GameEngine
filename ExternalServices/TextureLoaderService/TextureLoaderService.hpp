@@ -33,6 +33,7 @@ namespace Services {
 	private:
 
 		SDL_Surface* LoadFile(std::string path);
+		unsigned int texture_id;
 
 	};
 }

@@ -41,13 +41,14 @@ namespace Renderers {
         glGenBuffers(1, &m_vbo);
         glBindVertexArray(m_vao);
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices.data(), GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
+        glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_vertices.data(), GL_STATIC_DRAW);
+
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
 	}
 	void Skybox::Load()
 	{
-        float skyboxVertices[] = {
+        float skyboxVertices[108] = {
             // positions          
             -1.0f,  1.0f, -1.0f,
             -1.0f, -1.0f, -1.0f,
@@ -92,6 +93,7 @@ namespace Renderers {
              1.0f, -1.0f,  1.0f
         };
 
+        
         for (int i = 0; i < 108; i++)
         {
             m_vertices.push_back(skyboxVertices[i]);

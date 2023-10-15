@@ -20,7 +20,7 @@ namespace Component
 			{
 				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
-				shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
+				PutViewMapIntoShader(state_service, shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
 				{
@@ -68,6 +68,21 @@ namespace Component
 		if (renderer)
 		{
 			renderer->SetModelMat(glm::mat4(1.f));
+		}
+	}
+	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::StateService> state_service, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	{
+		if (state_service)
+		{
+			if (shader_name == Constants::SKYBOX_SHADER)
+			{
+				shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(state_service->GetViewMatrix())));
+			}
+			else
+			{
+				shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
+			}
+			
 		}
 	}
 }

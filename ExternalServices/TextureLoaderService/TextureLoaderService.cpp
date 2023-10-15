@@ -13,6 +13,7 @@ namespace Services
 
 	void TextureLoaderService::DeInit()
 	{
+		this->DestroyTexture(texture_id);
 	}
 
 	TextureLoaderService::TextureLoaderService()
@@ -27,12 +28,11 @@ namespace Services
 
 	unsigned int TextureLoaderService::LoadTexture(std::vector<std::string> faces_path)
 	{
-		unsigned int texture_id = 0;
+		texture_id = 0;
 		glGenTextures(1, &texture_id);
 
 		if (texture_id != 0)
 		{
-			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
 
 			if (glIsTexture(texture_id) == GL_TRUE)
@@ -41,8 +41,11 @@ namespace Services
 				for (std::vector<std::string>::iterator it = faces_path.begin(); it != faces_path.end(); it++)
 				{
 					SDL_Surface* surface = this->LoadFile(it[0]);
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
-					SDL_FreeSurface(surface);
+					if (surface != nullptr)
+					{
+						glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
+						SDL_FreeSurface(surface);
+					}
 					i++;
 				}
 
@@ -52,7 +55,6 @@ namespace Services
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 			}
 

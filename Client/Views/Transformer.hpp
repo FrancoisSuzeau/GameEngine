@@ -22,6 +22,8 @@ namespace Component
 		static void Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector);
 		static void Rotate(std::shared_ptr<Renderers::IRenderer> renderer, float angle, glm::vec3 axis);
 		static void ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer);
+	private:
+		static void PutViewMapIntoShader(std::shared_ptr<Services::StateService> state_service, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
 	
 	};
 }
