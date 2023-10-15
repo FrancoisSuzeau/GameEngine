@@ -30,6 +30,7 @@ namespace Starting
             app->AddView<Views::MenuToolsComponent>();
             app->AddView<Views::MenuEditComponent>();
             app->AddView<Views::MenuFileComponent>();
+            app->AddView<Views::EventViewerComponent>();
 
             app->AddViewModel<ViewModels::GuiViewModel>(Constants::GUIVIEWMODEL);
         }

@@ -16,6 +16,10 @@
 
 #include "IService.hpp"
 
+#include "IEngine.hpp"
+#include "Container/Container.hpp"
+#include "../Services/ImGUIServiceInitalizer.hpp"
+
 namespace Services {
 
 	class StateService : public IService
@@ -38,6 +42,8 @@ namespace Services {
 		void setShowInfos(bool const new_val);
 		bool getShowStyleEditor() const;
 		void setShowStyleEditor(bool const new_val);
+		void setShowEvent(bool const new_val);
+		bool getShowEvent() const;
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
@@ -52,6 +58,7 @@ namespace Services {
 		bool m_show_tools;
 		bool m_show_app_info;
 		bool m_show_style_editor;
+		bool m_show_event;
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
 		std::shared_ptr<Services::CameraService> m_camera_services;

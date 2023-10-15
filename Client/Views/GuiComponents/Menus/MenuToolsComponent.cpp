@@ -25,7 +25,9 @@ namespace Views
 				tools = m_state_service->getShowTools();
 				infos = m_state_service->getShowInfos();
 				style = m_state_service->getShowStyleEditor();
+				s_event = m_state_service->getShowEvent();
 				ImGui::MenuItem("Metrics/Debugger", NULL, &metrics);
+				ImGui::MenuItem("Event viewer", NULL, &s_event);
 				ImGui::MenuItem("Stack Tool", NULL, &tools);
 				ImGui::MenuItem("Style Editor", NULL, &style);
 				ImGui::MenuItem("About Dear ImGui", NULL, &infos);
@@ -33,6 +35,7 @@ namespace Views
 				m_state_service->setShowTools(tools);
 				m_state_service->setShowInfos(infos);
 				m_state_service->setShowStyleEditor(style);
+				m_state_service->setShowEvent(s_event);
 			}
 			ImGui::EndMenu();
 		}

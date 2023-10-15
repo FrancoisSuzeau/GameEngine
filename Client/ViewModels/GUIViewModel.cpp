@@ -23,6 +23,7 @@ namespace ViewModels
 			std::shared_ptr<Views::MenuFileComponent> component_5 = container->GetReference<Views::MenuFileComponent>();
 			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->GetReference< Views::MenuToolsComponent>();
 			std::shared_ptr<Views::MenuEditComponent> component_7 = container->GetReference< Views::MenuEditComponent>();
+			std::shared_ptr<Views::EventViewerComponent> component_8 = container->GetReference<Views::EventViewerComponent>();
 
 			std::list<std::shared_ptr<Views::IView>> simple_views;
 			if (component_1)
@@ -61,6 +62,15 @@ namespace ViewModels
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Application style editor component is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			if (component_8)
+			{
+				component_8->SetParent(this);
+				simple_views.push_back(component_8);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Event viewer component is not referenced yet", __FILE__, __FUNCTION__);
+			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 
 			std::list<std::shared_ptr<Views::IView>> menu_views;
@@ -91,6 +101,7 @@ namespace ViewModels
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}
 	}
