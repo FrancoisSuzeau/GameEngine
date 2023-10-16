@@ -37,7 +37,7 @@ namespace Services
 		m_show_metrics = false;
 
 		m_view = glm::mat4(1.f);
-		m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
+		m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 	}
 
 	void StateService::DeInit()

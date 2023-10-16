@@ -29,23 +29,16 @@ namespace Engines
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
+			/*std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
 			if (tex)
 			{
-
-				std::vector<std::string> paths;
-				paths.push_back("resources/skybox/right.jpg");
-				paths.push_back("resources/skybox/left.jpg");
-				paths.push_back("resources/skybox/top.jpg");
-				paths.push_back("resources/skybox/bottom.jpg");
-				paths.push_back("resources/skybox/front.jpg");
-				paths.push_back("resources/skybox/back.jpg");
-				m_skybox_texture = tex->LoadTexture(paths);
+				
+				m_skybox_texture = tex->BuildSkyboxTexture("resources/skybox/studio");
 			}
 			else
 			{
 				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
-			}
+			}*/
 		}
 		
 	}

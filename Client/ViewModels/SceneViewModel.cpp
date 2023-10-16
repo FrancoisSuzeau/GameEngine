@@ -57,12 +57,12 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : Canvas component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			/*std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(24);
+			std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(48);
 			if (grid)
 			{
 				grid->Construct();
 				m_renderers.push_back(grid);
-			}*/
+			}
 
 			
 

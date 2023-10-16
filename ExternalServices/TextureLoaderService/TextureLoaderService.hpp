@@ -27,13 +27,15 @@ namespace Services {
 		~TextureLoaderService();
 
 
-		unsigned int LoadTexture(std::vector<std::string> faces_path);
+		unsigned int BuildSkyboxTexture(std::string const repository_path);
 		void DestroyTexture(unsigned int texture_id);
 
 	private:
 
-		SDL_Surface* LoadFile(std::string path);
+		SDL_Surface* LoadTexture(std::string path);
 		unsigned int texture_id;
+
+		std::vector<std::string> m_skybox_files_name;
 
 	};
 }

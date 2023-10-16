@@ -8,7 +8,12 @@ namespace Services
 {
 	void TextureLoaderService::Init()
 	{
-
+		m_skybox_files_name.push_back("right.jpg");
+		m_skybox_files_name.push_back("left.jpg");
+		m_skybox_files_name.push_back("top.jpg");
+		m_skybox_files_name.push_back("bottom.jpg");
+		m_skybox_files_name.push_back("front.jpg");
+		m_skybox_files_name.push_back("back.jpg");
 	}
 
 	void TextureLoaderService::DeInit()
@@ -18,7 +23,7 @@ namespace Services
 
 	TextureLoaderService::TextureLoaderService()
 	{
-
+		m_skybox_files_name.reserve(6);
 	}
 
 	TextureLoaderService::~TextureLoaderService()
@@ -26,7 +31,7 @@ namespace Services
 
 	}
 
-	unsigned int TextureLoaderService::LoadTexture(std::vector<std::string> faces_path)
+	unsigned int TextureLoaderService::BuildSkyboxTexture(std::string const repository_path)
 	{
 		texture_id = 0;
 		glGenTextures(1, &texture_id);
@@ -38,9 +43,10 @@ namespace Services
 			if (glIsTexture(texture_id) == GL_TRUE)
 			{
 				int i = 0;
-				for (std::vector<std::string>::iterator it = faces_path.begin(); it != faces_path.end(); it++)
+				for (std::vector<std::string>::iterator it = m_skybox_files_name.begin(); it != m_skybox_files_name.end(); it++)
 				{
-					SDL_Surface* surface = this->LoadFile(it[0]);
+					std::string const full_path = repository_path + "/" + it[0];
+					SDL_Surface* surface = this->LoadTexture(full_path);
 					if (surface != nullptr)
 					{
 						glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
@@ -73,7 +79,7 @@ namespace Services
 		}
 	}
 
-	SDL_Surface* TextureLoaderService::LoadFile(std::string path)
+	SDL_Surface* TextureLoaderService::LoadTexture(std::string path)
 	{
 		SDL_Surface* surface = IMG_Load(path.c_str());
 		if (surface == nullptr)

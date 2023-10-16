@@ -76,7 +76,7 @@ namespace Engines
 				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
-				m_scene_engine->RenderSkybox(view_model_builder);
+				//m_scene_engine->RenderSkybox(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();
