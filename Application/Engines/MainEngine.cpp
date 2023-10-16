@@ -48,10 +48,6 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-
-			
-
-			
 		}
 
 
@@ -76,7 +72,7 @@ namespace Engines
 				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
-				//m_scene_engine->RenderSkybox(view_model_builder);
+				m_scene_engine->RenderSkybox(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();
