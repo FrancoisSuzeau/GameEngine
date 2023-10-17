@@ -29,6 +29,7 @@ namespace Services {
 
 		glm::vec3 GetPos() const;
 		glm::vec3 GetTarget() const;
+		float GetFov() const;
 
 	private:
 		
@@ -42,7 +43,9 @@ namespace Services {
 		float m_y_rel;
 		float m_yaw;
 		float m_pitch;
+		float m_fov;
 
+		void ChangeFov(float offset);
 		void ChangePitch();
 		void ChangeYaw();
 

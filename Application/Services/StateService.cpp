@@ -30,6 +30,11 @@ namespace Services
 			if (!m_camera_services)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+				m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+			}
+			else
+			{
+				m_projection_matrix = glm::perspective(glm::radians(m_camera_services->GetFov()), (float)m_width / (float)m_height, 0.1f, 20.0f);
 			}
 		}
 
@@ -37,7 +42,7 @@ namespace Services
 		m_show_metrics = false;
 
 		m_view = glm::mat4(1.f);
-		m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+		
 	}
 
 	void StateService::DeInit()
@@ -119,6 +124,13 @@ namespace Services
 	glm::mat4 StateService::GetProjectionMatrix() const
 	{
 		return m_projection_matrix;
+	}
+	void StateService::RefreshProjectionMatrix()
+	{
+		if (m_camera_services)
+		{
+			m_projection_matrix = glm::perspective(glm::radians(m_camera_services->GetFov()), (float)m_width / (float)m_height, 0.1f, 20.0f);
+		}
 	}
 }
 

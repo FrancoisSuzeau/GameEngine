@@ -47,6 +47,7 @@ namespace Services {
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
+		void RefreshProjectionMatrix();
 
 
 	private:

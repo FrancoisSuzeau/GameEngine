@@ -24,6 +24,7 @@ namespace Services
 
         m_yaw = -90.f;
         m_pitch = 0.f;
+        m_fov = 45.f;
 
 	}
 
@@ -58,6 +59,10 @@ namespace Services
             m_x_rel = (float)event.motion.xrel;
             m_y_rel = (float)event.motion.yrel;
             break;
+        case SDL_MOUSEWHEEL:
+            if (event.wheel.y > 0) { this->ChangeFov(-1.f); }
+            if (event.wheel.y < 0) { this->ChangeFov(1.f); }
+            break;
 
         default:
             break;
@@ -85,6 +90,22 @@ namespace Services
     glm::vec3 CameraService::GetTarget() const
     {
         return m_camera_target;
+    }
+    float CameraService::GetFov() const
+    {
+        return m_fov;
+    }
+    void CameraService::ChangeFov(float offset)
+    {
+        m_fov += offset;
+        if (m_fov < 1.f)
+        {
+            m_fov = 1.f;
+        }
+        if (m_fov > 45.f)
+        {
+            m_fov = 45.f;
+        }
     }
     void CameraService::ChangePitch()
     {
