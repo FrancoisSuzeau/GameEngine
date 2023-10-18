@@ -29,7 +29,7 @@ namespace Services {
 
 		glm::vec3 GetPos() const;
 		glm::vec3 GetTarget() const;
-		float GetFov() const;
+		void MoveCamera();
 
 	private:
 		
@@ -37,15 +37,14 @@ namespace Services {
 		glm::vec3 m_camera_target;
 		glm::vec3 m_camera_up;
 		bool m_mouse_button[8];
-		int m_x;
-		int m_y;
+
 		float m_x_rel;
 		float m_y_rel;
 		float m_yaw;
 		float m_pitch;
-		float m_fov;
+		float m_camera_speed;
 
-		void ChangeFov(float offset);
+		void ChangeHigh(float offset);
 		void ChangePitch();
 		void ChangeYaw();
 

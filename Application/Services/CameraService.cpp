@@ -17,14 +17,13 @@ namespace Services
         m_camera_up = glm::vec3(0.f, 1.f, 0.f);
         m_camera_target = glm::vec3(0.f, 0.f, -1.f);
 
-		m_x = 0;
-		m_y = 0;
 		m_x_rel = 0.f;
 		m_y_rel = 0.f;
 
         m_yaw = -90.f;
         m_pitch = 0.f;
-        m_fov = 45.f;
+
+        m_camera_speed = 0.01f;
 
 	}
 
@@ -40,7 +39,6 @@ namespace Services
 
         switch (event.type)
         {
-
             ////click on the mouse
         case SDL_MOUSEBUTTONDOWN:
             m_mouse_button[event.button.button] = true;
@@ -53,15 +51,12 @@ namespace Services
 
             //mouse is moving
         case SDL_MOUSEMOTION:
-            m_x = event.motion.x;
-            m_y = event.motion.y;
-
             m_x_rel = (float)event.motion.xrel;
             m_y_rel = (float)event.motion.yrel;
             break;
         case SDL_MOUSEWHEEL:
-            if (event.wheel.y > 0) { this->ChangeFov(-1.f); }
-            if (event.wheel.y < 0) { this->ChangeFov(1.f); }
+            if (event.wheel.y > 0) { this->ChangeHigh(-1.f); }
+            if (event.wheel.y < 0) { this->ChangeHigh(1.f); }
             break;
 
         default:
@@ -91,27 +86,24 @@ namespace Services
     {
         return m_camera_target;
     }
-    float CameraService::GetFov() const
+   
+    void CameraService::MoveCamera()
     {
-        return m_fov;
+        if (m_mouse_button[SDL_BUTTON_LEFT])
+        {
+            m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_x_rel;
+            m_camera_pos += m_camera_target * m_y_rel * m_camera_speed;
+        }
     }
-    void CameraService::ChangeFov(float offset)
+    void CameraService::ChangeHigh(float offset)
     {
-        m_fov += offset;
-        if (m_fov < 1.f)
-        {
-            m_fov = 1.f;
-        }
-        if (m_fov > 45.f)
-        {
-            m_fov = 45.f;
-        }
+        m_camera_pos.y += offset * m_camera_speed * 20.f;
     }
     void CameraService::ChangePitch()
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_pitch += m_y_rel * 0.1f;
+            m_pitch += m_y_rel * m_camera_speed * 10.f;
             if (m_pitch > 89.0f)
             {
                 m_pitch = 89.0f;
@@ -127,8 +119,7 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_yaw += m_x_rel * 0.1f;
-            
+            m_yaw += m_x_rel * m_camera_speed * 10.f;
         }
     }
 

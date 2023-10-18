@@ -82,12 +82,13 @@ namespace Engines
 		}
 	}
 
-	void SceneEngine::MoveCamera(SDL_Event event)
+	void SceneEngine::UpdateCamera(SDL_Event event)
 	{
 		if (m_camera_service)
 		{
 			m_camera_service->UpdateEvent(event);
 			m_camera_service->OrienteCamera();
+			m_camera_service->MoveCamera();
 		}
 	}
 

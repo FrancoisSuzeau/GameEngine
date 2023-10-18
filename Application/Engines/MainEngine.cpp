@@ -65,7 +65,7 @@ namespace Engines
 				this->FpsCalculation(Enums::BEGIN);
 				while (SDL_PollEvent(&event))
 				{
-					m_scene_engine->MoveCamera(event);
+					m_scene_engine->UpdateCamera(event);
 					m_state_service->RefreshProjectionMatrix();
 				}
 				
