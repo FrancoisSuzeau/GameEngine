@@ -15,7 +15,7 @@
 #endif
 
 namespace Enums {
-	enum RendererType {NONE, TRIANGLE, SQUARE, SQUARE_TEXTURED, GRID};
+	enum RendererType {NONE, TRIANGLE, SQUARE, SQUARE_TEXTURED, GRID, SKYBOX};
 }
 
 namespace Renderers {
@@ -25,7 +25,7 @@ namespace Renderers {
 	class IRenderer
 	{
 	public:
-		virtual ~IRenderer() {}
+		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
 		virtual void Clean()
 		{

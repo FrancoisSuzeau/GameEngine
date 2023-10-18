@@ -5,12 +5,14 @@
 #ifndef ISERVICE_H
 #define ISERVICE_H
 
+#include <iostream>
+
 namespace Services {
 
 	class IService
 	{
 	public:
-		virtual ~IService() {}
+		virtual ~IService() {  }
 		virtual void Init() = 0;
 		virtual void DeInit() = 0;
 	};

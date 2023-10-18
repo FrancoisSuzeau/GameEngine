@@ -34,6 +34,7 @@
     <ClInclude Include="Shaders\Shader.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
+    <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="Shaders\Shader.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
+    <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

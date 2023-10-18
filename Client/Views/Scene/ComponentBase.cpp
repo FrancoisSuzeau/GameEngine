@@ -9,11 +9,12 @@ namespace Component
 {
 	ComponentBase::ComponentBase()
 	{
-		m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
-		if (m_shader_service)
+		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+		if (!m_shader_service)
 		{
-			m_shader_service->LoadShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
+			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		
 		angle = 0.f;
 	}
 
@@ -81,10 +82,8 @@ namespace Component
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
 				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, glm::vec3(-0.8f, 0.0f, -1.f));
-				Transformer::Resize(renderer, glm::vec3(1.2f));
-				Transformer::Rotate(renderer, 25.f, glm::vec3(1.f, 0.f, 0.f));
-				Transformer::Rotate(renderer, 35.f, glm::vec3(0.f, 1.f, 0.f));
+				Transformer::Move(renderer, glm::vec3(-10.f, -1.f, -10.f));
+				Transformer::Resize(renderer, glm::vec3(20.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 
 				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);

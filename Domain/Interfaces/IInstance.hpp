@@ -20,6 +20,7 @@ namespace IoC {
 		{
 		public:
 			virtual ~IInstance() {}
+			virtual void Destroy() = 0;
 		};
 	}
 }

@@ -8,7 +8,11 @@ namespace Services
 {
 	void ShaderService::Init()
 	{
-		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderLoaderService>();
+		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
+		if (!m_shader_loader)
+		{
+			SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+		}
 		
 	}
 
@@ -36,7 +40,7 @@ namespace Services
 		}
 		else
 		{
-			SQ_APP_ERROR("Shader {} already exist", shader_name);
+			SQ_APP_ERROR("Class {} in function {} : Shader {} already exist", __FILE__, __FUNCTION__, shader_name);
 		}
 		
 	}

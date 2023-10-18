@@ -134,11 +134,13 @@
   <ItemGroup>
     <ClCompile Include="JsonLoaderService\JsonLoaderService.cpp" />
     <ClCompile Include="ShaderLoaderService\ShaderLoaderService.cpp" />
+    <ClCompile Include="TextureLoaderService\TextureLoaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalServices.hpp" />
     <ClInclude Include="JsonLoaderService\JsonLoaderService.hpp" />
     <ClInclude Include="ShaderLoaderService\ShaderLoaderService.hpp" />
+    <ClInclude Include="TextureLoaderService\TextureLoaderService.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.vcxproj">

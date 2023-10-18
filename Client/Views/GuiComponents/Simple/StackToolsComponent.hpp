@@ -31,7 +31,7 @@ namespace Views
 	{
 
 	public:
-
+		~StackToolsComponent() override;
 		StackToolsComponent();
 		void Render() override;
 	private:

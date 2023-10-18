@@ -22,7 +22,8 @@ namespace Services {
 
 		unsigned int GetTextureId() const;
 
-		void BuildFrameBuffer();
+		void BuildFrameBufferDepth();
+		void BuildFrameBufferTexture();
 
 		void BindFramebuffer();
 		void UnbindFramebuffer();
@@ -31,12 +32,14 @@ namespace Services {
 		unsigned int m_texture_fb;
 		unsigned int m_texture_id;
 		unsigned int m_render_fb;
+		unsigned int m_depth_fb;
+		unsigned int m_depth_id = 0;
 		int m_fb_width;
 		int m_fb_height;
 		void SetFrameBufferDim();
 		void BuildTextureFB();
 		void BuildRenderFB();
-		void CheckFramebufferStatus();
+		void CheckFramebufferStatus(std::string const framebuffer_name);
 
 		std::shared_ptr<Services::StateService> m_state_service;
 

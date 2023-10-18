@@ -39,6 +39,7 @@ namespace Constants {
 	std::string const SCENEVIEWMODEL = "SCENE";
 	std::string const UNTEXTURED_SHADER = "untextured";
 	std::string const SCREEN_SHADER = "screen_shader";
+	std::string const SKYBOX_SHADER = "skybox";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
 }

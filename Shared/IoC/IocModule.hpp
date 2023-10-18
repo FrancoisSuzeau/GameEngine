@@ -28,7 +28,7 @@ namespace IoC {
 					return new T();
 					});
 
-				auto service = container->make<T>();
+				auto service = container->GetReference<T>();
 
 				builder->Build(type.name(), service);
 				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
@@ -44,7 +44,7 @@ namespace IoC {
 				container->registerType<T>([]() {
 					return new T();
 					});
-				auto engine = container->make<T>();
+				auto engine = container->GetReference<T>();
 
 				builder->Build(engine);
 				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
@@ -75,13 +75,20 @@ namespace IoC {
 				container->registerType<T>([]() {
 					return new T();
 					});
-				auto view_model = container->make<T>();
+				auto view_model = container->GetReference<T>();
 				builder->Build(view_model_type, view_model);
 				SQ_SHARED_TRACE("IoC module : {} loaded", type.name());
 			}
 		}
 
 		void StartBuilder(Builders::IBuilder* builder);
+
+
+		template<typename T>
+		void DestroyReference()
+		{
+			IoC::Container::Container::GetInstanceContainer()->DestroyReference<T>();
+		}
 
 	private:
 

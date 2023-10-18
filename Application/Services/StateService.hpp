@@ -8,12 +8,17 @@
 #include <iostream>
 #include "Container/Container.hpp"
 #include "GraphicInitializerService.hpp"
+#include "CameraService.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "IService.hpp"
+
+#include "IEngine.hpp"
+#include "Container/Container.hpp"
+#include "../Services/ImGUIServiceInitalizer.hpp"
 
 namespace Services {
 
@@ -37,9 +42,12 @@ namespace Services {
 		void setShowInfos(bool const new_val);
 		bool getShowStyleEditor() const;
 		void setShowStyleEditor(bool const new_val);
+		void setShowEvent(bool const new_val);
+		bool getShowEvent() const;
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
+		void RefreshProjectionMatrix();
 
 
 	private:
@@ -51,8 +59,12 @@ namespace Services {
 		bool m_show_tools;
 		bool m_show_app_info;
 		bool m_show_style_editor;
+		bool m_show_event;
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
+		std::shared_ptr<Services::CameraService> m_camera_services;
+
+
 	};
 }
 

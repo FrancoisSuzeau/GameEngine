@@ -15,18 +15,38 @@ namespace Engines
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
+			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
 			if (graph_service_init)
 			{
 				m_window = graph_service_init->GetSDLWindow();
 			}
-			m_state_service = container->make<Services::StateService>();
-			m_gui_engine = container->make<GUIEngine>();
-			m_scene_engine = container->make<SceneEngine>();
-			m_framebuffer_service = container->make<Services::FramebufferService>();
+			else
+			{
+				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__ , __FUNCTION__);
+			}
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__ , __FUNCTION__);
+			}
+			m_gui_engine = container->GetReference<GUIEngine>();
+			if (!m_gui_engine)
+			{
+				SQ_APP_ERROR("Class {} in function {} : GUI Engine is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			m_scene_engine = container->GetReference<SceneEngine>();
+			if (!m_scene_engine)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Scene engine is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{
-				m_framebuffer_service->BuildFrameBuffer();
+				m_framebuffer_service->BuildFrameBufferTexture();
+			}
+			else
+			{
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 
@@ -45,13 +65,15 @@ namespace Engines
 				this->FpsCalculation(Enums::BEGIN);
 				while (SDL_PollEvent(&event))
 				{
-					// Keep this to let IMGUI capture event
+					m_scene_engine->UpdateCamera(event);
+					m_state_service->RefreshProjectionMatrix();
 				}
 				
 
 				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
+				m_scene_engine->RenderSkybox(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();
@@ -72,9 +94,9 @@ namespace Engines
 
 	void MainEngine::InitFrame()
 	{
+
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
 
 		if (m_gui_engine)
 		{

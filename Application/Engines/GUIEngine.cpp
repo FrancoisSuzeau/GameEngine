@@ -12,11 +12,15 @@ namespace Engines
 
 	void GUIEngine::Construct()
 	{
-		std::shared_ptr<Services::ImGUIServiceInitializer> imgui_service_init = IoC::Container::Container::GetInstanceContainer()->make<Services::ImGUIServiceInitializer>();
+		std::shared_ptr<Services::ImGUIServiceInitializer> imgui_service_init = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ImGUIServiceInitializer>();
 		if (imgui_service_init)
 		{
 			m_io = imgui_service_init->GetIO();
 			imgui_service_init.reset();
+		}
+		else
+		{
+			SQ_APP_ERROR("Class {} in function {} : ImGUI service initializer is not referenced yet", __FILE__, __FUNCTION__);
 		}
 	}
 

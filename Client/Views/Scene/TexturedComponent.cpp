@@ -8,11 +8,12 @@
 namespace Component {
 	TexturedComponent::TexturedComponent()
 	{
-		m_shader_service = IoC::Container::Container::GetInstanceContainer()->make<Services::ShaderService>();
-		if (m_shader_service)
+		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
+		if (!m_shader_service)
 		{
-			m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
+			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		
 	}
 
 	void TexturedComponent::Clean()
@@ -49,6 +50,36 @@ namespace Component {
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
+		}
+	}
+
+	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer)
+	{
+		if (m_shader_service && renderer)
+		{
+			glDepthFunc(GL_LEQUAL);
+
+			glUseProgram(m_shader_service->GetProgramId(Constants::SKYBOX_SHADER));
+
+			glBindVertexArray(renderer->GetVAO());
+			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
+			{
+				
+				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SKYBOX_SHADER);
+
+				glBindTexture(GL_TEXTURE_CUBE_MAP, renderer->GetTextureId());
+				if (glIsTexture(renderer->GetTextureId()) == GL_TRUE)
+				{
+					glDrawArrays(GL_TRIANGLES, 0, 36);
+
+					glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+				}
+				
+				glBindVertexArray(0);
+				glUseProgram(0);
+			}
+
+			glDepthFunc(GL_LESS);
 		}
 	}
 }

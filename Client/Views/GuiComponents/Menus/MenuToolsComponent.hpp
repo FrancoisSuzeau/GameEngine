@@ -40,6 +40,7 @@ namespace Views
 		bool tools;
 		bool infos;
 		bool style;
+		bool s_event;
 	};
 }
 

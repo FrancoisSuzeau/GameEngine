@@ -11,6 +11,7 @@ namespace Enums {
 	enum ServiceEnum {SDL, OPENGL, IMGUI};
 	enum ShaderType {NORMAL, GEOMETRIC};
 	enum ShaderModifier {VEC3, MAT4, TEXTURE, FLOAT, INT };
+	enum CameraMovement {FORWARD, BACKWARD, LEFT, RIGHT};
 }
 
 #endif

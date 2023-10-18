@@ -49,7 +49,7 @@ namespace Services
 		SQ_EXTSERVICE_TRACE("Compiling : {}", m_vertex_path);
 		if (!compileShader(m_vertex_ID, GL_VERTEX_SHADER, m_vertex_path, program_id))
 		{
-			SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_vertex_path);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Compiling {} shader FAILED", __FILE__, __FUNCTION__, m_vertex_path);
 			return 0;
 		}
 		SQ_EXTSERVICE_TRACE("Compilation success");
@@ -59,7 +59,7 @@ namespace Services
 		SQ_EXTSERVICE_TRACE("Compiling : {}", m_fragment_path);
 		if (!compileShader(m_fragment_ID, GL_FRAGMENT_SHADER, m_fragment_path, program_id))
 		{
-			SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_fragment_path);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Compiling {} shader FAILED", __FILE__, __FUNCTION__, m_fragment_path);
 			return 0;
 		}
 		SQ_EXTSERVICE_TRACE("Compilation success");
@@ -71,7 +71,7 @@ namespace Services
 			SQ_EXTSERVICE_TRACE("Compiling : {}", m_geometry_path);
 			if (!compileShader(m_geometry_ID, GL_GEOMETRY_SHADER, m_geometry_path, program_id))
 			{
-				SQ_EXTSERVICE_ERROR("Compiling {} shader FAILED", m_geometry_path);
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Compiling {} shader FAILED", __FILE__, __FUNCTION__, m_geometry_path);
 				return 0;
 			}
 			SQ_EXTSERVICE_TRACE("Compilation success");
@@ -115,7 +115,7 @@ namespace Services
 			error[size_error] = '\0';
 
 			//displayiong error message
-			SQ_EXTSERVICE_ERROR("Failed to link {} program - Code error : {}", shader_name, error);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Failed to link {} program - Code error : {}", __FILE__, __FUNCTION__, shader_name, error);
 
 			//memory release
 			delete[] error;
@@ -167,7 +167,7 @@ namespace Services
 		shader = glCreateShader(type);
 		if (shader == 0)
 		{
-			SQ_EXTSERVICE_ERROR("({}) type creation failed", shader_type);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : ({}) type creation failed", __FILE__,  __FUNCTION__, shader_type);
 			return false;
 		}
 		//======================================================================================================================================
@@ -176,7 +176,7 @@ namespace Services
 		std::ifstream file(file_src.c_str());
 		if (!file.is_open())
 		{
-			SQ_EXTSERVICE_ERROR("Unable to read file : {}", file_src);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Unable to read file : {}", __FILE__, __FUNCTION__, file_src);
 			deleteShader(shader, false, program_id);
 			return false;
 		}
@@ -223,7 +223,7 @@ namespace Services
 			error[error_size] = '\0';
 
 			//error displaying
-			SQ_EXTSERVICE_ERROR("Compilation FAILED - Code error : {}", error);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Compilation FAILED - Code error : {}", __FILE__, __FUNCTION__, error);
 
 			//memory release
 			delete[] error;

@@ -7,9 +7,20 @@
 
 namespace Views
 {
+	AppStyleEditorComponent::~AppStyleEditorComponent()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+	}
 	AppStyleEditorComponent::AppStyleEditorComponent()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+		}
 	}
 	void AppStyleEditorComponent::Render()
 	{

@@ -7,53 +7,7 @@
 
 namespace ViewModels
 {
-	void SceneViewModel::Construct()
-	{
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
-		{
-			std::shared_ptr<Views::Canvas> component_1 = container->make<Views::Canvas>();
-
-			if (component_1)
-			{
-				component_1->SetParent(this);
-				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
-			}
-
-			/*std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(24);
-			if (grid)
-			{
-				grid->Construct();
-				m_renderers.push_back(grid);
-			}*/
-			
-			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
-			if (triangle)
-			{
-				triangle->Construct();
-				m_renderers.push_back(triangle);
-			}
-
-			std::shared_ptr<Renderers::Square> square = std::make_shared<Renderers::Square>();
-			if (square)
-			{
-				square->Construct();
-				m_renderers.push_back(square);
-			}
-
-			
-
-			m_framebuffer_component = std::make_unique<Component::TexturedComponent>();
-			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
-			if (m_framebuffer_renderer)
-			{
-				m_framebuffer_renderer->Construct();
-			}
-
-		}	
-	}
-
-	void SceneViewModel::DeConstruct()
+	SceneViewModel::~SceneViewModel()
 	{
 		for (std::map<std::string, std::shared_ptr<Views::IView>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
 		{
@@ -74,9 +28,9 @@ namespace ViewModels
 			}
 		}
 
-		if (m_framebuffer_component)
+		if (m_textured_component)
 		{
-			m_framebuffer_component->Clean();
+			m_textured_component->Clean();
 		}
 
 		if (m_framebuffer_renderer)
@@ -86,6 +40,64 @@ namespace ViewModels
 
 		m_renderers.clear();
 	}
+	void SceneViewModel::Construct()
+	{
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
+		{
+			std::shared_ptr<Views::Canvas> component_1 = container->GetReference<Views::Canvas>();
+
+			if (component_1)
+			{
+				component_1->SetParent(this);
+				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Canvas component is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(48);
+			if (grid)
+			{
+				grid->Construct();
+				m_renderers.push_back(grid);
+			}
+
+			
+
+			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
+			if (triangle)
+			{
+				triangle->Construct();
+				m_renderers.push_back(triangle);
+			}
+
+			std::shared_ptr<Renderers::Square> square = std::make_shared<Renderers::Square>();
+			if (square)
+			{
+				square->Construct();
+				m_renderers.push_back(square);
+			}
+
+			
+
+			m_textured_component = std::make_unique<Component::TexturedComponent>();
+			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
+			if (m_framebuffer_renderer)
+			{
+				m_framebuffer_renderer->Construct();
+			}
+
+			m_skybox_renderer = std::make_shared<Renderers::Skybox>();
+			if (m_skybox_renderer)
+			{
+				m_skybox_renderer->Construct();
+			}
+
+		}	
+	}
+
 	void SceneViewModel::RenderViews(std::string const type_view)
 	{
 		if (m_views_map.at(type_view))
@@ -95,12 +107,21 @@ namespace ViewModels
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
 	{
-		if (m_framebuffer_component && m_framebuffer_renderer)
+		if (m_textured_component && m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
-			m_framebuffer_component->Render(m_framebuffer_renderer);
+			m_textured_component->Render(m_framebuffer_renderer);
 		}
 	}
+	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id)
+	{
+		if (m_textured_component && m_skybox_renderer)
+		{
+			m_skybox_renderer->SetTextureID(skybox_texture_id);
+			m_textured_component->Render(m_skybox_renderer);
+		}
+	}
+
 	void SceneViewModel::OnCommand(Commands::ICommand* command)
 	{
 		if (command)

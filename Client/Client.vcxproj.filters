@@ -60,6 +60,9 @@
     <ClCompile Include="Views\Scene\TexturedComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\Simple\EventViewerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\Scene\TexturedComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\Simple\EventViewerComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

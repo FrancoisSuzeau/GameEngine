@@ -7,9 +7,20 @@
 
 namespace Views
 {
+	AppAboutComponent::~AppAboutComponent()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+	}
 	AppAboutComponent::AppAboutComponent()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->make<Services::StateService>();
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+		}
 	}
 	void AppAboutComponent::Render()
 	{

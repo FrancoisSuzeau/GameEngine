@@ -7,25 +7,42 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false)
+		m_show_style_editor(false), m_show_event(false)
 	{
 	}
 
 	void StateService::Init()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->make<Services::GraphicInitializerService>();
-		if (graph_service_init)
+		if (container)
 		{
-			m_width = graph_service_init->GetWidth();
-			m_height = graph_service_init->GetHeight();
+			std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
+			if (graph_service_init)
+			{
+				m_width = graph_service_init->GetWidth();
+				m_height = graph_service_init->GetHeight();
+			}
+			else
+			{
+				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			m_camera_services = container->GetReference<Services::CameraService>();
+			if (!m_camera_services)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+				
+			}
+			else
+			{
+				m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+			}
 		}
 
 		m_exit = false;
 		m_show_metrics = false;
 
 		m_view = glm::mat4(1.f);
-		m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
+		
 	}
 
 	void StateService::DeInit()
@@ -86,13 +103,34 @@ namespace Services
 	{
 		m_show_style_editor = new_val;
 	}
+	void StateService::setShowEvent(bool const new_val)
+	{
+		m_show_event = new_val;
+	}
+	bool StateService::getShowEvent() const
+	{
+		return m_show_event;
+	}
+	
 	glm::mat4 StateService::GetViewMatrix() const
 	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetCameraView();
+		}
+
 		return m_view;
 	}
 	glm::mat4 StateService::GetProjectionMatrix() const
 	{
 		return m_projection_matrix;
+	}
+	void StateService::RefreshProjectionMatrix()
+	{
+		if (m_camera_services)
+		{
+			m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+		}
 	}
 }
 

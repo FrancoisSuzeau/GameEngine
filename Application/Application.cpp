@@ -22,11 +22,13 @@ namespace Starting
         this->SetServiceBuilder<Services::GraphicInitializerService>();
         this->SetServiceBuilder<Services::AudioInitializerService>();
         this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
-        this->SetServiceBuilder<Services::StateService>();
         this->SetServiceBuilder<Services::JsonLoaderService>();
         this->SetServiceBuilder<Services::ShaderLoaderService>();
         this->SetServiceBuilder<Services::ShaderService>();
         this->SetServiceBuilder<Services::FramebufferService>();
+        this->SetServiceBuilder<Services::TextureLoaderService>();
+        this->SetServiceBuilder<Services::CameraService>();
+        this->SetServiceBuilder<Services::StateService>();
     }
 
     void Application::SetAllEngine()
@@ -36,13 +38,38 @@ namespace Starting
         this->SetEngineBuilder<Engines::MainEngine>();
     }
 
+    void Application::ShutAllService()
+    {
+        this->DeleteReference<Services::GraphicInitializerService>();
+        this->DeleteReference<Services::AudioInitializerService>();
+        this->DeleteReference<Services::ImGUIServiceInitializer>();
+        this->DeleteReference<Services::JsonLoaderService>();
+        this->DeleteReference<Services::ShaderLoaderService>();
+        this->DeleteReference<Services::ShaderService>();
+        this->DeleteReference<Services::FramebufferService>();
+        this->DeleteReference<Services::TextureLoaderService>();
+        this->DeleteReference<Services::CameraService>();
+        this->DeleteReference<Services::StateService>();
+    }
+
+    void Application::ShutAllEngine()
+    {
+        this->DeleteReference<Engines::GUIEngine>();
+        this->DeleteReference<Engines::SceneEngine>();
+        this->DeleteReference<Engines::MainEngine>();
+    }
+
     void Application::Run()
     {
         this->StartAllBuilder();
-        main_engine = IoC::Container::Container::GetInstanceContainer()->make<Engines::MainEngine>();
+        main_engine = IoC::Container::Container::GetInstanceContainer()->GetReference<Engines::MainEngine>();
         if (main_engine)
         {
             main_engine->MainLoop(m_view_model_builder);
+        }
+        else
+        {
+            SQ_APP_ERROR("Class {} in function {} : Main engine is not referenced yet", __FILE__, __FUNCTION__);
         }
         
     }
@@ -55,6 +82,8 @@ namespace Starting
             main_engine.reset();
         }
         this->EndAllBuilder();
+        this->ShutAllEngine();
+        this->ShutAllService();
         SQ_APP_INFO("Squeamish shutdown");
         Logger::Log::Shutdown();
     }
