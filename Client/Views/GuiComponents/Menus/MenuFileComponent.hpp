@@ -20,6 +20,8 @@
 
 #include "IView.hpp"
 #include "Commands/Commands.hpp"
+#include "Services/Services.hpp"
+#include "Container/Container.hpp"
 
 #include <iostream>
 #include <list>
@@ -32,9 +34,10 @@ namespace Views
 	public:
 
 		MenuFileComponent();
+		~MenuFileComponent() override;
 		void Render() override;
 	private:
-		
+		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
 

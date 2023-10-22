@@ -21,6 +21,7 @@ void ExitCommand::Execute()
 	{
 		SQ_APP_INFO("Exit command is called");
 		this->m_state_service->setExit(true);
+		m_state_service.reset();
 	}
 	
 	

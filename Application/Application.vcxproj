@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Commands\SaveSceneCommand.cpp" />
+    <ClCompile Include="Services\JsonService.cpp" />
     <ClCompile Include="Services\CameraService.cpp" />
     <ClCompile Include="Commands\ExitCommand.cpp" />
     <ClCompile Include="Commands\DeleteShaderCommand.cpp" />
@@ -40,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Builders\Builders.hpp" />
+    <ClInclude Include="Commands\SaveSceneCommand.hpp" />
+    <ClInclude Include="Services\JsonService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
     <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />

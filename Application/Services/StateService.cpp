@@ -7,7 +7,7 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false)
+		m_show_style_editor(false), m_show_event(false), m_current_filename(Constants::DEFAULT_FILENAME)
 	{
 	}
 
@@ -110,6 +110,16 @@ namespace Services
 	bool StateService::getShowEvent() const
 	{
 		return m_show_event;
+	}
+
+	void StateService::setFileName(std::string const new_val)
+	{
+		m_current_filename = new_val;
+	}
+
+	std::string StateService::getFileName() const
+	{
+		return m_current_filename;
 	}
 	
 	glm::mat4 StateService::GetViewMatrix() const

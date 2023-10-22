@@ -21,6 +21,7 @@ void DeleteShaderCommand::Execute()
 	{
 		SQ_APP_INFO("New shader command is called");
 		m_shader_service->DeleteShader(m_shader_name);
+		m_shader_service.reset();
 	}
 	
 }

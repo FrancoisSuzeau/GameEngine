@@ -42,6 +42,7 @@ namespace Constants {
 	std::string const SKYBOX_SHADER = "skybox";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
+	std::string const DEFAULT_FILENAME = "default_filename";
 }
 
 #endif

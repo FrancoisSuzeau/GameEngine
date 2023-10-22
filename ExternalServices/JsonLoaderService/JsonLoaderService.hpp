@@ -21,6 +21,7 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
+		void SaveFile(std::string const filename);
 	private:
 		std::unique_ptr<nlohmann::json> datas;
 		void ReadFile(std::string filename);

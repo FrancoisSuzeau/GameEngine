@@ -44,6 +44,8 @@ namespace Services {
 		void setShowStyleEditor(bool const new_val);
 		void setShowEvent(bool const new_val);
 		bool getShowEvent() const;
+		void setFileName(std::string const new_val);
+		std::string getFileName() const;
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
@@ -63,6 +65,7 @@ namespace Services {
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
 		std::shared_ptr<Services::CameraService> m_camera_services;
+		std::string m_current_filename;
 
 
 	};

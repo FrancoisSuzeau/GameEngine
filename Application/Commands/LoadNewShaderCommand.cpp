@@ -22,6 +22,7 @@ void LoadNewShaderCommand::Execute()
 	{
 		SQ_APP_INFO("New shader command is called");
 		m_shader_service->LoadShader(m_shader_name, m_shader_type);
+		m_shader_service.reset();
 	}
 	
 }

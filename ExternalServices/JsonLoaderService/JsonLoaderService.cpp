@@ -22,6 +22,23 @@ namespace Services
 		SQ_EXTSERVICE_DEBUG("JSON service shutdown");
 	}
 
+	void JsonLoaderService::SaveFile(std::string const filename)
+	{
+		if (!filename.empty())
+		{
+			std::ofstream flux_out(filename + Constants::JSONEXT);
+			if (flux_out.is_open())
+			{
+				flux_out << "test";
+				flux_out.close();
+			}
+		}
+		else
+		{
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : No filename was given", __FILE__, __FUNCTION__);
+		}
+	}
+
 	void JsonLoaderService::ReadFile(std::string filename)
 	{
 		std::ifstream flux_in(filename + Constants::JSONEXT);
