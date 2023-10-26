@@ -9,11 +9,8 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
-		for (auto filename : {Constants::CONFIGFILE})
-		{
-			ReadFile(filename);
-			SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
-		}
+		this->ReadFile(m_configs);
+		SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
 		
 	}
 
@@ -22,14 +19,24 @@ namespace Services
 		SQ_EXTSERVICE_DEBUG("JSON service shutdown");
 	}
 
-	void JsonLoaderService::SaveFile(std::string const filename)
+	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		if (m_scene)
+		{
+			m_scene.reset();
+		}
+		m_scene = this->ConvertToJsonFormat(renderers);
+		this->SaveFile(filename, m_scene);
+	}
+
+	void JsonLoaderService::SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> content)
 	{
 		if (!filename.empty())
 		{
 			std::ofstream flux_out(filename + Constants::JSONEXT);
 			if (flux_out.is_open())
 			{
-				flux_out << "test";
+				flux_out << *content.get();
 				flux_out.close();
 			}
 		}
@@ -39,30 +46,61 @@ namespace Services
 		}
 	}
 
-	void JsonLoaderService::ReadFile(std::string filename)
+	std::shared_ptr<Renderers::IRenderer> JsonLoaderService::GetScene(std::string const filename)
 	{
+		this->ReadFile(m_scene, filename);
+		return std::shared_ptr<Renderers::IRenderer>();
+	}
+
+	void JsonLoaderService::ReadFile(std::shared_ptr<nlohmann::json> json_content, std::string filename)
+	{
+		if (filename.empty())
+		{
+			filename = Constants::CONFIGFILE;
+		}
 		std::ifstream flux_in(filename + Constants::JSONEXT);
 		if (flux_in.is_open())
 		{
 			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
-			if (datas)
+			if (json_content)
 			{
-				datas.reset();
+				json_content.reset();
 			}
-			datas = std::make_unique<nlohmann::json>(json::parse(flux_in));
-			std::string test = GetStringNode(Constants::USERPREFNODE);
+			try
+			{
+				json_content = std::make_shared<nlohmann::json>(json::parse(flux_in));
+			}
+			catch (const std::exception& e)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Exception found when parsing [{}] file", __FILE__, __FUNCTION__, filename + Constants::JSONEXT);
+				SQ_EXTSERVICE_DEBUG("{}", e.what());
+			}
 		}
 		else
 		{
-			SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot read or found [{}] file", __FILE__, __FUNCTION__, Constants::CONFIGFILE + Constants::JSONEXT);
+			SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot read or found [{}] file", __FILE__, __FUNCTION__, filename + Constants::JSONEXT);
 		}
+	}
+
+	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		std::vector<json> renderers_json_format;
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		{
+			json renderer_json_format = { 
+				{"type", it[0]->GetType()}
+			};
+			renderers_json_format.push_back(renderer_json_format);
+		}
+		json j(renderers_json_format);
+		return std::make_shared<json>(j);
 	}
 
 	std::string JsonLoaderService::GetStringNode(std::string node_name)
 	{
-		if (datas)
+		if (m_configs)
 		{
-			std::string node = datas->value(node_name, Constants::NONE);
+			std::string node = m_configs->value(node_name, Constants::NONE);
 			if (node == Constants::NONE)
 			{
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);

@@ -80,7 +80,15 @@ namespace ViewModels
 				m_renderers.push_back(square);
 			}
 
-			
+			m_json_service = container->GetReference<Services::JsonService>();
+			if (m_json_service)
+			{
+				m_json_service->SetScene(m_renderers);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 
 			m_textured_component = std::make_unique<Component::TexturedComponent>();
 			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();

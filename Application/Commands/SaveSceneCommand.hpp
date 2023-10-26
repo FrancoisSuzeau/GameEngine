@@ -22,7 +22,6 @@ namespace Commands {
 	private:
 		std::shared_ptr<Services::JsonService> m_json_service;
 
-
 	};
 }
 

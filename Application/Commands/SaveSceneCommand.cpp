@@ -24,6 +24,7 @@ void SaveSceneCommand::Execute()
 	if (m_json_service)
 	{
 		SQ_APP_INFO("Save scene command is called");
+		
 		m_json_service->SaveScene();
 		m_json_service.reset();
 	}

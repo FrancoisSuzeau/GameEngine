@@ -24,11 +24,14 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void SaveScene();
+		void LoadScene();
 		void SetFileName(std::string const new_filename);
+		void SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 
 	private:
 		std::shared_ptr<Services::JsonLoaderService> m_json_loader_service;
 		std::string filename;
+		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
 	};
 }
 

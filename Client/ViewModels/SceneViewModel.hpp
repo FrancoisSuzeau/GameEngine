@@ -33,6 +33,7 @@ namespace ViewModels
 		std::unique_ptr<Component::TexturedComponent> m_textured_component;
 		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
 		std::shared_ptr<Renderers::Skybox> m_skybox_renderer;
+		std::shared_ptr<Services::JsonService> m_json_service;
 	};
 }
 

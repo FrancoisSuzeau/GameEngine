@@ -24,12 +24,23 @@ namespace Services
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveFile(filename);
+			m_json_loader_service->SaveScene(filename, m_renderers);
+		}
+	}
+	void JsonService::LoadScene()
+	{
+		if (m_json_loader_service)
+		{
+			m_json_loader_service->GetScene(Constants::DEFAULT_FILENAME);
 		}
 	}
 	void JsonService::SetFileName(std::string const new_filename)
 	{
 		filename = new_filename;
+	}
+	void JsonService::SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
+	{
+		m_renderers = renderers;
 	}
 }
 
