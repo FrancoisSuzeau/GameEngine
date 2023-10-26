@@ -27,6 +27,7 @@ namespace Component
 					shader_service->setTexture(shader_name, "texture0", 0);
 				}
 			}
+			state_service.reset();
 		}
 		
 	}

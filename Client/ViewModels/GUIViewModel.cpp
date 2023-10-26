@@ -9,7 +9,21 @@ namespace ViewModels
 {
 	GuiViewModel::~GuiViewModel()
 	{
-		
+		for (std::map<std::string, std::list<std::shared_ptr<Views::IView>>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
+		{
+			for (std::list<std::shared_ptr<Views::IView>>::iterator it2 = it->second.begin(); it2 != it->second.end(); it2++)
+			{
+				if (it2->get())
+				{
+					it2->get()->Clean();
+					it2->reset();
+				}
+			}
+
+			it->second.clear();
+		}
+
+		m_views_map.clear();
 	}
 	void GuiViewModel::Construct()
 	{
@@ -30,6 +44,7 @@ namespace ViewModels
 			{
 				component_1->SetParent(this);
 				simple_views.push_back(component_1);
+				component_1.reset();
 			}
 			else
 			{
@@ -39,6 +54,7 @@ namespace ViewModels
 			{
 				component_2->SetParent(this);
 				simple_views.push_back(component_2);
+				component_2.reset();
 			}
 			else
 			{
@@ -48,6 +64,7 @@ namespace ViewModels
 			{
 				component_3->SetParent(this);
 				simple_views.push_back(component_3);
+				component_3.reset();
 			}
 			else
 			{
@@ -57,6 +74,7 @@ namespace ViewModels
 			{
 				component_4->SetParent(this);
 				simple_views.push_back(component_4);
+				component_4.reset();
 			}
 			else
 			{
@@ -66,18 +84,22 @@ namespace ViewModels
 			{
 				component_8->SetParent(this);
 				simple_views.push_back(component_8);
+				component_8.reset();
 			}
 			else
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Event viewer component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
+			
+			
 
 			std::list<std::shared_ptr<Views::IView>> menu_views;
 			if (component_5)
 			{
 				component_5->SetParent(this);
 				menu_views.push_back(component_5);
+				component_5.reset();
 			}
 			else
 			{
@@ -87,6 +109,7 @@ namespace ViewModels
 			{
 				component_6->SetParent(this);
 				menu_views.push_back(component_6);
+				component_6.reset();
 			}
 			else
 			{
@@ -96,12 +119,13 @@ namespace ViewModels
 			{
 				component_7->SetParent(this);
 				menu_views.push_back(component_7);
+				component_7.reset();
 			}
 			else
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			
+
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}
 	}

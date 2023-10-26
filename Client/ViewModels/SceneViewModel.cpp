@@ -31,14 +31,34 @@ namespace ViewModels
 		if (m_textured_component)
 		{
 			m_textured_component->Clean();
+			m_textured_component.reset();
 		}
 
 		if (m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->Clean();
+			m_framebuffer_renderer.reset();
 		}
 
+		if (m_skybox_renderer)
+		{
+			m_skybox_renderer->Clean();
+			m_skybox_renderer.reset();
+		}
+
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it->get())
+			{
+				it->reset();
+			}
+		}
 		m_renderers.clear();
+
+		if (m_json_service)
+		{
+			m_json_service.reset();
+		}
 	}
 	void SceneViewModel::Construct()
 	{
@@ -51,6 +71,7 @@ namespace ViewModels
 			{
 				component_1->SetParent(this);
 				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
+				component_1.reset();
 			}
 			else
 			{
@@ -62,6 +83,7 @@ namespace ViewModels
 			{
 				grid->Construct();
 				m_renderers.push_back(grid);
+				grid.reset();
 			}
 
 			
@@ -71,6 +93,7 @@ namespace ViewModels
 			{
 				triangle->Construct();
 				m_renderers.push_back(triangle);
+				triangle.reset();
 			}
 
 			std::shared_ptr<Renderers::Square> square = std::make_shared<Renderers::Square>();
@@ -78,6 +101,7 @@ namespace ViewModels
 			{
 				square->Construct();
 				m_renderers.push_back(square);
+				square.reset();
 			}
 
 			m_json_service = container->GetReference<Services::JsonService>();
