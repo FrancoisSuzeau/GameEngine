@@ -8,6 +8,22 @@ namespace Engines
 {
 	MainEngine::~MainEngine()
 	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+		if (m_gui_engine)
+		{
+			m_gui_engine.reset();
+		}
+		if (m_scene_engine)
+		{
+			m_scene_engine.reset();
+		}
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
 	}
 
 	void MainEngine::Construct()
@@ -19,6 +35,7 @@ namespace Engines
 			if (graph_service_init)
 			{
 				m_window = graph_service_init->GetSDLWindow();
+				graph_service_init.reset();
 			}
 			else
 			{

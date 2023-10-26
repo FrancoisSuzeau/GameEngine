@@ -21,6 +21,7 @@ namespace Engines
 	class SceneEngine : public IEngine
 	{
 	public:
+		~SceneEngine() override;
 		void Construct() override;
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);

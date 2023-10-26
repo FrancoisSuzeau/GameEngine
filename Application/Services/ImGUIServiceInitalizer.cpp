@@ -23,6 +23,7 @@ namespace Services
             ImGui_ImplOpenGL3_Init(Constants::IMGUIVERSION.c_str());
 
             SQ_APP_DEBUG("ImGui service SUCCESSFULLY initialized");
+            graph_service_init.reset();
         }
         else
         {

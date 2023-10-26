@@ -27,7 +27,7 @@ namespace Engines {
 	{
 	public:
 
-		~MainEngine();
+		~MainEngine() override;
 		void Construct() override;
 		void MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 

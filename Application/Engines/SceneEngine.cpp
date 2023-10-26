@@ -6,6 +6,17 @@
 
 namespace Engines 
 {
+	SceneEngine::~SceneEngine()
+	{
+		if (m_camera_service)
+		{
+			m_camera_service.reset();
+		}
+		if (m_shader_service)
+		{
+			m_shader_service.reset();
+		}
+	}
 	void SceneEngine::Construct()
 	{
 		IoC::Container::Container *container = IoC::Container::Container::GetInstanceContainer();
@@ -34,6 +45,7 @@ namespace Engines
 			{
 				
 				m_skybox_texture = tex->BuildSkyboxTexture("resources/skybox/calm_lake");
+				tex.reset();
 			}
 			else
 			{

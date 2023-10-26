@@ -29,7 +29,10 @@ namespace Services
 		}
 
 		m_shader_map.clear();
-		m_shader_loader.reset();
+		if (m_shader_loader)
+		{
+			m_shader_loader.reset();
+		}
 	}
 
 	void ShaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)

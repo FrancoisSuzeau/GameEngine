@@ -17,7 +17,10 @@ namespace Services
 
 	void JsonService::DeInit()
 	{
-		m_json_loader_service.reset();
+		if (m_json_loader_service)
+		{
+			m_json_loader_service.reset();
+		}
 	}
 
 	void JsonService::SaveScene()

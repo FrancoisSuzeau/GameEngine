@@ -49,7 +49,10 @@ namespace Services
 			m_render_fb = 0;
 		}
 		
-		m_state_service.reset();
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
 
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
