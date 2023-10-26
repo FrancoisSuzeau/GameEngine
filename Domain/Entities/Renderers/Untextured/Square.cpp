@@ -18,7 +18,9 @@ namespace Renderers {
 		m_bytes_indices_size = 6 * sizeof(unsigned int);
 
 		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec3(1.f);
+		m_back_ground_color = glm::vec3(0.f, 1.f, 0.f);
+		m_position = glm::vec3(0.f, 0.f, -0.9f);
+		m_size = glm::vec3(0.2f);
 	}
 
 	Square::~Square()

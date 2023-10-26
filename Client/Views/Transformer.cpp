@@ -40,14 +40,6 @@ namespace Component
 			renderer->SetModelMat(model);
 		}
 	}
-
-	void Transformer::Colorize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_color)
-	{
-		if (renderer)
-		{
-			renderer->SetBackgroundColor(new_color);
-		}
-	}
 	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector)
 	{
 		if (renderer)

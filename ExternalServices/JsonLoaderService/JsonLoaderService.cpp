@@ -36,7 +36,7 @@ namespace Services
 			std::ofstream flux_out(filename + Constants::JSONEXT);
 			if (flux_out.is_open())
 			{
-				flux_out << *content.get();
+				flux_out << content->dump(4);
 				flux_out.close();
 			}
 		}
@@ -88,7 +88,10 @@ namespace Services
 		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
 			json renderer_json_format = { 
-				{"type", it[0]->GetType()}
+				{"type", it[0]->GetType()},
+				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z}},
+				{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
+				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}}
 			};
 			renderers_json_format.push_back(renderer_json_format);
 		}
