@@ -27,8 +27,6 @@ namespace Renderers {
 		void Load();
 		std::vector<unsigned int> m_indices;
 		unsigned int m_bytes_indices_size;
-		void CleanEbo();
-		GLuint m_ebo;
 
 	private:
 		typedef IRenderer base;

@@ -36,7 +36,6 @@ namespace Renderers {
 	void Square::Clean()
 	{
 		base::Clean();
-		this->CleanEbo();
 		m_indices.clear();
 	}
 
@@ -96,15 +95,6 @@ namespace Renderers {
 		m_indices.push_back(1);
 		m_indices.push_back(2);
 		m_indices.push_back(3);
-	}
-
-	void Square::CleanEbo()
-	{
-		if (m_ebo != 0)
-		{
-			glDeleteBuffers(1, &m_ebo);
-			m_ebo = 0;
-		}
 	}
 
 }

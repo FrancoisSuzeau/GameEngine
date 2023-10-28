@@ -30,7 +30,8 @@ namespace Renderers {
 		virtual void Clean()
 		{
 			CleanVbo();
-			CleanVao(),
+			CleanVao();
+			CleanEbo();
 			m_vertices.clear();
 		}
 		virtual Enums::RendererType GetType() const
@@ -88,7 +89,7 @@ namespace Renderers {
 		unsigned int m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
-		GLuint  m_ebo;
+		GLuint m_ebo;
 		Enums::RendererType m_type;
 
 		glm::mat4 m_model_mat;
@@ -115,6 +116,15 @@ namespace Renderers {
 
 			}
 		}
+
+		 virtual void CleanEbo()
+		 {
+			 if (m_ebo != 0)
+			 {
+				 glDeleteBuffers(1, &m_ebo);
+				 m_ebo = 0;
+			 }
+		 }
 
 		
 
