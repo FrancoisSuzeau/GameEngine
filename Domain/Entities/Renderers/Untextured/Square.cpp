@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Square::Square()
+	Square::Square(glm::vec3 position)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -19,7 +19,7 @@ namespace Renderers {
 
 		m_model_mat = glm::mat4(1.f);
 		m_back_ground_color = glm::vec3(0.f, 1.f, 0.f);
-		m_position = glm::vec3(0.f, 0.f, -0.9f);
+		m_position = position;
 		m_size = glm::vec3(0.2f);
 	}
 

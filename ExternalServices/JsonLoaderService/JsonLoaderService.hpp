@@ -14,6 +14,8 @@
 
 #include "IService.hpp"
 #include "Renderers/Renderers.hpp"
+#include <string>
+#include <iostream>
 
 namespace Enums {
 	NLOHMANN_JSON_SERIALIZE_ENUM(RendererType, {
@@ -44,6 +46,8 @@ namespace Services {
 		std::vector<std::shared_ptr<Renderers::IRenderer>> ConvertToRenderers();
 		int GetIntNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		glm::vec3 GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		float GetFloatNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 	};
 }
 

@@ -11,11 +11,12 @@ namespace Renderers {
 		m_ebo = 0;
 		m_vao = 0;
 		m_vbo = 0;
-		m_bytes_vertices_size = (m_slices + 1) * (m_slices + 1) * sizeof(glm::vec3);
-		m_bytes_indices_size = (m_slices) * (m_slices) * 2 * sizeof(glm::uvec4);
-		m_lenght = (GLuint)((m_slices + 1) * (m_slices + 1) * 4);
 		m_vec_vertices.reserve((m_slices + 1) * (m_slices + 1));
 		m_vec_indices.reserve((m_slices) * (m_slices) * 2);
+		m_bytes_vertices_size = m_vec_vertices.capacity() * sizeof(glm::vec3);
+		m_bytes_indices_size = m_vec_indices.capacity() * sizeof(glm::uvec4);
+		m_lenght = (GLuint)(m_vec_vertices.capacity() * 4);
+		
 
 		m_type = Enums::RendererType::GRID;
 		m_model_mat = glm::mat4(1.f);

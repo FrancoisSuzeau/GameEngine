@@ -34,6 +34,12 @@ namespace ViewModels
 			m_textured_component.reset();
 		}
 
+		if (m_untextured_component)
+		{
+			m_untextured_component->Clean();
+			m_untextured_component.reset();
+		}
+
 		if (m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->Clean();
@@ -58,6 +64,12 @@ namespace ViewModels
 		if (m_json_service)
 		{
 			m_json_service.reset();
+		}
+
+		if (m_grid_renderer)
+		{
+			m_grid_renderer->Clean();
+			m_grid_renderer.reset();
 		}
 	}
 	void SceneViewModel::Construct()
@@ -91,6 +103,7 @@ namespace ViewModels
 			}
 
 			m_textured_component = std::make_unique<Component::TexturedComponent>();
+			m_untextured_component = std::make_unique<Component::ComponentBase>();
 			m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
 			if (m_framebuffer_renderer)
 			{
@@ -101,6 +114,12 @@ namespace ViewModels
 			if (m_skybox_renderer)
 			{
 				m_skybox_renderer->Construct();
+			}
+
+			m_grid_renderer = std::make_shared<Renderers::Grid>(48);
+			if (m_grid_renderer)
+			{
+				m_grid_renderer->Construct();
 			}
 
 		}
@@ -127,6 +146,14 @@ namespace ViewModels
 		{
 			m_skybox_renderer->SetTextureID(skybox_texture_id);
 			m_textured_component->Render(m_skybox_renderer);
+		}
+	}
+
+	void SceneViewModel::RenderGrid()
+	{
+		if (m_untextured_component && m_grid_renderer)
+		{
+			m_untextured_component->Render(m_grid_renderer);
 		}
 	}
 

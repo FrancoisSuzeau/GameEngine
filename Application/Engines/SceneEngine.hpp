@@ -27,6 +27,7 @@ namespace Engines
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int fb_texture_id);
 		void RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
+		void RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void UpdateCamera(SDL_Event event);
 		
 	private:

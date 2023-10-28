@@ -113,16 +113,14 @@ namespace Services
 		for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
 		{
 			json j = this->GetStringNode(std::make_shared<json>(*it), "type");
+			glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
 			switch (j.template get<Enums::RendererType>())
 			{
-			case Enums::RendererType::GRID:
-				renderers.push_back(std::make_shared<Renderers::Grid>(48));
-				break;
 			case Enums::RendererType::TRIANGLE:
-				renderers.push_back(std::make_shared<Renderers::Triangle>());
+				renderers.push_back(std::make_shared<Renderers::Triangle>(position));
 				break;
 			case Enums::RendererType::SQUARE:
-				renderers.push_back(std::make_shared<Renderers::Square>());
+				renderers.push_back(std::make_shared<Renderers::Square>(position));
 				break;
 			case Enums::RendererType::SQUARE_TEXTURED:
 				break;
@@ -137,6 +135,21 @@ namespace Services
 
 	int JsonLoaderService::GetIntNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
 	{
+		if (json_content)
+		{
+			std::string node = json_content->value(node_name, Constants::NONE);
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				return 0;
+
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			return std::stoi(node);
+		}
+
+		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
 		return 0;
 	}
 
@@ -157,8 +170,33 @@ namespace Services
 		}
 
 		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
-		return Constants::NONE;;
+		return Constants::NONE;
 
+	}
+
+	glm::vec3 JsonLoaderService::GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		if (json_content)
+		{
+			json node = json_content->at(node_name);
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				return glm::vec3(0.f);
+
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			return glm::vec3(node[0], node[1], node[2]);
+		}
+
+		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
+		return glm::vec3(0.f);;
+	}
+
+	float JsonLoaderService::GetFloatNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		return 0.0f;
 	}
 
 }

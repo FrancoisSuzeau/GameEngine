@@ -15,7 +15,7 @@ namespace Renderers {
 	{
 	public:
 		
-		Square();
+		Square(glm::vec3 position);
 		~Square();
 
 		void Construct() override;
