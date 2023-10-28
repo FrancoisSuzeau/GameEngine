@@ -23,6 +23,7 @@
 #include "Services/Services.hpp"
 #include "Container/Container.hpp"
 
+
 #include <iostream>
 #include <list>
 
@@ -36,9 +37,11 @@ namespace Views
 		MenuFileComponent();
 		~MenuFileComponent() override;
 		void Render() override;
+		void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel);
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
-	};
+		std::shared_ptr<ViewModels::IViewModel> m_scene_viewmodel;
+ 	};
 }
 
 #endif

@@ -22,6 +22,11 @@ namespace Views
 		{
 			m_state_service.reset();
 		}
+
+		if (m_scene_viewmodel)
+		{
+			m_scene_viewmodel.reset();
+		}
 	}
 	void MenuFileComponent::Render()
 	{
@@ -40,9 +45,11 @@ namespace Views
 			if (ImGui::MenuItem("Save", "Ctrl+S") && m_parent_view_model) 
 			{
 				
-				if (m_state_service)
+				if (m_state_service && m_scene_viewmodel)
 				{
+					m_scene_viewmodel->OnCommand(new Commands::SendToJsonServiceCommand());
 					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(m_state_service->getFileName()));
+
 				}
 			}
 			if (ImGui::MenuItem("Save As..")) {}
@@ -56,5 +63,9 @@ namespace Views
 			ImGui::EndMenu();
 		}
 		
+	}
+	void MenuFileComponent::SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel)
+	{
+		m_scene_viewmodel = std::shared_ptr<ViewModels::IViewModel>(scene_viewmodel);
 	}
 }

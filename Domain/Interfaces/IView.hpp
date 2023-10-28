@@ -25,6 +25,8 @@ namespace Views {
 			m_parent_view_model = std::shared_ptr<ViewModels::IViewModel>(parent);
 		};
 
+		virtual void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel) {};
+
 	protected:
 		std::shared_ptr<ViewModels::IViewModel> m_parent_view_model;
 

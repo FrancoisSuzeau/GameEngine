@@ -65,53 +65,29 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Views::Canvas> component_1 = container->GetReference<Views::Canvas>();
-
-			if (component_1)
-			{
-				component_1->SetParent(this);
-				m_views_map.insert_or_assign(Constants::CANVAS, component_1);
-				component_1.reset();
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Canvas component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-
-			std::shared_ptr<Renderers::Grid> grid = std::make_shared<Renderers::Grid>(48);
-			if (grid)
-			{
-				grid->Construct();
-				m_renderers.push_back(grid);
-				grid.reset();
-			}
-
-			
-
-			std::shared_ptr<Renderers::Triangle>triangle = std::make_shared<Renderers::Triangle>();
-			if (triangle)
-			{
-				triangle->Construct();
-				m_renderers.push_back(triangle);
-				triangle.reset();
-			}
-
-			std::shared_ptr<Renderers::Square> square = std::make_shared<Renderers::Square>();
-			if (square)
-			{
-				square->Construct();
-				m_renderers.push_back(square);
-				square.reset();
-			}
-
 			m_json_service = container->GetReference<Services::JsonService>();
 			if (m_json_service)
 			{
-				m_json_service->SetScene(m_renderers);
+				m_renderers = m_json_service->LoadScene();
+				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+				{
+					it[0]->Construct();
+				}
 			}
 			else
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			std::shared_ptr<Views::Canvas> canvas = container->GetReference<Views::Canvas>();
+			if (canvas)
+			{
+				canvas->SetParent(this);
+				m_views_map.insert_or_assign(Constants::CANVAS, canvas);
+				canvas.reset();
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Canvas component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
 			m_textured_component = std::make_unique<Component::TexturedComponent>();
@@ -127,7 +103,7 @@ namespace ViewModels
 				m_skybox_renderer->Construct();
 			}
 
-		}	
+		}
 	}
 
 	void SceneViewModel::RenderViews(std::string const type_view)
@@ -156,15 +132,19 @@ namespace ViewModels
 
 	void SceneViewModel::OnCommand(Commands::ICommand* command)
 	{
-		if (command)
 		{
-			m_command = std::unique_ptr<Commands::ICommand>(command);
-			if (m_command)
+			if (command)
 			{
-				m_command->Execute();
-				m_command.reset();
+				m_command = std::unique_ptr<Commands::ICommand>(command);
+				if (m_command)
+				{
+					m_command->SetRenderers(m_renderers);
+					m_command->Execute();
+					m_command.reset();
+				}
 			}
-		}
+		};
 	}
+	
 }
 

@@ -75,6 +75,9 @@
     <ClCompile Include="Services\JsonService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commands\SendToJsonServiceCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -147,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\JsonService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\SendToJsonServiceCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

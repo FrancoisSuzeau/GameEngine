@@ -21,6 +21,9 @@ namespace Services
 		{
 			m_json_loader_service.reset();
 		}
+
+		this->CleanRenderers();
+
 	}
 
 	void JsonService::SaveScene()
@@ -28,14 +31,18 @@ namespace Services
 		if (m_json_loader_service)
 		{
 			m_json_loader_service->SaveScene(filename, m_renderers);
+			this->CleanRenderers();
 		}
 	}
-	void JsonService::LoadScene()
+	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene()
 	{
+		
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->GetScene(Constants::DEFAULT_FILENAME);
+			return m_json_loader_service->GetScene(Constants::DEFAULT_FILENAME);
 		}
+
+		return std::vector<std::shared_ptr<Renderers::IRenderer>>();
 	}
 	void JsonService::SetFileName(std::string const new_filename)
 	{
@@ -44,6 +51,18 @@ namespace Services
 	void JsonService::SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
 	{
 		m_renderers = renderers;
+	}
+	void JsonService::CleanRenderers()
+	{
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0].reset();
+			}
+		}
+
+		m_renderers.clear();
 	}
 }
 

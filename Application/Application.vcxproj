@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\SaveSceneCommand.cpp" />
+    <ClCompile Include="Commands\SendToJsonServiceCommand.cpp" />
     <ClCompile Include="Services\JsonService.cpp" />
     <ClCompile Include="Services\CameraService.cpp" />
     <ClCompile Include="Commands\ExitCommand.cpp" />
@@ -43,6 +44,7 @@
   <ItemGroup>
     <ClInclude Include="Builders\Builders.hpp" />
     <ClInclude Include="Commands\SaveSceneCommand.hpp" />
+    <ClInclude Include="Commands\SendToJsonServiceCommand.hpp" />
     <ClInclude Include="Services\JsonService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
     <ClInclude Include="Commands\Commands.hpp" />

@@ -6,6 +6,7 @@
 #define JSONSERVICE_H
 
 #include "IService.hpp"
+#include "Services.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "ExternalServices.hpp"
@@ -24,7 +25,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void SaveScene();
-		void LoadScene();
+		std::vector<std::shared_ptr<Renderers::IRenderer>> LoadScene();
 		void SetFileName(std::string const new_filename);
 		void SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 
@@ -32,6 +33,7 @@ namespace Services {
 		std::shared_ptr<Services::JsonLoaderService> m_json_loader_service;
 		std::string filename;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		void CleanRenderers();
 	};
 }
 

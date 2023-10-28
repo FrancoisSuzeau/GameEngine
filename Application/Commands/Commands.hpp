@@ -10,5 +10,6 @@
 #include "ModifyShaderCommand.hpp"
 #include "LoadNewShaderCommand.hpp"
 #include "SaveSceneCommand.hpp"
+#include "SendToJsonServiceCommand.hpp"
 
 #endif

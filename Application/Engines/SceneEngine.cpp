@@ -51,17 +51,6 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
 			}
-
-			std::shared_ptr<Services::JsonService> json_service = container->GetReference<Services::JsonService>();
-			if (json_service)
-			{
-				json_service->LoadScene();
-				json_service.reset();
-			}
-			else
-			{
-				SQ_APP_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
-			}
 		}
 		
 	}

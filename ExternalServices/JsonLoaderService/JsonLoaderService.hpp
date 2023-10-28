@@ -13,7 +13,7 @@
 #include <nlohmann/json.hpp>
 
 #include "IService.hpp"
-#include "IRenderer.hpp"
+#include "Renderers/Renderers.hpp"
 
 namespace Enums {
 	NLOHMANN_JSON_SERIALIZE_ENUM(RendererType, {
@@ -34,14 +34,16 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
-		std::shared_ptr<Renderers::IRenderer> GetScene(std::string const filename = "");
+		std::vector<std::shared_ptr<Renderers::IRenderer>> GetScene(std::string const filename = "");
 	private:
 		std::shared_ptr<nlohmann::json> m_configs;
 		std::shared_ptr<nlohmann::json> m_scene;
 		void SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> const content);
-		void ReadFile(std::shared_ptr<nlohmann::json> json_content, std::string filename = "");
+		std::shared_ptr<nlohmann::json> ReadFile(std::string filename = "");
 		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
-		std::string GetStringNode(std::string node_name);
+		std::vector<std::shared_ptr<Renderers::IRenderer>> ConvertToRenderers();
+		int GetIntNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 	};
 }
 

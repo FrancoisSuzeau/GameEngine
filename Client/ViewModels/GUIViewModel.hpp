@@ -9,6 +9,7 @@
 #include "../Views/Views.hpp"
 #include "Container/Container.hpp"
 #include "Commands/Commands.hpp"
+#include "SceneViewModel.hpp"
 
 #include <iostream>
 #include <list>
@@ -24,7 +25,7 @@ namespace ViewModels
 		void Construct() override;
 		
 		void RenderViews(std::string const type_view) override;
-		void OnCommand(Commands::ICommand* command) override;
+		//void OnCommand(Commands::ICommand* command) override;
 
 	private:
 		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;

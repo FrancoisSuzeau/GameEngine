@@ -26,7 +26,7 @@ namespace ViewModels
 		void RenderFrameBuffer(unsigned int fb_texture_id) override;
 		void RenderSkybox(unsigned int skybox_texture_id) override;
 		void OnCommand(Commands::ICommand* command) override;
-
+		
 	private:
 		std::map<std::string, std::shared_ptr<Views::IView>> m_views_map;
 		std::vector < std::shared_ptr<Renderers::IRenderer> > m_renderers;

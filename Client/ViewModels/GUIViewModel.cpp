@@ -98,6 +98,7 @@ namespace ViewModels
 			if (component_5)
 			{
 				component_5->SetParent(this);
+				component_5->SetSceneViewModel(IoC::Container::Container::GetInstanceContainer()->GetReference<ViewModels::SceneViewModel>().get());
 				menu_views.push_back(component_5);
 				component_5.reset();
 			}
@@ -138,18 +139,6 @@ namespace ViewModels
 			if (it->get())
 			{
 				it->get()->Render();
-			}
-		}
-	}
-	void GuiViewModel::OnCommand(Commands::ICommand* command)
-	{
-		if (command)
-		{
-			m_command = std::unique_ptr<Commands::ICommand>(command);
-			if (m_command)
-			{
-				m_command->Execute();
-				m_command.reset();
 			}
 		}
 	}
