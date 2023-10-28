@@ -37,14 +37,45 @@ namespace Renderers {
 	}
 	void Skybox::Attach()
 	{
-        glGenVertexArrays(1, &m_vao);
         glGenBuffers(1, &m_vbo);
-        glBindVertexArray(m_vao);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_vertices.data(), GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
+        if (m_vbo != 0)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+            if (glIsBuffer(m_vbo) == GL_TRUE)
+            {
+                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
+
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            }
+        }
+
+        glGenVertexArrays(1, &m_vao);
+
+        if (m_vao != 0)
+        {
+            glBindVertexArray(m_vao);
+            
+            if (glIsVertexArray(m_vao) == GL_TRUE)
+            {
+                if (m_vbo != 0)
+                {
+                    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+                    if (glIsBuffer(m_vbo) == GL_TRUE)
+                    {
+                        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+                        glEnableVertexAttribArray(0);
+
+                        glBindBuffer(GL_ARRAY_BUFFER, 0);
+                       
+                    }
+                }
+
+                glBindVertexArray(0);
+            }
+        }
 	}
 	void Skybox::Load()
 	{

@@ -14,6 +14,7 @@ namespace Renderers {
 		m_texture_coord.reserve(12);
 		m_bytes_textcoord_size = 12 * sizeof(GLfloat);
 		m_texture_id = 0;
+		m_type = Enums::RendererType::SQUARE_TEXTURED;
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{
@@ -78,11 +79,11 @@ namespace Renderers {
 	void ScreenRenderer::Load()
 	{
 
-		float vertices[] = { -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,   1.0f, 1.0f, -1.0f,
+		float vertices[18] = { -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,   1.0f, 1.0f, -1.0f,
 						-1.0f, -1.0f, -1.0f,   -1.0f, 1.0f, -1.0f,   1.0f, 1.0f, -1.0f
 		};
 
-		float coord[] = { 0.0f, 0.0f,   1.0f, 0.0f,   1.0f, 1.0f,
+		float coord[12] = { 0.0f, 0.0f,   1.0f, 0.0f,   1.0f, 1.0f,
 							  0.0f, 0.0f,   0.0f, 1.0f,   1.0f, 1.0f
 		};
 
