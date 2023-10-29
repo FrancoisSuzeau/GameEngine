@@ -114,13 +114,15 @@ namespace Services
 		{
 			json j = this->GetStringNode(std::make_shared<json>(*it), "type");
 			glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
+			glm::vec3 color = this->GetVec3Node(std::make_shared<json>(*it), "color");
+			glm::vec3 size = this->GetVec3Node(std::make_shared<json>(*it), "size");
 			switch (j.template get<Enums::RendererType>())
 			{
 			case Enums::RendererType::TRIANGLE:
-				renderers.push_back(std::make_shared<Renderers::Triangle>(position));
+				renderers.push_back(std::make_shared<Renderers::Triangle>(position, color, size));
 				break;
 			case Enums::RendererType::SQUARE:
-				renderers.push_back(std::make_shared<Renderers::Square>(position));
+				renderers.push_back(std::make_shared<Renderers::Square>(position, color, size));
 				break;
 			case Enums::RendererType::SQUARE_TEXTURED:
 				break;
@@ -131,26 +133,6 @@ namespace Services
 		}
 
 		return renderers;
-	}
-
-	int JsonLoaderService::GetIntNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
-	{
-		if (json_content)
-		{
-			std::string node = json_content->value(node_name, Constants::NONE);
-			if (node == Constants::NONE)
-			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
-				return 0;
-
-			}
-
-			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
-			return std::stoi(node);
-		}
-
-		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
-		return 0;
 	}
 
 	std::string JsonLoaderService::GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
@@ -192,11 +174,6 @@ namespace Services
 
 		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
 		return glm::vec3(0.f);;
-	}
-
-	float JsonLoaderService::GetFloatNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
-	{
-		return 0.0f;
 	}
 
 }

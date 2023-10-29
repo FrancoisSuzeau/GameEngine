@@ -44,10 +44,9 @@ namespace Services {
 		std::shared_ptr<nlohmann::json> ReadFile(std::string filename = "");
 		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
 		std::vector<std::shared_ptr<Renderers::IRenderer>> ConvertToRenderers();
-		int GetIntNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec3 GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
-		float GetFloatNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		
 	};
 }
 

@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Triangle::Triangle(glm::vec3 position)
+	Triangle::Triangle(glm::vec3 position, glm::vec3 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -15,9 +15,9 @@ namespace Renderers {
 		m_type = Enums::RendererType::TRIANGLE;
 
 		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec3(1.f, 0.f, 0.f);
+		m_back_ground_color = color;
 		m_position = position;
-		m_size = glm::vec3(0.2f);
+		m_size = size;
 	}
 
 	Triangle::~Triangle()

@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Square::Square(glm::vec3 position)
+	Square::Square(glm::vec3 position, glm::vec3 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -18,9 +18,9 @@ namespace Renderers {
 		m_bytes_indices_size = 6 * sizeof(unsigned int);
 
 		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec3(0.f, 1.f, 0.f);
+		m_back_ground_color = color;
 		m_position = position;
-		m_size = glm::vec3(0.2f);
+		m_size = size;
 	}
 
 	Square::~Square()
