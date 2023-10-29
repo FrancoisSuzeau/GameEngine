@@ -24,7 +24,7 @@ void SendToJsonServiceCommand::Execute()
 {
 	if (m_json_service)
 	{
-		SQ_APP_INFO("Save scene command is called");
+		SQ_APP_INFO("Send to json service command is called");
 
 		m_json_service->SetScene(m_renderers);
 		m_json_service.reset();

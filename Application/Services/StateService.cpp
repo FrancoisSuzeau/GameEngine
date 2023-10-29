@@ -91,6 +91,7 @@ namespace Services
 	{
 		m_show_tools = new_val;
 	}
+
 	bool StateService::getShowInfos() const
 	{
 		return m_show_app_info;

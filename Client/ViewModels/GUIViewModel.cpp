@@ -27,6 +27,7 @@ namespace ViewModels
 	}
 	void GuiViewModel::Construct()
 	{
+		
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
