@@ -7,7 +7,7 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(Constants::DEFAULT_FILENAME)
+		m_show_style_editor(false), m_show_event(false), m_current_filename(Constants::DEFAULT_FILENAME), m_gui_open(false)
 	{
 	}
 
@@ -120,6 +120,16 @@ namespace Services
 	void StateService::setFileName(std::string const new_val)
 	{
 		m_current_filename = new_val;
+	}
+
+	void StateService::setGuiOpen(bool const new_val)
+	{
+		m_gui_open = new_val;
+	}
+
+	bool StateService::getGuiOpen() const
+	{
+		return m_gui_open;
 	}
 
 	std::string StateService::getFileName() const

@@ -83,8 +83,11 @@ namespace Engines
 				while (SDL_PollEvent(&event))
 				{
 					ImGui_ImplSDL2_ProcessEvent(&event);
-					m_scene_engine->UpdateCamera(event);
-					m_state_service->RefreshProjectionMatrix();
+					if (!m_state_service->getGuiOpen())
+					{
+						m_scene_engine->UpdateCamera(event);
+						m_state_service->RefreshProjectionMatrix();
+					}
 				}
 				
 

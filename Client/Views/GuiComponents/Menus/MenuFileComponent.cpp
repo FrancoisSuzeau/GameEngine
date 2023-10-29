@@ -66,6 +66,7 @@ namespace Views
 	}
 	void MenuFileComponent::ShowSaveAsWindow(int w_width, int w_height)
 	{
+		m_state_service->setGuiOpen(show_save_as);
 		if (show_save_as)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
@@ -73,6 +74,7 @@ namespace Views
 			
 			if (ImGui::Begin("Scene name :", &show_save_as))
 			{
+				
 				ImGui::InputText("Enter name here ...", filename, IM_ARRAYSIZE(filename));
 				ImGuiStyle& style = ImGui::GetStyle();
 				float frame_rounding_save = style.FrameRounding;

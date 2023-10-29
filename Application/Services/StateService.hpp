@@ -45,6 +45,8 @@ namespace Services {
 		void setShowEvent(bool const new_val);
 		bool getShowEvent() const;
 		void setFileName(std::string const new_val);
+		void setGuiOpen(bool const new_val);
+		bool getGuiOpen() const;
 		std::string getFileName() const;
 
 		glm::mat4 GetViewMatrix() const;
@@ -66,6 +68,7 @@ namespace Services {
 		glm::mat4 m_view;
 		std::shared_ptr<Services::CameraService> m_camera_services;
 		std::string m_current_filename;
+		bool m_gui_open;
 		
 
 	};
