@@ -34,15 +34,29 @@ namespace Services
 			this->CleanRenderers();
 		}
 	}
+	void JsonService::SaveConfigs()
+	{
+		if (m_json_loader_service)
+		{
+			m_json_loader_service->SaveConfigs(m_map_config);
+		}
+	}
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene()
 	{
-		
 		if (m_json_loader_service)
 		{
 			return m_json_loader_service->GetScene(Constants::DEFAULT_FILENAME);
 		}
 
 		return std::vector<std::shared_ptr<Renderers::IRenderer>>();
+	}
+	std::map<std::string, std::string> JsonService::LoadConfigs()
+	{
+		if(m_json_loader_service)
+		{
+			return m_json_loader_service->GetConfigs();
+		}
+		return std::map<std::string, std::string>();
 	}
 	void JsonService::SetFileName(std::string const new_filename)
 	{
@@ -51,6 +65,10 @@ namespace Services
 	void JsonService::SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
 	{
 		m_renderers = renderers;
+	}
+	void JsonService::SetConfig(std::map<std::string, std::string> const map_config)
+	{
+		m_map_config = map_config;
 	}
 	void JsonService::CleanRenderers()
 	{

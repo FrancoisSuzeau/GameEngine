@@ -36,14 +36,18 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
-		std::vector<std::shared_ptr<Renderers::IRenderer>> GetScene(std::string const filename = "");
+		void SaveConfigs(std::map<std::string, std::string> config_map);
+		std::vector<std::shared_ptr<Renderers::IRenderer>> GetScene(std::string const filename);
+		std::map<std::string, std::string> GetConfigs();
 	private:
 		std::shared_ptr<nlohmann::json> m_configs;
 		std::shared_ptr<nlohmann::json> m_scene;
 		void SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> const content);
-		std::shared_ptr<nlohmann::json> ReadFile(std::string filename = "");
+		std::shared_ptr<nlohmann::json> ReadFile(std::string filename);
 		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
+		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::map<std::string, std::string> map_config);
 		std::vector<std::shared_ptr<Renderers::IRenderer>> ConvertToRenderers();
+		std::map<std::string, std::string> ConvertToConfigMap();
 		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec3 GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		

@@ -9,9 +9,7 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
-		m_configs = this->ReadFile();
 		SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
-
 	}
 
 	void JsonLoaderService::DeInit()
@@ -38,15 +36,27 @@ namespace Services
 		this->SaveFile(filename, m_scene);
 	}
 
+	void JsonLoaderService::SaveConfigs(std::map<std::string, std::string> map_config)
+	{
+		if (m_configs)
+		{
+			m_configs.reset();
+		}
+
+		m_configs = this->ConvertToJsonFormat(map_config);
+		this->SaveFile(Constants::CONFIGFILE, m_configs);
+	}
+
 	void JsonLoaderService::SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> content)
 	{
 		if (!filename.empty())
 		{
 			std::ofstream flux_out(filename + Constants::JSONEXT);
-			if (flux_out.is_open())
+			if (flux_out.is_open() && content)
 			{
 				flux_out << content->dump(4);
 				flux_out.close();
+				content.reset();
 			}
 		}
 		else
@@ -62,12 +72,14 @@ namespace Services
 		return this->ConvertToRenderers();
 	}
 
+	std::map<std::string, std::string> JsonLoaderService::GetConfigs()
+	{
+		m_configs = this->ReadFile(Constants::CONFIGFILE);
+		return this->ConvertToConfigMap();
+	}
+
 	std::shared_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string filename)
 	{
-		if (filename.empty())
-		{
-			filename = Constants::CONFIGFILE;
-		}
 		std::ifstream flux_in(filename + Constants::JSONEXT);
 		if (flux_in.is_open())
 		{
@@ -107,32 +119,51 @@ namespace Services
 		return std::make_shared<json>(j);
 	}
 
+	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::map<std::string, std::string> map_config)
+	{
+		return std::make_shared<json>();
+	}
+
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonLoaderService::ConvertToRenderers()
 	{
 		std::vector<std::shared_ptr<Renderers::IRenderer>> renderers;
-		for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
+		if (m_scene)
 		{
-			json j = this->GetStringNode(std::make_shared<json>(*it), "type");
-			glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
-			glm::vec3 color = this->GetVec3Node(std::make_shared<json>(*it), "color");
-			glm::vec3 size = this->GetVec3Node(std::make_shared<json>(*it), "size");
-			switch (j.template get<Enums::RendererType>())
+			for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
 			{
-			case Enums::RendererType::TRIANGLE:
-				renderers.push_back(std::make_shared<Renderers::Triangle>(position, color, size));
-				break;
-			case Enums::RendererType::SQUARE:
-				renderers.push_back(std::make_shared<Renderers::Square>(position, color, size));
-				break;
-			case Enums::RendererType::SQUARE_TEXTURED:
-				break;
-			default:
-				break;
+				json j = this->GetStringNode(std::make_shared<json>(*it), "type");
+				glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
+				glm::vec3 color = this->GetVec3Node(std::make_shared<json>(*it), "color");
+				glm::vec3 size = this->GetVec3Node(std::make_shared<json>(*it), "size");
+				switch (j.template get<Enums::RendererType>())
+				{
+				case Enums::RendererType::TRIANGLE:
+					renderers.push_back(std::make_shared<Renderers::Triangle>(position, color, size));
+					break;
+				case Enums::RendererType::SQUARE:
+					renderers.push_back(std::make_shared<Renderers::Square>(position, color, size));
+					break;
+				case Enums::RendererType::SQUARE_TEXTURED:
+					break;
+				default:
+					break;
+				}
 			}
-
+			m_scene.reset();
 		}
 
+
 		return renderers;
+	}
+
+	std::map<std::string, std::string> JsonLoaderService::ConvertToConfigMap()
+	{
+		std::map<std::string, std::string> map_config;
+		if (m_configs)
+		{
+			m_configs.reset();
+		}
+		return map_config;
 	}
 
 	std::string JsonLoaderService::GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
@@ -140,11 +171,11 @@ namespace Services
 		if (json_content)
 		{
 			std::string node = json_content->value(node_name, Constants::NONE);
+			json_content.reset();
 			if (node == Constants::NONE)
 			{
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
 				return Constants::NONE;
-
 			}
 
 			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
@@ -161,6 +192,7 @@ namespace Services
 		if (json_content)
 		{
 			json node = json_content->at(node_name);
+			json_content.reset();
 			if (node == Constants::NONE)
 			{
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
