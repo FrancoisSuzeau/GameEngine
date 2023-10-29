@@ -36,14 +36,14 @@ namespace Services
 		this->SaveFile(filename, m_scene);
 	}
 
-	void JsonLoaderService::SaveConfigs(std::map<std::string, std::string> map_config)
+	void JsonLoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> config)
 	{
 		if (m_configs)
 		{
 			m_configs.reset();
 		}
 
-		m_configs = this->ConvertToJsonFormat(map_config);
+		m_configs = this->ConvertToJsonFormat(config);
 		this->SaveFile(Constants::CONFIGFILE, m_configs);
 	}
 
@@ -72,10 +72,10 @@ namespace Services
 		return this->ConvertToRenderers();
 	}
 
-	std::map<std::string, std::string> JsonLoaderService::GetConfigs()
+	std::shared_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
 	{
 		m_configs = this->ReadFile(Constants::CONFIGFILE);
-		return this->ConvertToConfigMap();
+		return this->ConvertToConfigEntity();
 	}
 
 	std::shared_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string filename)
@@ -119,9 +119,10 @@ namespace Services
 		return std::make_shared<json>(j);
 	}
 
-	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::map<std::string, std::string> map_config)
+	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
 	{
-		return std::make_shared<json>();
+		json json_config = { {"create_scenes", config->GetCreatedScenes()}};
+		return std::make_shared<json>(json_config);
 	}
 
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonLoaderService::ConvertToRenderers()
@@ -156,14 +157,11 @@ namespace Services
 		return renderers;
 	}
 
-	std::map<std::string, std::string> JsonLoaderService::ConvertToConfigMap()
+	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
 	{
-		std::map<std::string, std::string> map_config;
-		if (m_configs)
-		{
-			m_configs.reset();
-		}
-		return map_config;
+		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
+		config->SetCreatedScene(this->GetStringVectorNode(m_configs, "create_scenes"));
+		return config;
 	}
 
 	std::string JsonLoaderService::GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
@@ -205,7 +203,32 @@ namespace Services
 		}
 
 		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
-		return glm::vec3(0.f);;
+		return glm::vec3(0.f);
+	}
+
+	std::vector<std::string> JsonLoaderService::GetStringVectorNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		if (json_content)
+		{
+			json node = json_content->at(node_name);
+			json_content.reset();
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				return std::vector<std::string>();
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			std::vector<std::string> vect;
+			for (json::iterator it = node.begin(); it != node.end(); ++it)
+			{
+				vect.push_back(*it);
+			}
+			return vect;
+		}
+
+		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
+		return std::vector<std::string>();
 	}
 
 }

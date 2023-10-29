@@ -35,8 +35,12 @@ namespace Views
 			if (ImGui::MenuItem("New", "Ctrl+Shift+N")) 
 			{
 			}
-			if (ImGui::BeginMenu("Open", "Ctrl+O")) 
+			if (ImGui::BeginMenu("Open", "Ctrl+O") && m_parent_view_model) 
 			{
+				for (auto it : m_parent_view_model->GetConfig()->GetCreatedScenes())
+				{
+					ImGui::MenuItem(it.c_str());
+				}
 				ImGui::EndMenu();
 			}
 
@@ -52,6 +56,7 @@ namespace Views
 
 			if (ImGui::MenuItem("Quit", "Alt+F4") && m_parent_view_model)
 			{
+				m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
 				m_parent_view_model->OnCommand(new Commands::ExitCommand());
 			}
 			ImGui::EndMenu();
@@ -82,6 +87,11 @@ namespace Views
 				if (ImGui::Button("Save", ImVec2((float)(w_width - 15), 30.f)) && m_state_service)
 				{
 					m_state_service->setFileName(filename);
+					if (m_parent_view_model)
+					{
+						m_parent_view_model->ChangeConfig(Enums::ConfigModifier::ADDFILE, filename);
+						m_parent_view_model->OnCommand(new Commands::SendToJsonServiceCommand());
+					}
 					this->SaveScene();
 					show_save_as = false;
 				}

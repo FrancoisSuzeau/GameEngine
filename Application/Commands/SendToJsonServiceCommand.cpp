@@ -20,6 +20,11 @@ void Commands::SendToJsonServiceCommand::SetRenderers(std::vector<std::shared_pt
 	m_renderers = renderers;
 }
 
+void Commands::SendToJsonServiceCommand::SetConfigs(std::shared_ptr<Services::ConfigEntity> const configs)
+{
+	m_configs = configs;
+}
+
 void SendToJsonServiceCommand::Execute()
 {
 	if (m_json_service)
@@ -27,6 +32,10 @@ void SendToJsonServiceCommand::Execute()
 		SQ_APP_INFO("Send to json service command is called");
 
 		m_json_service->SetScene(m_renderers);
+		if (m_configs)
+		{
+			m_json_service->SetConfig(m_configs);
+		}
 		m_json_service.reset();
 		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
@@ -36,6 +45,7 @@ void SendToJsonServiceCommand::Execute()
 			}
 		}
 
+		m_configs.reset();
 		m_renderers.clear();
 	}
 }

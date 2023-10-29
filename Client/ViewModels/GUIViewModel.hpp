@@ -12,6 +12,7 @@
 #include "SceneViewModel.hpp"
 
 #include <iostream>
+#include "ConfigEntity.hpp"
 #include <list>
 #include <map>
 
@@ -25,10 +26,15 @@ namespace ViewModels
 		void Construct() override;
 		
 		void RenderViews(std::string const type_view) override;
-		//void OnCommand(Commands::ICommand* command) override;
-
+		void OnCommand(Commands::ICommand* command) override;
+		void ChangeConfig(Enums::ConfigModifier modifier, std::string element) override;
+		std::shared_ptr<Services::ConfigEntity> GetConfig() override;
+ 
 	private:
 		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
+		std::shared_ptr<Services::ConfigEntity> m_config;
+		std::shared_ptr<Services::JsonService> m_json_service;
+		void AddSceneFile(std::string element);
 	};
 }
 

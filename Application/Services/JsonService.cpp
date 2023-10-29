@@ -38,7 +38,7 @@ namespace Services
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveConfigs(m_map_config);
+			m_json_loader_service->SaveConfigs(m_config);
 		}
 	}
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene()
@@ -50,13 +50,14 @@ namespace Services
 
 		return std::vector<std::shared_ptr<Renderers::IRenderer>>();
 	}
-	std::map<std::string, std::string> JsonService::LoadConfigs()
+	std::shared_ptr<ConfigEntity> JsonService::LoadConfigs()
 	{
 		if(m_json_loader_service)
 		{
-			return m_json_loader_service->GetConfigs();
+			m_config = m_json_loader_service->GetConfigs();
+			return m_config;
 		}
-		return std::map<std::string, std::string>();
+		return std::make_shared<ConfigEntity>();
 	}
 	void JsonService::SetFileName(std::string const new_filename)
 	{
@@ -66,9 +67,9 @@ namespace Services
 	{
 		m_renderers = renderers;
 	}
-	void JsonService::SetConfig(std::map<std::string, std::string> const map_config)
+	void JsonService::SetConfig(std::shared_ptr<ConfigEntity> const config)
 	{
-		m_map_config = map_config;
+		m_config = config;
 	}
 	void JsonService::CleanRenderers()
 	{

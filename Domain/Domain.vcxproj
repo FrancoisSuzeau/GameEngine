@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\ConfigEntity.hpp" />
     <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Entities\ConfigEntity.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
     <ClCompile Include="Shaders\Shader.cpp" />

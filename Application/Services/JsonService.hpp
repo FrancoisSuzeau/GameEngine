@@ -10,6 +10,7 @@
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "ExternalServices.hpp"
+#include "ConfigEntity.hpp"
 
 #include <iostream>
 #include <map>
@@ -27,16 +28,16 @@ namespace Services {
 		void SaveScene();
 		void SaveConfigs();
 		std::vector<std::shared_ptr<Renderers::IRenderer>> LoadScene();
-		std::map<std::string, std::string> LoadConfigs();
+		std::shared_ptr<ConfigEntity> LoadConfigs();
 		void SetFileName(std::string const new_filename);
 		void SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
-		void SetConfig(std::map<std::string, std::string> const map_config);
+		void SetConfig(std::shared_ptr<ConfigEntity> const config);
 
 	private:
 		std::shared_ptr<Services::JsonLoaderService> m_json_loader_service;
 		std::string filename;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
-		std::map<std::string, std::string> m_map_config;
+		std::shared_ptr<ConfigEntity> m_config;
 		void CleanRenderers();
 	};
 }

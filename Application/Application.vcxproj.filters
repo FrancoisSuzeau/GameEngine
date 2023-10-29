@@ -78,6 +78,9 @@
     <ClCompile Include="Commands\SendToJsonServiceCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commands\SaveConfigCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commands\SendToJsonServiceCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\SaveConfigCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
