@@ -1,7 +1,5 @@
 {
     "create_scenes": [
-        "default_scene",
-        "test",
-        "test2"
+        "default"
     ]
 }

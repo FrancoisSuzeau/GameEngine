@@ -90,9 +90,9 @@ namespace Engines
 					}
 				}
 				
+				this->InitFrame();
 
 				m_framebuffer_service->BindFramebuffer();
-				this->InitFrame();
 
 				m_scene_engine->RenderScene(view_model_builder);
 
