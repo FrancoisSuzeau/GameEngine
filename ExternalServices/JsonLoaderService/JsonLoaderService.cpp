@@ -59,10 +59,7 @@ namespace Services
 				content.reset();
 			}
 		}
-		else
-		{
-			SQ_EXTSERVICE_ERROR("Class {} in function {} : No filename was given", __FILE__, __FUNCTION__);
-		}
+		
 	}
 
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonLoaderService::GetScene(std::string const filename)
@@ -93,10 +90,6 @@ namespace Services
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Exception found when parsing [{}] file", __FILE__, __FUNCTION__, filename + Constants::JSONEXT);
 				SQ_EXTSERVICE_DEBUG("{}", e.what());
 			}
-		}
-		else
-		{
-			SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot read or found [{}] file", __FILE__, __FUNCTION__, filename + Constants::JSONEXT);
 		}
 
 		return nullptr;
@@ -180,7 +173,7 @@ namespace Services
 			return node;
 		}
 
-		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
+		
 		return Constants::NONE;
 
 	}
@@ -202,7 +195,7 @@ namespace Services
 			return glm::vec3(node[0], node[1], node[2]);
 		}
 
-		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
+		
 		return glm::vec3(0.f);
 	}
 
@@ -226,8 +219,6 @@ namespace Services
 			}
 			return vect;
 		}
-
-		SQ_EXTSERVICE_ERROR("Class {} in function {} : No json was serialized - Cannot read node", __FILE__, __FUNCTION__);
 		return std::vector<std::string>();
 	}
 
