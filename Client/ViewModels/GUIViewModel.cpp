@@ -50,6 +50,7 @@ namespace ViewModels
 			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->GetReference< Views::MenuToolsComponent>();
 			std::shared_ptr<Views::MenuEditComponent> component_7 = container->GetReference< Views::MenuEditComponent>();
 			std::shared_ptr<Views::EventViewerComponent> component_8 = container->GetReference<Views::EventViewerComponent>();
+			m_start_component = container->GetReference<Views::StartComponent>();
 
 			std::list<std::shared_ptr<Views::IView>> simple_views;
 			if (component_1)
@@ -139,6 +140,15 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
+			if (m_start_component)
+			{
+				m_start_component->SetParent(this);
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Start component is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}
 	}
@@ -166,6 +176,13 @@ namespace ViewModels
 				m_command->Execute();
 				m_command.reset();
 			}
+		}
+	}
+	void GuiViewModel::RenderStartMenu()
+	{
+		if (m_start_component)
+		{
+			m_start_component->Render();
 		}
 	}
 	void GuiViewModel::ChangeConfig(Enums::ConfigModifier modifier, std::string element)

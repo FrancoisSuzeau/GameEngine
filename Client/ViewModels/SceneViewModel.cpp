@@ -78,18 +78,11 @@ namespace ViewModels
 		if (container)
 		{
 			m_json_service = container->GetReference<Services::JsonService>();
-			if (m_json_service)
-			{
-				m_renderers = m_json_service->LoadScene();
-				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-				{
-					it[0]->Construct();
-				}
-			}
-			else
+			if(!m_json_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			
 			std::shared_ptr<Views::Canvas> canvas = container->GetReference<Views::Canvas>();
 			if (canvas)
 			{
@@ -127,7 +120,7 @@ namespace ViewModels
 
 	void SceneViewModel::RenderViews(std::string const type_view)
 	{
-		if (m_views_map.at(type_view))
+		if (m_views_map.at(type_view) && !m_renderers.empty())
 		{
 			m_views_map.at(type_view)->Render(m_renderers);
 		}
@@ -146,6 +139,18 @@ namespace ViewModels
 		{
 			m_skybox_renderer->SetTextureID(skybox_texture_id);
 			m_textured_component->Render(m_skybox_renderer);
+		}
+	}
+
+	void SceneViewModel::LoadScene()
+	{
+		if (m_json_service)
+		{
+			m_renderers = m_json_service->LoadScene();
+			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+			{
+				it[0]->Construct();
+			}
 		}
 	}
 

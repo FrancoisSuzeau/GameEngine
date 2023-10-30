@@ -29,6 +29,7 @@ namespace Engines {
 
 		~MainEngine() override;
 		void Construct() override;
+		void StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 
 

@@ -65,9 +65,40 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			
 		}
 
 
+	}
+
+	void MainEngine::StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		SDL_Event event;
+
+		if (m_state_service && m_gui_engine && m_scene_engine)
+		{
+			
+			while (!m_state_service->getExit())
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				m_gui_engine->RenderMainMenuBar(view_model_builder);
+				m_gui_engine->RenderStartScreenMenu(view_model_builder);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+			}
+
+			m_scene_engine->LoadScene(view_model_builder);
+		}
 	}
 
 	void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
@@ -76,6 +107,7 @@ namespace Engines
 
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
 		{
+			m_state_service->setExit(false);
 			while (!m_state_service->getExit())
 			{
 

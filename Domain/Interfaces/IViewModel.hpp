@@ -27,6 +27,8 @@ namespace ViewModels {
 		virtual void Construct() = 0;
 
 		virtual void RenderViews(std::string const type_view) = 0;
+		virtual void RenderStartMenu() {};
+		virtual void LoadScene() {};
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
 		virtual void RenderGrid() {};

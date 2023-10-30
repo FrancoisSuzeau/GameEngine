@@ -15,5 +15,6 @@
 #include "GuiComponents/Simple/EventViewerComponent.hpp"
 #include "Scene/Canvas.hpp"
 #include "Transformer.hpp"
+#include "GuiComponents/Simple/StartComponent.hpp"
 
 #endif

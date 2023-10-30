@@ -94,6 +94,7 @@ namespace Views
 					}
 					this->SaveScene();
 					show_save_as = false;
+					filename[0] = '\0';
 				}
 				style.FrameRounding = frame_rounding_save;
 				ImGui::End();

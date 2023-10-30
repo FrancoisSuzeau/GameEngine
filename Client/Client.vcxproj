@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\Simple\StartComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\EventViewerComponent.cpp" />
     <ClCompile Include="Views\Scene\TexturedComponent.cpp" />
     <ClCompile Include="Views\Transformer.cpp" />
@@ -170,6 +171,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\Simple\StartComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\EventViewerComponent.hpp" />
     <ClInclude Include="Views\Scene\TexturedComponent.hpp" />
     <ClInclude Include="Views\Transformer.hpp" />

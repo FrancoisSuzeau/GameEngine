@@ -25,6 +25,7 @@ namespace ViewModels
 		void RenderViews(std::string const type_view) override;
 		void RenderFrameBuffer(unsigned int fb_texture_id) override;
 		void RenderSkybox(unsigned int skybox_texture_id) override;
+		void LoadScene() override;
 		void RenderGrid() override;
 		void OnCommand(Commands::ICommand* command) override;
 		

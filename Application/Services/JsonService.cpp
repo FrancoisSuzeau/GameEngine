@@ -8,10 +8,20 @@ namespace Services
 {
 	void JsonService::Init()
 	{
-		m_json_loader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::JsonLoaderService>();
-		if (!m_json_loader_service)
+		IoC::Container::Container *container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_APP_ERROR("Class {} in function {} : Json loader service is not referenced yet", __FILE__, __FUNCTION__);
+			m_json_loader_service = container->GetReference<Services::JsonLoaderService>();
+			if (!m_json_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Json loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -43,9 +53,9 @@ namespace Services
 	}
 	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene()
 	{
-		if (m_json_loader_service)
+		if (m_json_loader_service && m_state_service)
 		{
-			return m_json_loader_service->GetScene(Constants::DEFAULT_FILENAME);
+			return m_json_loader_service->GetScene(m_state_service->getFileName());
 		}
 
 		return std::vector<std::shared_ptr<Renderers::IRenderer>>();

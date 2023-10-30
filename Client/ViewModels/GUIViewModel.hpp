@@ -27,6 +27,7 @@ namespace ViewModels
 		
 		void RenderViews(std::string const type_view) override;
 		void OnCommand(Commands::ICommand* command) override;
+		void RenderStartMenu() override;
 		void ChangeConfig(Enums::ConfigModifier modifier, std::string element) override;
 		std::shared_ptr<Services::ConfigEntity> GetConfig() override;
  
@@ -35,6 +36,7 @@ namespace ViewModels
 		std::shared_ptr<Services::ConfigEntity> m_config;
 		std::shared_ptr<Services::JsonService> m_json_service;
 		void AddSceneFile(std::string element);
+		std::shared_ptr<Views::StartComponent> m_start_component;
 	};
 }
 

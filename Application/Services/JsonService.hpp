@@ -35,6 +35,7 @@ namespace Services {
 
 	private:
 		std::shared_ptr<Services::JsonLoaderService> m_json_loader_service;
+		std::shared_ptr<Services::StateService> m_state_service;
 		std::string filename;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
 		std::shared_ptr<ConfigEntity> m_config;
