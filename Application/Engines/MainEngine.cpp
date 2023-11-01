@@ -78,7 +78,7 @@ namespace Engines
 		if (m_state_service && m_gui_engine && m_scene_engine)
 		{
 			
-			while (!m_state_service->getExit())
+			while (!m_state_service->getContinued() && !m_state_service->getExit())
 			{
 
 				this->FpsCalculation(Enums::BEGIN);
@@ -107,8 +107,7 @@ namespace Engines
 
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
 		{
-			m_state_service->setExit(false);
-			while (!m_state_service->getExit())
+			while (!m_state_service->getExit() && m_state_service->getContinued())
 			{
 
 				this->FpsCalculation(Enums::BEGIN);

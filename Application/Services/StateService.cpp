@@ -7,7 +7,7 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(Constants::DEFAULT_FILENAME), m_gui_open(false)
+		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_gui_open(false), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f))
 	{
 	}
 
@@ -38,11 +38,6 @@ namespace Services
 				m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 			}
 		}
-
-		m_exit = false;
-		m_show_metrics = false;
-
-		m_view = glm::mat4(1.f);
 		
 	}
 
@@ -130,6 +125,16 @@ namespace Services
 	bool StateService::getGuiOpen() const
 	{
 		return m_gui_open;
+	}
+
+	bool StateService::getContinued() const
+	{
+		return m_continued;
+	}
+
+	void StateService::setContinued(bool const new_val)
+	{
+		m_continued = new_val;
 	}
 
 	std::string StateService::getFileName() const

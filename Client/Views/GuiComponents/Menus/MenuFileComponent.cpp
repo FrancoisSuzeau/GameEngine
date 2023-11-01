@@ -30,26 +30,29 @@ namespace Views
 	}
 	void MenuFileComponent::Render()
 	{	
-		if (ImGui::BeginMenu("File"))
+		if (ImGui::BeginMenu("File") && m_parent_view_model && m_state_service)
 		{
 			if (ImGui::MenuItem("New", "Ctrl+Shift+N")) 
 			{
 			}
-			if (ImGui::BeginMenu("Open", "Ctrl+O") && m_parent_view_model) 
+			if (ImGui::BeginMenu("Open", m_state_service->getContinued()) )
 			{
 				for (auto it : m_parent_view_model->GetConfig()->GetCreatedScenes())
 				{
-					ImGui::MenuItem(it.c_str());
+					if (ImGui::MenuItem(it.c_str()))
+					{
+						std::cout << it << std::endl;
+					}
 				}
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::MenuItem("Save scene", "Ctrl+S") && m_parent_view_model) 
+			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued()))
 			{
 				this->SaveScene();
 			}
 
-			ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as);
+			ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued());
 			
 
 			ImGui::Separator();

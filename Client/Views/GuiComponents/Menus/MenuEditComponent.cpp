@@ -9,11 +9,24 @@ namespace Views
 {
 	MenuEditComponent::MenuEditComponent()
 	{
-		
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+		}
+	}
+	MenuEditComponent::~MenuEditComponent()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+
+		this->SetParent(nullptr);
 	}
 	void MenuEditComponent::Render()
 	{
-		if (ImGui::BeginMenu("Edit"))
+		if (ImGui::BeginMenu("Edit", m_state_service && m_state_service->getContinued()))
 		{
 			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
 			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item

@@ -30,34 +30,44 @@ namespace Views
 			int h = 200;
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w / 2)), (float)((m_state_service->getHeight() / 2) - (h / 2))));
 			ImGui::SetNextWindowSize(ImVec2((float)w, (float)h));
-			if (ImGui::Begin("Select recent work :"))
+			ImGuiStyle& style = ImGui::GetStyle();
+			float frame_rounding_save = style.FrameRounding;
+			std::vector<std::string> created_scene = m_parent_view_model->GetConfig()->GetCreatedScenes();
+			if (!created_scene.empty())
 			{
-				int n = 0;
-				std::vector<std::string> created_scene = m_parent_view_model->GetConfig()->GetCreatedScenes();
-				for (auto it : created_scene)
+				if (ImGui::Begin("Select recent work :"))
 				{
-					if (ImGui::Selectable(it.c_str(), n == selected))
-					{
-						selected = n;
-					}
-					n++;
-				}
+					int n = 0;
 
-				if (selected != -1)
-				{
-					ImGuiStyle& style = ImGui::GetStyle();
-					float frame_rounding_save = style.FrameRounding;
-					style.FrameRounding = 20.f;
-					if (ImGui::Button("Select", ImVec2((float)(w - 15), 30.f)))
+					for (auto it : created_scene)
 					{
-						m_state_service->setFileName(created_scene[selected]);
-						m_state_service->setExit(true);
+						if (ImGui::Selectable(it.c_str(), n == selected))
+						{
+							selected = n;
+						}
+						n++;
 					}
 
-					style.FrameRounding = frame_rounding_save;
+					if (selected != -1)
+					{
+						style.FrameRounding = 20.f;
+						ImGui::SetCursorPosY(h - 45.f);
+						if (ImGui::Button("Select", ImVec2((float)(w - 15), 30.f)))
+						{
+							m_state_service->setFileName(created_scene[selected]);
+							m_state_service->setContinued(true);
+
+						}
+
+						style.FrameRounding = frame_rounding_save;
+					}
+
+					ImGui::End();
 				}
-				
-				ImGui::End();
+			}
+			else
+			{
+				m_state_service->setContinued(true);
 			}
 		}
 	}
