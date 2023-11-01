@@ -42,7 +42,12 @@ namespace Views
 				{
 					if (ImGui::MenuItem(it.c_str()))
 					{
-						std::cout << it << std::endl;
+						m_state_service->setFileName(it);
+						if (m_scene_viewmodel)
+						{
+							std::function<void()> to_callback = std::bind(&ViewModels::IViewModel::LoadScene, m_scene_viewmodel);
+							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(to_callback));
+						}
 					}
 				}
 				ImGui::EndMenu();
@@ -58,9 +63,12 @@ namespace Views
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Quit", "Alt+F4") && m_parent_view_model)
+			if (ImGui::MenuItem("Quit", "Alt+F4"))
 			{
-				m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
+				if (m_state_service->getContinued())
+				{
+					m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
+				}
 				m_parent_view_model->OnCommand(new Commands::ExitCommand());
 			}
 			ImGui::EndMenu();

@@ -12,5 +12,6 @@
 #include "SaveSceneCommand.hpp"
 #include "SendToJsonServiceCommand.hpp"
 #include "SaveConfigCommand.hpp"
+#include "LoadSceneCommand.hpp"
 
 #endif

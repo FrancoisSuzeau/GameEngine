@@ -81,6 +81,9 @@
     <ClCompile Include="Commands\SaveConfigCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commands\LoadSceneCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -159,6 +162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commands\SaveConfigCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\LoadSceneCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,7 @@
 #include "Commands/Commands.hpp"
 #include "Services/Services.hpp"
 #include "Container/Container.hpp"
+#include <functional>
 
 
 #include <iostream>
