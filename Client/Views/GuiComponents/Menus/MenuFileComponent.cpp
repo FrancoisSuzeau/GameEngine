@@ -32,12 +32,13 @@ namespace Views
 	{	
 		if (ImGui::BeginMenu("File") && m_parent_view_model && m_state_service)
 		{
-			if (ImGui::MenuItem("New", "Ctrl+Shift+N")) 
+			std::vector<std::string> created_scene = m_parent_view_model->GetConfig()->GetCreatedScenes();
+			if (ImGui::MenuItem("New", "Ctrl+Shift+N", false, m_state_service->getFileName() != ""))
 			{
 			}
-			if (ImGui::BeginMenu("Open", m_state_service->getContinued()) )
+			if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()) )
 			{
-				for (auto it : m_parent_view_model->GetConfig()->GetCreatedScenes())
+				for (auto it : created_scene)
 				{
 					if (ImGui::MenuItem(it.c_str()))
 					{
@@ -47,7 +48,7 @@ namespace Views
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued()))
+			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 			{
 				this->SaveScene();
 			}
