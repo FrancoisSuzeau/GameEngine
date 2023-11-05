@@ -12,10 +12,7 @@
 #include "IRenderer.hpp"
 #include "../Entities/ConfigEntity.hpp"
 
-namespace Enums 
-{
-	enum ConfigModifier { ADDFILE };
-}
+
 
 namespace ViewModels {
 
@@ -28,12 +25,9 @@ namespace ViewModels {
 
 		virtual void RenderViews(std::string const type_view) = 0;
 		virtual void RenderStartMenu() {};
-		virtual void LoadScene() {};
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
 		virtual void RenderGrid() {};
-		virtual void ChangeConfig(Enums::ConfigModifier modifier, std::string element) {};
-		virtual std::shared_ptr<Services::ConfigEntity> GetConfig() { return nullptr; };
 		virtual void OnCommand(Commands::ICommand* command) 
 		{
 			if (command)

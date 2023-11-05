@@ -38,13 +38,10 @@ namespace Views
 		MenuFileComponent();
 		~MenuFileComponent() override;
 		void Render() override;
-		void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel);
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
-		std::shared_ptr<ViewModels::IViewModel> m_scene_viewmodel;
 		bool show_save_as;
 		void ShowSaveAsWindow(int w_width, int w_height);
-		void SaveScene();
 		char filename[128];
  	};
 }

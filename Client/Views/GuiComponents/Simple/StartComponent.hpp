@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <list>
+#include "Commands/Commands.hpp"
 
 namespace Views
 {

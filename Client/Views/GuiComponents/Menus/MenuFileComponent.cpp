@@ -9,10 +9,14 @@ namespace Views
 {
 	MenuFileComponent::MenuFileComponent() : show_save_as(false), filename("")
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-		if (!m_state_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 	MenuFileComponent::~MenuFileComponent()
@@ -22,40 +26,31 @@ namespace Views
 		{
 			m_state_service.reset();
 		}
-
-		if (m_scene_viewmodel)
-		{
-			m_scene_viewmodel.reset();
-		}
 	}
+
 	void MenuFileComponent::Render()
 	{	
-		if (ImGui::BeginMenu("File") && m_parent_view_model && m_state_service)
+		if (ImGui::BeginMenu("File") && m_parent_view_model && m_state_service )
 		{
-			std::vector<std::string> created_scene = m_parent_view_model->GetConfig()->GetCreatedScenes();
+			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 			if (ImGui::MenuItem("New", "Ctrl+Shift+N", false, m_state_service->getFileName() != ""))
 			{
 			}
 			if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()) )
 			{
-				for (auto it : created_scene)
+				for (auto& it : created_scene)
 				{
 					if (ImGui::MenuItem(it.c_str()))
 					{
-						m_state_service->setFileName(it);
-						if (m_scene_viewmodel)
-						{
-							std::function<void()> to_callback = std::bind(&ViewModels::IViewModel::LoadScene, m_scene_viewmodel);
-							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(to_callback));
-						}
+						m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(it));
 					}
 				}
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
+			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued()))
 			{
-				this->SaveScene();
+				m_parent_view_model->OnCommand(new Commands::SaveSceneCommand());
 			}
 
 			ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued());
@@ -69,7 +64,7 @@ namespace Views
 				{
 					m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
 				}
-				m_parent_view_model->OnCommand(new Commands::ExitCommand());
+				m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
 			}
 			ImGui::EndMenu();
 		}
@@ -77,14 +72,11 @@ namespace Views
 		this->ShowSaveAsWindow(400, 200);
 		
 	}
-	void MenuFileComponent::SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel)
-	{
-		m_scene_viewmodel = std::shared_ptr<ViewModels::IViewModel>(scene_viewmodel);
-	}
+
 	void MenuFileComponent::ShowSaveAsWindow(int w_width, int w_height)
 	{
 		m_state_service->setGuiOpen(show_save_as);
-		if (show_save_as)
+		if (show_save_as && m_parent_view_model)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
@@ -96,15 +88,12 @@ namespace Views
 				ImGuiStyle& style = ImGui::GetStyle();
 				float frame_rounding_save = style.FrameRounding;
 				style.FrameRounding = 20.f;
+				ImGui::SetCursorPosY(w_height - 45.f);
 				if (ImGui::Button("Save", ImVec2((float)(w_width - 15), 30.f)) && m_state_service)
 				{
-					m_state_service->setFileName(filename);
-					if (m_parent_view_model)
-					{
-						m_parent_view_model->ChangeConfig(Enums::ConfigModifier::ADDFILE, filename);
-						m_parent_view_model->OnCommand(new Commands::SendToJsonServiceCommand());
-					}
-					this->SaveScene();
+					
+					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
+					m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
 					show_save_as = false;
 					filename[0] = '\0';
 				}
@@ -112,14 +101,6 @@ namespace Views
 				ImGui::End();
 			}
 
-		}
-	}
-	void MenuFileComponent::SaveScene()
-	{
-		if (m_state_service && m_scene_viewmodel)
-		{
-			m_scene_viewmodel->OnCommand(new Commands::SendToJsonServiceCommand());
-			m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(m_state_service->getFileName()));
 		}
 	}
 }

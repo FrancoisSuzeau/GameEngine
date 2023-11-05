@@ -32,7 +32,7 @@ namespace Views
 			ImGui::SetNextWindowSize(ImVec2((float)w, (float)h));
 			ImGuiStyle& style = ImGui::GetStyle();
 			float frame_rounding_save = style.FrameRounding;
-			std::vector<std::string> created_scene = m_parent_view_model->GetConfig()->GetCreatedScenes();
+			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 			if (!created_scene.empty())
 			{
 				if (ImGui::Begin("Select recent work :"))
@@ -54,8 +54,8 @@ namespace Views
 						ImGui::SetCursorPosY(h - 45.f);
 						if (ImGui::Button("Select", ImVec2((float)(w - 15), 30.f)))
 						{
-							m_state_service->setFileName(created_scene[selected]);
-							m_state_service->setContinued(true);
+							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(created_scene[selected]));
+							m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setContinued, m_state_service, true)));
 
 						}
 

@@ -16,11 +16,10 @@ namespace Commands {
 	class ExitCommand : public ICommand
 	{
 	public:
-		ExitCommand();
+		ExitCommand(std::function<void(bool)> callback);
 		void Execute() override;
 	private:
-		std::shared_ptr<Services::StateService> m_state_service;
-
+		std::function<void(bool)> m_callback;
 	};
 }
 

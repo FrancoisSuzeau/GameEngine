@@ -31,16 +31,7 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			m_json_service = container->GetReference<Services::JsonService>();
-			if (m_json_service)
-			{
-				m_config = m_json_service->LoadConfigs();
 
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
-			}
 
 			std::shared_ptr<Views::MetricsComponent> component_1 = container->GetReference< Views::MetricsComponent>();
 			std::shared_ptr<Views::StackToolsComponent> component_2 = container->GetReference< Views::StackToolsComponent>();
@@ -165,48 +156,11 @@ namespace ViewModels
 		}
 	}
 
-	void GuiViewModel::OnCommand(Commands::ICommand* command)
-	{
-		if (command)
-		{
-			m_command = std::unique_ptr<Commands::ICommand>(command);
-			if (m_command)
-			{
-				m_command->SetConfigs(m_config);
-				m_command->Execute();
-				m_command.reset();
-			}
-		}
-	}
 	void GuiViewModel::RenderStartMenu()
 	{
 		if (m_start_component)
 		{
 			m_start_component->Render();
-		}
-	}
-	void GuiViewModel::ChangeConfig(Enums::ConfigModifier modifier, std::string element)
-	{
-		switch (modifier)
-		{
-		case Enums::ADDFILE:
-			this->AddSceneFile(element);
-			break;
-		default:
-			break;
-		}
-	}
-
-	std::shared_ptr<Services::ConfigEntity> GuiViewModel::GetConfig()
-	{
-		return m_config;
-	}
-
-	void GuiViewModel::AddSceneFile(std::string element)
-	{
-		if (m_config)
-		{
-			m_config->AddCreatedScene(element);
 		}
 	}
 

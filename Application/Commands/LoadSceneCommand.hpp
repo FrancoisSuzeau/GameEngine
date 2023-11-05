@@ -19,12 +19,13 @@ namespace Commands {
 	class LoadSceneCommand : public ICommand
 	{
 	public:
-		LoadSceneCommand(std::function<void()> callback);
+		LoadSceneCommand(std::string const filename);
 		
 		void Execute() override;
 	private:
 
-		std::function<void()> m_callback;
+		std::shared_ptr<Services::JsonService> m_json_service;
+		std::shared_ptr<Services::StateService> m_state_service;
 		
 	};
 }

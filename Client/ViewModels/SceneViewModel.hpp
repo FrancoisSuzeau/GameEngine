@@ -25,19 +25,16 @@ namespace ViewModels
 		void RenderViews(std::string const type_view) override;
 		void RenderFrameBuffer(unsigned int fb_texture_id) override;
 		void RenderSkybox(unsigned int skybox_texture_id) override;
-		void LoadScene() override;
 		void RenderGrid() override;
-		void OnCommand(Commands::ICommand* command) override;
 		
 	private:
 		std::map<std::string, std::shared_ptr<Views::IView>> m_views_map;
-		std::vector < std::shared_ptr<Renderers::IRenderer> > m_renderers;
 		std::unique_ptr<Component::TexturedComponent> m_textured_component;
 		std::unique_ptr<Component::ComponentBase> m_untextured_component;
 		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
 		std::shared_ptr<Renderers::Grid> m_grid_renderer;
 		std::shared_ptr<Renderers::Skybox> m_skybox_renderer;
-		std::shared_ptr<Services::JsonService> m_json_service;
+		std::shared_ptr<Services::StateService> m_state_service;
 	};
 }
 

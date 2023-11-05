@@ -47,6 +47,9 @@ namespace Services
 		{
 			m_camera_services.reset();
 		}
+
+		this->CleanRenderers();
+		
 	}
 
 	bool StateService::getExit() const
@@ -141,6 +144,32 @@ namespace Services
 	{
 		return m_current_filename;
 	}
+
+	std::shared_ptr<Services::ConfigEntity> StateService::getConfigs() const
+	{
+		return m_configs;
+	}
+
+	void StateService::setConfigs(std::shared_ptr<Services::ConfigEntity> configs)
+	{
+		m_configs = configs;
+	}
+
+	std::vector<std::shared_ptr<Renderers::IRenderer>> StateService::getRenderers() const
+	{
+		return m_renderers;
+	}
+
+	void StateService::setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
+	{
+		this->CleanRenderers();
+
+		m_renderers = renderers;
+		for (auto it : m_renderers)
+		{
+			it->Construct();
+		}
+	}
 	
 	glm::mat4 StateService::GetViewMatrix() const
 	{
@@ -160,6 +189,26 @@ namespace Services
 		if (m_camera_services)
 		{
 			m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+		}
+	}
+	void StateService::CleanRenderers()
+	{
+		for (auto it : m_renderers)
+		{
+			if (it)
+			{
+				it->Clean();
+				it.reset();
+			}
+		}
+
+		m_renderers.clear();
+	}
+	void StateService::CleanConfig()
+	{
+		if (m_configs)
+		{
+			m_configs.reset();
 		}
 	}
 }

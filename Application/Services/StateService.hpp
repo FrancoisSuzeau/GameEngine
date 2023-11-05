@@ -19,6 +19,8 @@
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
 #include "../Services/ImGUIServiceInitalizer.hpp"
+#include <ExternalServices.hpp>
+
 
 namespace Services {
 
@@ -50,6 +52,10 @@ namespace Services {
 		bool getContinued() const;
 		void setContinued(bool const new_val);
 		std::string getFileName() const;
+		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
+		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
+		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
+		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
@@ -58,6 +64,8 @@ namespace Services {
 
 	private:
 
+		void CleanRenderers();
+		void CleanConfig();
 		int m_width;
 		int m_height;
 		bool m_exit;
@@ -72,7 +80,8 @@ namespace Services {
 		std::string m_current_filename;
 		bool m_gui_open;
 		bool m_continued;
-		
+		std::shared_ptr<Services::ConfigEntity> m_configs;
+		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
 
 	};
 }

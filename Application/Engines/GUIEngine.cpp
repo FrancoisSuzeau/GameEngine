@@ -81,6 +81,25 @@ namespace Engines
 			}
 		}
 	}
+	void GUIEngine::LoadConfigs()
+	{
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
+		{
+			std::shared_ptr<Services::StateService> state_service = container->GetReference<Services::StateService>();
+			std::shared_ptr<Services::JsonService> json_services = container->GetReference<Services::JsonService>();
+			if (state_service && json_services)
+			{
+				state_service->setConfigs(json_services->LoadConfigs());
+				json_services.reset();
+				state_service.reset();
+			}
+			else
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service or json service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+		}
+	}
 }
 
 

@@ -16,12 +16,6 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : Json loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-
-			m_state_service = container->GetReference<Services::StateService>();
-			if (!m_state_service)
-			{
-				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
-			}
 		}
 	}
 
@@ -31,31 +25,27 @@ namespace Services
 		{
 			m_json_loader_service.reset();
 		}
-
-		this->CleanRenderers();
-
 	}
 
-	void JsonService::SaveScene()
+	void JsonService::SaveScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers, std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveScene(filename, m_renderers);
-			this->CleanRenderers();
+			m_json_loader_service->SaveScene(filename, renderers);
 		}
 	}
-	void JsonService::SaveConfigs()
+	void JsonService::SaveConfigs(std::shared_ptr<ConfigEntity> configs)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveConfigs(m_config);
+			m_json_loader_service->SaveConfigs(configs);
 		}
 	}
-	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene()
+	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene(std::string const filename)
 	{
-		if (m_json_loader_service && m_state_service)
+		if (m_json_loader_service)
 		{
-			return m_json_loader_service->GetScene(m_state_service->getFileName());
+			return m_json_loader_service->GetScene(filename);;
 		}
 
 		return std::vector<std::shared_ptr<Renderers::IRenderer>>();
@@ -64,34 +54,9 @@ namespace Services
 	{
 		if(m_json_loader_service)
 		{
-			m_config = m_json_loader_service->GetConfigs();
-			return m_config;
+			return m_json_loader_service->GetConfigs();
 		}
 		return std::make_shared<ConfigEntity>();
-	}
-	void JsonService::SetFileName(std::string const new_filename)
-	{
-		filename = new_filename;
-	}
-	void JsonService::SetScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
-	{
-		m_renderers = renderers;
-	}
-	void JsonService::SetConfig(std::shared_ptr<ConfigEntity> const config)
-	{
-		m_config = config;
-	}
-	void JsonService::CleanRenderers()
-	{
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-		{
-			if (it[0])
-			{
-				it[0].reset();
-			}
-		}
-
-		m_renderers.clear();
 	}
 }
 

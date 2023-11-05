@@ -19,15 +19,6 @@ namespace ViewModels
 		}
 		m_views_map.clear();
 
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-		{
-			if (it[0])
-			{
-				it[0]->Clean();
-				it[0].reset();
-			}
-		}
-
 		if (m_textured_component)
 		{
 			m_textured_component->Clean();
@@ -52,20 +43,6 @@ namespace ViewModels
 			m_skybox_renderer.reset();
 		}
 
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-		{
-			if (it->get())
-			{
-				it->reset();
-			}
-		}
-		m_renderers.clear();
-
-		if (m_json_service)
-		{
-			m_json_service.reset();
-		}
-
 		if (m_grid_renderer)
 		{
 			m_grid_renderer->Clean();
@@ -77,10 +54,10 @@ namespace ViewModels
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			m_json_service = container->GetReference<Services::JsonService>();
-			if(!m_json_service)
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
 			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
+				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
 			std::shared_ptr<Views::Canvas> canvas = container->GetReference<Views::Canvas>();
@@ -120,9 +97,13 @@ namespace ViewModels
 
 	void SceneViewModel::RenderViews(std::string const type_view)
 	{
-		if (m_views_map.at(type_view) && !m_renderers.empty())
+		if (m_state_service)
 		{
-			m_views_map.at(type_view)->Render(m_renderers);
+			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			if (m_views_map.at(type_view) && !renderers.empty())
+			{
+				m_views_map.at(type_view)->Render(renderers);
+			}
 		}
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
@@ -142,40 +123,12 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::LoadScene()
-	{
-		if (m_json_service)
-		{
-			m_renderers = m_json_service->LoadScene();
-			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
-			{
-				it[0]->Construct();
-			}
-		}
-	}
-
 	void SceneViewModel::RenderGrid()
 	{
 		if (m_untextured_component && m_grid_renderer)
 		{
 			m_untextured_component->Render(m_grid_renderer);
 		}
-	}
-
-	void SceneViewModel::OnCommand(Commands::ICommand* command)
-	{
-		{
-			if (command)
-			{
-				m_command = std::unique_ptr<Commands::ICommand>(command);
-				if (m_command)
-				{
-					m_command->SetRenderers(m_renderers);
-					m_command->Execute();
-					m_command.reset();
-				}
-			}
-		};
 	}
 	
 }
