@@ -35,6 +35,7 @@ namespace Views
 			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 			if (ImGui::MenuItem("New", "Ctrl+Shift+N", false, m_state_service->getFileName() != ""))
 			{
+				m_parent_view_model->OnCommand(new Commands::LoadSceneCommand("no file"));
 			}
 			if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()) )
 			{

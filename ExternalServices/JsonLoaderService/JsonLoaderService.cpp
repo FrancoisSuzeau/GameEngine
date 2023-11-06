@@ -165,11 +165,11 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return Constants::NONE;
 			}
 
-			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
 			return node;
 		}
 
@@ -186,12 +186,12 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec3(0.f);
 
 			}
 
-			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
 			return glm::vec3(node[0], node[1], node[2]);
 		}
 
@@ -207,11 +207,11 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, Constants::USERPREFNODE);
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return std::vector<std::string>();
 			}
 
-			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", Constants::USERPREFNODE);
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
 			std::vector<std::string> vect;
 			for (json::iterator it = node.begin(); it != node.end(); ++it)
 			{
