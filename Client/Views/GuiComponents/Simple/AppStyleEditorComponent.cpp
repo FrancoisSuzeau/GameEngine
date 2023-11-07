@@ -32,12 +32,12 @@ namespace Views
 				ImGui::Begin("Dear ImGui Style Editor", &test);
 				ImGui::ShowStyleEditor();
 				ImGui::End();
-				m_state_service->setGuiOpen(true);
+				//m_state_service->setGuiOpen(true);
 			}
-			else
+			/*else
 			{
 				m_state_service->setGuiOpen(false);
-			}
+			}*/
 			
 			m_state_service->setShowStyleEditor(test);
 		}

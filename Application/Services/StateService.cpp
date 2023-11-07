@@ -7,7 +7,8 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_gui_open(false), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f))
+		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f)),
+		m_show_save_as(false), m_show_confirm(false)
 	{
 	}
 
@@ -120,14 +121,9 @@ namespace Services
 		m_current_filename = new_val;
 	}
 
-	void StateService::setGuiOpen(bool const new_val)
-	{
-		m_gui_open = new_val;
-	}
-
 	bool StateService::getGuiOpen() const
 	{
-		return m_gui_open;
+		return m_show_save_as || m_show_confirm;
 	}
 
 	bool StateService::getContinued() const
@@ -138,6 +134,26 @@ namespace Services
 	void StateService::setContinued(bool const new_val)
 	{
 		m_continued = new_val;
+	}
+
+	void StateService::setShowSaveAs(bool const new_val)
+	{
+		m_show_save_as = new_val;
+	}
+
+	bool StateService::getShowSaveAs() const
+	{
+		return m_show_save_as;
+	}
+
+	bool StateService::getShowConfirm() const
+	{
+		return m_show_confirm;
+	}
+
+	void StateService::setShowConfirm(bool const new_val)
+	{
+		m_show_confirm = new_val;
 	}
 
 	std::string StateService::getFileName() const

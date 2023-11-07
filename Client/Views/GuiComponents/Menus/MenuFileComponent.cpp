@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : show_save_as(false), filename(""), show_confirm(false)
+	MenuFileComponent::MenuFileComponent() : filename("")
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -29,93 +29,92 @@ namespace Views
 	}
 
 	void MenuFileComponent::Render()
-	{	
-		if (ImGui::BeginMenu("File", !m_state_service->getGuiOpen()) && m_parent_view_model && m_state_service)
+	{
+		if (m_parent_view_model && m_state_service)
 		{
-			ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != "");
-
-			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
-			if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()) )
+			bool show_save_as = m_state_service->getShowSaveAs();
+			bool show_confirm = m_state_service->getShowConfirm();
+			if (ImGui::BeginMenu("File", !m_state_service->getGuiOpen()))
 			{
-				for (auto& it : created_scene)
+				ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != "");
+
+				std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
+				if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()))
 				{
-					if (ImGui::MenuItem(it.c_str()))
+					for (auto& it : created_scene)
 					{
-						m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(it));
+						if (ImGui::MenuItem(it.c_str()))
+						{
+							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(it));
+						}
 					}
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
+				{
+					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand());
+				}
+
+
+				ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued());
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Quit", "Alt+F4"))
+				{
+					if (m_state_service->getContinued())
+					{
+						m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
+					}
+					m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
 				}
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
-			{
-				m_parent_view_model->OnCommand(new Commands::SaveSceneCommand());
-			}
-
-			ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued());
-			
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Quit", "Alt+F4"))
-			{
-				if (m_state_service->getContinued())
-				{
-					m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
-				}
-				m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
-			}
-			ImGui::EndMenu();
+			this->ShowSaveAsWindow(show_save_as, 400, 200);
+			this->ShowConfirm(show_confirm, 400, 200, "");
 		}
-		
-		this->ShowSaveAsWindow(400, 200);
-		this->ShowConfirm(400, 200, "");
 		
 	}
 
-	void MenuFileComponent::ShowSaveAsWindow(int w_width, int w_height)
+	void MenuFileComponent::ShowSaveAsWindow(bool show_save_as, int w_width, int w_height)
 	{
-		
 		if (show_save_as)
 		{
-			m_state_service->setGuiOpen(true);
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
-			
+
+
 			if (ImGui::Begin("Scene name :", &show_save_as))
 			{
-				
+
 				ImGui::InputText("Enter name here ...", filename, IM_ARRAYSIZE(filename));
 				ImGuiStyle& style = ImGui::GetStyle();
 				float frame_rounding_save = style.FrameRounding;
 				style.FrameRounding = 20.f;
 				ImGui::SetCursorPosY(w_height - 45.f);
-				if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)) && m_state_service)
+				if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)))
 				{
-					
+
 					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
 					m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
 					show_save_as = false;
 					filename[0] = '\0';
-					m_state_service->setGuiOpen(false);
 				}
 				style.FrameRounding = frame_rounding_save;
-				ImGui::End();
+				
 			}
-
+			ImGui::End();
 		}
-		else
-		{
-			m_state_service->setGuiOpen(false);
-		}
+		m_state_service->setShowSaveAs(show_save_as);
 	}
 
-	void MenuFileComponent::ShowConfirm(int w_width, int w_height, std::string const message)
+	void MenuFileComponent::ShowConfirm(bool show_confirm, int w_width, int w_height, std::string const message)
 	{
 		
 		if (show_confirm)
 		{
-			m_state_service->setGuiOpen(true);
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
@@ -135,16 +134,11 @@ namespace Views
 				if (ImGui::Button("Cancel", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
 				{
 					show_confirm = false;
-					m_state_service->setGuiOpen(false);
 				}
 				style.FrameRounding = frame_rounding_save;
-				ImGui::End();
 			}
-
+			ImGui::End();
 		}
-		else
-		{
-			m_state_service->setGuiOpen(false);
-		}
+		m_state_service->setShowConfirm(show_confirm);
 	}
 }

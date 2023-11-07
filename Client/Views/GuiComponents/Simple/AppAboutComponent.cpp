@@ -30,12 +30,12 @@ namespace Views
 			if (test) 
 			{ 
 				ImGui::ShowAboutWindow(&test); 
-				m_state_service->setGuiOpen(true);
+				//m_state_service->setGuiOpen(true);
 			}
-			else
+			/*else
 			{
 				m_state_service->setGuiOpen(false);
-			}
+			}*/
 			m_state_service->setShowInfos(test);
 		}
 	}

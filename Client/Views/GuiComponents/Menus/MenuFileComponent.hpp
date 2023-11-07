@@ -40,10 +40,8 @@ namespace Views
 		void Render() override;
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
-		bool show_save_as;
-		bool show_confirm;
-		void ShowSaveAsWindow(int w_width, int w_height);
-		void ShowConfirm(int w_width, int w_height, std::string const message);
+		void ShowSaveAsWindow(bool show_save_as, int w_width, int w_height);
+		void ShowConfirm(bool show_confirm, int w_width, int w_height, std::string const message);
 		char filename[128];
  	};
 }
