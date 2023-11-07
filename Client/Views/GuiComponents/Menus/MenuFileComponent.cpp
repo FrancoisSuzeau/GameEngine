@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : filename("")
+	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" ")
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -36,7 +36,10 @@ namespace Views
 			bool show_confirm = m_state_service->getShowConfirm();
 			if (ImGui::BeginMenu("File", !m_state_service->getGuiOpen()))
 			{
-				ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != "");
+				if (ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != ""))
+				{
+					m_confirm_message = "You are about to create a new scene. Are you sure ?";
+				}
 
 				std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 				if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()))
@@ -57,7 +60,10 @@ namespace Views
 				}
 
 
-				ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued());
+				if (ImGui::MenuItem("Save scene As..", "Ctrl+Shift+S", &show_save_as, m_state_service->getContinued()))
+				{
+					m_confirm_message = "Save this scene as ...";
+				}
 
 				ImGui::Separator();
 
@@ -73,7 +79,7 @@ namespace Views
 			}
 
 			this->ShowSaveAsWindow(show_save_as, 400, 200);
-			this->ShowConfirm(show_confirm, 400, 200, "");
+			this->ShowConfirm(show_confirm, 400, 200);
 		}
 		
 	}
@@ -86,9 +92,9 @@ namespace Views
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
 
-			if (ImGui::Begin("Scene name :", &show_save_as))
+			if (ImGui::Begin(" ", &show_save_as))
 			{
-
+				ImGui::Text(m_confirm_message.c_str());
 				ImGui::InputText("Enter name here ...", filename, IM_ARRAYSIZE(filename));
 				ImGuiStyle& style = ImGui::GetStyle();
 				float frame_rounding_save = style.FrameRounding;
@@ -110,7 +116,7 @@ namespace Views
 		m_state_service->setShowSaveAs(show_save_as);
 	}
 
-	void MenuFileComponent::ShowConfirm(bool show_confirm, int w_width, int w_height, std::string const message)
+	void MenuFileComponent::ShowConfirm(bool show_confirm, int w_width, int w_height)
 	{
 		
 		if (show_confirm)
@@ -118,9 +124,9 @@ namespace Views
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
-			if (ImGui::Begin("Confirm", &show_confirm))
+			if (ImGui::Begin(" ", &show_confirm))
 			{
-
+				ImGui::Text(m_confirm_message.c_str());
 				ImGuiStyle& style = ImGui::GetStyle();
 				float frame_rounding_save = style.FrameRounding;
 				style.FrameRounding = 20.f;

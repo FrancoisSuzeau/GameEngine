@@ -41,8 +41,9 @@ namespace Views
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
 		void ShowSaveAsWindow(bool show_save_as, int w_width, int w_height);
-		void ShowConfirm(bool show_confirm, int w_width, int w_height, std::string const message);
+		void ShowConfirm(bool show_confirm, int w_width, int w_height);
 		char filename[128];
+		std::string m_confirm_message;
  	};
 }
 
