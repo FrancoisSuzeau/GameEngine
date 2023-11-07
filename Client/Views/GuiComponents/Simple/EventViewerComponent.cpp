@@ -54,8 +54,13 @@ namespace Views
 
 					ImGui::End();
 				}
+				m_state_service->setGuiOpen(true);
 			}
-
+			else
+			{
+				m_state_service->setGuiOpen(false);
+			}
+			
 			m_state_service->setShowEvent(test);
 		}
 	}

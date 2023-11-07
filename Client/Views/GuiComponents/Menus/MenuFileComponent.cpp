@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : show_save_as(false), filename("")
+	MenuFileComponent::MenuFileComponent() : show_save_as(false), filename(""), show_confirm(false)
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -30,13 +30,11 @@ namespace Views
 
 	void MenuFileComponent::Render()
 	{	
-		if (ImGui::BeginMenu("File") && m_parent_view_model && m_state_service )
+		if (ImGui::BeginMenu("File", !m_state_service->getGuiOpen()) && m_parent_view_model && m_state_service)
 		{
+			ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != "");
+
 			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
-			if (ImGui::MenuItem("New", "Ctrl+Shift+N", false, m_state_service->getFileName() != ""))
-			{
-				m_parent_view_model->OnCommand(new Commands::LoadSceneCommand("no file"));
-			}
 			if (ImGui::BeginMenu("Open", m_state_service->getContinued() && !created_scene.empty()) )
 			{
 				for (auto& it : created_scene)
@@ -49,7 +47,7 @@ namespace Views
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued()))
+			if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 			{
 				m_parent_view_model->OnCommand(new Commands::SaveSceneCommand());
 			}
@@ -71,14 +69,16 @@ namespace Views
 		}
 		
 		this->ShowSaveAsWindow(400, 200);
+		this->ShowConfirm(400, 200, "");
 		
 	}
 
 	void MenuFileComponent::ShowSaveAsWindow(int w_width, int w_height)
 	{
-		m_state_service->setGuiOpen(show_save_as);
-		if (show_save_as && m_parent_view_model)
+		
+		if (show_save_as)
 		{
+			m_state_service->setGuiOpen(true);
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 			
@@ -90,18 +90,61 @@ namespace Views
 				float frame_rounding_save = style.FrameRounding;
 				style.FrameRounding = 20.f;
 				ImGui::SetCursorPosY(w_height - 45.f);
-				if (ImGui::Button("Save", ImVec2((float)(w_width - 15), 30.f)) && m_state_service)
+				if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)) && m_state_service)
 				{
 					
 					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
 					m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
 					show_save_as = false;
 					filename[0] = '\0';
+					m_state_service->setGuiOpen(false);
 				}
 				style.FrameRounding = frame_rounding_save;
 				ImGui::End();
 			}
 
+		}
+		else
+		{
+			m_state_service->setGuiOpen(false);
+		}
+	}
+
+	void MenuFileComponent::ShowConfirm(int w_width, int w_height, std::string const message)
+	{
+		
+		if (show_confirm)
+		{
+			m_state_service->setGuiOpen(true);
+			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
+			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
+
+			if (ImGui::Begin("Confirm", &show_confirm))
+			{
+
+				ImGuiStyle& style = ImGui::GetStyle();
+				float frame_rounding_save = style.FrameRounding;
+				style.FrameRounding = 20.f;
+				ImGui::SetCursorPosY((float)(w_height - 45.f));
+				if (ImGui::Button("Accept", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
+				{
+					show_confirm = false;
+					m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(""));
+				}
+				ImGui::SetCursorPos(ImVec2((float)(w_width / 2.f), (float)(w_height - 45.f)));
+				if (ImGui::Button("Cancel", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
+				{
+					show_confirm = false;
+					m_state_service->setGuiOpen(false);
+				}
+				style.FrameRounding = frame_rounding_save;
+				ImGui::End();
+			}
+
+		}
+		else
+		{
+			m_state_service->setGuiOpen(false);
 		}
 	}
 }

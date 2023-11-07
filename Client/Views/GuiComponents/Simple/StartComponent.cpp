@@ -52,7 +52,7 @@ namespace Views
 					{
 						style.FrameRounding = 20.f;
 						ImGui::SetCursorPosY(h - 45.f);
-						if (ImGui::Button("Select", ImVec2((float)(w - 15), 30.f)))
+						if (ImGui::Button("Select", ImVec2((float)(w - 15.f), 30.f)))
 						{
 							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(created_scene[selected]));
 							m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setContinued, m_state_service, true)));

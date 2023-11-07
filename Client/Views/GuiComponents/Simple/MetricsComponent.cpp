@@ -28,8 +28,15 @@ namespace Views
 		{
 			bool test = m_state_service->getShowMetrics();
 		
-			if (test) { ImGui::ShowMetricsWindow(&test); }
-		
+			if (test) 
+			{ 
+				ImGui::ShowMetricsWindow(&test); 
+				m_state_service->setGuiOpen(true);
+			}
+			else
+			{
+				m_state_service->setGuiOpen(false);
+			}
 			m_state_service->setShowMetrics(test);
 		}
 	}

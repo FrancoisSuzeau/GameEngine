@@ -27,7 +27,15 @@ namespace Views
 		if (m_state_service)
 		{
 			bool test = m_state_service->getShowTools();
-			if (test) { ImGui::ShowStackToolWindow(&test); }
+			if (test) 
+			{
+				ImGui::ShowStackToolWindow(&test); 
+				m_state_service->setGuiOpen(true);
+			}
+			else
+			{
+				m_state_service->setGuiOpen(false);
+			}
 			m_state_service->setShowTools(test);
 		}
 	}
