@@ -123,7 +123,7 @@ namespace Services
 
 	bool StateService::getGuiOpen() const
 	{
-		return m_show_save_as || m_show_confirm;
+		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools;
 	}
 
 	bool StateService::getContinued() const
