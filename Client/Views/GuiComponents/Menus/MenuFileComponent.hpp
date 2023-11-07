@@ -44,6 +44,7 @@ namespace Views
 		void ShowConfirm(bool show_confirm, int w_width, int w_height);
 		char filename[128];
 		std::string m_confirm_message;
+		Commands::ICommand* m_command;
  	};
 }
 

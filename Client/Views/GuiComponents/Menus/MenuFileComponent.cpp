@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" ")
+	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" "), m_command(nullptr)
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -67,13 +67,14 @@ namespace Views
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Quit", "Alt+F4"))
+				if (ImGui::MenuItem("Quit", "Alt+F4", &show_confirm))
 				{
 					if (m_state_service->getContinued())
 					{
 						m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
 					}
-					m_parent_view_model->OnCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
+					m_confirm_message = "Are you sure you want to leave ?";
+					m_command = new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true));
 				}
 				ImGui::EndMenu();
 			}
@@ -81,7 +82,7 @@ namespace Views
 			this->ShowSaveAsWindow(show_save_as, 400, 200);
 			this->ShowConfirm(show_confirm, 400, 200);
 		}
-		
+
 	}
 
 	void MenuFileComponent::ShowSaveAsWindow(bool show_save_as, int w_width, int w_height)
@@ -109,7 +110,7 @@ namespace Views
 					filename[0] = '\0';
 				}
 				style.FrameRounding = frame_rounding_save;
-				
+
 			}
 			ImGui::End();
 		}
@@ -118,7 +119,7 @@ namespace Views
 
 	void MenuFileComponent::ShowConfirm(bool show_confirm, int w_width, int w_height)
 	{
-		
+
 		if (show_confirm)
 		{
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
@@ -133,8 +134,12 @@ namespace Views
 				ImGui::SetCursorPosY((float)(w_height - 45.f));
 				if (ImGui::Button("Accept", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
 				{
+					if (m_command)
+					{
+						m_parent_view_model->OnCommand(m_command);
+						m_command = nullptr;
+					}
 					show_confirm = false;
-					m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(""));
 				}
 				ImGui::SetCursorPos(ImVec2((float)(w_width / 2.f), (float)(w_height - 45.f)));
 				if (ImGui::Button("Cancel", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
