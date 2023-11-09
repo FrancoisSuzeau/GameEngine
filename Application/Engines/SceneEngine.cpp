@@ -66,7 +66,7 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderViews(Constants::CANVAS);
+				view_model->RenderViews(Enums::ComponentType::CANVAS);
 			}
 		}
 	}

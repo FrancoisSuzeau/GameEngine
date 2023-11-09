@@ -25,11 +25,16 @@ namespace ViewModels
 		~GuiViewModel() override;
 		void Construct() override;
 		
-		void RenderViews(std::string const type_view) override;
+		void RenderViews(Enums::ComponentType component_type) override;
 
  
 	private:
-		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
+		//std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
+		std::vector<std::shared_ptr<Views::IView>> m_simple_components;
+		std::vector<std::shared_ptr<Views::IView>> m_menu_components;
+		void PushSimpleComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name);
+		void PushMenuComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name);
+		void PopComponent(std::vector<std::shared_ptr<Views::IView>> components);
 	};
 }
 

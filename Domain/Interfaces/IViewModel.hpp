@@ -12,7 +12,9 @@
 #include "IRenderer.hpp"
 #include "../Entities/ConfigEntity.hpp"
 
-
+namespace Enums {
+	enum ComponentType { SIMPLE, MENUS, CANVAS };
+}
 
 namespace ViewModels {
 
@@ -23,7 +25,7 @@ namespace ViewModels {
 
 		virtual void Construct() = 0;
 
-		virtual void RenderViews(std::string const type_view) = 0;
+		virtual void RenderViews(Enums::ComponentType view_type) = 0;
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
 		virtual void RenderGrid() {};

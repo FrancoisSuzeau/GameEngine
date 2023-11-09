@@ -9,15 +9,11 @@ namespace ViewModels
 {
 	SceneViewModel::~SceneViewModel()
 	{
-		for (std::map<std::string, std::shared_ptr<Views::IView>>::iterator it = m_views_map.begin(); it != m_views_map.end(); it++)
+		if (m_canvas)
 		{
-			if (it->second)
-			{
-				it->second->Clean();
-				it->second.reset();
-			}
+			m_canvas->Clean();
+			m_canvas.reset();
 		}
-		m_views_map.clear();
 
 		if (m_textured_component)
 		{
@@ -60,12 +56,10 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
-			std::shared_ptr<Views::Canvas> canvas = container->GetReference<Views::Canvas>();
-			if (canvas)
+			m_canvas = container->GetReference<Views::Canvas>();
+			if (m_canvas)
 			{
-				canvas->SetParent(this);
-				m_views_map.insert_or_assign(Constants::CANVAS, canvas);
-				canvas.reset();
+				m_canvas->SetParent(this);
 			}
 			else
 			{
@@ -95,15 +89,12 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderViews(std::string const type_view)
+	void SceneViewModel::RenderViews(Enums::ComponentType cpt_type)
 	{
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
-			if (m_views_map.at(type_view) && !renderers.empty())
-			{
-				m_views_map.at(type_view)->Render(renderers);
-			}
+			m_canvas->Render(renderers);
 		}
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
