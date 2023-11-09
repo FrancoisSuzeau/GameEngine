@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" ")
+	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" "), show_confirm(false), show_save_as(false)
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -34,12 +34,13 @@ namespace Views
 	{
 		if (m_parent_view_model && m_state_service)
 		{
-			bool show_save_as = m_state_service->getShowSaveAs();
-			bool show_confirm = m_state_service->getShowConfirm();
+			show_save_as = m_state_service->getShowSaveAs();
+			show_confirm = m_state_service->getShowConfirm();
 			if (ImGui::BeginMenu("File", !m_state_service->getGuiOpen()))
 			{
 				if (ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 				{
+					m_commands.push_back(new Commands::LoadSceneCommand(""));
 					m_confirm_message = "You are about to create a new scene. Are you sure ?";
 				}
 
@@ -48,17 +49,19 @@ namespace Views
 				{
 					for (auto& it : created_scene)
 					{
-						if (ImGui::MenuItem(it.c_str()))
+						if (ImGui::MenuItem(it.c_str(), NULL, &show_confirm))
 						{
-							m_parent_view_model->OnCommand(new Commands::LoadSceneCommand(it));
+							m_commands.push_back(new Commands::LoadSceneCommand(it));
+							m_confirm_message = "Are you sure you want to open " + it + " ?";
 						}
 					}
 					ImGui::EndMenu();
 				}
 
-				if (ImGui::MenuItem("Save scene", "Ctrl+S", false, m_state_service->getContinued() && m_state_service->getFileName() != ""))
+				if (ImGui::MenuItem("Save scene", "Ctrl+S", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 				{
-					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand());
+					m_commands.push_back(new Commands::SaveSceneCommand());
+					m_confirm_message = "Are you sure you want to save this scene ?";
 				}
 
 
@@ -73,7 +76,7 @@ namespace Views
 				{
 					if (m_state_service->getContinued())
 					{
-						m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
+						m_commands.push_back(new Commands::SaveConfigCommand());
 					}
 					m_confirm_message = "Are you sure you want to leave ?";
 					m_commands.push_back(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
@@ -81,13 +84,13 @@ namespace Views
 				ImGui::EndMenu();
 			}
 
-			this->ShowSaveAsWindow(show_save_as, 400, 120);
-			this->ShowConfirm(show_confirm, 400, 120);
+			this->ShowSaveAsWindow(400, 120);
+			this->ShowConfirm(400, 120);
 		}
 
 	}
 
-	void MenuFileComponent::ShowSaveAsWindow(bool show_save_as, int w_width, int w_height)
+	void MenuFileComponent::ShowSaveAsWindow(int w_width, int w_height)
 	{
 		if (show_save_as)
 		{
@@ -108,9 +111,11 @@ namespace Views
 					if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)))
 					{
 
-						m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
-						m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
+						m_commands.push_back(new Commands::SaveSceneCommand(filename));
+						m_commands.push_back(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
 						show_save_as = false;
+						show_confirm = true;
+						m_confirm_message = "Are you sure you want to save this scene as " + std::string(filename);
 						filename[0] = '\0';
 					}
 				}
@@ -122,7 +127,7 @@ namespace Views
 		m_state_service->setShowSaveAs(show_save_as);
 	}
 
-	void MenuFileComponent::ShowConfirm(bool show_confirm, int w_width, int w_height)
+	void MenuFileComponent::ShowConfirm(int w_width, int w_height)
 	{
 
 		if (show_confirm)
