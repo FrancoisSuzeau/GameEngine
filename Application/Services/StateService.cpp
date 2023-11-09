@@ -156,6 +156,16 @@ namespace Services
 		m_show_confirm = new_val;
 	}
 
+	void StateService::setConfirmMessage(std::string const new_val)
+	{
+		m_confirm_message = new_val;
+	}
+
+	std::string StateService::getConfirmMessage() const
+	{
+		return m_confirm_message;
+	}
+
 	std::string StateService::getFileName() const
 	{
 		return m_current_filename;

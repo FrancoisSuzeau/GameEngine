@@ -41,6 +41,8 @@ namespace ViewModels
 			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->GetReference< Views::MenuToolsComponent>();
 			std::shared_ptr<Views::MenuEditComponent> component_7 = container->GetReference< Views::MenuEditComponent>();
 			std::shared_ptr<Views::EventViewerComponent> component_8 = container->GetReference<Views::EventViewerComponent>();
+			std::shared_ptr<Views::SaveAsComponent> component_9 = container->GetReference<Views::SaveAsComponent>();
+			std::shared_ptr<Views::ConfirmComponent> component_10 = container->GetReference<Views::ConfirmComponent>();
 			m_start_component = container->GetReference<Views::StartComponent>();
 
 			std::list<std::shared_ptr<Views::IView>> simple_views;
@@ -93,6 +95,27 @@ namespace ViewModels
 			else
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Event viewer component is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (component_9)
+			{
+				component_9->SetParent(this);
+				simple_views.push_back(component_9);
+				component_9.reset();
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Save as component is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			if (component_10)
+			{
+				component_10->SetParent(this);
+				simple_views.push_back(component_10);
+				component_10.reset();
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Save as component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 			

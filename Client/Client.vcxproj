@@ -135,6 +135,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\Simple\ConfirmComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\SaveAsComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\StartComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\EventViewerComponent.cpp" />
     <ClCompile Include="Views\Scene\TexturedComponent.cpp" />
@@ -171,6 +173,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\SaveAsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\StartComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\EventViewerComponent.hpp" />
     <ClInclude Include="Views\Scene\TexturedComponent.hpp" />

@@ -29,30 +29,7 @@ namespace Views {
 		virtual void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel) {};
 
 	protected:
-		std::vector<Commands::ICommand*> m_commands;
 		std::shared_ptr<ViewModels::IViewModel> m_parent_view_model;
-		virtual void SendCommandToParents()
-		{
-			if (m_parent_view_model)
-			{
-				for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
-				{
-					if (it[0])
-					{
-						m_parent_view_model->OnCommand(it[0]);
-					}
-				}
-			}
-		}
-
-		virtual void ResetCommands()
-		{
-			for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
-			{
-				it[0] = nullptr;
-			}
-			m_commands.clear();
-		}
 	};
 	
 }

@@ -28,23 +28,30 @@ namespace ViewModels {
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
 		virtual void RenderGrid() {};
-		virtual void OnCommand(Commands::ICommand* command) 
+		virtual void AddCommand(Commands::ICommand* command)
 		{
 			if (command)
 			{
-				m_command = std::unique_ptr<Commands::ICommand>(command);
-				if (m_command)
+				m_commands.push_back(std::unique_ptr<Commands::ICommand>(command));
+			}
+		}
+		virtual void OnCommand() 
+		{
+			for (std::vector<std::unique_ptr<Commands::ICommand>>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
+			{
+				if (it[0])
 				{
-					m_command->Execute();
-					m_command.reset();
-					m_command = nullptr;
-					command = nullptr;
+					it[0]->Execute();
+					it[0].reset();
+					it[0] = nullptr;
 				}
 			}
+
+			m_commands.clear();
 		};
 
 	protected:
-		std::unique_ptr<Commands::ICommand> m_command;
+		std::vector<std::unique_ptr<Commands::ICommand>> m_commands;
 
 	};
 

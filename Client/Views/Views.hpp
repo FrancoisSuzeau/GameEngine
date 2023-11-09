@@ -16,5 +16,7 @@
 #include "Scene/Canvas.hpp"
 #include "Transformer.hpp"
 #include "GuiComponents/Simple/StartComponent.hpp"
+#include "GuiComponents/Simple/SaveAsComponent.hpp"
+#include "GuiComponents/Simple/ConfirmComponent.hpp"
 
 #endif

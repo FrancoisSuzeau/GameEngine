@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : MenuFileComponent.hpp
-// Purpose : The GUI view of the file menu
+// File : SaveAsComponent.hpp
+// Purpose : The GUI view of save as
 /******************************************************************************************************************************************/
-#ifndef MENUFILECOMPONENT_H
-#define MENUFILECOMPONENT_H
+#ifndef SAVEASCOMPONENT_H
+#define SAVEASCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -19,28 +19,26 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
-#include "Commands/Commands.hpp"
-#include "Services/Services.hpp"
+#include "Services/StateService.hpp"
 #include "Container/Container.hpp"
-#include <functional>
-
 
 #include <iostream>
 #include <list>
+#include "Commands/Commands.hpp"
 
 namespace Views
 {
-	class MenuFileComponent : public IView
+	class SaveAsComponent : public IView
 	{
 
 	public:
-
-		MenuFileComponent();
-		~MenuFileComponent() override;
+		~SaveAsComponent() override;
+		SaveAsComponent();
 		void Render() override;
 	private:
-		std::shared_ptr<Services::StateService> m_state_service;
- 	};
+		std::shared_ptr < Services::StateService> m_state_service;
+		char filename[128];
+	};
 }
 
 #endif

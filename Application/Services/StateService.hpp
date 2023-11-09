@@ -54,6 +54,8 @@ namespace Services {
 		bool getShowSaveAs() const;
 		bool getShowConfirm() const;
 		void setShowConfirm(bool const new_val);
+		void setConfirmMessage(std::string const new_val);
+		std::string getConfirmMessage() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
@@ -87,6 +89,7 @@ namespace Services {
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		std::string  m_confirm_message;
 
 	};
 }
