@@ -37,6 +37,8 @@ namespace ViewModels {
 				{
 					m_command->Execute();
 					m_command.reset();
+					m_command = nullptr;
+					command = nullptr;
 				}
 			}
 		};

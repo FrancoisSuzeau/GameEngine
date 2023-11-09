@@ -140,6 +140,7 @@ namespace Views
 				if (ImGui::Button("Accept", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
 				{
 					this->SendCommandToParents();
+					this->ResetCommands();
 					show_confirm = false;
 				}
 				ImGui::SetCursorPos(ImVec2((float)(w_width / 2.f), (float)(w_height - 45.f)));
@@ -153,33 +154,6 @@ namespace Views
 		}
 		m_state_service->setShowConfirm(show_confirm);
 	}
-	void MenuFileComponent::ResetCommands()
-	{
-		for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
-		{
-			if (it[0])
-			{
-				delete it[0];
-			}
-			it[0] = nullptr;
-		}
-		m_commands.clear();
-	}
-
-	void MenuFileComponent::SendCommandToParents()
-	{
-		if (m_parent_view_model)
-		{
-			for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
-			{
-				if (it[0])
-				{
-					m_parent_view_model->OnCommand(it[0]);
-					it[0] = nullptr;
-				}
-			}
-		}
-
-		m_commands.clear();
-	}
+	
+	
 }

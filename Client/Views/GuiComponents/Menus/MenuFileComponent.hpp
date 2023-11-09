@@ -42,11 +42,10 @@ namespace Views
 		std::shared_ptr<Services::StateService> m_state_service;
 		void ShowSaveAsWindow(bool show_save_as, int w_width, int w_height);
 		void ShowConfirm(bool show_confirm, int w_width, int w_height);
-		void ResetCommands();
-		void SendCommandToParents();
+		
 		char filename[128];
 		std::string m_confirm_message;
-		std::vector<Commands::ICommand*> m_commands;
+		
  	};
 }
 
