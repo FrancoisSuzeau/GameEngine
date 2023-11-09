@@ -69,18 +69,6 @@ namespace Engines
 		}
 	}
 
-	void GUIEngine::RenderStartScreenMenu(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
-	{
-		if (view_model_builder)
-		{
-			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::GUIVIEWMODEL);
-
-			if (view_model)
-			{
-				view_model->RenderStartMenu();
-			}
-		}
-	}
 	void GUIEngine::LoadConfigs()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();

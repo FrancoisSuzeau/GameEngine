@@ -24,7 +24,7 @@ namespace Views
 	}
 	void StartComponent::Render()
 	{
-		if (m_state_service && m_parent_view_model)
+		if (m_state_service && m_parent_view_model && !m_state_service->getContinued())
 		{
 			int w = 400;
 			int h = 200;

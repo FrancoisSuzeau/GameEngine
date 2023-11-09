@@ -26,15 +26,10 @@ namespace ViewModels
 		void Construct() override;
 		
 		void RenderViews(std::string const type_view) override;
-		
-		void RenderStartMenu() override;
 
  
 	private:
 		std::map<std::string, std::list<std::shared_ptr<Views::IView>>> m_views_map;
-
-		
-		std::shared_ptr<Views::StartComponent> m_start_component;
 	};
 }
 

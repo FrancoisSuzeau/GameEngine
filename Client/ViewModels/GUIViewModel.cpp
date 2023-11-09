@@ -43,7 +43,7 @@ namespace ViewModels
 			std::shared_ptr<Views::EventViewerComponent> component_8 = container->GetReference<Views::EventViewerComponent>();
 			std::shared_ptr<Views::SaveAsComponent> component_9 = container->GetReference<Views::SaveAsComponent>();
 			std::shared_ptr<Views::ConfirmComponent> component_10 = container->GetReference<Views::ConfirmComponent>();
-			m_start_component = container->GetReference<Views::StartComponent>();
+			std::shared_ptr<Views::StartComponent> component_11 = container->GetReference<Views::StartComponent>();
 
 			std::list<std::shared_ptr<Views::IView>> simple_views;
 			if (component_1)
@@ -117,6 +117,16 @@ namespace ViewModels
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Save as component is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			if (component_11)
+			{
+				component_11->SetParent(this);
+				simple_views.push_back(component_11);
+				component_11.reset();
+			}
+			else
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Start screen component is not referenced yet", __FILE__, __FUNCTION__);
+			}
 			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 			
 			
@@ -154,15 +164,6 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (m_start_component)
-			{
-				m_start_component->SetParent(this);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Start component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-
 			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
 		}
 	}
@@ -176,14 +177,6 @@ namespace ViewModels
 			{
 				it->get()->Render();
 			}
-		}
-	}
-
-	void GuiViewModel::RenderStartMenu()
-	{
-		if (m_start_component)
-		{
-			m_start_component->Render();
 		}
 	}
 

@@ -91,7 +91,6 @@ namespace Engines
 				this->InitFrame();
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
-				m_gui_engine->RenderStartScreenMenu(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);
 
 				this->EndFrame();

@@ -43,7 +43,6 @@ namespace Engines {
 
 		void RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void RenderStartScreenMenu(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void LoadConfigs();
 
 	private:
