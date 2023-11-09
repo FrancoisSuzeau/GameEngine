@@ -7,7 +7,7 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" "), m_command(nullptr)
+	MenuFileComponent::MenuFileComponent() : filename(""), m_confirm_message(" ")
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -26,6 +26,8 @@ namespace Views
 		{
 			m_state_service.reset();
 		}
+
+		this->ResetCommands();
 	}
 
 	void MenuFileComponent::Render()
@@ -74,13 +76,13 @@ namespace Views
 						m_parent_view_model->OnCommand(new Commands::SaveConfigCommand());
 					}
 					m_confirm_message = "Are you sure you want to leave ?";
-					m_command = new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true));
+					m_commands.push_back(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
 				}
 				ImGui::EndMenu();
 			}
 
-			this->ShowSaveAsWindow(show_save_as, 400, 200);
-			this->ShowConfirm(show_confirm, 400, 200);
+			this->ShowSaveAsWindow(show_save_as, 400, 120);
+			this->ShowConfirm(show_confirm, 400, 120);
 		}
 
 	}
@@ -101,13 +103,16 @@ namespace Views
 				float frame_rounding_save = style.FrameRounding;
 				style.FrameRounding = 20.f;
 				ImGui::SetCursorPosY(w_height - 45.f);
-				if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)))
+				if (filename[0] != '\0')
 				{
+					if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)))
+					{
 
-					m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
-					m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
-					show_save_as = false;
-					filename[0] = '\0';
+						m_parent_view_model->OnCommand(new Commands::SaveSceneCommand(filename));
+						m_parent_view_model->OnCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
+						show_save_as = false;
+						filename[0] = '\0';
+					}
 				}
 				style.FrameRounding = frame_rounding_save;
 
@@ -134,11 +139,7 @@ namespace Views
 				ImGui::SetCursorPosY((float)(w_height - 45.f));
 				if (ImGui::Button("Accept", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
 				{
-					if (m_command)
-					{
-						m_parent_view_model->OnCommand(m_command);
-						m_command = nullptr;
-					}
+					this->SendCommandToParents();
 					show_confirm = false;
 				}
 				ImGui::SetCursorPos(ImVec2((float)(w_width / 2.f), (float)(w_height - 45.f)));
@@ -151,5 +152,34 @@ namespace Views
 			ImGui::End();
 		}
 		m_state_service->setShowConfirm(show_confirm);
+	}
+	void MenuFileComponent::ResetCommands()
+	{
+		for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
+		{
+			if (it[0])
+			{
+				delete it[0];
+			}
+			it[0] = nullptr;
+		}
+		m_commands.clear();
+	}
+
+	void MenuFileComponent::SendCommandToParents()
+	{
+		if (m_parent_view_model)
+		{
+			for (std::vector<Commands::ICommand*>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
+			{
+				if (it[0])
+				{
+					m_parent_view_model->OnCommand(it[0]);
+					it[0] = nullptr;
+				}
+			}
+		}
+
+		m_commands.clear();
 	}
 }
