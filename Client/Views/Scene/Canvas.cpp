@@ -10,7 +10,6 @@ namespace Views
 	Canvas::Canvas()
 	{
 		m_components_map.insert_or_assign(Constants::COMPONENT_BASE, std::make_unique<Component::ComponentBase >());
-		//m_components_map.insert_or_assign(Constants::COMPONENT_TEXTURED, std::make_unique<Component::TexturedComponent >());
 	}
 
 	void Canvas::Clean()

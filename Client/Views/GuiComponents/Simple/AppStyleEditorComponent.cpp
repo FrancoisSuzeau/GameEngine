@@ -26,14 +26,15 @@ namespace Views
 	{
 		if (m_state_service)
 		{
-			bool test = m_state_service->getShowStyleEditor();
-			if (test)
+			bool show_editor = m_state_service->getShowStyleEditor();
+			if (show_editor)
 			{
-				ImGui::Begin("Dear ImGui Style Editor", &test);
+				ImGui::Begin("Dear ImGui Style Editor", &show_editor);
 				ImGui::ShowStyleEditor();
 				ImGui::End();
 			}
-			m_state_service->setShowStyleEditor(test);
+			
+			m_state_service->setShowStyleEditor(show_editor);
 		}
 	}
 }

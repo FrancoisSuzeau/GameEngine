@@ -29,6 +29,7 @@ namespace Starting
         this->SetServiceBuilder<Services::TextureLoaderService>();
         this->SetServiceBuilder<Services::CameraService>();
         this->SetServiceBuilder<Services::StateService>();
+        this->SetServiceBuilder<Services::JsonService>();
     }
 
     void Application::SetAllEngine()
@@ -50,6 +51,7 @@ namespace Starting
         this->DeleteReference<Services::TextureLoaderService>();
         this->DeleteReference<Services::CameraService>();
         this->DeleteReference<Services::StateService>();
+        this->DeleteReference<Services::JsonService>();
     }
 
     void Application::ShutAllEngine()
@@ -63,15 +65,15 @@ namespace Starting
     {
         this->StartAllBuilder();
         main_engine = IoC::Container::Container::GetInstanceContainer()->GetReference<Engines::MainEngine>();
-        if (main_engine)
-        {
-            main_engine->MainLoop(m_view_model_builder);
+        if (!main_engine)
+        { 
+            SQ_APP_ERROR("Class {} in function {} : Main engine is not referenced yet", __FILE__, __FUNCTION__);
         }
         else
         {
-            SQ_APP_ERROR("Class {} in function {} : Main engine is not referenced yet", __FILE__, __FUNCTION__);
+            main_engine->StartScreen(m_view_model_builder);
+            main_engine->MainLoop(m_view_model_builder);
         }
-        
     }
 
     void Application::Shutdown()

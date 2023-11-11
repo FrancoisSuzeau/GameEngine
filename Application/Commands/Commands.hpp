@@ -9,5 +9,9 @@
 #include "DeleteShaderCommand.hpp"
 #include "ModifyShaderCommand.hpp"
 #include "LoadNewShaderCommand.hpp"
+#include "SaveSceneCommand.hpp"
+#include "SaveConfigCommand.hpp"
+#include "LoadSceneCommand.hpp"
+#include "ModifyConfigsCommand.hpp"
 
 #endif

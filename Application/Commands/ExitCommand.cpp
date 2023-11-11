@@ -4,24 +4,15 @@
 /******************************************************************************************************************************************/
 #include "ExitCommand.hpp"
 
-using namespace Commands;
-
-ExitCommand::ExitCommand()
+namespace Commands
 {
-	m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-	if (!m_state_service)
+	ExitCommand::ExitCommand(std::function<void(bool)> callback) : m_callback(callback)
 	{
-		SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+		
 	}
-}
 
-void ExitCommand::Execute()
-{
-	if (m_state_service)
+	void ExitCommand::Execute()
 	{
-		SQ_APP_INFO("Exit command is called");
-		this->m_state_service->setExit(true);
+		m_callback(true);
 	}
-	
-	
 }

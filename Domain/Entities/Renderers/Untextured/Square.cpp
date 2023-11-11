@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Square::Square()
+	Square::Square(glm::vec3 position, glm::vec3 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -18,7 +18,9 @@ namespace Renderers {
 		m_bytes_indices_size = 6 * sizeof(unsigned int);
 
 		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec3(1.f);
+		m_back_ground_color = color;
+		m_position = position;
+		m_size = size;
 	}
 
 	Square::~Square()
@@ -34,7 +36,6 @@ namespace Renderers {
 	void Square::Clean()
 	{
 		base::Clean();
-		this->CleanEbo();
 		m_indices.clear();
 	}
 
@@ -45,27 +46,57 @@ namespace Renderers {
 		glGenBuffers(1, &m_vbo);
 		glGenBuffers(1, &m_ebo);
 
-		glBindVertexArray(m_vao);
-		if (glIsVertexArray(m_vao) == GL_TRUE)
+		if (m_vbo != 0)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 			if (glIsBuffer(m_vbo) == GL_TRUE)
 			{
-				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_vertices.data(), GL_STATIC_DRAW);
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-				if (glIsBuffer(m_ebo) == GL_TRUE)
-				{
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, m_indices.data(), GL_STATIC_DRAW);
-					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-					glEnableVertexAttribArray(0);
-
-				}
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
+		}
 
-			glBindVertexArray(0);
+		if (m_ebo != 0)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+			if (glIsBuffer(m_ebo) == GL_TRUE)
+			{
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, 0, GL_STATIC_DRAW);
+				glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_bytes_indices_size, m_indices.data());
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			}
+		}
+
+		if (m_vao != 0)
+		{
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				if (m_vbo != 0)
+				{
+					glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+					if (glIsBuffer(m_vbo) == GL_TRUE)
+					{
+
+						if (m_ebo != 0)
+						{
+							glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+							if (glIsBuffer(m_ebo) == GL_TRUE)
+							{
+								glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+								glEnableVertexAttribArray(0);
+
+								glBindVertexArray(0);
+								glBindBuffer(GL_ARRAY_BUFFER, 0);
+								glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+							}
+						}		
+					}
+				}
+			}
 		}
 		
 	}
@@ -94,15 +125,6 @@ namespace Renderers {
 		m_indices.push_back(1);
 		m_indices.push_back(2);
 		m_indices.push_back(3);
-	}
-
-	void Square::CleanEbo()
-	{
-		if (m_ebo != 0)
-		{
-			glDeleteBuffers(1, &m_ebo);
-			m_ebo = 0;
-		}
 	}
 
 }

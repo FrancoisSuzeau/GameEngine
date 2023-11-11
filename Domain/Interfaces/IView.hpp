@@ -8,6 +8,7 @@
 #include <iostream>
 #include <functional>
 #include "IViewModel.hpp"
+#include "ICommand.hpp"
 #include <vector>
 #include "../Entities/Renderers/Renderers.hpp"
 
@@ -20,14 +21,15 @@ namespace Views {
 		virtual void Render() {};
 		virtual void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {};
 		virtual void Clean() {};
-		void SetParent(ViewModels::IViewModel* parent) 
+		virtual void SetParent(ViewModels::IViewModel* parent) 
 		{
 			m_parent_view_model = std::shared_ptr<ViewModels::IViewModel>(parent);
 		};
 
+		virtual void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel) {};
+
 	protected:
 		std::shared_ptr<ViewModels::IViewModel> m_parent_view_model;
-
 	};
 	
 }

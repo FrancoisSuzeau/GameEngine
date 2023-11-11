@@ -26,9 +26,12 @@ namespace Views
 	{
 		if (m_state_service)
 		{
-			bool test = m_state_service->getShowInfos();
-			if (test) { ImGui::ShowAboutWindow(&test); }
-			m_state_service->setShowInfos(test);
+			bool show_infos = m_state_service->getShowInfos();
+			if (show_infos) 
+			{ 
+				ImGui::ShowAboutWindow(&show_infos); 
+			}
+			m_state_service->setShowInfos(show_infos);
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Renderers {
 	{
 	public:
 		
-		Square();
+		Square(glm::vec3 position, glm::vec3 color, glm::vec3 size);
 		~Square();
 
 		void Construct() override;
@@ -27,8 +27,6 @@ namespace Renderers {
 		void Load();
 		std::vector<unsigned int> m_indices;
 		unsigned int m_bytes_indices_size;
-		void CleanEbo();
-		GLuint m_ebo;
 
 	private:
 		typedef IRenderer base;

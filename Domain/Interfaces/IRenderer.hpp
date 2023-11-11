@@ -30,7 +30,8 @@ namespace Renderers {
 		virtual void Clean()
 		{
 			CleanVbo();
-			CleanVao(),
+			CleanVao();
+			CleanEbo();
 			m_vertices.clear();
 		}
 		virtual Enums::RendererType GetType() const
@@ -63,16 +64,38 @@ namespace Renderers {
 			return m_back_ground_color;
 		}
 
+		virtual glm::vec3 GetPosition() const
+		{
+			return m_position;
+		}
+
+		virtual void SetPosition(glm::vec3 const new_val)
+		{
+			m_position = new_val;
+		}
+
+		virtual glm::vec3 GetSize() const
+		{
+			return m_size;
+		}
+
+		virtual void SetSize(glm::vec3 const new_val)
+		{
+			m_size = new_val;
+		}
+
 	protected:
 		std::vector<GLfloat> m_vertices;
 		unsigned int m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
-		GLuint  m_ebo;
+		GLuint m_ebo;
 		Enums::RendererType m_type;
 
 		glm::mat4 m_model_mat;
 		glm::vec3 m_back_ground_color;
+		glm::vec3 m_position;
+		glm::vec3 m_size;
 
 	private:
 		virtual void CleanVbo()
@@ -93,6 +116,15 @@ namespace Renderers {
 
 			}
 		}
+
+		 virtual void CleanEbo()
+		 {
+			 if (m_ebo != 0)
+			 {
+				 glDeleteBuffers(1, &m_ebo);
+				 m_ebo = 0;
+			 }
+		 }
 
 		
 

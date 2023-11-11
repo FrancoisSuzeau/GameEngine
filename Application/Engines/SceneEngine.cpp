@@ -6,6 +6,17 @@
 
 namespace Engines 
 {
+	SceneEngine::~SceneEngine()
+	{
+		if (m_camera_service)
+		{
+			m_camera_service.reset();
+		}
+		if (m_shader_service)
+		{
+			m_shader_service.reset();
+		}
+	}
 	void SceneEngine::Construct()
 	{
 		IoC::Container::Container *container = IoC::Container::Container::GetInstanceContainer();
@@ -13,6 +24,7 @@ namespace Engines
 		{
 			m_camera_service = container->GetReference<Services::CameraService>();
 			m_shader_service = container->GetReference<Services::ShaderService>();
+			
 			if (m_shader_service)
 			{
 				m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
@@ -34,6 +46,7 @@ namespace Engines
 			{
 				
 				m_skybox_texture = tex->BuildSkyboxTexture("resources/skybox/calm_lake");
+				tex.reset();
 			}
 			else
 			{
@@ -45,14 +58,16 @@ namespace Engines
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
+		this->RenderSkybox(view_model_builder);
+		this->RenderGrid(view_model_builder);
+
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderViews(Constants::CANVAS);
+				view_model->RenderViews(Enums::ComponentType::CANVAS);
 			}
-
 		}
 	}
 
@@ -79,6 +94,18 @@ namespace Engines
 				view_model->RenderSkybox(m_skybox_texture);
 			}
 
+		}
+	}
+
+	void SceneEngine::RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		if (view_model_builder)
+		{
+			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+			if (view_model)
+			{
+				view_model->RenderGrid();
+			}
 		}
 	}
 

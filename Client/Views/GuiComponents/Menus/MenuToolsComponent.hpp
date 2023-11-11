@@ -31,7 +31,7 @@ namespace Views
 	{
 
 	public:
-
+		~MenuToolsComponent() override;
 		MenuToolsComponent();
 		void Render() override;
 	private:

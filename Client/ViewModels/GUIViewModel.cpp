@@ -9,125 +9,98 @@ namespace ViewModels
 {
 	GuiViewModel::~GuiViewModel()
 	{
-		
+		this->PopComponent(m_simple_components);
+		m_simple_components.clear();
+		this->PopComponent(m_menu_components);
+		m_menu_components.clear();
 	}
 	void GuiViewModel::Construct()
 	{
+		
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			std::shared_ptr<Views::MetricsComponent> component_1 = container->GetReference< Views::MetricsComponent>();
-			std::shared_ptr<Views::StackToolsComponent> component_2 = container->GetReference< Views::StackToolsComponent>();
-			std::shared_ptr<Views::AppAboutComponent> component_3 = container->GetReference< Views::AppAboutComponent>();
-			std::shared_ptr<Views::AppStyleEditorComponent> component_4 = container->GetReference< Views::AppStyleEditorComponent>();
-			std::shared_ptr<Views::MenuFileComponent> component_5 = container->GetReference<Views::MenuFileComponent>();
-			std::shared_ptr<Views::MenuToolsComponent> component_6 = container->GetReference< Views::MenuToolsComponent>();
-			std::shared_ptr<Views::MenuEditComponent> component_7 = container->GetReference< Views::MenuEditComponent>();
-			std::shared_ptr<Views::EventViewerComponent> component_8 = container->GetReference<Views::EventViewerComponent>();
 
-			std::list<std::shared_ptr<Views::IView>> simple_views;
-			if (component_1)
-			{
-				component_1->SetParent(this);
-				simple_views.push_back(component_1);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Metrics component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_2)
-			{
-				component_2->SetParent(this);
-				simple_views.push_back(component_2);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Stack tools component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_3)
-			{
-				component_3->SetParent(this);
-				simple_views.push_back(component_3);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Application about component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_4)
-			{
-				component_4->SetParent(this);
-				simple_views.push_back(component_4);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Application style editor component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_8)
-			{
-				component_8->SetParent(this);
-				simple_views.push_back(component_8);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Event viewer component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			m_views_map.insert_or_assign(Constants::SIMPLECPT, simple_views);
 
-			std::list<std::shared_ptr<Views::IView>> menu_views;
-			if (component_5)
-			{
-				component_5->SetParent(this);
-				menu_views.push_back(component_5);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Menu file component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_6)
-			{
-				component_6->SetParent(this);
-				menu_views.push_back(component_6);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Menu tools component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			if (component_7)
-			{
-				component_7->SetParent(this);
-				menu_views.push_back(component_7);
-			}
-			else
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Menu edit component is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			
-			m_views_map.insert_or_assign(Constants::MENUSCPT, menu_views);
+			this->PushSimpleComponent(container->GetReference< Views::MetricsComponent>(), "Metrics");
+			this->PushSimpleComponent(container->GetReference< Views::StackToolsComponent>(), "Stack Tools");
+			this->PushSimpleComponent(container->GetReference< Views::AppAboutComponent>(), "About app");
+			this->PushSimpleComponent(container->GetReference< Views::AppStyleEditorComponent>(), "Style editor");
+			this->PushMenuComponent(container->GetReference<Views::MenuFileComponent>(), "Menu file");
+			this->PushMenuComponent(container->GetReference< Views::MenuToolsComponent>(), "Menu tools");
+			this->PushMenuComponent(container->GetReference< Views::MenuEditComponent>(), "Menu edit");
+			this->PushSimpleComponent(container->GetReference<Views::EventViewerComponent>(), "Event viewer");
+			this->PushSimpleComponent(container->GetReference<Views::SaveAsComponent>(), "Save as");
+			this->PushSimpleComponent(container->GetReference<Views::ConfirmComponent>(), "Confirm");
+			this->PushSimpleComponent(container->GetReference<Views::StartComponent>(), "Start screen");
 		}
 	}
 
-	void GuiViewModel::RenderViews(std::string const type_view)
+	void GuiViewModel::RenderViews(Enums::ComponentType component_type)
 	{
-		for (std::list<std::shared_ptr<Views::IView>>::iterator it = m_views_map.at(type_view).begin(); 
-			it != m_views_map.at(type_view).end(); it++)
+		switch (component_type)
 		{
-			if (it->get())
+		case Enums::SIMPLE:
+			for (std::vector<std::shared_ptr<Views::IView>>::iterator it = m_simple_components.begin(); it != m_simple_components.end(); it++)
 			{
-				it->get()->Render();
+				if (it[0])
+				{
+					it[0]->Render();
+				}
 			}
+			break;
+		case Enums::MENUS:
+			for (std::vector<std::shared_ptr<Views::IView>>::iterator it = m_menu_components.begin(); it != m_menu_components.end(); it++)
+			{
+				if (it[0])
+				{
+					it[0]->Render();
+				}
+			}
+			break;
+		case Enums::CANVAS:
+		default:
+			break;
 		}
 	}
-	void GuiViewModel::OnCommand(Commands::ICommand* command)
+
+	void GuiViewModel::PushSimpleComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name)
 	{
-		if (command)
+		if (component)
 		{
-			m_command = std::unique_ptr<Commands::ICommand>(command);
-			if (m_command)
+			component->SetParent(this);
+			m_simple_components.push_back(component);
+		}
+		else
+		{
+			SQ_CLIENT_ERROR("Class {} in function {} : {} component is not referenced yet", __FILE__, __FUNCTION__, cpt_name);
+		}
+	}
+
+	void GuiViewModel::PushMenuComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name)
+	{
+		if (component)
+		{
+			component->SetParent(this);
+			m_menu_components.push_back(component);
+		}
+		else
+		{
+			SQ_CLIENT_ERROR("Class {} in function {} : {} component is not referenced yet", __FILE__, __FUNCTION__, cpt_name);
+		}
+	}
+
+	void GuiViewModel::PopComponent(std::vector<std::shared_ptr<Views::IView>> components)
+	{
+		for (std::vector<std::shared_ptr<Views::IView>>::iterator it = components.begin(); it != components.end(); it++)
+		{
+			if (it[0])
 			{
-				m_command->Execute();
-				m_command.reset();
+				it[0]->Clean();
+				it[0].reset();
 			}
 		}
 	}
+
 }
 

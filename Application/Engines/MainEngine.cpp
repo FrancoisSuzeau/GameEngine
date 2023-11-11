@@ -8,6 +8,22 @@ namespace Engines
 {
 	MainEngine::~MainEngine()
 	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+		if (m_gui_engine)
+		{
+			m_gui_engine.reset();
+		}
+		if (m_scene_engine)
+		{
+			m_scene_engine.reset();
+		}
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
 	}
 
 	void MainEngine::Construct()
@@ -19,6 +35,7 @@ namespace Engines
 			if (graph_service_init)
 			{
 				m_window = graph_service_init->GetSDLWindow();
+				graph_service_init.reset();
 			}
 			else
 			{
@@ -48,9 +65,39 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			
 		}
 
 
+	}
+
+	void MainEngine::StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		SDL_Event event;
+
+		if (m_state_service && m_gui_engine && m_scene_engine)
+		{
+			m_gui_engine->LoadConfigs();
+			
+			while (!m_state_service->getContinued() && !m_state_service->getExit())
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				m_gui_engine->RenderMainMenuBar(view_model_builder);
+				m_gui_engine->RenderGuiComponents(view_model_builder);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+			}
+		}
 	}
 
 	void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
@@ -59,21 +106,24 @@ namespace Engines
 
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
 		{
-			while (!m_state_service->getExit())
+			while (!m_state_service->getExit() && m_state_service->getContinued())
 			{
 
 				this->FpsCalculation(Enums::BEGIN);
 				while (SDL_PollEvent(&event))
 				{
-					m_scene_engine->UpdateCamera(event);
-					m_state_service->RefreshProjectionMatrix();
+					ImGui_ImplSDL2_ProcessEvent(&event);
+					if (!m_state_service->getGuiOpen())
+					{
+						m_scene_engine->UpdateCamera(event);
+						m_state_service->RefreshProjectionMatrix();
+					}
 				}
 				
-
-				m_framebuffer_service->BindFramebuffer();
 				this->InitFrame();
 
-				m_scene_engine->RenderSkybox(view_model_builder);
+				m_framebuffer_service->BindFramebuffer();
+
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();

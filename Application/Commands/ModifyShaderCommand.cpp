@@ -44,6 +44,8 @@ namespace Commands
 			default:
 				break;
 			}
+
+			m_shader_service.reset();
 		}
 	}
 }

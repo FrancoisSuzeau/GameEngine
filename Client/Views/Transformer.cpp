@@ -27,6 +27,7 @@ namespace Component
 					shader_service->setTexture(shader_name, "texture0", 0);
 				}
 			}
+			state_service.reset();
 		}
 		
 	}
@@ -38,14 +39,6 @@ namespace Component
 			glm::mat4 model = renderer->GetModelMat();
 			model = glm::translate(model, new_position);
 			renderer->SetModelMat(model);
-		}
-	}
-
-	void Transformer::Colorize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_color)
-	{
-		if (renderer)
-		{
-			renderer->SetBackgroundColor(new_color);
 		}
 	}
 	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector)

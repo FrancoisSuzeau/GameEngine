@@ -15,10 +15,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "IService.hpp"
-
+#include "IRenderer.hpp"
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
 #include "../Services/ImGUIServiceInitalizer.hpp"
+#include <ExternalServices.hpp>
+
 
 namespace Services {
 
@@ -44,6 +46,22 @@ namespace Services {
 		void setShowStyleEditor(bool const new_val);
 		void setShowEvent(bool const new_val);
 		bool getShowEvent() const;
+		void setFileName(std::string const new_val);
+		bool getGuiOpen() const;
+		bool getContinued() const;
+		void setContinued(bool const new_val);
+		void setShowSaveAs(bool const new_val);
+		bool getShowSaveAs() const;
+		bool getShowConfirm() const;
+		void setShowConfirm(bool const new_val);
+		void setConfirmMessage(std::string const new_val);
+		std::string getConfirmMessage() const;
+
+		std::string getFileName() const;
+		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
+		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
+		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
+		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
@@ -52,6 +70,8 @@ namespace Services {
 
 	private:
 
+		void CleanRenderers();
+		void CleanConfig();
 		int m_width;
 		int m_height;
 		bool m_exit;
@@ -60,10 +80,16 @@ namespace Services {
 		bool m_show_app_info;
 		bool m_show_style_editor;
 		bool m_show_event;
+		bool m_show_save_as;
+		bool m_show_confirm;
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
 		std::shared_ptr<Services::CameraService> m_camera_services;
-
+		std::string m_current_filename;
+		bool m_continued;
+		std::shared_ptr<Services::ConfigEntity> m_configs;
+		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		std::string  m_confirm_message;
 
 	};
 }

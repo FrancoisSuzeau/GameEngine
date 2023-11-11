@@ -14,7 +14,7 @@ namespace Renderers {
 	class Triangle : public IRenderer
 	{
 	public:
-		Triangle();
+		Triangle(glm::vec3 position, glm::vec3 color, glm::vec3 size) ;
 		~Triangle();
 
 		void Construct() override;

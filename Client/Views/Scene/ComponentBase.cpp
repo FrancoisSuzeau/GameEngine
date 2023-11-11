@@ -38,11 +38,10 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Transformer::Colorize(renderer, glm::vec3(1.f, 0.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
 				this->IncrementAngle(0.1f);
-				Transformer::Move(renderer, glm::vec3(-0.5f, 0.f, -0.9f));
-				Transformer::Resize(renderer, glm::vec3(0.2f));
+				Transformer::Move(renderer, renderer->GetPosition());
+				Transformer::Resize(renderer, renderer->GetSize());
 				Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -60,10 +59,9 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Transformer::Colorize(renderer, glm::vec3(0.f, 1.f, 0.f));
 				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, glm::vec3(0.f, 0.f, -0.9f));
-				Transformer::Resize(renderer, glm::vec3(0.2f));
+				Transformer::Move(renderer, renderer->GetPosition());
+				Transformer::Resize(renderer, renderer->GetSize());
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 				glUseProgram(0);
@@ -82,8 +80,8 @@ namespace Component
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
 				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, glm::vec3(-10.f, -1.f, -10.f));
-				Transformer::Resize(renderer, glm::vec3(20.f));
+				Transformer::Move(renderer, renderer->GetPosition());
+				Transformer::Resize(renderer, renderer->GetSize());
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 
 				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);

@@ -12,5 +12,6 @@
 #include "ShaderService.hpp"
 #include "FramebufferService.hpp"
 #include "CameraService.hpp"
+#include "JsonService.hpp"
 
 #endif

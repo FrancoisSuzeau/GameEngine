@@ -10,6 +10,11 @@
 #include <list>
 #include "ICommand.hpp"
 #include "IRenderer.hpp"
+#include "../Entities/ConfigEntity.hpp"
+
+namespace Enums {
+	enum ComponentType { SIMPLE, MENUS, CANVAS };
+}
 
 namespace ViewModels {
 
@@ -20,13 +25,34 @@ namespace ViewModels {
 
 		virtual void Construct() = 0;
 
-		virtual void RenderViews(std::string const type_view) = 0;
+		virtual void RenderViews(Enums::ComponentType view_type) = 0;
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
-		virtual void OnCommand(Commands::ICommand *command) = 0;
+		virtual void RenderGrid() {};
+		virtual void AddCommand(Commands::ICommand* command)
+		{
+			if (command)
+			{
+				m_commands.push_back(std::unique_ptr<Commands::ICommand>(command));
+			}
+		}
+		virtual void OnCommand() 
+		{
+			for (std::vector<std::unique_ptr<Commands::ICommand>>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
+			{
+				if (it[0])
+				{
+					it[0]->Execute();
+					it[0].reset();
+					it[0] = nullptr;
+				}
+			}
+
+			m_commands.clear();
+		};
 
 	protected:
-		std::unique_ptr<Commands::ICommand> m_command;
+		std::vector<std::unique_ptr<Commands::ICommand>> m_commands;
 
 	};
 

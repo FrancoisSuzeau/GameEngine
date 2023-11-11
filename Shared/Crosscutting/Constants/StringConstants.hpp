@@ -32,9 +32,6 @@ namespace Constants {
 	std::string const JSONEXT = ".json";
 	std::string const CONFIGFILE = "configs";
 	std::string const USERPREFNODE = "userpreferences";
-	std::string const MENUSCPT = "menuscpt";
-	std::string const SIMPLECPT = "simplecpt";
-	std::string const CANVAS = "canvas";
 	std::string const GUIVIEWMODEL = "GUI";
 	std::string const SCENEVIEWMODEL = "SCENE";
 	std::string const UNTEXTURED_SHADER = "untextured";
@@ -42,6 +39,7 @@ namespace Constants {
 	std::string const SKYBOX_SHADER = "skybox";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
+	std::string const DEFAULT_FILENAME = "default_scene";
 }
 
 #endif

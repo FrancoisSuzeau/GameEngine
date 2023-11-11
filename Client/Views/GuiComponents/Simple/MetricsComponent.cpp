@@ -26,11 +26,13 @@ namespace Views
 	{
 		if (m_state_service)
 		{
-			bool test = m_state_service->getShowMetrics();
+			bool show_metrics = m_state_service->getShowMetrics();
 		
-			if (test) { ImGui::ShowMetricsWindow(&test); }
-		
-			m_state_service->setShowMetrics(test);
+			if (show_metrics) 
+			{ 
+				ImGui::ShowMetricsWindow(&show_metrics); 
+			}
+			m_state_service->setShowMetrics(show_metrics);
 		}
 	}
 }

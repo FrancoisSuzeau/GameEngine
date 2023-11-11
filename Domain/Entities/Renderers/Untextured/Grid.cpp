@@ -11,12 +11,18 @@ namespace Renderers {
 		m_ebo = 0;
 		m_vao = 0;
 		m_vbo = 0;
+		m_vec_vertices.reserve((m_slices + 1) * (m_slices + 1));
+		m_vec_indices.reserve((m_slices) * (m_slices) * 2);
+		m_bytes_vertices_size = m_vec_vertices.capacity() * sizeof(glm::vec3);
+		m_bytes_indices_size = m_vec_indices.capacity() * sizeof(glm::uvec4);
+		m_lenght = (GLuint)(m_vec_vertices.capacity() * 4);
+		
 
 		m_type = Enums::RendererType::GRID;
-		
-		m_lenght = 0;
 		m_model_mat = glm::mat4(1.f);
 		m_back_ground_color = glm::vec3(1.f);
+		m_position = glm::vec3(-10.f, -1.f, -10.f);
+		m_size = glm::vec3(20.f);
 	}
 
 	Grid::~Grid()
@@ -32,7 +38,6 @@ namespace Renderers {
 	void Grid::Clean()
 	{
 		base::Clean();
-		this->CleanEbo();
 		m_vec_indices.clear();
 		m_vec_vertices.clear();
 
@@ -45,25 +50,53 @@ namespace Renderers {
 
 	void Grid::Attach()
 	{
-		glGenVertexArrays(1, &m_vao);
-		glBindVertexArray(m_vao);
-
 		glGenBuffers(1, &m_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, m_vec_vertices.size() * sizeof(glm::vec3), glm::value_ptr(m_vec_vertices[0]), GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		if (m_vbo != 0)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+			if (glIsBuffer(m_vbo) == GL_TRUE)
+			{
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vec_vertices.data());
+			}
+		}
+
+		glGenVertexArrays(1, &m_vao);
+		if (m_vao != 0)
+		{
+			glBindVertexArray(m_vao);
+
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				if (m_vbo != 0)
+				{
+					glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+					if (glIsBuffer(m_vbo) == GL_TRUE)
+					{
+						glEnableVertexAttribArray(0);
+						glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+
+
+						glGenBuffers(1, &m_ebo);
+						if (m_ebo != 0)
+						{
+							glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+							if (glIsBuffer(m_ebo) == GL_TRUE)
+							{
+								glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, 0, GL_STATIC_DRAW);
+								glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_bytes_indices_size, m_vec_indices.data());
+
+								glBindVertexArray(0);
+								glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+								glBindBuffer(GL_ARRAY_BUFFER, 0);
+							}
+						}
+					}
+				}
+			}
+		}
 
 		
-		glGenBuffers(1, &m_ebo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_vec_indices.size() * sizeof(glm::uvec4), glm::value_ptr(m_vec_indices[0]), GL_STATIC_DRAW);
-
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		m_lenght = (GLuint)m_vec_indices.size() * 4;
 	}
 	void Grid::Load()
 	{
@@ -91,15 +124,6 @@ namespace Renderers {
 				m_vec_indices.push_back(glm::uvec4(row2 + i + 1, row2 + i, row2 + i, row1 + i));
 
 			}
-		}
-	}
-
-	void Grid::CleanEbo()
-	{
-		if (m_ebo != 0)
-		{
-			glDeleteBuffers(1, &m_ebo);
-			m_ebo = 0;
 		}
 	}
 

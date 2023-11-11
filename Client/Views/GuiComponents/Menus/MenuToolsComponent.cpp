@@ -7,6 +7,15 @@
 
 namespace Views
 {
+	MenuToolsComponent::~MenuToolsComponent()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+
+		this->SetParent(nullptr);
+	}
 	MenuToolsComponent::MenuToolsComponent() : metrics(false), tools(false), infos(false), style(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -17,9 +26,9 @@ namespace Views
 	}
 	void MenuToolsComponent::Render()
 	{
-		if (ImGui::BeginMenu("Tools"))
+		if (m_parent_view_model && m_state_service)
 		{
-			if (m_state_service)
+			if (ImGui::BeginMenu("Tools", m_state_service->getContinued()))
 			{
 				metrics = m_state_service->getShowMetrics();
 				tools = m_state_service->getShowTools();
@@ -36,8 +45,8 @@ namespace Views
 				m_state_service->setShowInfos(infos);
 				m_state_service->setShowStyleEditor(style);
 				m_state_service->setShowEvent(s_event);
+				ImGui::EndMenu();
 			}
-			ImGui::EndMenu();
 		}
 		
 	}
