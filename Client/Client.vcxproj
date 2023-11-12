@@ -176,6 +176,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\SaveAsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\StartComponent.hpp" />
@@ -195,6 +196,12 @@
     <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
     <ClInclude Include="Views\Views.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\squeamish_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
