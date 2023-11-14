@@ -55,10 +55,6 @@ jobs:
         repository: 'FrancoisSuzeau/Squeamish'
         submodules: true
         lfs: true
-    - name: Extract branch name
-      if: github.event_name != 'pull_request'
-      shell: bash
-      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
