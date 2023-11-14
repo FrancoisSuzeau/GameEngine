@@ -7,7 +7,7 @@ name: MSBuild
 
 on:
   push:
-    branches: ${GITHUB_REF#refs/heads/}
+    branches: ["bugFix/ChangeExeName"]
   workflow_dispatch:
     inputs:
       logLevel:
@@ -28,7 +28,7 @@ on:
         type: environment
         required: true
   pull_request:
-    branches: "master"
+    branches: ["master"]
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -56,6 +56,10 @@ jobs:
         repository: 'FrancoisSuzeau/Squeamish'
         submodules: true
         lfs: true
+    - name: Extract branch name
+      if: github.event_name != 'pull_request'
+      shell: bash
+      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
