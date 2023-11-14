@@ -71,6 +71,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>Squeamish</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>Squeamish</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -123,15 +129,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;$(SolutionDir)Crosscutting\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Application;$(SolutionDir)ImGUI;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ExternalServices;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Shadow\Documents\Dev\GameEngine\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32d.lib;glew32sd.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;glew32.lib;glew32s.lib;SDL2_mixer.lib;SDL2_image.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -173,6 +180,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\SaveAsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\StartComponent.hpp" />
@@ -192,6 +200,12 @@
     <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
     <ClInclude Include="Views\Views.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\squeamish_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
