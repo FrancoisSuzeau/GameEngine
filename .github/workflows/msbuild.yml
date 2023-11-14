@@ -6,8 +6,7 @@
 name: MSBuild
 
 on:
-  push:
-    branches: [ "bugFix/ChangeExeName" ]
+  workflow_dispatch:
   pull_request:
     branches: [ "master" ]
 
