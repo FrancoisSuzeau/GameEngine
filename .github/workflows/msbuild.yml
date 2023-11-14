@@ -7,7 +7,7 @@ name: MSBuild
 
 on:
   push:
-    branches: ["bugFix/ChangeExeName"]
+    branches: ${GITHUB_REF#refs/heads/}
   workflow_dispatch:
     inputs:
       logLevel:
@@ -28,7 +28,7 @@ on:
         type: environment
         required: true
   pull_request:
-    branches: [ "master" ]
+    branches: "master"
 
 env:
   # Path to the solution file relative to the root of the project.
