@@ -6,7 +6,7 @@ $title       = 'Greetings from powershell'
 $description = 'This is an embed. It looks much nicer than just sending text over !'
 $color       = '4289797'
 $thumbnailObject = [PSCustomObject]@{
-    url = "https://static1.squarespace.com/static/5644323de4b07810c0b6db7b/t/5aa44874e4966bde3633b69c/1520715914043/webhook_resized.png"
+    url = "https://github.com/FrancoisSuzeau/Squeamish/blob/master/squeamish_icon.ico"
 }
 
 # Creating embed array 
