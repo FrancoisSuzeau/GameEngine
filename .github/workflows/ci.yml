@@ -62,11 +62,8 @@ jobs:
     - name: Build release
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
-    
-  curl:
-    runs-on: [Windows, self-hosted]
-    name: Send whebook
-    with:
-      curl: -H "Content-Type: application/json" -d "{\"content\":\"Hello\"}" https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o1
-7Vne7o90M6FYWxf6
+
+    - name: Send webhook
+      shell: pwsh
+      run: send_webhook.ps1
 
