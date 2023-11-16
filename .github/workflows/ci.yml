@@ -65,6 +65,5 @@ jobs:
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
     - name: Send webhook
-      shell: pwsh
       run: .github/workflows/send_webhook.ps1
 
