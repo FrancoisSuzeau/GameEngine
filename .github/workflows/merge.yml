@@ -1,0 +1,26 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Merge into Master
+
+on:
+  push:
+    branches: ["master"]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: "Squeamish.sln"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: [Windows, self-hosted]
+
+    steps:
+
+    - name: Send webhook
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.ref }}

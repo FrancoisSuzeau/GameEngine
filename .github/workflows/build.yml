@@ -63,8 +63,3 @@ jobs:
     # - name: Build release
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
-
-    - name: Send Pull request webhook
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.head_ref }}
-      if: ${{ github.event_name == 'pull_request' }}
-
