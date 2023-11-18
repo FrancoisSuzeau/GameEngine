@@ -7,7 +7,7 @@ name: MSBuild
 
 on:
   push:
-  Can be triggered manually
+  #Can be triggered manually
   workflow_dispatch:
     inputs:
       logLevel:
