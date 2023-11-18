@@ -5,12 +5,19 @@ $url = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-Kx
 $title       = 'Greetings from powershell'
 $description = 'This is an embed. It looks much nicer than just sending text over !'
 $color       = '4289797'
+
 $thumbnailObject = [PSCustomObject]@{
-    url = "https://github.com/FrancoisSuzeau/Squeamish/blob/master/squeamish_icon.ico"
+    url = "https://github.com/FrancoisSuzeau/Squeamish/blob/feature/CI/.github/workflows/unicorn.PNG"
 }
 
-# Creating embed array 
-[System.Collections.ArrayList]$embedArray = @()
+# $image = [PSCustomObject]@{
+#     url = 'attachment://unicorn.jpg'
+# }
+
+# $fileObject = [PSCustomObject]@{
+#     attachment = ''
+#     name = 'webhook_resized.png'
+# }
 
 # Creating emmbed card object
 $embedObject = [PSCustomObject]@{
@@ -20,8 +27,16 @@ $embedObject = [PSCustomObject]@{
     thumbnail = $thumbnailObject
 }
 
-# Adding to embed array
+# Creating embed array 
+[System.Collections.ArrayList]$embedArray = @()
+# Adding to embed to array
 $embedArray.Add($embedObject)
+
+# # Creating files array 
+# [System.Collections.ArrayList]$filesArray = @()
+# # Adding to file to array
+# $filesArray.Add($fileObject)
+
 $payload = [PSCustomObject]@{
     embeds = $embedArray
 }
