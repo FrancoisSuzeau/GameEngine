@@ -7,7 +7,7 @@ $description = 'This is an embed. It looks much nicer than just sending text ove
 $color       = '4289797'
 
 $thumbnailObject = [PSCustomObject]@{
-    url = "https://github.com/FrancoisSuzeau/Squeamish/blob/feature/CI/.github/workflows/unicorn.PNG"
+    url = "https://cdn.discordapp.com/attachments/1065694223875199080/1175404890885988413/unicorn.jpg?ex=656b1c1b&is=6558a71b&hm=1195df7a323d783fa72e8d0e31708fc234596331d772b08a28502808ffce9378&"
 }
 
 # $image = [PSCustomObject]@{
