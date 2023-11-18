@@ -68,3 +68,7 @@ jobs:
       run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.head_ref }}
       if: ${{ github.event_name == 'pull_request' }}
 
+    - name: Send Push webhook
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.ref }}
+      if: ${{ github.event_name == 'push' }}
+
