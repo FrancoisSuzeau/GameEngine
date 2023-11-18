@@ -65,5 +65,5 @@ jobs:
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
     - name: Send webhook
-      run: .github/workflows/send_webhook.ps1 ${{ env.GITHUB_ACTOR }} https://avatars.githubusercontent.com/u/45965148?v=4 "Feature added :" "Embed Webhook"
+      run: .github/workflows/send_webhook.ps1 ${{ github.actor }} https://avatars.githubusercontent.com/u/45965148?v=4 "Feature added :" "Embed Webhook"
 
