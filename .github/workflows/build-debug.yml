@@ -50,6 +50,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+            run: |
+          gh variable list
+          gh variable set PREVIOUS_PR_TITLE --body "TEST"
+          gh variable list
       with:
         repository: 'FrancoisSuzeau/Squeamish'
         submodules: true
@@ -66,8 +70,3 @@ jobs:
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Set repository variables
-      run: |
-          gh variable list
-          gh variable set PREVIOUS_PR_TITLE --body "TEST"
-          gh variable list
