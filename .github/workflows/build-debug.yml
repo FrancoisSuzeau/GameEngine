@@ -37,7 +37,7 @@ env:
   PREVIOUS_PR_TITLE: "Test"
 
 permissions:
-  contents: [read, write]
+  contents: write
 
 jobs:
   build:
