@@ -65,13 +65,3 @@ jobs:
     # - name: Build release
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
-
-    - name: Set Variable
-      id: set_var
-      run: echo "PREVIOUS_PR_TITLE=Hello, World!" > my_variable.txt
-
-    - name: Upload Variable Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-artifact
-        path: my_variable.txt
