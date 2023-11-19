@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  build-release:
+  build:
     runs-on: [Windows, self-hosted]
     strategy:
       fail-fast: false
@@ -45,7 +45,7 @@ jobs:
 
   # publish:
   #   runs-on: [Windows, self-hosted]
-  #   needs: build-release
+  #   needs: build
   #   steps:
 
   #   - name: Send webhook
