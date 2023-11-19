@@ -65,3 +65,7 @@ jobs:
     # - name: Build release
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Set PR Title var
+      env:
+        PREVIOUS_PR_TITLE: "Test"
