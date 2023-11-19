@@ -6,13 +6,8 @@
 name: Merge into Master
 
 on:
-  workflow_run:
-    workflows:
-      - "Build debug on push"
-    types:
-      - completed
-  # push:
-  #   branches: ["master"]
+  push:
+    branches: ["master"]
 
 env:
   # Path to the solution file relative to the root of the project.
