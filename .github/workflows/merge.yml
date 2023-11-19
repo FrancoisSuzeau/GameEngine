@@ -22,5 +22,14 @@ jobs:
 
     steps:
 
+    - name: Download Variable Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
+        path: ${{ github.workspace }}
+
+    - name: Read Variable from File
+      run: echo "Variable is $(cat my_variable.txt)"
+
     - name: Send webhook
       run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.ref }}
