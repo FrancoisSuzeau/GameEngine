@@ -37,7 +37,7 @@ env:
   PREVIOUS_PR_TITLE: "Test"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -55,16 +55,14 @@ jobs:
         submodules: true
         lfs: true
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        msbuild-architecture: x64
-        vs-prerelease: true
-        vs-version: '17.8.0'
+    # - name: Add MSBuild to PATH
+    #   uses: microsoft/setup-msbuild@v1.1
+    #   with:
+    #     msbuild-architecture: x64
+    #     vs-prerelease: true
+    #     vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
-      env:
-        PREVIOUS_PR_TITLE: "Test"
+    # - name: Build release
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
