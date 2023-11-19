@@ -29,7 +29,7 @@ jobs:
         path: ${{ github.workspace }}
 
     - name: Read Variable from File
-      run: echo "Variable is $(cat $GITHUB_WORKSPACE/my_variable.txt)"
+      run: echo "Variable is $(cat my_variable.txt)"
 
     - name: Send webhook
       run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.ref }}
