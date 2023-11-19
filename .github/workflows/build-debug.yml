@@ -37,8 +37,7 @@ env:
   PREVIOUS_PR_TITLE: "Test"
 
 permissions:
-  contents: read|write
-  actions: read|write
+  contents: [read, write]
 
 jobs:
   build:
@@ -67,4 +66,5 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
       env:
-        PREVIOUS_PR_TITLE: "test"
+        PREVIOUS_PR_TITLE: "Test"
+
