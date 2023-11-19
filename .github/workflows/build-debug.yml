@@ -83,4 +83,4 @@ jobs:
         path: ${{ github.workspace }}
 
     - name: Read Variable from File
-      run: echo "Variable is $(cat $GITHUB_WORKSPACE/my_variable.txt)"
+      run: echo "Variable is $(cat my_variable.txt)"
