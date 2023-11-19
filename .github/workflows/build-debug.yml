@@ -50,10 +50,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      run: |
-          gh variable list
-          gh variable set PREVIOUS_PR_TITLE --body "TEST"
-          gh variable list
       with:
         repository: 'FrancoisSuzeau/Squeamish'
         submodules: true
@@ -70,3 +66,12 @@ jobs:
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
+    - name: Set Variable
+      id: set_var
+      run: echo "MY_VARIABLE=Hello, World!" >> $GITHUB_ENV
+
+    - name: Upload Variable Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: $GITHUB_ENV
