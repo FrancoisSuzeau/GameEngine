@@ -43,10 +43,10 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
-  publish:
-    runs-on: [Windows, self-hosted]
-    needs: build-release
-    steps:
+  # publish:
+  #   runs-on: [Windows, self-hosted]
+  #   needs: build-release
+  #   steps:
 
-    - name: Send webhook
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
+  #   - name: Send webhook
+  #     run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
