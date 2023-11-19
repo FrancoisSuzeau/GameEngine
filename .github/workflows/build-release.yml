@@ -12,6 +12,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
+  PREVIOUS_PR_TITLE: ${{ github.event.pull_request.title }}
 
 permissions:
   contents: read
@@ -32,13 +33,23 @@ jobs:
         submodules: true
         lfs: true
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        msbuild-architecture: x64
-        vs-prerelease: true
-        vs-version: '17.8.0'
+    # - name: Add MSBuild to PATH
+    #   uses: microsoft/setup-msbuild@v1.1
+    #   with:
+    #     msbuild-architecture: x64
+    #     vs-prerelease: true
+    #     vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    # - name: Build release
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Set Current PR title
+      id: set_var
+      run: echo "PREVIOUS_PR_TITLE=Hello, World!" > my_variable.txt
+
+    - name: Upload Variable Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: my_variable.txt
