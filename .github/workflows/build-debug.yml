@@ -50,7 +50,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-            run: |
+      run: |
           gh variable list
           gh variable set PREVIOUS_PR_TITLE --body "TEST"
           gh variable list
