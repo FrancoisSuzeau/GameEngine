@@ -114,6 +114,8 @@ x64/[Rr]elease/*.idb
 x64/[Rr]elease/*.lib
 *.ini
 
+Client/x64/Debug/Client.res
+
 # Chutzpah Test files
 _Chutzpah*
 
