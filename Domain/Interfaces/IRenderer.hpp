@@ -84,6 +84,16 @@ namespace Renderers {
 			m_size = new_val;
 		}
 
+		virtual void SetSelected(bool const new_val)
+		{
+			m_selected = new_val;
+		}
+
+		virtual bool GetSelected() const
+		{
+			return m_selected;
+		}
+
 	protected:
 		std::vector<GLfloat> m_vertices;
 		unsigned int m_bytes_vertices_size;
@@ -96,6 +106,7 @@ namespace Renderers {
 		glm::vec3 m_back_ground_color;
 		glm::vec3 m_position;
 		glm::vec3 m_size;
+		bool m_selected;
 
 	private:
 		virtual void CleanVbo()

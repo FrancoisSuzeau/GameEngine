@@ -24,6 +24,7 @@ namespace Engines
 		{
 			m_camera_service = container->GetReference<Services::CameraService>();
 			m_shader_service = container->GetReference<Services::ShaderService>();
+			m_state_service = container->GetReference<Services::StateService>();
 			
 			if (m_shader_service)
 			{
@@ -39,6 +40,11 @@ namespace Engines
 			if (!m_camera_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
 			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
@@ -61,6 +67,7 @@ namespace Engines
 		this->RenderSkybox(view_model_builder);
 		this->RenderGrid(view_model_builder);
 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
@@ -68,6 +75,26 @@ namespace Engines
 			{
 				view_model->RenderViews(Enums::ComponentType::CANVAS);
 			}
+		}
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glLineWidth(4.f);
+		if (m_state_service)
+		{
+			m_state_service->setRenderLine(true);
+		}
+		if (view_model_builder)
+		{
+			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+			if (view_model)
+			{
+				view_model->RenderViews(Enums::ComponentType::CANVAS);
+			}
+		}
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(2.f);
+		if (m_state_service)
+		{
+			m_state_service->setRenderLine(false);
 		}
 	}
 

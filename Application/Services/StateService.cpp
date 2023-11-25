@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false)
+		m_show_save_as(false), m_show_confirm(false), m_render_line(false)
 	{
 	}
 
@@ -159,6 +159,16 @@ namespace Services
 	void StateService::setConfirmMessage(std::string const new_val)
 	{
 		m_confirm_message = new_val;
+	}
+
+	void StateService::setRenderLine(bool const new_val)
+	{
+		m_render_line = new_val;
+	}
+
+	bool StateService::getRenderLine() const
+	{
+		return m_render_line;
 	}
 
 	std::string StateService::getConfirmMessage() const

@@ -18,6 +18,7 @@ namespace Renderers {
 		m_back_ground_color = color;
 		m_position = position;
 		m_size = size;
+		m_selected = true;
 	}
 
 	Triangle::~Triangle()

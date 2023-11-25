@@ -15,6 +15,7 @@ namespace Renderers {
 		m_bytes_textcoord_size = 12 * sizeof(GLfloat);
 		m_texture_id = 0;
 		m_type = Enums::RendererType::SQUARE_TEXTURED;
+		m_selected = false;
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{

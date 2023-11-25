@@ -55,6 +55,8 @@ namespace Services {
 		bool getShowConfirm() const;
 		void setShowConfirm(bool const new_val);
 		void setConfirmMessage(std::string const new_val);
+		void setRenderLine(bool const new_val);
+		bool getRenderLine() const;
 		std::string getConfirmMessage() const;
 
 		std::string getFileName() const;
@@ -82,6 +84,7 @@ namespace Services {
 		bool m_show_event;
 		bool m_show_save_as;
 		bool m_show_confirm;
+		bool m_render_line;
 		glm::mat4 m_projection_matrix;
 		glm::mat4 m_view;
 		std::shared_ptr<Services::CameraService> m_camera_services;

@@ -18,7 +18,14 @@ namespace Component
 		{
 			if (renderer && shader_service)
 			{
-				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
+				if (state_service->getRenderLine() && renderer->GetSelected())
+				{
+					shader_service->setVec3(shader_name, "background_color", glm::vec3(1.f));
+				}
+				else
+				{
+					shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
+				}
 				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
 				PutViewMapIntoShader(state_service, shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
