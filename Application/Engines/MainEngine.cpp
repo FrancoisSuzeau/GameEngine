@@ -68,14 +68,11 @@ namespace Engines
 			
 		}
 
-		m_mask = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
-
 	}
 
 	void MainEngine::StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-		m_mask = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
 		if (m_state_service && m_gui_engine && m_scene_engine)
 		{
 			m_gui_engine->LoadConfigs();
@@ -104,7 +101,6 @@ namespace Engines
 	void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-		m_mask = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
 		{
 			while (!m_state_service->getExit() && m_state_service->getContinued())
@@ -137,7 +133,6 @@ namespace Engines
 				//ImGui::ShowDemoWindow();
 
 				this->EndFrame();
-
 				this->FpsCalculation(Enums::END);
 			}
 		}
@@ -147,7 +142,7 @@ namespace Engines
 	{
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(m_mask);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		if (m_gui_engine)
 		{

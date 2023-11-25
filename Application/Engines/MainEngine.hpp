@@ -44,7 +44,6 @@ namespace Engines {
 		void InitFrame() override;
 		void EndFrame() override;
 		void FpsCalculation(Enums::EngineEnum ee);
-		GLbitfield m_mask;
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
