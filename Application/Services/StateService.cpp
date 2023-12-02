@@ -228,22 +228,40 @@ namespace Services
 		}
 	}
 
-	float StateService::getXRel() const
+	float StateService::getXMotionDir() const
 	{
 		if (m_camera_services)
 		{
-			return m_camera_services->GetXRel();
+			return m_camera_services->GetXMotionDir();
 		}
 		return 0.0f;
 	}
 
-	float StateService::getYRel() const
+	float StateService::getYMotionDir() const
 	{
 		if (m_camera_services)
 		{
-			m_camera_services->GetYRel();
+			m_camera_services->GetYMotionDir();
 		}
 		return 0.0f;
+	}
+
+	int StateService::getXPos() const
+	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetXPos();
+		}
+		return 0;
+	}
+
+	int StateService::getYPos() const
+	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetYPos();
+		}
+		return 0;
 	}
 	
 	void StateService::CleanRenderers()

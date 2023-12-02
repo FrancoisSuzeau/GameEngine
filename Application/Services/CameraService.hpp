@@ -26,8 +26,10 @@ namespace Services {
 		void UpdateEvent(SDL_Event event);
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
-		float GetXRel() const;
-		float GetYRel() const;
+		float GetXMotionDir() const;
+		float GetYMotionDir() const;
+		int GetXPos() const;
+		int GetYPos() const;
 		bool GetOnClick(Uint8 const button_state);
 
 		glm::vec3 GetPos() const;
@@ -41,8 +43,10 @@ namespace Services {
 		glm::vec3 m_camera_up;
 		bool m_mouse_button[8];
 
-		float m_x_rel;
-		float m_y_rel;
+		float m_x_motion_dir;
+		float m_y_motion_dir;
+		int m_x_pos;
+		int m_y_pos;
 		float m_yaw;
 		float m_pitch;
 		float m_camera_speed;

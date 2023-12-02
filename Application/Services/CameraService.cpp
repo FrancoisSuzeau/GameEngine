@@ -17,8 +17,10 @@ namespace Services
         m_camera_up = glm::vec3(0.f, 1.f, 0.f);
         m_camera_target = glm::vec3(0.f, 0.f, -1.f);
 
-		m_x_rel = 0.f;
-		m_y_rel = 0.f;
+		m_x_motion_dir = 0.f;
+		m_y_motion_dir = 0.f;
+        m_x_pos = 0;
+        m_y_pos = 0;
 
         m_yaw = -90.f;
         m_pitch = 0.f;
@@ -34,8 +36,8 @@ namespace Services
 
 	void CameraService::UpdateEvent(SDL_Event event)
 	{
-        m_x_rel = 0.f;
-        m_y_rel = 0.f;
+        m_x_motion_dir = 0.f;
+        m_y_motion_dir = 0.f;
 
         switch (event.type)
         {
@@ -51,8 +53,11 @@ namespace Services
 
             //mouse is moving
         case SDL_MOUSEMOTION:
-            m_x_rel = (float)event.motion.xrel;
-            m_y_rel = (float)event.motion.yrel;
+            m_x_motion_dir = (float)event.motion.xrel;
+            m_y_motion_dir = (float)event.motion.yrel;
+
+            m_x_pos = event.motion.x;
+            m_y_pos = event.motion.y;
             break;
         case SDL_MOUSEWHEEL:
             if (event.wheel.y > 0) { this->ChangeHigh(-1.f); }
@@ -78,13 +83,21 @@ namespace Services
     {
         return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
     }
-    float CameraService::GetXRel() const
+    float CameraService::GetXMotionDir() const
     {
-        return m_x_rel;
+        return m_x_motion_dir;
     }
-    float CameraService::GetYRel() const
+    float CameraService::GetYMotionDir() const
     {
-        return m_y_rel;
+        return m_y_motion_dir;
+    }
+    int CameraService::GetXPos() const
+    {
+        return m_x_pos;
+    }
+    int CameraService::GetYPos() const
+    {
+        return m_y_pos;
     }
     bool CameraService::GetOnClick(Uint8 const button_state)
     {
@@ -103,8 +116,8 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_LEFT])
         {
-            m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_x_rel;
-            m_camera_pos += m_camera_target * m_y_rel * m_camera_speed;
+            m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_x_motion_dir;
+            m_camera_pos += m_camera_target * m_y_motion_dir * m_camera_speed;
         }
     }
     void CameraService::ChangeHigh(float offset)
@@ -115,7 +128,7 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_pitch += m_y_rel * m_camera_speed * 10.f;
+            m_pitch += m_y_motion_dir * m_camera_speed * 10.f;
             if (m_pitch > 89.0f)
             {
                 m_pitch = 89.0f;
@@ -131,7 +144,7 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_yaw += m_x_rel * m_camera_speed * 10.f;
+            m_yaw += m_x_motion_dir * m_camera_speed * 10.f;
         }
     }
 

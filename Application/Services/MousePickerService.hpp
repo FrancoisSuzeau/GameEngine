@@ -32,6 +32,9 @@ namespace Services {
 		glm::mat4 m_view_mat;
 
 		glm::vec3 CalculateMouseRay();
+		glm::vec2 GetNormalizedDeviceCoords(float mouseX, float mouseY);
+		glm::vec4 ConvertToEyeCoords(glm::vec4 clip_coords);
+		glm::vec3 ConvertToWorldCoords(glm::vec4 eye_coords);
 
 		std::shared_ptr<StateService> m_state_service;
 	};
