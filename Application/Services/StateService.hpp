@@ -69,6 +69,9 @@ namespace Services {
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
 
+		float getXRel() const;
+		float getYRel() const;
+
 
 	private:
 

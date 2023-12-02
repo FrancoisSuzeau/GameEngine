@@ -112,7 +112,7 @@ namespace Engines
 					ImGui_ImplSDL2_ProcessEvent(&event);
 					if (!m_state_service->getGuiOpen())
 					{
-						m_scene_engine->UpdateCamera(event);
+						m_scene_engine->UpdateAll(event);
 						m_state_service->RefreshProjectionMatrix();
 					}
 				}

@@ -227,6 +227,25 @@ namespace Services
 			m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 		}
 	}
+
+	float StateService::getXRel() const
+	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetXRel();
+		}
+		return 0.0f;
+	}
+
+	float StateService::getYRel() const
+	{
+		if (m_camera_services)
+		{
+			m_camera_services->GetYRel();
+		}
+		return 0.0f;
+	}
+	
 	void StateService::CleanRenderers()
 	{
 		for (auto it : m_renderers)

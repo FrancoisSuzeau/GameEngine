@@ -13,5 +13,6 @@
 #include "FramebufferService.hpp"
 #include "CameraService.hpp"
 #include "JsonService.hpp"
+#include "MousePickerService.hpp"
 
 #endif

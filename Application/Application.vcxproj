@@ -23,6 +23,7 @@
     <ClCompile Include="Commands\SaveConfigCommand.cpp" />
     <ClCompile Include="Commands\LoadSceneCommand.cpp" />
     <ClCompile Include="Commands\ModifyConfigsCommand.cpp" />
+    <ClCompile Include="Services\MousePickerService.cpp" />
     <ClCompile Include="Services\JsonService.cpp" />
     <ClCompile Include="Services\CameraService.cpp" />
     <ClCompile Include="Commands\ExitCommand.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Commands\SaveConfigCommand.hpp" />
     <ClInclude Include="Commands\LoadSceneCommand.hpp" />
     <ClInclude Include="Commands\ModifyConfigsCommand.hpp" />
+    <ClInclude Include="Services\MousePickerService.hpp" />
     <ClInclude Include="Services\JsonService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
     <ClInclude Include="Commands\Commands.hpp" />

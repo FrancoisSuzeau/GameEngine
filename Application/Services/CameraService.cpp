@@ -34,8 +34,8 @@ namespace Services
 
 	void CameraService::UpdateEvent(SDL_Event event)
 	{
-        /*m_x_rel = 0.f;
-        m_y_rel = 0.f;*/
+        m_x_rel = 0.f;
+        m_y_rel = 0.f;
 
         switch (event.type)
         {
