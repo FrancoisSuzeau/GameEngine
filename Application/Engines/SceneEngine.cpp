@@ -16,6 +16,10 @@ namespace Engines
 		{
 			m_shader_service.reset();
 		}
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -136,6 +140,7 @@ namespace Engines
 			}
 		}
 	}
+	
 
 	void SceneEngine::UpdateCamera(SDL_Event event)
 	{

@@ -26,6 +26,9 @@ namespace Services {
 		void UpdateEvent(SDL_Event event);
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
+		float GetXRel() const;
+		float GetYRel() const;
+		bool GetOnClick(Uint8 const button_state);
 
 		glm::vec3 GetPos() const;
 		glm::vec3 GetTarget() const;

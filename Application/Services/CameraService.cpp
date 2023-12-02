@@ -34,8 +34,8 @@ namespace Services
 
 	void CameraService::UpdateEvent(SDL_Event event)
 	{
-        m_x_rel = 0.f;
-        m_y_rel = 0.f;
+        /*m_x_rel = 0.f;
+        m_y_rel = 0.f;*/
 
         switch (event.type)
         {
@@ -77,6 +77,18 @@ namespace Services
     glm::mat4 CameraService::GetCameraView() const
     {
         return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
+    }
+    float CameraService::GetXRel() const
+    {
+        return m_x_rel;
+    }
+    float CameraService::GetYRel() const
+    {
+        return m_y_rel;
+    }
+    bool CameraService::GetOnClick(Uint8 const button_state)
+    {
+        return m_mouse_button[button_state];
     }
     glm::vec3 CameraService::GetPos() const
     {
