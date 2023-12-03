@@ -8,6 +8,7 @@
 #include "IView.hpp"
 #include "ComponentBase.hpp"
 #include "TexturedComponent.hpp"
+#include "Draggable.hpp"
 #include <map>
 #include <iostream>
 

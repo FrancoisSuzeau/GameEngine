@@ -263,6 +263,15 @@ namespace Services
 		}
 		return 0;
 	}
+
+	glm::vec3 StateService::getCameraPos() const
+	{
+		if (m_camera_services)
+		{
+			return m_camera_services->GetPos();
+		}
+		return glm::vec3(0.f);
+	}
 	
 	void StateService::CleanRenderers()
 	{

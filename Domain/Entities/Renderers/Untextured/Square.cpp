@@ -104,20 +104,20 @@ namespace Renderers {
 	void Square::Load()
 	{
 		//top right
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 		//bottom right
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		//bottom left
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		//top left
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 
 		m_indices.push_back(0);

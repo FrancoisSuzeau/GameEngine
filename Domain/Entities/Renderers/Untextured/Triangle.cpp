@@ -73,14 +73,14 @@ namespace Renderers {
 	void Triangle::Load()
 	{
 		
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		m_vertices.push_back(0.f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 	}
 	

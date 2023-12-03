@@ -74,6 +74,7 @@ namespace Services {
 
 		int getXPos() const;
 		int getYPos() const;
+		glm::vec3 getCameraPos() const;
 
 
 	private:

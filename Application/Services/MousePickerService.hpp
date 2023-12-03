@@ -24,15 +24,16 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void Update();
-		glm::vec3 GetCurrentRay();
+		glm::vec3 GetCurrentRay() const;
 
 	private:
 		glm::vec3 m_current_ray;
 		glm::mat4 m_proj_mat;
 		glm::mat4 m_view_mat;
+		glm::vec3 m_mouse_normalized_pos;
 
 		glm::vec3 CalculateMouseRay();
-		glm::vec2 GetNormalizedDeviceCoords(float mouseX, float mouseY);
+		void SetNormalizedDeviceCoords();
 		glm::vec4 ConvertToEyeCoords(glm::vec4 clip_coords);
 		glm::vec3 ConvertToWorldCoords(glm::vec4 eye_coords);
 

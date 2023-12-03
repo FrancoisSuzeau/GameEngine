@@ -10,6 +10,7 @@ namespace Views
 	Canvas::Canvas()
 	{
 		m_components_map.insert_or_assign(Constants::COMPONENT_BASE, std::make_unique<Component::ComponentBase >());
+		m_components_map.insert_or_assign(Constants::COMPONENT_DRAGGABLE, std::make_unique<Component::Draggable >());
 	}
 
 	void Canvas::Clean()
@@ -46,25 +47,15 @@ namespace Views
 					s.reset();
 				}
 				break;
-				case Enums::RendererType::GRID:
-				{
-					std::shared_ptr<Renderers::Grid>  g = std::dynamic_pointer_cast<Renderers::Grid>(it[0]);
-					m_components_map.at(Constants::COMPONENT_BASE)->Render(g);
-					g.reset();
-				}
-				break;
-				case Enums::RendererType::SKYBOX:
-				{
-					std::shared_ptr<Renderers::Skybox> sk = std::dynamic_pointer_cast<Renderers::Skybox>(it[0]);
-					m_components_map.at(Constants::COMPONENT_TEXTURED)->Render(sk);
-					sk.reset();
-				}
-				break;
 				case Enums::RendererType::NONE:
 				default:
 					break;
 				}
 
+			}
+			if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
+			{
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
 			}
 		}
 	}

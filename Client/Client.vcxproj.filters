@@ -72,6 +72,9 @@
     <ClCompile Include="Views\GuiComponents\Simple\ConfirmComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\Scene\Draggable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Scene\Draggable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
