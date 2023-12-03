@@ -12,6 +12,7 @@ namespace Constants {
 	int const Major_version = 4;
 	int const Minor_version = 6;
 	int const Return_error = -1;
+	float const EPSILON = 0.000001f;
 }
 
 #endif

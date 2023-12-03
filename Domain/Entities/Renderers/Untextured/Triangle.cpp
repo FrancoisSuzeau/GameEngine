@@ -36,6 +36,21 @@ namespace Renderers {
 		base::Clean();
 	}
 
+	glm::vec3 Triangle::GetVertex1() const
+	{
+		return glm::vec3(m_vertices.at(0), m_vertices.at(1), m_vertices.at(2));
+	}
+
+	glm::vec3 Triangle::GetVertex2() const
+	{
+		return glm::vec3(m_vertices.at(3), m_vertices.at(4), m_vertices.at(5));
+	}
+
+	glm::vec3 Triangle::GetVertex3() const
+	{
+		return glm::vec3(m_vertices.at(6), m_vertices.at(7), m_vertices.at(8));
+	}
+
 	void Triangle::Attach()
 	{
 		/************************************************* VBO management ********************************************************/

@@ -24,7 +24,7 @@ namespace Component
 		std::shared_ptr<Services::MousePickerService> m_mouse_picker_service;
 		std::shared_ptr<Services::StateService> m_state_service;
 
-		bool CalculateIntersection(std::shared_ptr<Renderers::Square> renderer);
+		bool CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer);
 
 	};
 }

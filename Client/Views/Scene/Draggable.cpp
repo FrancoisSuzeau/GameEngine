@@ -41,34 +41,14 @@ namespace Component
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		bool is_intersected = false;
 		if (renderer)
 		{
-			switch (renderer->GetType())
-			{
-			case Enums::RendererType::TRIANGLE:
-			{
-				std::shared_ptr<Renderers::Triangle> t = std::dynamic_pointer_cast<Renderers::Triangle> (renderer);
-				t.reset();
-			}
-			break;
-			case Enums::RendererType::SQUARE:
-			{
-				std::shared_ptr<Renderers::Square> s = std::dynamic_pointer_cast<Renderers::Square> (renderer);
-				is_intersected = CalculateIntersection(s);
-				s.reset();
-			}
-			break;
-			case Enums::RendererType::NONE:
-			default:
-				break;
-			}
-
+			bool is_intersected = CalculateIntersection(renderer);
 			renderer->SetSelected(is_intersected);
 		}
 	}
 
-	bool Draggable::CalculateIntersection(std::shared_ptr<Renderers::Square> renderer)
+	bool Draggable::CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (m_mouse_picker_service && renderer && m_state_service)
 		{
@@ -95,5 +75,7 @@ namespace Component
 
 			return false;
 		}
+
+		return false;
 	}
 }
