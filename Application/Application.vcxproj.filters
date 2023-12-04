@@ -84,7 +84,7 @@
     <ClCompile Include="Commands\ModifyConfigsCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Services\MousePickerService.cpp">
+    <ClCompile Include="Services\MouseInputService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,7 +170,7 @@
     <ClInclude Include="Commands\ModifyConfigsCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Services\MousePickerService.hpp">
+    <ClInclude Include="Services\MouseInputService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

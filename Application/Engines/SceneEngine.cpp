@@ -33,7 +33,7 @@ namespace Engines
 			m_camera_service = container->GetReference<Services::CameraService>();
 			m_shader_service = container->GetReference<Services::ShaderService>();
 			m_state_service = container->GetReference<Services::StateService>();
-			m_mouse_picker_service = container->GetReference<Services::MousePickerService>();
+			m_mouse_picker_service = container->GetReference<Services::MouseInputService>();
 			
 			if (m_shader_service)
 			{

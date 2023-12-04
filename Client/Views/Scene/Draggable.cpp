@@ -12,7 +12,7 @@ namespace Component
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			m_mouse_picker_service = container->GetReference<Services::MousePickerService>();
+			m_mouse_picker_service = container->GetReference<Services::MouseInputService>();
 			m_state_service = container->GetReference<Services::StateService>();
 			
 			if (!m_mouse_picker_service)

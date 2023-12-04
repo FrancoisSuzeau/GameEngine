@@ -30,7 +30,7 @@ namespace Starting
         this->SetServiceBuilder<Services::CameraService>();
         this->SetServiceBuilder<Services::StateService>();
         this->SetServiceBuilder<Services::JsonService>();
-        this->SetServiceBuilder<Services::MousePickerService>();
+        this->SetServiceBuilder<Services::MouseInputService>();
     }
 
     void Application::SetAllEngine()
@@ -53,7 +53,7 @@ namespace Starting
         this->DeleteReference<Services::CameraService>();
         this->DeleteReference<Services::StateService>();
         this->DeleteReference<Services::JsonService>();
-        this->DeleteReference<Services::MousePickerService>();
+        this->DeleteReference<Services::MouseInputService>();
     }
 
     void Application::ShutAllEngine()

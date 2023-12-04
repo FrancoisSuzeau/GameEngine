@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : MousePickerService.hpp
+// File : MouseInputService.hpp
 // Purpose : A service to handle picking object in scene
 /******************************************************************************************************************************************/
-#ifndef MOUSEPICKERSERVVICE_H
-#define MOUSEPICKERSERVVICE_H
+#ifndef MOUSEINPUTSERVICE_H
+#define MOUSEINPUTSERVICE_H
 
 #include "IService.hpp"
 #include "Services.hpp"
@@ -17,7 +17,7 @@
 
 namespace Services {
 
-	class MousePickerService : public IService
+	class MouseInputService : public IService
 	{
 
 	public:

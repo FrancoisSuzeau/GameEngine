@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : MousePickerService.cpp
+// File : MouseInputService.cpp
 // Purpose : Implementing the mouse picker service
 /******************************************************************************************************************************************/
-#include "MousePickerService.hpp"
+#include "MouseInputService.hpp"
 
 namespace Services
 {
-	void MousePickerService::Init()
+	void MouseInputService::Init()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -24,14 +24,14 @@ namespace Services
 		}
 	}
 
-	void MousePickerService::DeInit()
+	void MouseInputService::DeInit()
 	{
 		if (m_state_service)
 		{
 			m_state_service.reset();
 		}
 	}
-	void MousePickerService::Update()
+	void MouseInputService::Update()
 	{
 		if (m_state_service)
 		{
@@ -41,11 +41,11 @@ namespace Services
 		}
 	}
 
-	glm::vec3 MousePickerService::GetCurrentRay() const
+	glm::vec3 MouseInputService::GetCurrentRay() const
 	{
 		return m_current_ray;
 	}
-	glm::vec3 MousePickerService::CalculateMouseRay()
+	glm::vec3 MouseInputService::CalculateMouseRay()
 	{
 		if (m_state_service)
 		{	
@@ -57,7 +57,7 @@ namespace Services
 		}
 		return glm::vec3(0.f);
 	}
-	void MousePickerService::SetNormalizedDeviceCoords()
+	void MouseInputService::SetNormalizedDeviceCoords()
 	{
 		if (m_state_service)
 		{
@@ -70,7 +70,7 @@ namespace Services
 		}
 		
 	}
-	glm::vec4 MousePickerService::ConvertToEyeCoords(glm::vec4 clip_coords)
+	glm::vec4 MouseInputService::ConvertToEyeCoords(glm::vec4 clip_coords)
 	{
 		if (m_state_service)
 		{
@@ -81,7 +81,7 @@ namespace Services
 		}
 		return glm::vec4(0.f);
 	}
-	glm::vec3 MousePickerService::ConvertToWorldCoords(glm::vec4 eye_coords)
+	glm::vec3 MouseInputService::ConvertToWorldCoords(glm::vec4 eye_coords)
 	{
 		glm::mat4 inverted_view_mat = glm::inverse(m_view_mat);
 		glm::vec4 ray_world = inverted_view_mat * eye_coords;
