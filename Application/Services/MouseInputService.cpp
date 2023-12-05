@@ -12,6 +12,7 @@ namespace Services
 		if (container)
 		{
 			m_state_service = container->GetReference<StateService>();
+			m_camera_service = container->GetReference<CameraService>();
 			if (!m_state_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
@@ -19,7 +20,16 @@ namespace Services
 			else
 			{
 				m_proj_mat = m_state_service->GetProjectionMatrix();
-				m_view_mat = m_state_service->GetViewMatrix();
+				
+			}
+
+			if (!m_camera_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				m_view_mat = m_camera_service->GetCameraView();
 			}
 		}
 
@@ -49,9 +59,9 @@ namespace Services
 		default:
 			break;
 		}
-		if (m_state_service)
+		if (m_camera_service)
 		{
-			m_view_mat = m_state_service->GetViewMatrix();
+			m_view_mat = m_view_mat = m_camera_service->GetCameraView();
 			this->SetNormalizedDeviceCoords();
 			m_current_ray = this->CalculateMouseRay();
 		}

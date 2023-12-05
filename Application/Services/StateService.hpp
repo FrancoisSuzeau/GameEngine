@@ -65,15 +65,9 @@ namespace Services {
 		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 
-		glm::mat4 GetViewMatrix() const;
+
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
-
-		float getXMotionDir() const;
-		float getYMotionDir() const;
-
-		glm::vec3 getCameraPos() const;
-
 
 	private:
 
@@ -91,8 +85,6 @@ namespace Services {
 		bool m_show_confirm;
 		bool m_render_line;
 		glm::mat4 m_projection_matrix;
-		glm::mat4 m_view;
-		std::shared_ptr<Services::CameraService> m_camera_services;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;

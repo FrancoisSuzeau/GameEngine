@@ -7,7 +7,7 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f)),
+		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_render_line(false)
 	{
 	}
@@ -28,26 +28,14 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			m_camera_services = container->GetReference<Services::CameraService>();
-			if (!m_camera_services)
-			{
-				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
-				
-			}
-			else
-			{
-				m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
-			}
+			
+			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 		}
 		
 	}
 
 	void StateService::DeInit()
 	{
-		if (m_camera_services)
-		{
-			m_camera_services.reset();
-		}
 
 		this->CleanRenderers();
 		
@@ -207,52 +195,14 @@ namespace Services
 		}
 	}
 	
-	glm::mat4 StateService::GetViewMatrix() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetCameraView();
-		}
-
-		return m_view;
-	}
+	
 	glm::mat4 StateService::GetProjectionMatrix() const
 	{
 		return m_projection_matrix;
 	}
 	void StateService::RefreshProjectionMatrix()
 	{
-		if (m_camera_services)
-		{
-			m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
-		}
-	}
-
-	float StateService::getXMotionDir() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetXMotionDir();
-		}
-		return 0.0f;
-	}
-
-	float StateService::getYMotionDir() const
-	{
-		if (m_camera_services)
-		{
-			m_camera_services->GetYMotionDir();
-		}
-		return 0.0f;
-	}
-
-	glm::vec3 StateService::getCameraPos() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetPos();
-		}
-		return glm::vec3(0.f);
+		m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 	}
 	
 	void StateService::CleanRenderers()

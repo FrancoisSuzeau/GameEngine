@@ -14,6 +14,7 @@ namespace Component
 		{
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_state_service = container->GetReference<Services::StateService>();
+			m_camera_service = container->GetReference < Services::CameraService>();
 			
 			if (!m_mouse_input_service)
 			{
@@ -23,6 +24,11 @@ namespace Component
 			if (!m_state_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (!m_camera_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 	}
@@ -38,6 +44,11 @@ namespace Component
 		{
 			m_state_service.reset();
 		}
+
+		if (m_camera_service)
+		{
+			m_camera_service.reset();
+		}
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
@@ -50,11 +61,11 @@ namespace Component
 
 	bool Draggable::CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		if (m_mouse_input_service && renderer && m_state_service)
+		if (m_mouse_input_service && renderer && m_state_service && m_camera_service)
 		{
 			float half_width = renderer->GetSize().x / 2.f;
 			float half_height = renderer->GetSize().y / 2.f;
-			glm::vec3 ray_origin = m_state_service->getCameraPos();
+			glm::vec3 ray_origin = m_camera_service->GetPos();
 			glm::vec3 quad_pos = renderer->GetPosition();
 			glm::vec3 normal(0.0f, 0.0f, 1.0f);
 			glm::vec3 to_quad = quad_pos - ray_origin;

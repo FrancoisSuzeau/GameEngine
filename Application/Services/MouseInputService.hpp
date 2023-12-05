@@ -40,6 +40,7 @@ namespace Services {
 		glm::vec3 ConvertToWorldCoords(glm::vec4 eye_coords);
 
 		std::shared_ptr<StateService> m_state_service;
+		std::shared_ptr<CameraService> m_camera_service;
 	};
 }
 
