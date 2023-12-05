@@ -36,7 +36,7 @@ namespace Engines
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		std::shared_ptr<Services::StateService> m_state_service;
-		std::shared_ptr<Services::MouseInputService> m_mouse_picker_service;
+		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		unsigned int m_skybox_texture;
 		
 	};

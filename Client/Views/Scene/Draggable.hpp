@@ -21,7 +21,7 @@ namespace Component
 		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
 
 	private:
-		std::shared_ptr<Services::MouseInputService> m_mouse_picker_service;
+		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::StateService> m_state_service;
 
 		bool CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer);

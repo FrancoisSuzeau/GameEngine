@@ -12,10 +12,10 @@ namespace Component
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
-			m_mouse_picker_service = container->GetReference<Services::MouseInputService>();
+			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_state_service = container->GetReference<Services::StateService>();
 			
-			if (!m_mouse_picker_service)
+			if (!m_mouse_input_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Mouse picker service is not referenced yet", __FILE__, __FUNCTION__);
 			}
@@ -29,9 +29,9 @@ namespace Component
 
 	void Draggable::Clean()
 	{
-		if (m_mouse_picker_service)
+		if (m_mouse_input_service)
 		{
-			m_mouse_picker_service.reset();
+			m_mouse_input_service.reset();
 		}
 
 		if (m_state_service)
@@ -50,7 +50,7 @@ namespace Component
 
 	bool Draggable::CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		if (m_mouse_picker_service && renderer && m_state_service)
+		if (m_mouse_input_service && renderer && m_state_service)
 		{
 			float half_width = renderer->GetSize().x / 2.f;
 			float half_height = renderer->GetSize().y / 2.f;
@@ -59,14 +59,14 @@ namespace Component
 			glm::vec3 normal(0.0f, 0.0f, 1.0f);
 			glm::vec3 to_quad = quad_pos - ray_origin;
 
-			float distance_to_plane = glm::dot(to_quad, normal) / glm::dot(m_mouse_picker_service->GetCurrentRay(), normal);
+			float distance_to_plane = glm::dot(to_quad, normal) / glm::dot(m_mouse_input_service->GetCurrentRay(), normal);
 
 			if (distance_to_plane < 0.f)
 			{
 				return false;
 			}
 
-			glm::vec3 intersection_point = ray_origin + distance_to_plane * m_mouse_picker_service->GetCurrentRay();
+			glm::vec3 intersection_point = ray_origin + distance_to_plane * m_mouse_input_service->GetCurrentRay();
 
 			if (glm::abs(intersection_point.x - quad_pos.x) <= half_width && glm::abs(intersection_point.y - quad_pos.y) <= half_height)
 			{

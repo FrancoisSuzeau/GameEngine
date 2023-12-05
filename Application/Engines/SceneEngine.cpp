@@ -20,9 +20,9 @@ namespace Engines
 		{
 			m_state_service.reset();
 		}
-		if (m_mouse_picker_service)
+		if (m_mouse_input_service)
 		{
-			m_mouse_picker_service.reset();
+			m_mouse_input_service.reset();
 		}
 	}
 	void SceneEngine::Construct()
@@ -33,7 +33,7 @@ namespace Engines
 			m_camera_service = container->GetReference<Services::CameraService>();
 			m_shader_service = container->GetReference<Services::ShaderService>();
 			m_state_service = container->GetReference<Services::StateService>();
-			m_mouse_picker_service = container->GetReference<Services::MouseInputService>();
+			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			
 			if (m_shader_service)
 			{
@@ -68,7 +68,7 @@ namespace Engines
 				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (!m_mouse_picker_service)
+			if (!m_mouse_input_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Mouse Picker service is not referenced yet", __FILE__, __FUNCTION__);
 			}
@@ -160,9 +160,9 @@ namespace Engines
 			m_camera_service->OrienteCamera();
 			m_camera_service->MoveCamera();
 		}
-		if (m_mouse_picker_service)
+		if (m_mouse_input_service)
 		{
-			m_mouse_picker_service->Update(event);
+			m_mouse_input_service->Update(event);
 		}
 	}
 
