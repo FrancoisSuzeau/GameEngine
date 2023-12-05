@@ -19,8 +19,7 @@ namespace Services
 
 		m_x_motion_dir = 0.f;
 		m_y_motion_dir = 0.f;
-        m_x_pos = 0;
-        m_y_pos = 0;
+        
 
         m_yaw = -90.f;
         m_pitch = 0.f;
@@ -55,9 +54,6 @@ namespace Services
         case SDL_MOUSEMOTION:
             m_x_motion_dir = (float)event.motion.xrel;
             m_y_motion_dir = (float)event.motion.yrel;
-
-            m_x_pos = event.motion.x;
-            m_y_pos = event.motion.y;
             break;
         case SDL_MOUSEWHEEL:
             if (event.wheel.y > 0) { this->ChangeHigh(-1.f); }
@@ -91,14 +87,7 @@ namespace Services
     {
         return m_y_motion_dir;
     }
-    int CameraService::GetXPos() const
-    {
-        return m_x_pos;
-    }
-    int CameraService::GetYPos() const
-    {
-        return m_y_pos;
-    }
+
     bool CameraService::GetOnClick(Uint8 const button_state)
     {
         return m_mouse_button[button_state];

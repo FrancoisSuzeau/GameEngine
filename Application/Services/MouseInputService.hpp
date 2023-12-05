@@ -23,7 +23,7 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void Update();
+		void Update(SDL_Event event);
 		glm::vec3 GetCurrentRay() const;
 
 	private:
@@ -31,6 +31,8 @@ namespace Services {
 		glm::mat4 m_proj_mat;
 		glm::mat4 m_view_mat;
 		glm::vec3 m_mouse_normalized_pos;
+		int m_x_pos;
+		int m_y_pos;
 
 		glm::vec3 CalculateMouseRay();
 		void SetNormalizedDeviceCoords();

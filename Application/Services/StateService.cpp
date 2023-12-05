@@ -246,24 +246,6 @@ namespace Services
 		return 0.0f;
 	}
 
-	int StateService::getXPos() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetXPos();
-		}
-		return 0;
-	}
-
-	int StateService::getYPos() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetYPos();
-		}
-		return 0;
-	}
-
 	glm::vec3 StateService::getCameraPos() const
 	{
 		if (m_camera_services)

@@ -162,7 +162,7 @@ namespace Engines
 		}
 		if (m_mouse_picker_service)
 		{
-			m_mouse_picker_service->Update();
+			m_mouse_picker_service->Update(event);
 		}
 	}
 

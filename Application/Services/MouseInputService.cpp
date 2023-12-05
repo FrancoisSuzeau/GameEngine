@@ -22,6 +22,9 @@ namespace Services
 				m_view_mat = m_state_service->GetViewMatrix();
 			}
 		}
+
+		m_x_pos = 0;
+		m_y_pos = 0;
 	}
 
 	void MouseInputService::DeInit()
@@ -31,8 +34,21 @@ namespace Services
 			m_state_service.reset();
 		}
 	}
-	void MouseInputService::Update()
+	void MouseInputService::Update(SDL_Event event)
 	{
+		switch (event.type)
+		{
+
+		case SDL_MOUSEMOTION:
+
+
+			m_x_pos = event.motion.x;
+			m_y_pos = event.motion.y;
+			break;
+
+		default:
+			break;
+		}
 		if (m_state_service)
 		{
 			m_view_mat = m_state_service->GetViewMatrix();
@@ -48,7 +64,7 @@ namespace Services
 	glm::vec3 MouseInputService::CalculateMouseRay()
 	{
 		if (m_state_service)
-		{	
+		{
 			glm::vec4 clip_coords = glm::vec4(m_mouse_normalized_pos.x, m_mouse_normalized_pos.y, -1.f, 1.f);
 			glm::vec4 eye_coords = this->ConvertToEyeCoords(clip_coords);
 			glm::vec3 world_ray = this->ConvertToWorldCoords(eye_coords);
@@ -61,14 +77,14 @@ namespace Services
 	{
 		if (m_state_service)
 		{
-			float mouse_x = (float)m_state_service->getXPos();
-			float mouse_y = (float)m_state_service->getYPos();
+			float mouse_x = (float)m_x_pos;
+			float mouse_y = (float)m_y_pos;
 
 			float x = (2.f * mouse_x) / m_state_service->getWidth() - 1.f;
 			float y = (2.f * mouse_y) / m_state_service->getHeight() - 1.f;
 			m_mouse_normalized_pos = glm::vec3(x, -y, 0.f);
 		}
-		
+
 	}
 	glm::vec4 MouseInputService::ConvertToEyeCoords(glm::vec4 clip_coords)
 	{

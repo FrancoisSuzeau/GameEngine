@@ -28,8 +28,7 @@ namespace Services {
 		glm::mat4 GetCameraView() const;
 		float GetXMotionDir() const;
 		float GetYMotionDir() const;
-		int GetXPos() const;
-		int GetYPos() const;
+
 		bool GetOnClick(Uint8 const button_state);
 
 		glm::vec3 GetPos() const;
@@ -45,8 +44,6 @@ namespace Services {
 
 		float m_x_motion_dir;
 		float m_y_motion_dir;
-		int m_x_pos;
-		int m_y_pos;
 		float m_yaw;
 		float m_pitch;
 		float m_camera_speed;

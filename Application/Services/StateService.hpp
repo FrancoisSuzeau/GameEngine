@@ -72,8 +72,6 @@ namespace Services {
 		float getXMotionDir() const;
 		float getYMotionDir() const;
 
-		int getXPos() const;
-		int getYPos() const;
 		glm::vec3 getCameraPos() const;
 
 
