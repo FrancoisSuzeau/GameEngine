@@ -9,18 +9,12 @@ namespace Services
 	void CameraService::Init()
 	{
 		m_camera_pos = glm::vec3(0.f, 0.f, 3.f);
-		for (int i = 0; i < 8; i++)
-		{
-			m_mouse_button[i] = false;
-		}
+		
 
         m_camera_up = glm::vec3(0.f, 1.f, 0.f);
         m_camera_target = glm::vec3(0.f, 0.f, -1.f);
-
-		m_x_motion_dir = 0.f;
-		m_y_motion_dir = 0.f;
         
-
+        m_mouse_motions_dir = glm::vec2(0.f);
         m_yaw = -90.f;
         m_pitch = 0.f;
 
@@ -33,35 +27,12 @@ namespace Services
 		
 	}
 
-	void CameraService::UpdateEvent(SDL_Event event)
+	void CameraService::Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8])
 	{
-        m_x_motion_dir = 0.f;
-        m_y_motion_dir = 0.f;
-
-        switch (event.type)
+        m_mouse_motions_dir = mouse_motions_dir;
+        for (int i = 0; i < 8; i++)
         {
-            ////click on the mouse
-        case SDL_MOUSEBUTTONDOWN:
-            m_mouse_button[event.button.button] = true;
-
-            break;
-
-        case SDL_MOUSEBUTTONUP:
-            m_mouse_button[event.button.button] = false;
-            break;
-
-            //mouse is moving
-        case SDL_MOUSEMOTION:
-            m_x_motion_dir = (float)event.motion.xrel;
-            m_y_motion_dir = (float)event.motion.yrel;
-            break;
-        case SDL_MOUSEWHEEL:
-            if (event.wheel.y > 0) { this->ChangeHigh(-1.f); }
-            if (event.wheel.y < 0) { this->ChangeHigh(1.f); }
-            break;
-
-        default:
-            break;
+            m_mouse_button[i] = mouse_button[i];
         }
 	}
     void CameraService::OrienteCamera()
@@ -79,19 +50,7 @@ namespace Services
     {
         return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
     }
-    float CameraService::GetXMotionDir() const
-    {
-        return m_x_motion_dir;
-    }
-    float CameraService::GetYMotionDir() const
-    {
-        return m_y_motion_dir;
-    }
 
-    bool CameraService::GetOnClick(Uint8 const button_state)
-    {
-        return m_mouse_button[button_state];
-    }
     glm::vec3 CameraService::GetPos() const
     {
         return m_camera_pos;
@@ -105,11 +64,11 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_LEFT])
         {
-            m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_x_motion_dir;
-            m_camera_pos += m_camera_target * m_y_motion_dir * m_camera_speed;
+            m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_mouse_motions_dir.x;
+            m_camera_pos += m_camera_target * m_mouse_motions_dir.y * m_camera_speed;
         }
     }
-    void CameraService::ChangeHigh(float offset)
+    void CameraService::ChangeHigh(float const offset)
     {
         m_camera_pos.y += offset * m_camera_speed * 20.f;
     }
@@ -117,7 +76,7 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_pitch += m_y_motion_dir * m_camera_speed * 10.f;
+            m_pitch += m_mouse_motions_dir.y * m_camera_speed * 10.f;
             if (m_pitch > 89.0f)
             {
                 m_pitch = 89.0f;
@@ -133,7 +92,7 @@ namespace Services
     {
         if (m_mouse_button[SDL_BUTTON_RIGHT])
         {
-            m_yaw += m_x_motion_dir * m_camera_speed * 10.f;
+            m_yaw += m_mouse_motions_dir.x * m_camera_speed * 10.f;
         }
     }
 

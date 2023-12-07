@@ -20,7 +20,7 @@ namespace Services
 			else
 			{
 				m_proj_mat = m_state_service->GetProjectionMatrix();
-				
+
 			}
 
 			if (!m_camera_service)
@@ -35,6 +35,14 @@ namespace Services
 
 		m_x_pos = 0;
 		m_y_pos = 0;
+
+		m_x_motion_dir = 0.f;
+		m_y_motion_dir = 0.f;
+
+		for (int i = 0; i < 8; i++)
+		{
+			m_mouse_button[i] = false;
+		}
 	}
 
 	void MouseInputService::DeInit()
@@ -46,21 +54,40 @@ namespace Services
 	}
 	void MouseInputService::Update(SDL_Event event)
 	{
-		switch (event.type)
-		{
+		m_x_motion_dir = 0.f;
+		m_y_motion_dir = 0.f;
 
-		case SDL_MOUSEMOTION:
-
-
-			m_x_pos = event.motion.x;
-			m_y_pos = event.motion.y;
-			break;
-
-		default:
-			break;
-		}
 		if (m_camera_service)
 		{
+			switch (event.type)
+			{
+				//click on the mouse
+				case SDL_MOUSEBUTTONDOWN:
+					m_mouse_button[event.button.button] = true;
+
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					m_mouse_button[event.button.button] = false;
+					break;
+
+				//mouse is moving
+				case SDL_MOUSEMOTION:
+					m_x_motion_dir = (float)event.motion.xrel;
+					m_y_motion_dir = (float)event.motion.yrel;
+
+					m_x_pos = event.motion.x;
+					m_y_pos = event.motion.y;
+					break;
+				case SDL_MOUSEWHEEL:
+					if (event.wheel.y > 0) { m_camera_service->ChangeHigh(-1.f); }
+					if (event.wheel.y < 0) { m_camera_service->ChangeHigh(1.f); }
+					break;
+
+				default:
+					break;
+			}
+			m_camera_service->Update(glm::vec2(m_x_motion_dir, m_y_motion_dir), m_mouse_button);
 			m_view_mat = m_view_mat = m_camera_service->GetCameraView();
 			this->SetNormalizedDeviceCoords();
 			m_current_ray = this->CalculateMouseRay();

@@ -154,16 +154,16 @@ namespace Engines
 
 	void SceneEngine::UpdateAll(SDL_Event event)
 	{
-		if (m_camera_service)
-		{
-			m_camera_service->UpdateEvent(event);
-			m_camera_service->OrienteCamera();
-			m_camera_service->MoveCamera();
-		}
 		if (m_mouse_input_service)
 		{
 			m_mouse_input_service->Update(event);
 		}
+		if (m_camera_service)
+		{
+			m_camera_service->OrienteCamera();
+			m_camera_service->MoveCamera();
+		}
+		
 	}
 
 	void SceneEngine::InitFrame()

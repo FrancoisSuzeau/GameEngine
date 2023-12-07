@@ -33,6 +33,9 @@ namespace Services {
 		glm::vec3 m_mouse_normalized_pos;
 		int m_x_pos;
 		int m_y_pos;
+		float m_x_motion_dir;
+		float m_y_motion_dir;
+		bool m_mouse_button[8];
 
 		glm::vec3 CalculateMouseRay();
 		void SetNormalizedDeviceCoords();
