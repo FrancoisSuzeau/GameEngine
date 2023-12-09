@@ -25,6 +25,8 @@ namespace Services {
 		void DeInit() override;
 		void Update(SDL_Event event);
 		glm::vec3 GetCurrentRay() const;
+		bool* GetMouseButton();
+		glm::vec2 GetMotionDir() const;
 
 	private:
 		glm::vec3 m_current_ray;

@@ -87,7 +87,7 @@ namespace Services
 				default:
 					break;
 			}
-			m_camera_service->Update(glm::vec2(m_x_motion_dir, m_y_motion_dir), m_mouse_button);
+			
 			m_view_mat = m_view_mat = m_camera_service->GetCameraView();
 			this->SetNormalizedDeviceCoords();
 			m_current_ray = this->CalculateMouseRay();
@@ -97,6 +97,14 @@ namespace Services
 	glm::vec3 MouseInputService::GetCurrentRay() const
 	{
 		return m_current_ray;
+	}
+	bool* MouseInputService::GetMouseButton()
+	{
+		return m_mouse_button;
+	}
+	glm::vec2 MouseInputService::GetMotionDir() const
+	{
+		return glm::vec2(m_x_motion_dir, m_y_motion_dir);
 	}
 	glm::vec3 MouseInputService::CalculateMouseRay()
 	{
