@@ -1,6 +1,6 @@
 /******************************************************************************************************************************************/
 // File : MouseInputService.cpp
-// Purpose : Implementing the mouse picker service
+// Purpose : Implementing the mouse input service
 /******************************************************************************************************************************************/
 #include "MouseInputService.hpp"
 
@@ -50,6 +50,11 @@ namespace Services
 		if (m_state_service)
 		{
 			m_state_service.reset();
+		}
+
+		if (m_camera_service)
+		{
+			m_camera_service.reset();
 		}
 	}
 	void MouseInputService::Update(SDL_Event event)

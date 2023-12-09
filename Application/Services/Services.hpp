@@ -14,5 +14,6 @@
 #include "CameraService.hpp"
 #include "JsonService.hpp"
 #include "MouseInputService.hpp"
+#include "KeyboardInputService.hpp"
 
 #endif

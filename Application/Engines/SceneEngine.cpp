@@ -24,6 +24,10 @@ namespace Engines
 		{
 			m_mouse_input_service.reset();
 		}
+		if (m_keyboad_input_service)
+		{
+			m_keyboad_input_service.reset();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -34,6 +38,7 @@ namespace Engines
 			m_shader_service = container->GetReference<Services::ShaderService>();
 			m_state_service = container->GetReference<Services::StateService>();
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
+			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
 			
 			if (m_shader_service)
 			{
@@ -70,7 +75,12 @@ namespace Engines
 
 			if (!m_mouse_input_service)
 			{
-				SQ_APP_ERROR("Class {} in function {} : Mouse Picker service is not referenced yet", __FILE__, __FUNCTION__);
+				SQ_APP_ERROR("Class {} in function {} : Mouse input service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (!m_keyboad_input_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Keyboard input service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 		
@@ -154,10 +164,11 @@ namespace Engines
 
 	void SceneEngine::UpdateAll(SDL_Event event)
 	{
-		if (m_mouse_input_service && m_camera_service)
+		if (m_mouse_input_service && m_camera_service && m_keyboad_input_service)
 		{
 			m_mouse_input_service->Update(event);
-			m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton());
+			m_keyboad_input_service->Update(event);
+			m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton(), m_keyboad_input_service->GetKeys());
 			m_camera_service->OrienteCamera();
 			m_camera_service->MoveCamera();
 		}

@@ -1,6 +1,6 @@
 /******************************************************************************************************************************************/
 // File : MouseInputService.hpp
-// Purpose : A service to handle picking object in scene
+// Purpose : A service to handle mouse input
 /******************************************************************************************************************************************/
 #ifndef MOUSEINPUTSERVICE_H
 #define MOUSEINPUTSERVICE_H

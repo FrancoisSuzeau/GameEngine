@@ -31,6 +31,7 @@ namespace Starting
         this->SetServiceBuilder<Services::StateService>();
         this->SetServiceBuilder<Services::JsonService>();
         this->SetServiceBuilder<Services::MouseInputService>();
+        this->SetServiceBuilder<Services::KeyboardInputService>();
     }
 
     void Application::SetAllEngine()
@@ -54,6 +55,7 @@ namespace Starting
         this->DeleteReference<Services::StateService>();
         this->DeleteReference<Services::JsonService>();
         this->DeleteReference<Services::MouseInputService>();
+        this->DeleteReference<Services::KeyboardInputService>();
     }
 
     void Application::ShutAllEngine()
