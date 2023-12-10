@@ -18,7 +18,7 @@ namespace Component
 		{
 			if (renderer && shader_service)
 			{
-				if (state_service->getRenderLine() && renderer->GetSelected())
+				if (state_service->getRenderLine() && (renderer->GetHovered() || renderer->GetSelected()))
 				{
 					shader_service->setVec3(shader_name, "background_color", glm::vec3(1.f));
 				}

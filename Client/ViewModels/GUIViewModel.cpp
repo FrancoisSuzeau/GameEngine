@@ -36,7 +36,7 @@ namespace ViewModels
 		}
 	}
 
-	void GuiViewModel::RenderViews(Enums::ComponentType component_type)
+	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)
 	{
 		switch (component_type)
 		{

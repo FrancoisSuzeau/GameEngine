@@ -22,7 +22,8 @@ namespace ViewModels
 		~SceneViewModel() override;
 		void Construct() override;
 		
-		void RenderViews(Enums::ComponentType cpt_type) override;
+		void RenderComponents(Enums::ComponentType cpt_type) override;
+		void ManageComponents() override;
 		void RenderFrameBuffer(unsigned int fb_texture_id) override;
 		void RenderSkybox(unsigned int skybox_texture_id) override;
 		void RenderGrid() override;

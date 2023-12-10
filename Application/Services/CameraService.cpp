@@ -27,17 +27,12 @@ namespace Services
 		
 	}
 
-	void CameraService::Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8], bool const keys[SDL_NUM_SCANCODES])
+	void CameraService::Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8])
 	{
         m_mouse_motions_dir = mouse_motions_dir;
         for (int i = 0; i < 8; i++)
         {
             m_mouse_button[i] = mouse_button[i];
-        }
-
-        for (int i(0); i < SDL_NUM_SCANCODES; i++)
-        {
-            m_keys[i] = keys[i];
         }
 	}
     void CameraService::OrienteCamera()
@@ -67,7 +62,7 @@ namespace Services
    
     void CameraService::MoveCamera()
     {
-        if (m_mouse_button[SDL_BUTTON_LEFT] && m_keys[SDL_SCANCODE_LCTRL])
+        if (m_mouse_button[SDL_BUTTON_MIDDLE])
         {
             m_camera_pos -= glm::normalize(glm::cross(m_camera_target, m_camera_up)) * m_camera_speed * m_mouse_motions_dir.x;
             m_camera_pos += m_camera_target * m_mouse_motions_dir.y * m_camera_speed;

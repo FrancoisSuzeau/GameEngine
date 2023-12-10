@@ -24,7 +24,9 @@ namespace Renderers {
 		m_position = glm::vec3(-10.f, -1.f, -10.f);
 		m_size = glm::vec3(20.f);
 
+		m_hovered = false;
 		m_selected = false;
+
 	}
 
 	Grid::~Grid()

@@ -58,6 +58,8 @@ namespace Services {
 		void setRenderLine(bool const new_val);
 		bool getRenderLine() const;
 		std::string getConfirmMessage() const;
+		void setMouseClicked(bool const new_val);
+		bool getMouseClicked() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
@@ -84,6 +86,7 @@ namespace Services {
 		bool m_show_save_as;
 		bool m_show_confirm;
 		bool m_render_line;
+		bool m_mouse_clicked;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;

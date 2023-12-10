@@ -109,7 +109,7 @@ namespace Engines
 				{
 					m_state_service->setRenderLine(false);
 				}
-				view_model->RenderViews(Enums::ComponentType::CANVAS);
+				view_model->RenderComponents(Enums::ComponentType::CANVAS);
 
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 				glLineWidth(4.f);
@@ -117,9 +117,18 @@ namespace Engines
 				{
 					m_state_service->setRenderLine(true);
 				}
-				view_model->RenderViews(Enums::ComponentType::CANVAS);
+				view_model->RenderComponents(Enums::ComponentType::CANVAS);
 				
 			}
+		}
+	}
+
+	void SceneEngine::RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+		if (view_model)
+		{
+			view_model->ManageComponents();
 		}
 	}
 
@@ -168,7 +177,7 @@ namespace Engines
 		{
 			m_mouse_input_service->Update(event);
 			m_keyboad_input_service->Update(event);
-			m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton(), m_keyboad_input_service->GetKeys());
+			m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton());
 			m_camera_service->OrienteCamera();
 			m_camera_service->MoveCamera();
 		}

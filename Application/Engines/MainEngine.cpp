@@ -121,6 +121,7 @@ namespace Engines
 
 				//m_framebuffer_service->BindFramebuffer();
 
+				m_scene_engine->RefreshScene(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				//m_framebuffer_service->UnbindFramebuffer();

@@ -15,6 +15,7 @@ namespace Component
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_state_service = container->GetReference<Services::StateService>();
 			m_camera_service = container->GetReference < Services::CameraService>();
+			m_keyboard_input_service = container->GetReference<Services::KeyboardInputService>();
 			
 			if (!m_mouse_input_service)
 			{
@@ -29,6 +30,11 @@ namespace Component
 			if (!m_camera_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (!m_keyboard_input_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Keyboard input service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 	}
@@ -49,13 +55,47 @@ namespace Component
 		{
 			m_camera_service.reset();
 		}
+
+		if (m_keyboard_input_service)
+		{
+			m_keyboard_input_service.reset();
+		}
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
+	{
+		this->CalculateIsComponentSelected(renderer);
+	}
+
+	void Draggable::OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
-			renderer->SetSelected(is_intersected);
+			renderer->SetHovered(is_intersected);
+		}
+	}
+
+	void Draggable::OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		if (m_mouse_input_service && m_keyboard_input_service)
+		{
+			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && !m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
+			{
+				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+				{
+					if (it[0])
+					{
+						it[0]->SetSelected(false);
+					}
+				}
+
+				m_state_service->setMouseClicked(true);
+			}
+
+			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] == false)
+			{
+				m_state_service->setMouseClicked(false);
+			}
 		}
 	}
 
@@ -88,5 +128,23 @@ namespace Component
 		}
 
 		return false;
+	}
+	void Draggable::CalculateIsComponentSelected(std::shared_ptr<Renderers::IRenderer> renderer)
+	{
+		if (renderer && m_mouse_input_service && m_state_service && m_keyboard_input_service)
+		{
+			if (renderer->GetHovered() && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL] && !m_state_service->getMouseClicked())
+			{
+				bool selected_status = renderer->GetSelected();
+				renderer->SetSelected(!selected_status);
+				m_state_service->setMouseClicked(true);
+
+			}
+
+			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] == false)
+			{
+				m_state_service->setMouseClicked(false);
+			}
+		}
 	}
 }

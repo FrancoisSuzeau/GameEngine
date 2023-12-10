@@ -23,7 +23,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 
-		void Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8], bool const keys[SDL_NUM_SCANCODES]);
+		void Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8]);
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
 
@@ -38,7 +38,7 @@ namespace Services {
 		glm::vec3 m_camera_target;
 		glm::vec3 m_camera_up;
 		bool m_mouse_button[8];
-		bool m_keys[SDL_NUM_SCANCODES];
+		
 
 		
 		float m_yaw;

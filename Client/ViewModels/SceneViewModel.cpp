@@ -89,12 +89,20 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderViews(Enums::ComponentType cpt_type)
+	void SceneViewModel::RenderComponents(Enums::ComponentType cpt_type)
 	{
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
 			m_canvas->Render(renderers);
+		}
+	}
+	void SceneViewModel::ManageComponents()
+	{
+		if (m_state_service)
+		{
+			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			m_canvas->TransformRenderers(renderers);
 		}
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)

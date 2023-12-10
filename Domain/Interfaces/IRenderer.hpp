@@ -88,9 +88,19 @@ namespace Renderers {
 			m_size = new_val;
 		}
 
+		virtual void SetHovered(bool const new_val)
+		{
+			m_hovered = new_val;
+		}
+
 		virtual void SetSelected(bool const new_val)
 		{
 			m_selected = new_val;
+		}
+
+		virtual bool GetHovered() const
+		{
+			return m_hovered;
 		}
 
 		virtual bool GetSelected() const
@@ -110,6 +120,7 @@ namespace Renderers {
 		glm::vec3 m_back_ground_color;
 		glm::vec3 m_position;
 		glm::vec3 m_size;
+		bool m_hovered;
 		bool m_selected;
 
 	private:

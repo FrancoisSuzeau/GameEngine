@@ -24,6 +24,8 @@ namespace Component {
 		virtual void Render(std::shared_ptr<Renderers::Grid> renderer) {}
 		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer) {}
 		virtual void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
+		virtual void OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer) {}
+		virtual void OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {}
 
 		
 

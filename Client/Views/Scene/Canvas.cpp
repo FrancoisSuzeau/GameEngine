@@ -55,8 +55,25 @@ namespace Views
 			}
 			if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
 			{
-				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnHoverRenderers(it[0]);
 			}
+		}
+	}
+	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
+		{
+			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+			{
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
+				Component::Transformer::ReinitModelMat(it[0]);
+				//this->IncrementAngle(0.1f);
+				Component::Transformer::Move(it[0], it[0]->GetPosition());
+				Component::Transformer::Resize(it[0], it[0]->GetSize());
+				//Component::Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
+			}
+
+			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectedComponents(renderers);
 		}
 	}
 }
