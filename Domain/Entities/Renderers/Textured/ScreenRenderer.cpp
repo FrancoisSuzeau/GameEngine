@@ -17,6 +17,7 @@ namespace Renderers {
 		m_type = Enums::RendererType::SQUARE_TEXTURED;
 		m_hovered = false;
 		m_selected = false;
+		m_angle = 0.f;
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{

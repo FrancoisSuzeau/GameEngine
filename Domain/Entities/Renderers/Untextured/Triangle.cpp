@@ -20,6 +20,7 @@ namespace Renderers {
 		m_size = size;
 		m_hovered = false;
 		m_selected = false;
+		m_angle = 0.f;
 	}
 
 	Triangle::~Triangle()

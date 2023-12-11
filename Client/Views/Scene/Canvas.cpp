@@ -67,10 +67,8 @@ namespace Views
 			{
 				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
 				Component::Transformer::ReinitModelMat(it[0]);
-				//this->IncrementAngle(0.1f);
 				Component::Transformer::Move(it[0], it[0]->GetPosition());
 				Component::Transformer::Resize(it[0], it[0]->GetSize());
-				//Component::Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
 			}
 
 			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectedComponents(renderers);

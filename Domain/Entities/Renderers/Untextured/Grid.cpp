@@ -26,7 +26,7 @@ namespace Renderers {
 
 		m_hovered = false;
 		m_selected = false;
-
+		m_angle = 0.f;
 	}
 
 	Grid::~Grid()

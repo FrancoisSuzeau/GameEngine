@@ -26,9 +26,6 @@ namespace Component
 
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
-
-		void IncrementAngle(float incr);
-		float angle;
 		
 	};
 }

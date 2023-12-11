@@ -108,6 +108,23 @@ namespace Renderers {
 			return m_selected;
 		}
 
+		void IncrementAngle(float const incr)
+		{
+			if (m_angle > 360.f)
+			{
+				m_angle = 0.f;
+			}
+			else
+			{
+				m_angle += incr;
+			}
+		}
+
+		float GetAngle() const
+		{
+			return m_angle;
+		}
+
 	protected:
 		std::vector<GLfloat> m_vertices;
 		unsigned int m_bytes_vertices_size;
@@ -122,6 +139,7 @@ namespace Renderers {
 		glm::vec3 m_size;
 		bool m_hovered;
 		bool m_selected;
+		float m_angle;
 
 	private:
 		virtual void CleanVbo()

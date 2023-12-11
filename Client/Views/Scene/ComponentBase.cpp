@@ -14,14 +14,10 @@ namespace Component
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
-		
-		angle = 0.f;
 	}
 
 	void ComponentBase::Clean()
 	{
-
-
 		if (m_shader_service)
 		{
 			m_shader_service->DeInit();
@@ -72,27 +68,11 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, renderer->GetPosition());
-				Transformer::Resize(renderer, renderer->GetSize());
-				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
-
+				Component::Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
-		}
-	}
-
-	void ComponentBase::IncrementAngle(float incr)
-	{
-		if (angle > 360.f)
-		{
-			angle = 0.f;
-		}
-		else
-		{
-			angle += incr;
 		}
 	}
 }

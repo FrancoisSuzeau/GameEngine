@@ -15,6 +15,7 @@ namespace Renderers {
         m_type = Enums::SKYBOX;
         m_hovered = false;
         m_selected = false;
+        m_angle = 0.f;
 	}
 	Skybox::~Skybox()
 	{

@@ -44,7 +44,7 @@ namespace Component
 		if (renderer)
 		{
 			glm::mat4 model = renderer->GetModelMat();
-			model = glm::translate(model, new_position);
+			model = glm::translate(model, renderer->GetPosition());
 			renderer->SetModelMat(model);
 		}
 	}
@@ -53,7 +53,7 @@ namespace Component
 		if (renderer)
 		{
 			glm::mat4 model = renderer->GetModelMat();
-			model = glm::scale(model, size_vector);
+			model = glm::scale(model, renderer->GetSize());
 			renderer->SetModelMat(model);
 		}
 	}
