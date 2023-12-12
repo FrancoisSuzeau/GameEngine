@@ -39,7 +39,7 @@ namespace Component
 		
 	}
 
-	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_position)
+	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
@@ -48,7 +48,7 @@ namespace Component
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector)
+	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
@@ -57,10 +57,10 @@ namespace Component
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, float angle, glm::vec3 axis)
+	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 axis)
 	{
 		glm::mat4 model = renderer->GetModelMat();
-		model = glm::rotate(model, glm::radians(angle), axis);
+		model = glm::rotate(model, glm::radians(renderer->GetAngle()), axis);
 		renderer->SetModelMat(model);
 	}
 	void Transformer::ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer)

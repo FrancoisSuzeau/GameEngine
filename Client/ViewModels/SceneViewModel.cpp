@@ -111,8 +111,8 @@ namespace ViewModels
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
 			Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
-			Component::Transformer::Resize(m_framebuffer_renderer, glm::vec3(0.9f));
-			Component::Transformer::Move(m_framebuffer_renderer, glm::vec3(-0.1f, 0.f, 0.f));
+			Component::Transformer::Resize(m_framebuffer_renderer);
+			Component::Transformer::Move(m_framebuffer_renderer);
 			m_textured_component->Render(m_framebuffer_renderer);
 		}
 	}
@@ -130,8 +130,8 @@ namespace ViewModels
 		if (m_untextured_component && m_grid_renderer)
 		{
 			Component::Transformer::ReinitModelMat(m_grid_renderer);
-			Component::Transformer::Move(m_grid_renderer, m_grid_renderer->GetPosition());
-			Component::Transformer::Resize(m_grid_renderer, m_grid_renderer->GetSize());
+			Component::Transformer::Move(m_grid_renderer);
+			Component::Transformer::Resize(m_grid_renderer);
 			m_untextured_component->Render(m_grid_renderer);
 		}
 	}

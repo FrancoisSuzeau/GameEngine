@@ -67,8 +67,8 @@ namespace Views
 			{
 				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
 				Component::Transformer::ReinitModelMat(it[0]);
-				Component::Transformer::Move(it[0], it[0]->GetPosition());
-				Component::Transformer::Resize(it[0], it[0]->GetSize());
+				Component::Transformer::Move(it[0]);
+				Component::Transformer::Resize(it[0]);
 			}
 
 			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectedComponents(renderers);

@@ -18,6 +18,8 @@ namespace Renderers {
 		m_hovered = false;
 		m_selected = false;
 		m_angle = 0.f;
+		m_size = glm::vec3(0.9f);
+		m_position = glm::vec3(-0.1f, 0.f, 0.f);
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{
