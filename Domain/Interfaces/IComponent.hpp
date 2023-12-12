@@ -20,9 +20,9 @@ namespace Component {
 		virtual void Clean() = 0;
 		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width) {}
 		virtual void Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width) {}
-		virtual void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) {}
+		virtual void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer, GLenum const mode, float const line_width) {}
 		virtual void Render(std::shared_ptr<Renderers::Grid> renderer) {}
-		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer) {}
+		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width) {}
 		virtual void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
 		virtual void OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer) {}
 		virtual void OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {}

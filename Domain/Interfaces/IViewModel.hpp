@@ -28,8 +28,8 @@ namespace ViewModels {
 		virtual void RenderComponents(Enums::ComponentType view_type) {};
 		virtual void RenderComponents(GLenum const mode, float const line_width) {};
 		virtual void ManageComponents() {};
-		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
-		virtual void RenderSkybox(unsigned int skybox_texture_id) {};
+		virtual void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) {};
+		virtual void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) {};
 		virtual void RenderGrid() {};
 		virtual void AddCommand(Commands::ICommand* command)
 		{

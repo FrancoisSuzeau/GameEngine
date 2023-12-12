@@ -105,7 +105,7 @@ namespace ViewModels
 			m_canvas->TransformRenderers(renderers);
 		}
 	}
-	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
+	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width)
 	{
 		if (m_textured_component && m_framebuffer_renderer)
 		{
@@ -113,15 +113,15 @@ namespace ViewModels
 			Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
 			Component::Transformer::Resize(m_framebuffer_renderer);
 			Component::Transformer::Move(m_framebuffer_renderer);
-			m_textured_component->Render(m_framebuffer_renderer);
+			m_textured_component->Render(m_framebuffer_renderer, mode, line_width);
 		}
 	}
-	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id)
+	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width)
 	{
 		if (m_textured_component && m_skybox_renderer)
 		{
 			m_skybox_renderer->SetTextureID(skybox_texture_id);
-			m_textured_component->Render(m_skybox_renderer);
+			m_textured_component->Render(m_skybox_renderer, mode, line_width);
 		}
 	}
 

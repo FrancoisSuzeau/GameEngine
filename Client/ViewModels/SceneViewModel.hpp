@@ -25,8 +25,8 @@ namespace ViewModels
 		
 		void RenderComponents(GLenum const mode, float const line_width) override;
 		void ManageComponents() override;
-		void RenderFrameBuffer(unsigned int fb_texture_id) override;
-		void RenderSkybox(unsigned int skybox_texture_id) override;
+		void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) override;
+		void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) override;
 		void RenderGrid() override;
 		
 	private:

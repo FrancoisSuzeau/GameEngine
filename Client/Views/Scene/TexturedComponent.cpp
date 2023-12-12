@@ -25,8 +25,10 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr<Renderers::ScreenRenderer> renderer)
+	void TexturedComponent::Render(std::shared_ptr<Renderers::ScreenRenderer> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
@@ -51,8 +53,10 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer)
+	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glDepthFunc(GL_LEQUAL);

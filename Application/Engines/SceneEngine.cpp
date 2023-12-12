@@ -128,13 +128,11 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				glLineWidth(0.f);
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 				if (m_state_service)
 				{
 					m_state_service->setRenderLine(false);
 				}
-				view_model->RenderFrameBuffer(fb_texture_id);
+				view_model->RenderFrameBuffer(fb_texture_id, GL_FILL, 0.f);
 			}
 
 		}
@@ -142,17 +140,17 @@ namespace Engines
 
 	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		if (m_state_service)
-		{
-			m_state_service->setRenderLine(false);
-		}
+		
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderSkybox(m_skybox_texture);
+				if (m_state_service)
+				{
+					m_state_service->setRenderLine(false);
+				}
+				view_model->RenderSkybox(m_skybox_texture, GL_FILL, 0.f);
 			}
 
 		}
