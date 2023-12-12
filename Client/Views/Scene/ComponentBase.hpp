@@ -20,8 +20,8 @@ namespace Component
 	public:
 		ComponentBase();
 		void Clean() override;
-		void Render(std::shared_ptr<Renderers::Triangle> renderer) override;
-		void Render(std::shared_ptr<Renderers::Square> renderer) override;
+		void Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width) override;
+		void Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width) override;
 		void Render(std::shared_ptr<Renderers::Grid> renderer) override;
 
 	private:

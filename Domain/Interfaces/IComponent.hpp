@@ -18,8 +18,8 @@ namespace Component {
 	public:
 		virtual ~IComponent() {}
 		virtual void Clean() = 0;
-		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer) {}
-		virtual void Render(std::shared_ptr<Renderers::Square> renderer) {}
+		virtual void Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width) {}
+		virtual void Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width) {}
 		virtual void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) {}
 		virtual void Render(std::shared_ptr<Renderers::Grid> renderer) {}
 		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer) {}

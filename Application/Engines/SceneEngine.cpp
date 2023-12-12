@@ -88,36 +88,25 @@ namespace Engines
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		if (m_state_service)
-		{
-			m_state_service->setRenderLine(false);
-		}
 		this->RenderSkybox(view_model_builder);
-		glLineWidth(2.f);
 		this->RenderGrid(view_model_builder);
-
 		
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				glLineWidth(0.f);
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 				if (m_state_service)
 				{
 					m_state_service->setRenderLine(false);
 				}
-				view_model->RenderComponents();
+				view_model->RenderComponents(GL_FILL, 0.f);
 
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-				glLineWidth(4.f);
 				if (m_state_service)
 				{
 					m_state_service->setRenderLine(true);
 				}
-				view_model->RenderComponents();
+				view_model->RenderComponents(GL_LINE, 4.f);
 				
 			}
 		}
@@ -153,6 +142,11 @@ namespace Engines
 
 	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		if (m_state_service)
+		{
+			m_state_service->setRenderLine(false);
+		}
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
@@ -166,6 +160,7 @@ namespace Engines
 
 	void SceneEngine::RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
+		glLineWidth(2.f);
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);

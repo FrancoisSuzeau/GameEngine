@@ -25,8 +25,10 @@ namespace Component
 		}
 	}
 
-	void ComponentBase::Render(std::shared_ptr<Renderers::Triangle> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
@@ -42,8 +44,10 @@ namespace Component
 			}
 		}
 	}
-	void ComponentBase::Render(std::shared_ptr<Renderers::Square> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());

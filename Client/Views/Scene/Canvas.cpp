@@ -25,7 +25,7 @@ namespace Views
 		}
 	}
 
-	void Canvas::Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void Canvas::Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers, GLenum const mode, float const line_width)
 	{
 		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
@@ -36,14 +36,14 @@ namespace Views
 				case Enums::RendererType::TRIANGLE:
 				{
 					std::shared_ptr<Renderers::Triangle> t = std::dynamic_pointer_cast<Renderers::Triangle> (it[0]);
-					m_components_map.at(Constants::COMPONENT_BASE)->Render(t);
+					m_components_map.at(Constants::COMPONENT_BASE)->Render(t, mode, line_width);
 					t.reset();
 				}
 				break;
 				case Enums::RendererType::SQUARE:
 				{
 					std::shared_ptr<Renderers::Square> s = std::dynamic_pointer_cast<Renderers::Square> (it[0]);
-					m_components_map.at(Constants::COMPONENT_BASE)->Render(s);
+					m_components_map.at(Constants::COMPONENT_BASE)->Render(s, mode, line_width);
 					s.reset();
 				}
 				break;

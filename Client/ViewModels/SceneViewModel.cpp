@@ -89,12 +89,12 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderComponents()
+	void SceneViewModel::RenderComponents(GLenum const mode, float const line_width)
 	{
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
-			m_canvas->Render(renderers);
+			m_canvas->Render(renderers, mode, line_width);
 		}
 	}
 	void SceneViewModel::ManageComponents()
