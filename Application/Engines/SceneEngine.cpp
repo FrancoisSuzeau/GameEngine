@@ -109,7 +109,7 @@ namespace Engines
 				{
 					m_state_service->setRenderLine(false);
 				}
-				view_model->RenderComponents(Enums::ComponentType::CANVAS);
+				view_model->RenderComponents();
 
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 				glLineWidth(4.f);
@@ -117,7 +117,7 @@ namespace Engines
 				{
 					m_state_service->setRenderLine(true);
 				}
-				view_model->RenderComponents(Enums::ComponentType::CANVAS);
+				view_model->RenderComponents();
 				
 			}
 		}

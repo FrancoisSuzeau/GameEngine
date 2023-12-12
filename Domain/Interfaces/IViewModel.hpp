@@ -25,7 +25,8 @@ namespace ViewModels {
 
 		virtual void Construct() = 0;
 
-		virtual void RenderComponents(Enums::ComponentType view_type) = 0;
+		virtual void RenderComponents(Enums::ComponentType view_type) {};
+		virtual void RenderComponents() {};
 		virtual void ManageComponents() {};
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id) {};

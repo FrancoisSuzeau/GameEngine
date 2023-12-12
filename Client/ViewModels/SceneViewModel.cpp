@@ -89,7 +89,7 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderComponents(Enums::ComponentType cpt_type)
+	void SceneViewModel::RenderComponents()
 	{
 		if (m_state_service)
 		{
