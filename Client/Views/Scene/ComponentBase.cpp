@@ -36,7 +36,6 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
 				glUseProgram(0);
@@ -63,8 +62,10 @@ namespace Component
 		}
 	}
 
-	void ComponentBase::Render(std::shared_ptr<Renderers::Grid> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Grid> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
@@ -72,7 +73,7 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Component::Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);
 				glUseProgram(0);
 				glBindVertexArray(0);

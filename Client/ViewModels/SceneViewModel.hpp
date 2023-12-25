@@ -27,7 +27,7 @@ namespace ViewModels
 		void ManageComponents() override;
 		void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) override;
 		void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) override;
-		void RenderGrid() override;
+		void RenderGrid(GLenum const mode, float const line_width) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;

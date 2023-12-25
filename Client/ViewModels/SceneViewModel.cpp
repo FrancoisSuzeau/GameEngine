@@ -125,14 +125,14 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderGrid()
+	void SceneViewModel::RenderGrid(GLenum const mode, float const line_width)
 	{
 		if (m_untextured_component && m_grid_renderer)
 		{
 			Component::Transformer::ReinitModelMat(m_grid_renderer);
 			Component::Transformer::Move(m_grid_renderer);
 			Component::Transformer::Resize(m_grid_renderer);
-			m_untextured_component->Render(m_grid_renderer);
+			m_untextured_component->Render(m_grid_renderer, mode, line_width);
 		}
 	}
 	

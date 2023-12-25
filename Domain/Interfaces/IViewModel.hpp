@@ -30,7 +30,7 @@ namespace ViewModels {
 		virtual void ManageComponents() {};
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) {};
-		virtual void RenderGrid() {};
+		virtual void RenderGrid(GLenum const mode, float const line_width) {};
 		virtual void AddCommand(Commands::ICommand* command)
 		{
 			if (command)

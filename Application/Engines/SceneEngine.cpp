@@ -96,18 +96,18 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				if (m_state_service)
+				if(m_state_service)
 				{
 					m_state_service->setRenderLine(false);
 				}
 				view_model->RenderComponents(GL_FILL, 0.f);
-
 				if (m_state_service)
 				{
 					m_state_service->setRenderLine(true);
 				}
 				view_model->RenderComponents(GL_LINE, 4.f);
 				
+				view_model.reset();
 			}
 		}
 	}
@@ -118,6 +118,7 @@ namespace Engines
 		if (view_model)
 		{
 			view_model->ManageComponents();
+			view_model.reset();
 		}
 	}
 
@@ -128,11 +129,8 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				if (m_state_service)
-				{
-					m_state_service->setRenderLine(false);
-				}
 				view_model->RenderFrameBuffer(fb_texture_id, GL_FILL, 0.f);
+				view_model.reset();
 			}
 
 		}
@@ -146,11 +144,8 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				if (m_state_service)
-				{
-					m_state_service->setRenderLine(false);
-				}
 				view_model->RenderSkybox(m_skybox_texture, GL_FILL, 0.f);
+				view_model.reset();
 			}
 
 		}
@@ -158,13 +153,13 @@ namespace Engines
 
 	void SceneEngine::RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		glLineWidth(2.f);
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderGrid();
+				view_model->RenderGrid(GL_LINE, 2.f);
+				view_model.reset();
 			}
 		}
 	}

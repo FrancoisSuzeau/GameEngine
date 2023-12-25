@@ -18,21 +18,12 @@ namespace Component
 		{
 			if (renderer && shader_service)
 			{
-				if (state_service->getRenderLine() && (renderer->GetHovered() || renderer->GetSelected()))
-				{
-					shader_service->setVec3(shader_name, "background_color", glm::vec3(1.f));
-				}
-				else
-				{
-					shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
-				}
+				shader_service->setInt(shader_name, "render_line", state_service->getRenderLine() && (renderer->GetHovered() || renderer->GetSelected()));
+				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
 				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
-				if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
-				{
-					shader_service->setTexture(shader_name, "texture0", 0);
-				}
+				shader_service->setTexture(shader_name, "texture0", 0);
 			}
 			state_service.reset();
 		}

@@ -22,7 +22,7 @@ namespace Component
 		void Clean() override;
 		void Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width) override;
 		void Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width) override;
-		void Render(std::shared_ptr<Renderers::Grid> renderer) override;
+		void Render(std::shared_ptr<Renderers::Grid> renderer, GLenum const mode, float const line_width) override;
 
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
