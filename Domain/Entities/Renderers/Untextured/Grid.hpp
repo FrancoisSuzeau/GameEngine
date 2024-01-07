@@ -30,7 +30,7 @@ namespace Renderers {
 
 		std::vector<glm::vec3> m_vec_vertices;
 		std::vector<glm::uvec4> m_vec_indices;
-		unsigned int m_bytes_indices_size;
+		size_t m_bytes_indices_size;
 		GLint m_lenght;
 		int m_slices;
 

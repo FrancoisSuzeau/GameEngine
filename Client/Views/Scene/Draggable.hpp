@@ -29,7 +29,6 @@ namespace Component
 
 		bool CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer);
 		void CalculateIsComponentSelected(std::shared_ptr<Renderers::IRenderer> renderer);
-		bool m_keys[SDL_NUM_SCANCODES];
 
 	};
 }

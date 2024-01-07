@@ -127,7 +127,7 @@ namespace Renderers {
 
 	protected:
 		std::vector<GLfloat> m_vertices;
-		unsigned int m_bytes_vertices_size;
+		size_t m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
 		GLuint m_ebo;

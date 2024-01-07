@@ -16,7 +16,6 @@ namespace Component
 			m_state_service = container->GetReference<Services::StateService>();
 			m_camera_service = container->GetReference < Services::CameraService>();
 			m_keyboard_input_service = container->GetReference<Services::KeyboardInputService>();
-			
 			if (!m_mouse_input_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Mouse picker service is not referenced yet", __FILE__, __FUNCTION__);
