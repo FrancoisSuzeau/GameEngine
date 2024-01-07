@@ -37,7 +37,7 @@ namespace Views
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
-		int selected;
+		int m_selected;
 	};
 }
 

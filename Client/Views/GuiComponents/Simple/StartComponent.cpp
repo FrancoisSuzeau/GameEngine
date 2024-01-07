@@ -14,7 +14,7 @@ namespace Views
 			m_state_service.reset();
 		}
 	}
-	StartComponent::StartComponent() : selected(-1)
+	StartComponent::StartComponent() : m_selected(-1)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -41,20 +41,20 @@ namespace Views
 
 					for (auto it : created_scene)
 					{
-						if (ImGui::Selectable(it.c_str(), n == selected))
+						if (ImGui::Selectable(it.c_str(), n == m_selected))
 						{
-							selected = n;
+							m_selected = n;
 						}
 						n++;
 					}
 
-					if (selected != -1)
+					if (m_selected != -1)
 					{
 						style.FrameRounding = 20.f;
 						ImGui::SetCursorPosY(h - 45.f);
 						if (ImGui::Button("Select", ImVec2((float)(w - 15.f), 30.f)))
 						{
-							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(created_scene[selected]));
+							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(created_scene[m_selected]));
 							m_parent_view_model->AddCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setContinued, m_state_service, true)));
 							m_parent_view_model->OnCommand();
 
