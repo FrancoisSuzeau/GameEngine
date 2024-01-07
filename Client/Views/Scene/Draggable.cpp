@@ -72,8 +72,6 @@ namespace Component
 		{
 			bool is_intersected = CalculateIntersection(renderer);
 			renderer->SetHovered(is_intersected);
-			m_state_service->setRenderLine(true);
-
 		}
 	}
 

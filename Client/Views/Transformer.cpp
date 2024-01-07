@@ -18,7 +18,7 @@ namespace Component
 		{
 			if (renderer && shader_service)
 			{
-				shader_service->setInt(shader_name, "render_line", state_service->getRenderLine() && (renderer->GetHovered() || renderer->GetSelected()));
+				shader_service->setInt(shader_name, "render_line", renderer->GetHovered() || renderer->GetSelected());
 				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
 				PutViewMapIntoShader(shader_service, shader_name);

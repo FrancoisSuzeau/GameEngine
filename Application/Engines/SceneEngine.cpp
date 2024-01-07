@@ -45,6 +45,7 @@ namespace Engines
 				m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
 				m_shader_service->LoadShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
 				m_shader_service->LoadShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
+				m_shader_service->LoadShader(Constants::HOVER_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -98,15 +99,11 @@ namespace Engines
 			{
 				if(m_state_service)
 				{
-					m_state_service->setRenderLine(false);
+					view_model->RenderComponents(GL_FILL, 0.f);
+					view_model->RenderComponents(GL_LINE, 4.f);
+					
 				}
-				view_model->RenderComponents(GL_FILL, 0.f);
-				if (m_state_service)
-				{
-					m_state_service->setRenderLine(true);
-				}
-				view_model->RenderComponents(GL_LINE, 4.f);
-				
+
 				view_model.reset();
 			}
 		}

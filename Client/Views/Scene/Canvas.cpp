@@ -29,6 +29,11 @@ namespace Views
 	{
 		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
+			if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
+			{
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnHoverRenderers(it[0]);
+			}
+
 			if (m_components_map.contains(Constants::COMPONENT_BASE) && m_components_map.at(Constants::COMPONENT_BASE))
 			{
 				switch (it[0]->GetType())
@@ -53,10 +58,7 @@ namespace Views
 				}
 
 			}
-			if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
-			{
-				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnHoverRenderers(it[0]);
-			}
+			
 		}
 	}
 	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)

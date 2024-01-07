@@ -149,16 +149,6 @@ namespace Services
 		m_confirm_message = new_val;
 	}
 
-	void StateService::setRenderLine(bool const new_val)
-	{
-		m_render_line = new_val;
-	}
-
-	bool StateService::getRenderLine() const
-	{
-		return m_render_line;
-	}
-
 	std::string StateService::getConfirmMessage() const
 	{
 		return m_confirm_message;

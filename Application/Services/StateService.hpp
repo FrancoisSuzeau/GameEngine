@@ -55,8 +55,6 @@ namespace Services {
 		bool getShowConfirm() const;
 		void setShowConfirm(bool const new_val);
 		void setConfirmMessage(std::string const new_val);
-		void setRenderLine(bool const new_val);
-		bool getRenderLine() const;
 		std::string getConfirmMessage() const;
 		void setMouseClicked(bool const new_val);
 		bool getMouseClicked() const;
