@@ -25,18 +25,19 @@ namespace Views
 	void SingleRendererContextMenu::Render()
 	{
 
-		/*if (m_state_service)
+		if (m_state_service)
 		{
 			int w_width = 400;
 			int w_height = 120;
-			bool show_context_menu = m_state_service->getShowContextMenu();
+			//bool show_context_menu = m_state_service->getShowContextMenu();
 			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
 			if (selected_renderer)
 			{
 				ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 				ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
-				if (ImGui::Begin(" "))
+				std::string test = std::to_string(selected_renderer->GetType());
+				if (ImGui::Begin(test.c_str()))
 				{
 					ImGuiStyle& style = ImGui::GetStyle();
 					float frame_rounding_save = style.FrameRounding;
@@ -50,11 +51,11 @@ namespace Views
 				selected_renderer.reset();
 			}
 
-			m_state_service->setShowContextMenu(show_context_menu);
+			/*m_state_service->setShowContextMenu(show_context_menu);
 			if (!show_context_menu)
 			{
 				m_state_service->setSelectedRenderer(nullptr);
-			}
-		}*/
+			}*/
+		}
 	}
 }

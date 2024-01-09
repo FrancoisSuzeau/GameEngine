@@ -67,7 +67,8 @@ namespace Services {
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
 		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
-		void setSelectedRenderer(std::shared_ptr<Renderers::IRenderer> const selected_renderer);
+		void setSelectedRenderer();
+		void unSelectRenderer();
 
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();

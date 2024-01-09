@@ -38,6 +38,7 @@ namespace Services
 	{
 
 		this->CleanRenderers();
+		m_selected_renderer = nullptr;
 		
 	}
 
@@ -210,9 +211,23 @@ namespace Services
 		}
 	}
 
-	void StateService::setSelectedRenderer(std::shared_ptr<Renderers::IRenderer> const selected_renderer)
+	void StateService::setSelectedRenderer()
 	{
-		m_selected_renderer = selected_renderer;
+		m_selected_renderer = nullptr;
+		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		if (result != m_renderers.end())
+		{
+			m_selected_renderer = *result;
+		}
+	}
+
+	void StateService::unSelectRenderer()
+	{
+		int result = std::count_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		if (result > 1)
+		{
+			m_selected_renderer = nullptr;
+		}
 	}
 	
 	

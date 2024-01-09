@@ -62,12 +62,13 @@ namespace Component
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		if (renderer && m_mouse_input_service)
+		if (renderer && m_mouse_input_service && m_state_service)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
 			if (is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && !renderer->GetSelected())
 			{
 				renderer->SetSelected(true);
+				m_state_service->setSelectedRenderer();
 			}
 		}
 
@@ -85,27 +86,30 @@ namespace Component
 	void Draggable::OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 
-		if (m_mouse_input_service && renderer && m_keyboard_input_service)
+		if (m_mouse_input_service && renderer && m_keyboard_input_service && m_state_service)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
 			if (!is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && renderer->GetSelected() && !m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
 			{
 				renderer->SetSelected(false);
+				m_state_service->setSelectedRenderer();
 			}
 		}
 	}
 
 	void Draggable::OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
 	{
-		if (m_keyboard_input_service)
+		if (m_keyboard_input_service && m_state_service)
 		{
-			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+			if (m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
 			{
-				if (m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
+				m_state_service->unSelectRenderer();
+				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 				{
 					this->OnSelectRenderer(it[0]);
 				}
 			}
+			
 		}
 	}
 
