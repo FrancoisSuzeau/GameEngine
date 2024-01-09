@@ -102,6 +102,7 @@ namespace ViewModels
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			m_canvas->DragRenderers(renderers);
 			m_canvas->TransformRenderers(renderers);
 		}
 	}

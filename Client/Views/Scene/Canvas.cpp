@@ -67,14 +67,20 @@ namespace Views
 		{
 			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 			{
-				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
-				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectRenderer(it[0]);
 				Component::Transformer::ReinitModelMat(it[0]);
 				Component::Transformer::Move(it[0]);
 				Component::Transformer::Resize(it[0]);
 			}
 
 			
+		}
+	}
+	void Canvas::DragRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		{
+			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
+			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectRenderer(it[0]);
 		}
 	}
 }

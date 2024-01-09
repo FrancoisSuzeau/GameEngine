@@ -22,6 +22,7 @@ namespace Views
 		void Clean() override;
 		void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers, GLenum const mode, float const line_width) override;
 		void TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
+		void DragRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
 		std::map<std::string, std::unique_ptr<Component::IComponent>> m_components_map;
 	};
