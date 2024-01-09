@@ -82,5 +82,7 @@ namespace Views
 			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
 			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectRenderer(it[0]);
 		}
+
+		m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderers(renderers);
 	}
 }

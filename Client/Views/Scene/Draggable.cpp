@@ -62,16 +62,6 @@ namespace Component
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		/*if (renderer && m_state_service)
-		{
-			this->CalculateIsComponentSelected(renderer);
-
-			if (renderer->GetSelected())
-			{
-				m_state_service->setSelectedRenderer(renderer);
-			}
-		}*/
-
 		if (renderer && m_mouse_input_service)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
@@ -95,12 +85,26 @@ namespace Component
 	void Draggable::OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 
-		if (m_mouse_input_service && renderer)
+		if (m_mouse_input_service && renderer && m_keyboard_input_service)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
-			if (!is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && renderer->GetSelected())
+			if (!is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && renderer->GetSelected() && !m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
 			{
 				renderer->SetSelected(false);
+			}
+		}
+	}
+
+	void Draggable::OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	{
+		if (m_keyboard_input_service)
+		{
+			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+			{
+				if (m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
+				{
+					this->OnSelectRenderer(it[0]);
+				}
 			}
 		}
 	}
@@ -134,23 +138,5 @@ namespace Component
 		}
 
 		return false;
-	}
-	void Draggable::CalculateIsComponentSelected(std::shared_ptr<Renderers::IRenderer> renderer)
-	{
-		if (renderer && m_mouse_input_service && m_state_service && m_keyboard_input_service)
-		{
-			if (renderer->GetHovered() && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL] && !m_state_service->getMouseClicked())
-			{
-				bool selected_status = renderer->GetSelected();
-				renderer->SetSelected(!selected_status);
-				m_state_service->setMouseClicked(true);
-
-			}
-
-			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] == false)
-			{
-				m_state_service->setMouseClicked(false);
-			}
-		}
 	}
 }

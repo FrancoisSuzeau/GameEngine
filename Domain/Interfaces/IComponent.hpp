@@ -26,6 +26,7 @@ namespace Component {
 		virtual void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
 		virtual void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
 		virtual void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
+		virtual void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {}
 
 		
 

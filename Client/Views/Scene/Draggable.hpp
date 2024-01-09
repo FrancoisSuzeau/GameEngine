@@ -21,6 +21,7 @@ namespace Component
 		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
 		void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
 		void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
+		void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboard_input_service;
@@ -28,7 +29,6 @@ namespace Component
 		std::shared_ptr<Services::CameraService> m_camera_service;
 
 		bool CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer);
-		void CalculateIsComponentSelected(std::shared_ptr<Renderers::IRenderer> renderer);
 
 	};
 }
