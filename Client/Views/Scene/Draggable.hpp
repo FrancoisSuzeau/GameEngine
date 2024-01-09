@@ -19,8 +19,8 @@ namespace Component
 		Draggable();
 		void Clean() override;
 		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
-		void OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer) override;
-		void OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
+		void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
+		void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
 	private:
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboard_input_service;

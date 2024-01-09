@@ -58,13 +58,16 @@ namespace Services {
 		std::string getConfirmMessage() const;
 		void setMouseClicked(bool const new_val);
 		bool getMouseClicked() const;
+		void setShowContextMenu(bool const new_val);
+		bool getShowContextMenu() const;
+		std::shared_ptr<Renderers::IRenderer> getSelectedRenderer() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
 		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
-
+		void setSelectedRenderer(std::shared_ptr<Renderers::IRenderer> const selected_renderer);
 
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
@@ -83,14 +86,15 @@ namespace Services {
 		bool m_show_event;
 		bool m_show_save_as;
 		bool m_show_confirm;
-		bool m_render_line;
 		bool m_mouse_clicked;
+		bool m_show_context_menu;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
 		std::string  m_confirm_message;
+		std::shared_ptr<Renderers::IRenderer> m_selected_renderer;
 
 	};
 }

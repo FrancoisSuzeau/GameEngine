@@ -33,6 +33,7 @@ namespace ViewModels
 			this->PushSimpleComponent(container->GetReference<Views::SaveAsComponent>(), "Save as");
 			this->PushSimpleComponent(container->GetReference<Views::ConfirmComponent>(), "Confirm");
 			this->PushSimpleComponent(container->GetReference<Views::StartComponent>(), "Start screen");
+			this->PushSimpleComponent(container->GetReference<Views::SingleRendererContextMenu>(), "Context menu");
 		}
 	}
 

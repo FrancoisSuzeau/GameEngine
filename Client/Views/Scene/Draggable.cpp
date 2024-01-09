@@ -62,10 +62,28 @@ namespace Component
 	}
 	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		this->CalculateIsComponentSelected(renderer);
+		/*if (renderer && m_state_service)
+		{
+			this->CalculateIsComponentSelected(renderer);
+
+			if (renderer->GetSelected())
+			{
+				m_state_service->setSelectedRenderer(renderer);
+			}
+		}*/
+
+		if (renderer && m_mouse_input_service)
+		{
+			bool is_intersected = CalculateIntersection(renderer);
+			if (is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && !renderer->GetSelected())
+			{
+				renderer->SetSelected(true);
+			}
+		}
+
 	}
 
-	void Draggable::OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Draggable::OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
@@ -74,26 +92,15 @@ namespace Component
 		}
 	}
 
-	void Draggable::OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void Draggable::OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
-		if (m_mouse_input_service && m_keyboard_input_service)
+
+		if (m_mouse_input_service && renderer)
 		{
-			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && !m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
+			bool is_intersected = CalculateIntersection(renderer);
+			if (!is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && renderer->GetSelected())
 			{
-				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
-				{
-					if (it[0])
-					{
-						it[0]->SetSelected(false);
-					}
-				}
-
-				m_state_service->setMouseClicked(true);
-			}
-
-			if (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] == false)
-			{
-				m_state_service->setMouseClicked(false);
+				renderer->SetSelected(false);
 			}
 		}
 	}

@@ -24,8 +24,8 @@ namespace Component {
 		virtual void Render(std::shared_ptr<Renderers::Grid> renderer, GLenum const mode, float const line_width) {}
 		virtual void Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width) {}
 		virtual void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
-		virtual void OnHoverRenderers(std::shared_ptr<Renderers::IRenderer> renderer) {}
-		virtual void OnUnSelectedComponents(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {}
+		virtual void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
+		virtual void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
 
 		
 

@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_render_line(false), m_mouse_clicked(false)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false)//, m_selected_renderer(nullptr)
 	{
 	}
 
@@ -111,7 +111,7 @@ namespace Services
 
 	bool StateService::getGuiOpen() const
 	{
-		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools;
+		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu;
 	}
 
 	bool StateService::getContinued() const
@@ -164,6 +164,21 @@ namespace Services
 		return m_mouse_clicked;
 	}
 
+	void StateService::setShowContextMenu(bool const new_val)
+	{
+		m_show_context_menu = new_val;
+	}
+
+	bool StateService::getShowContextMenu() const
+	{
+		return m_show_context_menu;
+	}
+
+	std::shared_ptr<Renderers::IRenderer> StateService::getSelectedRenderer() const
+	{
+		return m_selected_renderer;
+	}
+
 	std::string StateService::getFileName() const
 	{
 		return m_current_filename;
@@ -193,6 +208,11 @@ namespace Services
 		{
 			it->Construct();
 		}
+	}
+
+	void StateService::setSelectedRenderer(std::shared_ptr<Renderers::IRenderer> const selected_renderer)
+	{
+		m_selected_renderer = selected_renderer;
 	}
 	
 	

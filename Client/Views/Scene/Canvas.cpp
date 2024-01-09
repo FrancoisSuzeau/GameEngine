@@ -31,7 +31,7 @@ namespace Views
 		{
 			if (m_components_map.contains(Constants::COMPONENT_DRAGGABLE) && m_components_map.at(Constants::COMPONENT_DRAGGABLE))
 			{
-				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnHoverRenderers(it[0]);
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnHoverRenderer(it[0]);
 			}
 
 			if (m_components_map.contains(Constants::COMPONENT_BASE) && m_components_map.at(Constants::COMPONENT_BASE))
@@ -68,12 +68,13 @@ namespace Views
 			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 			{
 				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnSelectRenderer(it[0]);
+				m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectRenderer(it[0]);
 				Component::Transformer::ReinitModelMat(it[0]);
 				Component::Transformer::Move(it[0]);
 				Component::Transformer::Resize(it[0]);
 			}
 
-			m_components_map.at(Constants::COMPONENT_DRAGGABLE)->OnUnSelectedComponents(renderers);
+			
 		}
 	}
 }
