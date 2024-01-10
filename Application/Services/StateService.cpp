@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false)//, m_selected_renderer(nullptr)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr)
 	{
 	}
 
@@ -213,8 +213,9 @@ namespace Services
 
 	void StateService::setSelectedRenderer()
 	{
-		m_selected_renderer = nullptr;
+		this->unSelectRenderer();
 		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		
 		if (result != m_renderers.end())
 		{
 			m_selected_renderer = *result;
@@ -223,11 +224,7 @@ namespace Services
 
 	void StateService::unSelectRenderer()
 	{
-		int result = std::count_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
-		if (result > 1)
-		{
-			m_selected_renderer = nullptr;
-		}
+		m_selected_renderer = nullptr;
 	}
 	
 	

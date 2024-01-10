@@ -14,6 +14,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <vector>
+#include <algorithm>
+
 #include "IService.hpp"
 #include "IRenderer.hpp"
 #include "IEngine.hpp"
@@ -69,9 +72,11 @@ namespace Services {
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 		void setSelectedRenderer();
 		void unSelectRenderer();
+		
 
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
+		
 
 	private:
 

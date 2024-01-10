@@ -29,7 +29,6 @@ namespace Views
 		{
 			int w_width = 400;
 			int w_height = 120;
-			//bool show_context_menu = m_state_service->getShowContextMenu();
 			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
 			if (selected_renderer)
 			{
@@ -50,12 +49,6 @@ namespace Views
 				ImGui::End();
 				selected_renderer.reset();
 			}
-
-			/*m_state_service->setShowContextMenu(show_context_menu);
-			if (!show_context_menu)
-			{
-				m_state_service->setSelectedRenderer(nullptr);
-			}*/
 		}
 	}
 }
