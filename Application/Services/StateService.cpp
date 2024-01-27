@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr), m_popup_hovered(false)
 	{
 	}
 
@@ -112,7 +112,7 @@ namespace Services
 
 	bool StateService::getGuiOpen() const
 	{
-		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu;
+		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu || m_popup_hovered;
 	}
 
 	bool StateService::getContinued() const
@@ -225,6 +225,16 @@ namespace Services
 	void StateService::unSelectRenderer()
 	{
 		m_selected_renderer = nullptr;
+	}
+
+	void StateService::setPopupHovered(bool const new_val)
+	{
+		m_popup_hovered = new_val;
+	}
+
+	bool StateService::getPopupHovered() const
+	{
+		return m_popup_hovered;
 	}
 	
 	

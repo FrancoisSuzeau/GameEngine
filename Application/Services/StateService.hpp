@@ -72,6 +72,8 @@ namespace Services {
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
 		void setSelectedRenderer();
 		void unSelectRenderer();
+		void setPopupHovered(bool const new_val);
+		bool getPopupHovered() const;
 		
 
 		glm::mat4 GetProjectionMatrix() const;
@@ -94,6 +96,7 @@ namespace Services {
 		bool m_show_confirm;
 		bool m_mouse_clicked;
 		bool m_show_context_menu;
+		bool m_popup_hovered;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;

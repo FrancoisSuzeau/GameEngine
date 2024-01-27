@@ -68,7 +68,6 @@ namespace Component
 			if (is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] && !renderer->GetSelected())
 			{
 				renderer->SetSelected(true);
-				//m_state_service->setSelectedRenderer();
 			}
 
 			if (is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_RIGHT])
@@ -95,7 +94,11 @@ namespace Component
 		if (m_mouse_input_service && renderer && m_keyboard_input_service && m_state_service)
 		{
 			bool is_intersected = CalculateIntersection(renderer);
-			if (!is_intersected && (m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] || m_mouse_input_service->GetMouseButton()[SDL_BUTTON_RIGHT]) && renderer->GetSelected() && !m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
+			if (!is_intersected && 
+				(m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT] || m_mouse_input_service->GetMouseButton()[SDL_BUTTON_RIGHT]) && 
+				renderer->GetSelected() && 
+				!m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL] && 
+				!m_state_service->getPopupHovered())
 			{
 				renderer->SetSelected(false);
 				m_state_service->unSelectRenderer();

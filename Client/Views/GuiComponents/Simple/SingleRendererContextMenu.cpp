@@ -34,10 +34,11 @@ namespace Views
 			{
 				ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 				ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
-
-				std::string test = std::to_string(selected_renderer->GetType());
-				if (ImGui::Begin(test.c_str()))
+				
+				
+				if (ImGui::Begin(" "))
 				{
+					m_state_service->setPopupHovered(ImGui::IsWindowHovered());
 					ImGuiStyle& style = ImGui::GetStyle();
 					float frame_rounding_save = style.FrameRounding;
 					style.FrameRounding = 20.f;
