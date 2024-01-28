@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr), m_popup_hovered(false)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr), m_popup_hovered(false), m_previous_selected_renderer_color(1.f)
 	{
 	}
 
@@ -219,6 +219,7 @@ namespace Services
 		if (result != m_renderers.end())
 		{
 			m_selected_renderer = *result;
+			m_previous_selected_renderer_color = m_selected_renderer->GetBackgroundColor();
 		}
 	}
 
@@ -235,6 +236,11 @@ namespace Services
 	bool StateService::getPopupHovered() const
 	{
 		return m_popup_hovered;
+	}
+
+	glm::vec4 StateService::getRefColor() const
+	{
+		return m_previous_selected_renderer_color;
 	}
 	
 	

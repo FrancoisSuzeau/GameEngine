@@ -70,12 +70,19 @@ namespace Services
 		return Constants::Return_error;
 	}
 	 
-	void ShaderService::setVec3(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add)
+	void ShaderService::setVec(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add)
 	{
 
 		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
-			m_shader_map.at(shader_name)->setVec3(location, vec_to_add);
+			m_shader_map.at(shader_name)->setVec(location, vec_to_add);
+		}
+	}
+	void ShaderService::setVec(std::string shader_name, std::string const location, glm::vec4 const& vec_to_add)
+	{
+		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
+		{
+			m_shader_map.at(shader_name)->setVec(location, vec_to_add);
 		}
 	}
 	void ShaderService::setMat4(std::string shader_name, std::string const location, glm::mat4 const& matrice_to_add)

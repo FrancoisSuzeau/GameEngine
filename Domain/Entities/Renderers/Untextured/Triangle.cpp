@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Triangle::Triangle(glm::vec3 position, glm::vec3 color, glm::vec3 size)
+	Triangle::Triangle(glm::vec3 position, glm::vec4 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;

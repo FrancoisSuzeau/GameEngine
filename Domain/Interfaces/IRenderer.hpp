@@ -58,12 +58,12 @@ namespace Renderers {
 			m_model_mat = model_mat;
 		}
 
-		virtual void SetBackgroundColor(glm::vec3 new_bacground_color)
+		virtual void SetBackgroundColor(glm::vec4 new_bacground_color)
 		{
 			m_back_ground_color = new_bacground_color;
 		}
 
-		virtual glm::vec3 GetBackgroundColor() const
+		virtual glm::vec4 GetBackgroundColor() const
 		{
 			return m_back_ground_color;
 		}
@@ -134,7 +134,7 @@ namespace Renderers {
 		Enums::RendererType m_type;
 
 		glm::mat4 m_model_mat;
-		glm::vec3 m_back_ground_color;
+		glm::vec4 m_back_ground_color;
 		glm::vec3 m_position;
 		glm::vec3 m_size;
 		bool m_hovered;

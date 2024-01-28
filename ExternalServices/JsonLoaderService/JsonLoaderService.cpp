@@ -102,7 +102,7 @@ namespace Services
 		{
 			json renderer_json_format = {
 				{"type", it[0]->GetType()},
-				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z}},
+				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
 				{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
 				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}}
 			};
@@ -127,7 +127,7 @@ namespace Services
 			{
 				json j = this->GetStringNode(std::make_shared<json>(*it), "type");
 				glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
-				glm::vec3 color = this->GetVec3Node(std::make_shared<json>(*it), "color");
+				glm::vec4 color = this->GetVec4Node(std::make_shared<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_shared<json>(*it), "size");
 				switch (j.template get<Enums::RendererType>())
 				{
@@ -178,6 +178,27 @@ namespace Services
 
 	}
 
+	glm::vec4 JsonLoaderService::GetVec4Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		if (json_content)
+		{
+			json node = json_content->at(node_name);
+			json_content.reset();
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return glm::vec4(0.f);
+
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return glm::vec4(node[0], node[1], node[2], node[3]);
+		}
+
+		
+		return glm::vec4(0.f);
+	}
+
 	glm::vec3 JsonLoaderService::GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
 	{
 		if (json_content)
@@ -195,7 +216,6 @@ namespace Services
 			return glm::vec3(node[0], node[1], node[2]);
 		}
 
-		
 		return glm::vec3(0.f);
 	}
 

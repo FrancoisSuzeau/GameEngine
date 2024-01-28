@@ -74,6 +74,7 @@ namespace Services {
 		void unSelectRenderer();
 		void setPopupHovered(bool const new_val);
 		bool getPopupHovered() const;
+		glm::vec4 getRefColor() const;
 		
 
 		glm::mat4 GetProjectionMatrix() const;
@@ -97,6 +98,7 @@ namespace Services {
 		bool m_mouse_clicked;
 		bool m_show_context_menu;
 		bool m_popup_hovered;
+		glm::vec4 m_previous_selected_renderer_color;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;

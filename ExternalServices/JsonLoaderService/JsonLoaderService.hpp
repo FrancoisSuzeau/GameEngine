@@ -50,6 +50,7 @@ namespace Services {
 		std::vector<std::shared_ptr<Renderers::IRenderer>> ConvertToRenderers();
 		std::shared_ptr<ConfigEntity> ConvertToConfigEntity();
 		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		glm::vec4 GetVec4Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec3 GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		std::vector<std::string> GetStringVectorNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
 		
