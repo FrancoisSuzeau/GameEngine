@@ -14,7 +14,7 @@ namespace Views
 			m_state_service.reset();
 		}
 	}
-	SingleRendererContextMenu::SingleRendererContextMenu()
+	SingleRendererContextMenu::SingleRendererContextMenu() : show_color_picker(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -32,9 +32,6 @@ namespace Views
 			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
 			if (selected_renderer)
 			{
-				ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel;
-				glm::vec4 color = selected_renderer->GetBackgroundColor();
-				glm::vec4 ref_color = m_state_service->getRefColor();
 				ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 				ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 				
@@ -46,8 +43,8 @@ namespace Views
 					float frame_rounding_save = style.FrameRounding;
 					style.FrameRounding = 20.f;
 
-					ImGui::ColorPicker4("MyColor##4", (float*)&color, flags, (float*) &ref_color);
-					selected_renderer->SetBackgroundColor(color);
+					this->RenderColorPicker(selected_renderer);
+					this->RenderSizer(selected_renderer);
 					
 					style.FrameRounding = frame_rounding_save;
 
@@ -57,5 +54,41 @@ namespace Views
 			}
 		}
 		
+	}
+	void SingleRendererContextMenu::RenderColorPicker(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+		if (m_state_service && selected_renderer)
+		{
+			
+			glm::vec4 color = selected_renderer->GetBackgroundColor();
+			glm::vec4 ref_color = m_state_service->getRefColor();
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_NoInputs;
+			ImGui::BulletText("Background color : ");
+			ImGui::SameLine();
+			if (ImGui::ColorButton("MyColor##3c", *(ImVec4*)&ref_color))
+			{
+				show_color_picker = !show_color_picker;
+			}
+			if (show_color_picker)
+			{
+				ImGui::ColorPicker4("MyColor##4", (float*)&color, flags, (float*)&ref_color);
+			}
+			selected_renderer->SetBackgroundColor(color);
+		}
+	}
+	void SingleRendererContextMenu::RenderSizer(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+		if (selected_renderer)
+		{
+			if (ImGui::TreeNode("Size :"))
+			{
+				glm::vec3 size = selected_renderer->GetSize();
+				ImGui::SliderFloat("Width", &size.x, 0.0f, 5.0f, "x = %.3f");
+				ImGui::SliderFloat("Height", &size.y, 0.0f, 5.0f, "y = %.3f");
+				ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "z = %.3f");
+				selected_renderer->SetSize(size);
+				ImGui::TreePop();
+			}
+		}
 	}
 }
