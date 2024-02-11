@@ -21,6 +21,7 @@
 #include "GuiComponents/Simple/StartComponent.hpp"
 #include "GuiComponents/Simple/SaveAsComponent.hpp"
 #include "GuiComponents/Simple/ConfirmComponent.hpp"
-#include "GuiComponents/Simple/ContextMenuComponent.hpp"
+#include "GuiComponents/Menus/ContextMenuComponent.hpp"
+#include "GuiComponents/Simple/WorkBarComponent.hpp"
 
 #endif

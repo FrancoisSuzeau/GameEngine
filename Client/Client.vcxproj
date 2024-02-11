@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Views\GuiComponents\Simple\ContextMenComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Menus\ContextMenComponent.cpp" />
     <ClCompile Include="Views\Scene\Draggable.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\ConfirmComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\SaveAsComponent.cpp" />
@@ -163,6 +163,7 @@
     <ClCompile Include="Views\GuiComponents\Simple\MetricsComponent.cpp" />
     <ClCompile Include="ViewModels\GUIViewModel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\WorkBarComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
@@ -182,7 +183,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Views\GuiComponents\Simple\ContextMenuComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Menus\ContextMenuComponent.hpp" />
     <ClInclude Include="Views\Scene\Draggable.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
     <ClInclude Include="Views\Views.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\WorkBarComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
