@@ -75,7 +75,7 @@
     <ClCompile Include="Views\Scene\Draggable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\GuiComponents\Simple\SingleRendererContextMenu.cpp">
+    <ClCompile Include="Views\GuiComponents\Simple\ContextMenComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +143,7 @@
     <ClInclude Include="Views\Scene\Draggable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\GuiComponents\Simple\SingleRendererContextMenu.hpp">
+    <ClInclude Include="Views\GuiComponents\Simple\ContextMenuComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Views\GuiComponents\Simple\SingleRendererContextMenu.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\ContextMenComponent.cpp" />
     <ClCompile Include="Views\Scene\Draggable.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\ConfirmComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\SaveAsComponent.cpp" />
@@ -182,7 +182,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Views\GuiComponents\Simple\SingleRendererContextMenu.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\ContextMenuComponent.hpp" />
     <ClInclude Include="Views\Scene\Draggable.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />

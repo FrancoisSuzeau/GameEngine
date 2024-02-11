@@ -1,20 +1,20 @@
 /******************************************************************************************************************************************/
-// File : SingleRendererContextMenu.cpp
+// File : ContextMenuComponent.cpp
 // Purpose : Implementing the GUI view tools
 /******************************************************************************************************************************************/
 
-#include "SingleRendererContextMenu.hpp"
+#include "ContextMenuComponent.hpp"
 
 namespace Views
 {
-	SingleRendererContextMenu::~SingleRendererContextMenu()
+	ContextMenuComponent::~ContextMenuComponent()
 	{
 		if (m_state_service)
 		{
 			m_state_service.reset();
 		}
 	}
-	SingleRendererContextMenu::SingleRendererContextMenu() : show_color_picker(false)
+	ContextMenuComponent::ContextMenuComponent() : show_color_picker(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -22,7 +22,7 @@ namespace Views
 			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
 	}
-	void SingleRendererContextMenu::Render()
+	void ContextMenuComponent::Render()
 	{
 
 		if (m_state_service)
@@ -55,7 +55,7 @@ namespace Views
 		}
 		
 	}
-	void SingleRendererContextMenu::RenderColorPicker(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	void ContextMenuComponent::RenderColorPicker(std::shared_ptr<Renderers::IRenderer> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{
@@ -76,7 +76,7 @@ namespace Views
 			selected_renderer->SetBackgroundColor(color);
 		}
 	}
-	void SingleRendererContextMenu::RenderSizer(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	void ContextMenuComponent::RenderSizer(std::shared_ptr<Renderers::IRenderer> selected_renderer)
 	{
 		if (selected_renderer)
 		{

@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : SingleRendererContextMenu.hpp
+// File : ContextMenuComponent.hpp
 // Purpose : The GUI view of save as
 /******************************************************************************************************************************************/
-#ifndef SINGLERENDERERCONTEXTMENU_H
-#define SINGLERENDERERCONTEXTMENU_H
+#ifndef CONTEXTMENUCOMPONENT_H
+#define CONTEXTMENUCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -28,12 +28,12 @@
 
 namespace Views
 {
-	class SingleRendererContextMenu : public IView
+	class ContextMenuComponent : public IView
 	{
 
 	public:
-		~SingleRendererContextMenu() override;
-		SingleRendererContextMenu();
+		~ContextMenuComponent() override;
+		ContextMenuComponent();
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
