@@ -37,8 +37,8 @@ namespace Views
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
-		void RenderColorPicker(std::shared_ptr<Renderers::IRenderer> selected_renderer);
-		void RenderSizer(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
 		bool show_color_picker;
 	};
 }
