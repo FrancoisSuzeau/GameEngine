@@ -9,6 +9,10 @@
 #include <vector>
 #include "../Shaders/Shader.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 //usefull macro for VBO
 #ifndef BUFFER_OFFSET
 #define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
@@ -54,12 +58,12 @@ namespace Renderers {
 			m_model_mat = model_mat;
 		}
 
-		virtual void SetBackgroundColor(glm::vec3 new_bacground_color)
+		virtual void SetBackgroundColor(glm::vec4 new_bacground_color)
 		{
 			m_back_ground_color = new_bacground_color;
 		}
 
-		virtual glm::vec3 GetBackgroundColor() const
+		virtual glm::vec4 GetBackgroundColor() const
 		{
 			return m_back_ground_color;
 		}
@@ -84,18 +88,58 @@ namespace Renderers {
 			m_size = new_val;
 		}
 
+		virtual void SetHovered(bool const new_val)
+		{
+			m_hovered = new_val;
+		}
+
+		virtual void SetSelected(bool const new_val)
+		{
+			m_selected = new_val;
+		}
+
+		virtual bool GetHovered() const
+		{
+			return m_hovered;
+		}
+
+		virtual bool GetSelected() const
+		{
+			return m_selected;
+		}
+
+		void IncrementAngle(float const incr)
+		{
+			if (m_angle > 360.f)
+			{
+				m_angle = 0.f;
+			}
+			else
+			{
+				m_angle += incr;
+			}
+		}
+
+		float GetAngle() const
+		{
+			return m_angle;
+		}
+
 	protected:
 		std::vector<GLfloat> m_vertices;
-		unsigned int m_bytes_vertices_size;
+		size_t m_bytes_vertices_size;
 		GLuint m_vbo;
 		GLuint m_vao;
 		GLuint m_ebo;
 		Enums::RendererType m_type;
 
 		glm::mat4 m_model_mat;
-		glm::vec3 m_back_ground_color;
+		glm::vec4 m_back_ground_color;
 		glm::vec3 m_position;
 		glm::vec3 m_size;
+		bool m_hovered;
+		bool m_selected;
+		float m_angle;
 
 	private:
 		virtual void CleanVbo()

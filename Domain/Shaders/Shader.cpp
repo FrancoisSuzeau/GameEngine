@@ -20,9 +20,14 @@ namespace Shaders
         return m_program_id;
     }
 
-    void Shader::setVec3(std::string const location, glm::vec3 const& vec_to_add)
+    void Shader::setVec(std::string const location, glm::vec3 const& vec_to_add)
     {
         glUniform3fv(glGetUniformLocation(m_program_id, location.c_str()), 1, &vec_to_add[0]);
+    }
+
+    void Shader::setVec(std::string const location, glm::vec4 const& vec_to_add)
+    {
+        glUniform4fv(glGetUniformLocation(m_program_id, location.c_str()), 1, &vec_to_add[0]);
     }
 
     void Shader::setMat4(std::string const location, glm::mat4 const& matrice_to_add)

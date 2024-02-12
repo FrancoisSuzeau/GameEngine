@@ -7,8 +7,8 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)), m_view(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false)
+		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr), m_popup_hovered(false), m_previous_selected_renderer_color(1.f)
 	{
 	}
 
@@ -28,28 +28,17 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			m_camera_services = container->GetReference<Services::CameraService>();
-			if (!m_camera_services)
-			{
-				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
-				
-			}
-			else
-			{
-				m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
-			}
+			
+			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 		}
 		
 	}
 
 	void StateService::DeInit()
 	{
-		if (m_camera_services)
-		{
-			m_camera_services.reset();
-		}
 
 		this->CleanRenderers();
+		m_selected_renderer = nullptr;
 		
 	}
 
@@ -123,7 +112,7 @@ namespace Services
 
 	bool StateService::getGuiOpen() const
 	{
-		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools;
+		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu || m_popup_hovered;
 	}
 
 	bool StateService::getContinued() const
@@ -166,6 +155,31 @@ namespace Services
 		return m_confirm_message;
 	}
 
+	void StateService::setMouseClicked(bool const new_val)
+	{
+		m_mouse_clicked = new_val;
+	}
+
+	bool StateService::getMouseClicked() const
+	{
+		return m_mouse_clicked;
+	}
+
+	void StateService::setShowContextMenu(bool const new_val)
+	{
+		m_show_context_menu = new_val;
+	}
+
+	bool StateService::getShowContextMenu() const
+	{
+		return m_show_context_menu;
+	}
+
+	std::shared_ptr<Renderers::IRenderer> StateService::getSelectedRenderer() const
+	{
+		return m_selected_renderer;
+	}
+
 	std::string StateService::getFileName() const
 	{
 		return m_current_filename;
@@ -196,27 +210,49 @@ namespace Services
 			it->Construct();
 		}
 	}
-	
-	glm::mat4 StateService::GetViewMatrix() const
-	{
-		if (m_camera_services)
-		{
-			return m_camera_services->GetCameraView();
-		}
 
-		return m_view;
+	void StateService::setSelectedRenderer()
+	{
+		this->unSelectRenderer();
+		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		
+		if (result != m_renderers.end())
+		{
+			m_selected_renderer = *result;
+			m_previous_selected_renderer_color = m_selected_renderer->GetBackgroundColor();
+		}
 	}
+
+	void StateService::unSelectRenderer()
+	{
+		m_selected_renderer = nullptr;
+	}
+
+	void StateService::setPopupHovered(bool const new_val)
+	{
+		m_popup_hovered = new_val;
+	}
+
+	bool StateService::getPopupHovered() const
+	{
+		return m_popup_hovered;
+	}
+
+	glm::vec4 StateService::getRefColor() const
+	{
+		return m_previous_selected_renderer_color;
+	}
+	
+	
 	glm::mat4 StateService::GetProjectionMatrix() const
 	{
 		return m_projection_matrix;
 	}
 	void StateService::RefreshProjectionMatrix()
 	{
-		if (m_camera_services)
-		{
-			m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
-		}
+		m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 	}
+	
 	void StateService::CleanRenderers()
 	{
 		for (auto it : m_renderers)

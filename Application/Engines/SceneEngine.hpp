@@ -25,8 +25,9 @@ namespace Engines
 		void Construct() override;
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
+		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int fb_texture_id);
-		void UpdateCamera(SDL_Event event);
+		void UpdateAll(SDL_Event event);
 		
 	private:
 		void InitFrame() override;
@@ -35,6 +36,9 @@ namespace Engines
 		void RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
+		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
+		std::shared_ptr<Services::KeyboardInputService> m_keyboad_input_service;
 		unsigned int m_skybox_texture;
 		
 	};

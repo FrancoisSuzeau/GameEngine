@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : StartComponent.hpp
+// File : WorkBarComponent.hpp
 // Purpose : The GUI view of start
 /******************************************************************************************************************************************/
-#ifndef STARTCOMPONENT_H
-#define STARTCOMPONENT_H
+#ifndef WORKBARCOMPONENT_H
+#define WORKBARCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -28,16 +28,18 @@
 
 namespace Views
 {
-	class StartComponent : public IView
+	class WorkBarComponent : public IView
 	{
 
 	public:
-		~StartComponent() override;
-		StartComponent();
+		~WorkBarComponent() override;
+		WorkBarComponent();
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
-		int m_selected;
+		void RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		bool show_color_picker;
 	};
 }
 

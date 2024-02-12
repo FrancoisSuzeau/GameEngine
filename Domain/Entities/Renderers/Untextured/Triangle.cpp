@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Triangle::Triangle(glm::vec3 position, glm::vec3 color, glm::vec3 size)
+	Triangle::Triangle(glm::vec3 position, glm::vec4 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -18,6 +18,9 @@ namespace Renderers {
 		m_back_ground_color = color;
 		m_position = position;
 		m_size = size;
+		m_hovered = false;
+		m_selected = false;
+		m_angle = 0.f;
 	}
 
 	Triangle::~Triangle()
@@ -33,6 +36,21 @@ namespace Renderers {
 	void Triangle::Clean()
 	{
 		base::Clean();
+	}
+
+	glm::vec3 Triangle::GetVertex1() const
+	{
+		return glm::vec3(m_vertices.at(0), m_vertices.at(1), m_vertices.at(2));
+	}
+
+	glm::vec3 Triangle::GetVertex2() const
+	{
+		return glm::vec3(m_vertices.at(3), m_vertices.at(4), m_vertices.at(5));
+	}
+
+	glm::vec3 Triangle::GetVertex3() const
+	{
+		return glm::vec3(m_vertices.at(6), m_vertices.at(7), m_vertices.at(8));
 	}
 
 	void Triangle::Attach()
@@ -72,14 +90,14 @@ namespace Renderers {
 	void Triangle::Load()
 	{
 		
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		m_vertices.push_back(0.f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 	}
 	

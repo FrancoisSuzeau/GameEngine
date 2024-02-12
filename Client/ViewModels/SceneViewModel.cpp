@@ -89,36 +89,51 @@ namespace ViewModels
 		}
 	}
 
-	void SceneViewModel::RenderViews(Enums::ComponentType cpt_type)
+	void SceneViewModel::RenderComponents(GLenum const mode, float const line_width)
 	{
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
-			m_canvas->Render(renderers);
+			m_canvas->Render(renderers, mode, line_width);
 		}
 	}
-	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id)
+	void SceneViewModel::ManageComponents()
+	{
+		if (m_state_service)
+		{
+			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			m_canvas->DragRenderers(renderers);
+			m_canvas->TransformRenderers(renderers);
+		}
+	}
+	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width)
 	{
 		if (m_textured_component && m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
-			m_textured_component->Render(m_framebuffer_renderer);
+			Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
+			Component::Transformer::Resize(m_framebuffer_renderer);
+			Component::Transformer::Move(m_framebuffer_renderer);
+			m_textured_component->Render(m_framebuffer_renderer, mode, line_width);
 		}
 	}
-	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id)
+	void SceneViewModel::RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width)
 	{
 		if (m_textured_component && m_skybox_renderer)
 		{
 			m_skybox_renderer->SetTextureID(skybox_texture_id);
-			m_textured_component->Render(m_skybox_renderer);
+			m_textured_component->Render(m_skybox_renderer, mode, line_width);
 		}
 	}
 
-	void SceneViewModel::RenderGrid()
+	void SceneViewModel::RenderGrid(GLenum const mode, float const line_width)
 	{
 		if (m_untextured_component && m_grid_renderer)
 		{
-			m_untextured_component->Render(m_grid_renderer);
+			Component::Transformer::ReinitModelMat(m_grid_renderer);
+			Component::Transformer::Move(m_grid_renderer);
+			Component::Transformer::Resize(m_grid_renderer);
+			m_untextured_component->Render(m_grid_renderer, mode, line_width);
 		}
 	}
 	

@@ -13,6 +13,9 @@ namespace Renderers {
 		m_bytes_vertices_size = 108 * sizeof(GLfloat);
         m_texture_id = 0;
         m_type = Enums::SKYBOX;
+        m_hovered = false;
+        m_selected = false;
+        m_angle = 0.f;
 	}
 	Skybox::~Skybox()
 	{

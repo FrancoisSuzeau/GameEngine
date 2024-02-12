@@ -20,9 +20,13 @@ namespace Renderers {
 
 		m_type = Enums::RendererType::GRID;
 		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec3(1.f);
+		m_back_ground_color = glm::vec4(1.f);
 		m_position = glm::vec3(-10.f, -1.f, -10.f);
 		m_size = glm::vec3(20.f);
+
+		m_hovered = false;
+		m_selected = false;
+		m_angle = 0.f;
 	}
 
 	Grid::~Grid()

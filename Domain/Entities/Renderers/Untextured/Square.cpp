@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Square::Square(glm::vec3 position, glm::vec3 color, glm::vec3 size)
+	Square::Square(glm::vec3 position, glm::vec4 color, glm::vec3 size)
 	{
 		m_vbo = 0;
 		m_vao = 0;
@@ -21,6 +21,9 @@ namespace Renderers {
 		m_back_ground_color = color;
 		m_position = position;
 		m_size = size;
+		m_hovered = false;
+		m_selected = false;
+		m_angle = 0.f;
 	}
 
 	Square::~Square()
@@ -103,20 +106,20 @@ namespace Renderers {
 	void Square::Load()
 	{
 		//top right
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 		//bottom right
-		m_vertices.push_back(0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		//bottom left
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(-0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(-1.0f);
 		m_vertices.push_back(0.f);
 		//top left
-		m_vertices.push_back(-0.5f);
-		m_vertices.push_back(0.5f);
+		m_vertices.push_back(-1.0f);
+		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 
 		m_indices.push_back(0);

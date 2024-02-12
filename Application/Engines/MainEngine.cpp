@@ -68,13 +68,11 @@ namespace Engines
 			
 		}
 
-
 	}
 
 	void MainEngine::StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-
 		if (m_state_service && m_gui_engine && m_scene_engine)
 		{
 			m_gui_engine->LoadConfigs();
@@ -103,7 +101,6 @@ namespace Engines
 	void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
 		{
 			while (!m_state_service->getExit() && m_state_service->getContinued())
@@ -115,20 +112,21 @@ namespace Engines
 					ImGui_ImplSDL2_ProcessEvent(&event);
 					if (!m_state_service->getGuiOpen())
 					{
-						m_scene_engine->UpdateCamera(event);
+						m_scene_engine->UpdateAll(event);
 						m_state_service->RefreshProjectionMatrix();
 					}
 				}
 				
 				this->InitFrame();
 
-				m_framebuffer_service->BindFramebuffer();
+				//m_framebuffer_service->BindFramebuffer();
 
+				m_scene_engine->RefreshScene(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
-				m_framebuffer_service->UnbindFramebuffer();
+				//m_framebuffer_service->UnbindFramebuffer();
 
-				m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
+				//m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);
@@ -136,7 +134,6 @@ namespace Engines
 				//ImGui::ShowDemoWindow();
 
 				this->EndFrame();
-
 				this->FpsCalculation(Enums::END);
 			}
 		}
@@ -147,6 +144,8 @@ namespace Engines
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		if (m_gui_engine)
 		{

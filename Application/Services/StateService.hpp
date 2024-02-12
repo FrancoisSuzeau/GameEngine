@@ -14,6 +14,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <vector>
+#include <algorithm>
+
 #include "IService.hpp"
 #include "IRenderer.hpp"
 #include "IEngine.hpp"
@@ -56,17 +59,27 @@ namespace Services {
 		void setShowConfirm(bool const new_val);
 		void setConfirmMessage(std::string const new_val);
 		std::string getConfirmMessage() const;
+		void setMouseClicked(bool const new_val);
+		bool getMouseClicked() const;
+		void setShowContextMenu(bool const new_val);
+		bool getShowContextMenu() const;
+		std::shared_ptr<Renderers::IRenderer> getSelectedRenderer() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
 		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
 		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
+		void setSelectedRenderer();
+		void unSelectRenderer();
+		void setPopupHovered(bool const new_val);
+		bool getPopupHovered() const;
+		glm::vec4 getRefColor() const;
+		
 
-		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
-
+		
 
 	private:
 
@@ -82,14 +95,17 @@ namespace Services {
 		bool m_show_event;
 		bool m_show_save_as;
 		bool m_show_confirm;
+		bool m_mouse_clicked;
+		bool m_show_context_menu;
+		bool m_popup_hovered;
+		glm::vec4 m_previous_selected_renderer_color;
 		glm::mat4 m_projection_matrix;
-		glm::mat4 m_view;
-		std::shared_ptr<Services::CameraService> m_camera_services;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
 		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
 		std::string  m_confirm_message;
+		std::shared_ptr<Renderers::IRenderer> m_selected_renderer;
 
 	};
 }

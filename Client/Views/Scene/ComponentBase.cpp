@@ -14,14 +14,10 @@ namespace Component
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
-		
-		angle = 0.f;
 	}
 
 	void ComponentBase::Clean()
 	{
-
-
 		if (m_shader_service)
 		{
 			m_shader_service->DeInit();
@@ -29,40 +25,46 @@ namespace Component
 		}
 	}
 
-	void ComponentBase::Render(std::shared_ptr<Renderers::Triangle> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Triangle> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
+		std::string shader_name = Constants::UNTEXTURED_SHADER;
+		if (mode == GL_LINE)
+		{
+			shader_name = Constants::HOVER_SHADER;
+		}
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
-				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
+				GLuint program_id = m_shader_service->GetProgramId(shader_name);
 				glUseProgram(program_id);
-				Transformer::ReinitModelMat(renderer);
-				this->IncrementAngle(0.1f);
-				Transformer::Move(renderer, renderer->GetPosition());
-				Transformer::Resize(renderer, renderer->GetSize());
-				Transformer::Rotate(renderer, angle, glm::vec3(0.f, 0.f, 1.f));
-				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+				Transformer::PutIntoShader(renderer, m_shader_service, shader_name);
 				glDrawArrays(GL_TRIANGLES, 0, 3);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
 		}
 	}
-	void ComponentBase::Render(std::shared_ptr<Renderers::Square> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Square> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
+		std::string shader_name = Constants::UNTEXTURED_SHADER;
+		if (mode == GL_LINE)
+		{
+			shader_name = Constants::HOVER_SHADER;
+		}
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
-				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
+				GLuint program_id = m_shader_service->GetProgramId(shader_name);
 				glUseProgram(program_id);
-				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, renderer->GetPosition());
-				Transformer::Resize(renderer, renderer->GetSize());
-				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+				Transformer::PutIntoShader(renderer, m_shader_service, shader_name);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 				glUseProgram(0);
 				glBindVertexArray(0);
@@ -70,8 +72,10 @@ namespace Component
 		}
 	}
 
-	void ComponentBase::Render(std::shared_ptr<Renderers::Grid> renderer)
+	void ComponentBase::Render(std::shared_ptr<Renderers::Grid> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
@@ -79,27 +83,11 @@ namespace Component
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Transformer::ReinitModelMat(renderer);
-				Transformer::Move(renderer, renderer->GetPosition());
-				Transformer::Resize(renderer, renderer->GetSize());
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
-
 				glDrawElements(GL_LINES, renderer->GetLength(), GL_UNSIGNED_INT, NULL);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
-		}
-	}
-
-	void ComponentBase::IncrementAngle(float incr)
-	{
-		if (angle > 360.f)
-		{
-			angle = 0.f;
-		}
-		else
-		{
-			angle += incr;
 		}
 	}
 }

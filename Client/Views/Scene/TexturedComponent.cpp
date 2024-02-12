@@ -25,17 +25,17 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr<Renderers::ScreenRenderer> renderer)
+	void TexturedComponent::Render(std::shared_ptr<Renderers::ScreenRenderer> renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glBindVertexArray(renderer->GetVAO());
 			if (glIsVertexArray(renderer->GetVAO()) == GL_TRUE)
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
-				Transformer::ReinitModelMat(renderer);
-				Transformer::Resize(renderer, glm::vec3(0.9f));
-				Transformer::Move(renderer, glm::vec3(-0.1f, 0.f, 0.f));
+				
 				Transformer::PutIntoShader(renderer, m_shader_service, Constants::SCREEN_SHADER);
 
 				glActiveTexture(GL_TEXTURE0);
@@ -53,8 +53,10 @@ namespace Component {
 		}
 	}
 
-	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer)
+	void TexturedComponent::Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width)
 	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
 		if (m_shader_service && renderer)
 		{
 			glDepthFunc(GL_LEQUAL);

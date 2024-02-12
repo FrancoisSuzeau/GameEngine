@@ -8,6 +8,7 @@
 #include "IViewModel.hpp"
 #include "../Views/Views.hpp"
 #include "Container/Container.hpp"
+#include "../Views/Transformer.hpp"
 
 
 #include <iostream>
@@ -22,15 +23,17 @@ namespace ViewModels
 		~SceneViewModel() override;
 		void Construct() override;
 		
-		void RenderViews(Enums::ComponentType cpt_type) override;
-		void RenderFrameBuffer(unsigned int fb_texture_id) override;
-		void RenderSkybox(unsigned int skybox_texture_id) override;
-		void RenderGrid() override;
+		void RenderComponents(GLenum const mode, float const line_width) override;
+		void ManageComponents() override;
+		void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) override;
+		void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) override;
+		void RenderGrid(GLenum const mode, float const line_width) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;
 		std::unique_ptr<Component::TexturedComponent> m_textured_component;
 		std::unique_ptr<Component::ComponentBase> m_untextured_component;
+		
 		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
 		std::shared_ptr<Renderers::Grid> m_grid_renderer;
 		std::shared_ptr<Renderers::Skybox> m_skybox_renderer;

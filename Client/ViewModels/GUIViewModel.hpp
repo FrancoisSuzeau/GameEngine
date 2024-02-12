@@ -25,7 +25,7 @@ namespace ViewModels
 		~GuiViewModel() override;
 		void Construct() override;
 		
-		void RenderViews(Enums::ComponentType component_type) override;
+		void RenderComponents(Enums::ComponentType component_type) override;
 
  
 	private:

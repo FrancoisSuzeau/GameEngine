@@ -33,10 +33,12 @@ namespace ViewModels
 			this->PushSimpleComponent(container->GetReference<Views::SaveAsComponent>(), "Save as");
 			this->PushSimpleComponent(container->GetReference<Views::ConfirmComponent>(), "Confirm");
 			this->PushSimpleComponent(container->GetReference<Views::StartComponent>(), "Start screen");
+			this->PushSimpleComponent(container->GetReference<Views::WorkBarComponent>(), "Work bar Component");
+			this->PushMenuComponent(container->GetReference<Views::ContextMenuComponent>(), "Context Menu");
 		}
 	}
 
-	void GuiViewModel::RenderViews(Enums::ComponentType component_type)
+	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)
 	{
 		switch (component_type)
 		{

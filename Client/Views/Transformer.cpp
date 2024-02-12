@@ -18,42 +18,40 @@ namespace Component
 		{
 			if (renderer && shader_service)
 			{
-				shader_service->setVec3(shader_name, "background_color", renderer->GetBackgroundColor());
+				shader_service->setInt(shader_name, "render_line", renderer->GetHovered() || renderer->GetSelected());
+				shader_service->setVec(shader_name, "background_color", renderer->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
-				PutViewMapIntoShader(state_service, shader_service, shader_name);
+				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
-				if (shader_name == Constants::SCREEN_SHADER || shader_name == Constants::SKYBOX_SHADER)
-				{
-					shader_service->setTexture(shader_name, "texture0", 0);
-				}
+				shader_service->setTexture(shader_name, "texture0", 0);
 			}
 			state_service.reset();
 		}
 		
 	}
 
-	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 new_position)
+	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
 			glm::mat4 model = renderer->GetModelMat();
-			model = glm::translate(model, new_position);
+			model = glm::translate(model, renderer->GetPosition());
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 size_vector)
+	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer)
 	{
 		if (renderer)
 		{
 			glm::mat4 model = renderer->GetModelMat();
-			model = glm::scale(model, size_vector);
+			model = glm::scale(model, renderer->GetSize());
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, float angle, glm::vec3 axis)
+	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 axis)
 	{
 		glm::mat4 model = renderer->GetModelMat();
-		model = glm::rotate(model, glm::radians(angle), axis);
+		model = glm::rotate(model, glm::radians(renderer->GetAngle()), axis);
 		renderer->SetModelMat(model);
 	}
 	void Transformer::ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer)
@@ -63,19 +61,25 @@ namespace Component
 			renderer->SetModelMat(glm::mat4(1.f));
 		}
 	}
-	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::StateService> state_service, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
-		if (state_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			if (shader_name == Constants::SKYBOX_SHADER)
+			std::shared_ptr<Services::CameraService> camera_service = container->GetReference<Services::CameraService>();
+			if (camera_service)
 			{
-				shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(state_service->GetViewMatrix())));
+				if (shader_name == Constants::SKYBOX_SHADER)
+				{
+					shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(camera_service->GetCameraView())));
+				}
+				else
+				{
+					shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
+				}
+
+				camera_service.reset();
 			}
-			else
-			{
-				shader_service->setMat4(shader_name, "view", state_service->GetViewMatrix());
-			}
-			
 		}
 	}
 }

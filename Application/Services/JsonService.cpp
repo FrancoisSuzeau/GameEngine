@@ -45,7 +45,7 @@ namespace Services
 	{
 		if (m_json_loader_service)
 		{
-			return m_json_loader_service->GetScene(filename);;
+			return m_json_loader_service->GetScene(filename);
 		}
 
 		return std::vector<std::shared_ptr<Renderers::IRenderer>>();

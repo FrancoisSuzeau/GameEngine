@@ -8,6 +8,8 @@
 #include "IView.hpp"
 #include "ComponentBase.hpp"
 #include "TexturedComponent.hpp"
+#include "Draggable.hpp"
+#include "../Transformer.hpp"
 #include <map>
 #include <iostream>
 
@@ -18,7 +20,9 @@ namespace Views
 	public:
 		Canvas();
 		void Clean() override;
-		void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
+		void Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers, GLenum const mode, float const line_width) override;
+		void TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
+		void DragRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
 		std::map<std::string, std::unique_ptr<Component::IComponent>> m_components_map;
 	};

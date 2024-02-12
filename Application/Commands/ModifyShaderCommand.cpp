@@ -27,7 +27,7 @@ namespace Commands
 			switch (m_shader_modifier)
 			{
 			case Enums::VEC3:
-				m_shader_service->setVec3(m_shader_name, m_location, m_vec_to_add);
+				m_shader_service->setVec(m_shader_name, m_location, m_vec_to_add);
 				break;
 			case Enums::MAT4:
 				m_shader_service->setMat4(m_shader_name, m_location, m_matrice_to_add);

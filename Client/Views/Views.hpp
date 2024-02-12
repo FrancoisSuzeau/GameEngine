@@ -14,9 +14,14 @@
 #include "GuiComponents/Menus/MenuFileComponent.hpp"
 #include "GuiComponents/Simple/EventViewerComponent.hpp"
 #include "Scene/Canvas.hpp"
+#include "Scene/ComponentBase.hpp"
+#include "Scene/TexturedComponent.hpp"
+#include "Scene/Draggable.hpp"
 #include "Transformer.hpp"
 #include "GuiComponents/Simple/StartComponent.hpp"
 #include "GuiComponents/Simple/SaveAsComponent.hpp"
 #include "GuiComponents/Simple/ConfirmComponent.hpp"
+#include "GuiComponents/Menus/ContextMenuComponent.hpp"
+#include "GuiComponents/Simple/WorkBarComponent.hpp"
 
 #endif

@@ -23,28 +23,29 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 
-		void UpdateEvent(SDL_Event event);
+		void Update(glm::vec2 const mouse_motions_dir, bool const mouse_button[8]);
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
 
 		glm::vec3 GetPos() const;
 		glm::vec3 GetTarget() const;
 		void MoveCamera();
+		void ChangeHigh(float const offset);
 
 	private:
-		
+		glm::vec2 m_mouse_motions_dir;
 		glm::vec3 m_camera_pos;
 		glm::vec3 m_camera_target;
 		glm::vec3 m_camera_up;
 		bool m_mouse_button[8];
+		
 
-		float m_x_rel;
-		float m_y_rel;
+		
 		float m_yaw;
 		float m_pitch;
 		float m_camera_speed;
 
-		void ChangeHigh(float offset);
+		
 		void ChangePitch();
 		void ChangeYaw();
 

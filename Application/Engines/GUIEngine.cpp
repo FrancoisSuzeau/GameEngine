@@ -45,7 +45,7 @@ namespace Engines
 
 			if (view_model)
 			{
-				view_model->RenderViews(Enums::ComponentType::SIMPLE);
+				view_model->RenderComponents(Enums::ComponentType::SIMPLE);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace Engines
 
 				if (view_model)
 				{
-					view_model->RenderViews(Enums::ComponentType::MENUS);
+					view_model->RenderComponents(Enums::ComponentType::MENUS);
 				}
 			}
 

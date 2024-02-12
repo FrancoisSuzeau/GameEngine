@@ -20,8 +20,8 @@ namespace Component
 	public:
 		TexturedComponent();
 		void Clean() override;
-		void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer) override;
-		void Render(std::shared_ptr < Renderers::Skybox>  renderer) override;
+		void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer, GLenum const mode, float const line_width) override;
+		void Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width) override;
 
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
