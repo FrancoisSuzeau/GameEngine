@@ -51,5 +51,4 @@ jobs:
     - name: Send webhook
       run: |
           title="${{ github.event.pull_request.title }}"
-          param= "Feature added : ${{title}}"
-          .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 ${{param}}
+          echo "The title of the pull request is: $title"
