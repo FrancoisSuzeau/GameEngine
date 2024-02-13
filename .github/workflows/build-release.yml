@@ -50,5 +50,4 @@ jobs:
 
     - name: Send webhook
       run: |
-          title="${{ github.event.pull_request.title }}"
-          echo "The title of the pull request is: ${{ title }}"
+          echo "The title of the pull request is: ${{ github.event.pull_request.title }}"
