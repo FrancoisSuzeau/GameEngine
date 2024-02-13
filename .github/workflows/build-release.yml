@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   # build:
-  #   runs-on: [Windows, self-hosted]
+  #   runs-on: [Windows, self-hosted]t p
   #   strategy:
   #     fail-fast: false
   #     matrix:
@@ -45,7 +45,7 @@ jobs:
 
   publish:
     runs-on: [Windows, self-hosted]
-    needs: build
+    #needs: build
     steps:
 
     - name: Send webhook
