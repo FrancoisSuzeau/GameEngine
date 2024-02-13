@@ -5,9 +5,15 @@
 
 name: Build release on pull request
 
+# on:
+#   pull_request:
+#     branches: ["master"]
+
 on:
-  pull_request:
-    branches: ["master"]
+  push:
+    branches:
+      - feature/**
+      - bugfix/**
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -49,4 +55,7 @@ jobs:
     steps:
 
     - name: Send webhook
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
+      #run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
+      run: |
+          title="${{ github.event.pull_request.title }}"
+          echo "The title of the pull request is: $title"
