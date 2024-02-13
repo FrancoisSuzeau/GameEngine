@@ -17,31 +17,31 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: [Windows, self-hosted]
-    strategy:
-      fail-fast: false
-      matrix:
-        build-configuration: [Release]
+  # build:
+  #   runs-on: [Windows, self-hosted]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       build-configuration: [Release]
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        repository: 'FrancoisSuzeau/Squeamish'
-        submodules: true
-        lfs: true
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #     with:
+  #       repository: 'FrancoisSuzeau/Squeamish'
+  #       submodules: true
+  #       lfs: true
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        msbuild-architecture: x64
-        vs-prerelease: true
-        vs-version: '17.8.0'
+  #   - name: Add MSBuild to PATH
+  #     uses: microsoft/setup-msbuild@v1.1
+  #     with:
+  #       msbuild-architecture: x64
+  #       vs-prerelease: true
+  #       vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+  #   - name: Build release
+  #     working-directory: ${{env.GITHUB_WORKSPACE}}
+  #     run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
   publish:
     runs-on: [Windows, self-hosted]
@@ -51,5 +51,5 @@ jobs:
     - name: Send webhook
       run: |
           title="${{ github.event.pull_request.title }}"
-          param= "Feature added : $title"
-          .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 $param
+          param= "Feature added : ${{title}}"
+          .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 ${{param}}
