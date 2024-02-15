@@ -58,8 +58,6 @@ $payload = [PSCustomObject]@{
     content = $webhook_content
     embeds = $embedArray.ToArray()
 } 
-
-
 #Sending the webhook
 # try {
 #     $response = Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -Body ($payload | ConvertTo-Json) -Headers @{"Content-Type" = "application/json"} 
