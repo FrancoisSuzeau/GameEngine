@@ -57,10 +57,10 @@ $payload = [PSCustomObject]@{
     username = $username
     content = $webhook_content
     embeds = $embedArray.ToArray()
-} 
+} | ConvertTo-Json -Depth 4
 
 try {
-    ($payload | ConvertTo-Json -Depth 4) | http $WEBHOOK_URL
+    $payload | http $WEBHOOK_URL
 }
 catch {
     Write-Host "Error: $_"
