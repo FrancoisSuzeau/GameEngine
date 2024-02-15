@@ -59,7 +59,6 @@ $payload = [PSCustomObject]@{
     embeds = $embedArray.ToArray()
 } 
 
-
 try {
     ($payload | ConvertTo-Json -Depth 4) | http $WEBHOOK_URL
 }
