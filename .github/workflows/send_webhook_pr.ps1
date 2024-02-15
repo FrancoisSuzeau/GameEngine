@@ -56,11 +56,11 @@ $return = $embedArray.Add($embedObject)
 $payload = [PSCustomObject]@{
     username = $username
     content = $webhook_content
-    embeds = $embedArray.ToArray()
+    embeds = $embedArray
 } | ConvertTo-Json -Depth 4
 
 try {
-    http $WEBHOOK_URL username="Cat" content="meow" embeds:='[{\"title\": \"Cool!\"}]'
+     $payload | http POST $WEBHOOK_URL --json
 }
 catch {
     Write-Host "Error: $_"
