@@ -66,12 +66,10 @@ jobs:
   #     working-directory: ${{env.GITHUB_WORKSPACE}}
   #     run: msbuild ${{env.SOLUTION_FILE_PATH}}
   publish:
-    runs-on: [Windows, self-hosted]
+    runs-on: [windows-latest, self-hosted]
     #needs: build
     steps:
 
     - name: Send webhook
       shell: powershell
-      run: |
-        '{"username": "Cat", "content": "meow", "embeds": [{"title": "Cool!"}]}' | http https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6
-      #run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
