@@ -70,4 +70,7 @@ jobs:
     steps:
 
     - name: Send webhook
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
+      shell: pwsh
+      run: |
+        echo "test"
+      #run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
