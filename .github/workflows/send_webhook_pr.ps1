@@ -60,7 +60,7 @@ $payload = [PSCustomObject]@{
 } | ConvertTo-Json -Depth 4
 
 try {
-    '{"username": "Cat", "content": "meow", "embeds": [{"title": "Cool!"}]}' | http $WEBHOOK_URL
+    $payload | http $WEBHOOK_URL
 }
 catch {
     Write-Host "Error: $_"
