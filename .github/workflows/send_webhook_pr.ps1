@@ -57,10 +57,10 @@ $payload = [PSCustomObject]@{
     username = $username
     content = $webhook_content
     embeds = $embedArray
-} | ConvertTo-Json -Depth 4
+} | ConvertTo-Json -Depth 5
 
 try {
-    $payload | http $WEBHOOK_URL
+    $payload | http $WEBHOOK_URL username=$username content=$webhook_content embeds:='[{\"title\": \"cool\"}]' --ignore-stdin
 }
 catch {
     Write-Host "Error: $_"
