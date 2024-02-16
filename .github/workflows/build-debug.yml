@@ -34,6 +34,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
+  WEBHOOK_URL: https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6
 
 permissions:
   contents: read
@@ -71,4 +72,6 @@ jobs:
 
     - name: Send webhook
       shell: powershell
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
+      run: |
+        '{"username": "Cat", "content": "meow", "embeds": [{"title": "Cool!"}]}' | http https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6
+      #run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
