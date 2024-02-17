@@ -12,7 +12,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
-  PR_LABEL_LIST: ${{ toJson(github.event.pull_request.labels.*.name) }}
+  
 
 permissions:
   contents: read
@@ -49,6 +49,12 @@ jobs:
     needs: build
     steps:
     - name: Send webhook
+      uses: actions/labeler@v4
+      with:
+        sync-labels: true
+        repo-token: "${{ secret.GITHUB_TOKEN }}"
+      env:
+        PR_LABEL_LIST: ${{ toJson(github.event.pull_request.labels.*.name) }}
       shell: powershell
       run: | 
         echo "${{ toJson(github.event.pull_request.labels.*.name) }}"
