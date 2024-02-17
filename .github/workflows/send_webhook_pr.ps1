@@ -1,5 +1,6 @@
 # Settings webhook url
-$discordWebhookUrl = "https://discord.com/api/webhooks/1175831319079555195/kcwebNYUIHrkI16dM7qS9E3OVmESIlAFmb0fphEzoGuERZSDIGU4jY9DTeQrvYN_KRU1"
+$discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
+$WEBHOOK_URL = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
 $username = "Github Webhook"
 $webhook_content = "You might want to take a look .."
 $authorObject = [PSCustomObject]@{
@@ -7,6 +8,7 @@ $authorObject = [PSCustomObject]@{
     url = "https://github.com/FrancoisSuzeau"
     icon_url = $args[1]
 }
+
 # Settings card content
 $title       = 'Squeamish : New merge done'
 $description = 'A recent merge was made in the Squeamish project ! 
@@ -19,39 +21,48 @@ $color       = '4289797'
 $thumbnailObject = [PSCustomObject]@{
     url = "https://cdn.discordapp.com/attachments/1065694223875199080/1175404890885988413/unicorn.jpg?ex=656b1c1b&is=6558a71b&hm=1195df7a323d783fa72e8d0e31708fc234596331d772b08a28502808ffce9378&"
 }
-# Creating fields array 
-[System.Collections.ArrayList]$fieldsArray = @()
-# Creating 1st field -> feature release
+
+# # Creating 1st field -> feature release
 $field1 = [PSCustomObject]@{
     name = ':unicorn:  ' + $args[2]
     value = $args[3]
     inline = "false"
 }
-$fieldsArray.Add($field1)
+
+# # Creating fields array 
+[System.Collections.ArrayList]$fieldsArray = @()
+$return = $fieldsArray.Add($field1)
 # Creating footer
 $footerContent = [PSCustomObject]@{
     text = 'Woah! So cool!'
 }
 # Creating emmbed card object
 $embedObject = [PSCustomObject]@{
+    author= $authorObject
     color = $color
-    author = $authorObject
     title = $title
     url = "https://github.com/FrancoisSuzeau/Squeamish"
     description = $description
     thumbnail = $thumbnailObject
-    fields = $fieldsArray
+    fields = $fieldsArray.ToArray()
     footer = $footerContent
-}
+} 
 # Creating embed array 
 [System.Collections.ArrayList]$embedArray = @()
 # Adding to embed to array
-$embedArray.Add($embedObject)
+$return = $embedArray.Add($embedObject)
+
 # Create payload
 $payload = [PSCustomObject]@{
     username = $username
     content = $webhook_content
     embeds = $embedArray
 }
-# Sending the webhook
-Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -Headers @{"Content-Type" = "application/json"} -Body ($payload | ConvertTo-Json -Depth 4)
+
+try {
+    #http $WEBHOOK_URL username=$username content=$webhook_content embeds=$embedArray --ignore-stdin
+    Invoke-RestMethod -Uri $WEBHOOK_URL -Method Post -Headers @{"Content-Type" = "application/json"} -Body ($payload | ConvertTo-Json -Depth 4)
+}
+catch {
+    Write-Host "Error: $_"
+}

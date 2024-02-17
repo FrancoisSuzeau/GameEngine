@@ -49,4 +49,5 @@ jobs:
     steps:
 
     - name: Send webhook
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
+      shell: powershell
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "${{ github.event.pull_request.title }}"
