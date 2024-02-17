@@ -12,9 +12,6 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
-  BRANCH_NAME: "${{ github.event.pull_request.head.ref }}"
-  API_URL: "https://api.github.com/repos/${{ github.repository }}/issues"
-  ISSUE_URL: "${{ github.event.issue }}"
 
 permissions:
   contents: read
@@ -50,12 +47,11 @@ jobs:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-    - name: Get Branch Name
-      shell: powershell
-      run: |
-        echo "${{env.BRANCH_NAME}}"
-        echo "${{env.API_URL}}"
-        echo "${{env.ISSUE_URL}}"
+    - uses: tkt-actions/add-issue-links@v1.8.1
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}' # required
+        branch-prefix: 'feature/' # required
+        repository: "${{ github.repository }}"
 
     # - name: Send webhook
     #   shell: powershell
