@@ -69,4 +69,4 @@ jobs:
       id: get_branch_name
       run: |
         
-        echo $BRANCH_NAME
+        echo ${{ env.BRANCH_NAME }}
