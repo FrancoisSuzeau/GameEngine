@@ -12,6 +12,9 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
+  BRANCH_NAME: "${{ github.ref }}"
+  API_URL: "https://api.github.com/repos/${{ github.repository }}/issues"
+  ISSUE_URL: "${{ github.event.pull_request.html_url }}"
 
 permissions:
   contents: read
@@ -28,7 +31,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        repository: 'FrancoisSuzeau/Squeamish'
+        repository: "${{ github.repository }}"
         submodules: true
         lfs: true
 
@@ -39,15 +42,21 @@ jobs:
         vs-prerelease: true
         vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    # - name: Build release
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
   publish:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-
-    - name: Send webhook
+    - name: Get Branch Name
       shell: powershell
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}"
+      run: |
+        echo "${{env.BRANCH_NAME}}"
+        echo "${{env.API_URL}}"
+        echo "${{env.ISSUE_URL}}"
+
+    # - name: Send webhook
+    #   shell: powershell
+    #   run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}"
