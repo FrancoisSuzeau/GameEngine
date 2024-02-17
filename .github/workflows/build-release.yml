@@ -52,7 +52,6 @@ jobs:
       uses: actions/labeler@v4
       with:
         sync-labels: true
-        repo-token: "${{ secret.GITHUB_TOKEN }}"
       env:
         PR_LABEL_LIST: ${{ toJson(github.event.pull_request.labels.*.name) }}
       shell: powershell
