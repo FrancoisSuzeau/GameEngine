@@ -1,6 +1,3 @@
-$string = "#73"
-$number = [regex]::Match($string, '\d+').Value
-Write-Host $number
 # Settings webhook url
 $discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
 $WEBHOOK_URL = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
@@ -25,28 +22,37 @@ $thumbnailObject = [PSCustomObject]@{
     url = "https://cdn.discordapp.com/attachments/1065694223875199080/1175404890885988413/unicorn.jpg?ex=656b1c1b&is=6558a71b&hm=1195df7a323d783fa72e8d0e31708fc234596331d772b08a28502808ffce9378&"
 }
 
-# # Creating fields array 
+# Getting labels
+[System.Collections.ArrayList]$lblArray = $args[3]
+$labels = ""
+if($lblArray.Count -ne 0)
+{
+    $labels = $lblArray.ToArray()
+}
+
+# Creating fields array 
 [System.Collections.ArrayList]$fieldsArray = @()
 
 # Creating 1st field -> feature release
 $field1 = [PSCustomObject]@{
-    name = ':unicorn:  Feature added :' 
-    value = "=> " + $args[2]
+    name = ':unicorn: ' +  "**" + $args[2] + "**"
+    value = $labels
     inline = "true"
 }
+
+# add first field
 $return = $fieldsArray.Add($field1)
 
-[string[]]$lblArray = $args[3]
-if($lblArray.Count -ne 0)
-{
-    # Creating 1st field -> feature release
-    $field2 = [PSCustomObject]@{
-    name = ':wave:  Pull request label :' 
-    value = $lblArray
+# Creating 2nd field -> issue linked
+$field2 = [PSCustomObject]@{
+    name = ':wave: ' +  "**Issue linked**"
+    value = "[" + $args[4] + "](" + $args[5] + ")"
     inline = "true"
-    }
-    $return = $fieldsArray.Add($field2)
 }
+
+# add first field
+$return = $fieldsArray.Add($field2)
+
 # Creating footer
 $footerContent = [PSCustomObject]@{
     text = 'Woah! So cool!'
