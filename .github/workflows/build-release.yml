@@ -47,7 +47,13 @@ jobs:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-
+    - name: Get pull request data
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const prData = await github.pulls.get({ owner: context.repo.owner, repo: context.repo.repo, pull_number: context.payload.pull_request.number});
+          console.log(`Issue number associated with this pull request: ${prData.data.issue_url.split('/').pop()}`);
     # - name: Send webhook
     #   shell: powershell
     #   run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}"
