@@ -67,4 +67,4 @@ jobs:
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
     - name: Get Branch Name
       shell: powershell
-      run: echo "::set-output name=branch_name::${{env.BRANCH_NAME}}"
+      run: echo $env.BRANCH_NAME
