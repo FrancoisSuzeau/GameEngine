@@ -61,6 +61,11 @@ jobs:
         vs-prerelease: true
         vs-version: '17.8.0'
 
-    - name: Build debug
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    # - name: Build debug
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    - name: Get Branch Name
+      id: get_branch_name
+      run: |
+        BRANCH_NAME=$(echo "${{ github.event.pull_request.head.ref }}")
+        echo "::set-output name=branch_name::${BRANCH_NAME}"
