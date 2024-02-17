@@ -34,7 +34,8 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
-  
+  BRANCH_NAME: "${{ github.ref }}"
+  API_URL: "https://api.github.com/repos/${{ github.repository }}/issues"
 
 permissions:
   contents: read
@@ -68,5 +69,5 @@ jobs:
     - name: Get Branch Name
       shell: powershell
       run: |
-        BRANCH_NAME=$(echo "${{ github.ref }}")
-         echo "::set-output name=branch_name::${BRANCH_NAME}"
+        echo "${{env.BRANCH_NAME}}"
+        echo "${{env.API_URL}}"
