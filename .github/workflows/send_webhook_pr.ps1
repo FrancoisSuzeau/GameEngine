@@ -1,3 +1,6 @@
+$string = "#73"
+$number = [regex]::Match($string, '\d+').Value
+Write-Host $number
 # Settings webhook url
 $discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
 $WEBHOOK_URL = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
