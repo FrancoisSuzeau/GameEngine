@@ -24,8 +24,8 @@ $thumbnailObject = [PSCustomObject]@{
 
 # # Creating 1st field -> feature release
 $field1 = [PSCustomObject]@{
-    name = ':unicorn:  ' + $args[2]
-    value = $args[3]
+    name = ':unicorn:  Feature added :' 
+    value = "=> " + $args[2]
     inline = "false"
 }
 
