@@ -69,4 +69,4 @@ jobs:
       id: get_branch_name
       run: |
         
-        echo "::set-output name=branch_name::${BRANCH_NAME}"
+        echo $BRANCH_NAME
