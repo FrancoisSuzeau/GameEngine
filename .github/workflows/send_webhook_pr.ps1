@@ -27,6 +27,10 @@ $thumbnailObject = [PSCustomObject]@{
 $labels = ""
 if($lblArray.Count -ne 0)
 {
+    foreach($elem in $lblArray)
+    {
+        Write-Host $elem
+    }
     $labels = $lblArray.ToArray()
 }
 
