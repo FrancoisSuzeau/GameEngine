@@ -34,42 +34,33 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
-  WEBHOOK_URL: https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6
 
 permissions:
   contents: read
 
 jobs:
-  # build:
-  #   runs-on: [Windows, self-hosted]
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       build-configuration: [Debug]
-
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-  #     with:
-  #       repository: 'FrancoisSuzeau/Squeamish'
-  #       submodules: true
-  #       lfs: true
-
-  #   - name: Add MSBuild to PATH
-  #     uses: microsoft/setup-msbuild@v1.1
-  #     with:
-  #       msbuild-architecture: x64
-  #       vs-prerelease: true
-  #       vs-version: '17.8.0'
-
-  #   - name: Build debug
-  #     working-directory: ${{env.GITHUB_WORKSPACE}}
-  #     run: msbuild ${{env.SOLUTION_FILE_PATH}}
-  publish:
+  build:
     runs-on: [Windows, self-hosted]
-    #needs: build
-    steps:
+    strategy:
+      fail-fast: false
+      matrix:
+        build-configuration: [Debug]
 
-    - name: Send webhook
-      shell: powershell
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "hello"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: 'FrancoisSuzeau/Squeamish'
+        submodules: true
+        lfs: true
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
+        vs-prerelease: true
+        vs-version: '17.8.0'
+
+    - name: Build debug
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild ${{env.SOLUTION_FILE_PATH}}

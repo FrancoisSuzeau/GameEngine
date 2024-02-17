@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [Windows, self-hosted]t p
+    runs-on: [Windows, self-hosted]
     strategy:
       fail-fast: false
       matrix:
@@ -45,9 +45,9 @@ jobs:
 
   publish:
     runs-on: [Windows, self-hosted]
-    #needs: build
+    needs: build
     steps:
 
     - name: Send webhook
-      run: |
-        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added : ${{ github.event.pull_request.title }}"
+      shell: powershell
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" ${{ github.event.pull_request.title }}
