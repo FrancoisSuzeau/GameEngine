@@ -26,12 +26,20 @@ $thumbnailObject = [PSCustomObject]@{
 $field1 = [PSCustomObject]@{
     name = ':unicorn:  Feature added :' 
     value = "=> " + $args[2]
-    inline = "false"
+    inline = "true"
+}
+
+# # Creating 2nd field -> issue link
+$field2 = [PSCustomObject]@{
+    name = ':wave: Link to the issue : ' 
+    value = $args[3]
+    inline = "true"
 }
 
 # # Creating fields array 
 [System.Collections.ArrayList]$fieldsArray = @()
 $return = $fieldsArray.Add($field1)
+$return = $fieldsArray.Add($field2)
 # Creating footer
 $footerContent = [PSCustomObject]@{
     text = 'Woah! So cool!'
