@@ -52,4 +52,4 @@ jobs:
       shell: powershell
       run: | 
         echo "${{ toJson(github.event.pull_request.labels.*.name) }}${{ toJson(github.event.pull_request.labels.*.name) }}"
-        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" ${{ toJson(github.event.pull_request.labels.*.name) }}
+        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" "${{ toJson(github.event.pull_request.labels.*.name) }}"
