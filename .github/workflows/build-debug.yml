@@ -52,7 +52,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        repository: 'FrancoisSuzeau/Squeamish'
+        repository: "${{ github.repository }}"
         submodules: true
         lfs: true
 
@@ -71,3 +71,12 @@ jobs:
       run: |
         echo "${{env.BRANCH_NAME}}"
         echo "${{env.API_URL}}"
+
+    - name: Get Issue URL
+      shell: powershell
+      id: get_issue_url
+      run: |
+        ISSUE_URL=$(curl -sSL -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    "${API_URL}?labels=branch:${BRANCH_NAME}" \
+                    | jq -r '.[0].html_url')
