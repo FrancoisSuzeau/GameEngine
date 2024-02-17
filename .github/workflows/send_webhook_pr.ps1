@@ -25,7 +25,7 @@ $thumbnailObject = [PSCustomObject]@{
 # # Creating fields array 
 [System.Collections.ArrayList]$fieldsArray = @()
 
-# # Creating 1st field -> feature release
+# Creating 1st field -> feature release
 $field1 = [PSCustomObject]@{
     name = ':unicorn:  Feature added :' 
     value = "=> " + $args[2]
@@ -33,12 +33,17 @@ $field1 = [PSCustomObject]@{
 }
 $return = $fieldsArray.Add($field1)
 
-$field2 = [PSCustomObject]@{
-    name = ':wave: Category of the issue ' 
-    value = $args[3]
+[string[]]$lblArray = $args[3]
+if($lblArray.Count -ne 0)
+{
+    # Creating 1st field -> feature release
+    $field2 = [PSCustomObject]@{
+    name = ':wave:  Pull request label :' 
+    value = $lblArray
     inline = "true"
+    }
+    $return = $fieldsArray.Add($field2)
 }
-$return = $fieldsArray.Add($field2)
 # Creating footer
 $footerContent = [PSCustomObject]@{
     text = 'Woah! So cool!'
