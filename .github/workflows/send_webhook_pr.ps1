@@ -22,16 +22,41 @@ $thumbnailObject = [PSCustomObject]@{
     url = "https://cdn.discordapp.com/attachments/1065694223875199080/1175404890885988413/unicorn.jpg?ex=656b1c1b&is=6558a71b&hm=1195df7a323d783fa72e8d0e31708fc234596331d772b08a28502808ffce9378&"
 }
 
-# # Creating 1st field -> feature release
-$field1 = [PSCustomObject]@{
-    name = ':unicorn:  ' + $args[2]
-    value = $args[3]
-    inline = "false"
+# Getting labels
+[System.Collections.ArrayList]$lblArray = $args[3]
+$labels = ""
+if($lblArray.Count -ne 0)
+{
+    foreach($elem in $lblArray.ToArray())
+    {
+        $labels += $elem + ", "
+    }
+    
 }
 
-# # Creating fields array 
+# Creating fields array 
 [System.Collections.ArrayList]$fieldsArray = @()
+
+# Creating 1st field -> feature release
+$field1 = [PSCustomObject]@{
+    name = ':unicorn: ' +  "**" + $args[2] + "**"
+    value = "*" + $labels + "*"
+    inline = "true"
+}
+
+# add first field
 $return = $fieldsArray.Add($field1)
+
+# Creating 2nd field -> issue linked
+$field2 = [PSCustomObject]@{
+    name = ':wave: ' +  "**Issue linked**"
+    value = "[" + $args[4] + "](" + $args[5] + ")"
+    inline = "true"
+}
+
+# add first field
+$return = $fieldsArray.Add($field2)
+
 # Creating footer
 $footerContent = [PSCustomObject]@{
     text = 'Woah! So cool!'
@@ -66,3 +91,4 @@ try {
 catch {
     Write-Host "Error: $_"
 }
+

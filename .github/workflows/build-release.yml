@@ -12,6 +12,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
+  
 
 permissions:
   contents: read
@@ -39,15 +40,20 @@ jobs:
         vs-prerelease: true
         vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    # - name: Build release
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
   publish:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-
     - name: Send webhook
       shell: powershell
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "${{ github.event.pull_request.title }}"
+      run: |
+        $body = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pulls/${{ github.event.pull_request.number }} | jq -r '.body'
+        $issuenumber = [regex]::Match($body, '\d+').Value
+        $html_url = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/$issuenumber | jq -r '.html_url'
+        $labels = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/${{ github.event.pull_request.number }}/labels | jq '[.[].name]'
+        $labelsarray = $labels | ConvertFrom-Json
+        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labelsarray $body $html_url
