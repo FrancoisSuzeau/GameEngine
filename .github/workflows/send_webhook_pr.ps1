@@ -29,9 +29,9 @@ if($lblArray.Count -ne 0)
 {
     foreach($elem in $lblArray.ToArray())
     {
-        Write-Host $elem
+        $labels += $elem + ", "
     }
-    $labels = $lblArray.ToArray()
+    
 }
 
 # Creating fields array 
