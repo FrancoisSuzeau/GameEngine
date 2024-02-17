@@ -55,4 +55,5 @@ jobs:
         $issuenumber = [regex]::Match($body, '\d+').Value
         $html_url = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/$issuenumber | jq -r '.html_url'
         $labels = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/${{ github.event.pull_request.number }}/labels | jq '[.[].name]'
-        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labels $body $html_url
+        $labelsarray = $labels -replace "`"", '"$1"' -replace "\`"", '"$1"' | ConvertFrom-Json
+        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labelsarray $body $html_url
