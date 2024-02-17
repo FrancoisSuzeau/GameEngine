@@ -52,6 +52,6 @@ jobs:
       shell: powershell
       run: | 
         $labels = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pulls/${{ github.event.pull_request.number }}/labels | jq '[.[].name]'
-        $body = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pull/${{ github.event.pull_request.number }}/body
+        $body = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pull/${{ github.event.pull_request.number }} | jd 'body'
         echo $body
         .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labels
