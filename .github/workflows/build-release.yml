@@ -47,11 +47,6 @@ jobs:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-    - uses: tkt-actions/add-issue-links@v1.8.1
-      with:
-        repo-token: '${{ secrets.GITHUB_TOKEN }}' # required
-        branch-prefix: 'feature/' # required
-        repository: "${{ github.repository }}"
 
     # - name: Send webhook
     #   shell: powershell
