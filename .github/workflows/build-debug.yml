@@ -39,7 +39,7 @@ permissions:
   contents: read
 
 jobs:
-  apply-configuration:
+  build:
     runs-on: [Windows, self-hosted]
     strategy:
       fail-fast: false
@@ -60,7 +60,7 @@ jobs:
         msbuild-architecture: x64
         vs-prerelease: true
         vs-version: '17.8.0'
-  build:
+        
     - name: Build debug
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
