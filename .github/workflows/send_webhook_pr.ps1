@@ -36,11 +36,15 @@ $return = $fieldsArray.Add($field1)
 [string[]]$lblArray = $args[3]
 if($lblArray.Count -ne 0)
 {
-    Write-Host $lblArray
+    $lblConcatened = ""
+    foreach($elem in $lblArray)
+    {
+        $lblConcatened += $elem + " "
+    }
     # Creating 1st field -> feature release
     $field2 = [PSCustomObject]@{
     name = ':wave:  Pull request label :' 
-    value = $lblArray
+    value = $lblConcatened
     inline = "true"
     }
     $return = $fieldsArray.Add($field2)
