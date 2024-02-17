@@ -68,18 +68,15 @@ jobs:
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
     
-    - name: Get Branch Name
-      shell: powershell
-      run: |
-        echo "${{env.BRANCH_NAME}}"
-        echo "${{env.API_URL}}"
-        echo "${{env.SECRET_TOKEN}}"
-
-    # - name: Get Issue URL
+    # - name: Get Branch Name
     #   shell: powershell
-    #   id: get_issue_url
     #   run: |
-    #     $ISSUE_URL=$(curl -sSL -H "Authorization: token " \
-    #                 -H "Accept: application/vnd.github.v3+json" \
-    #                 "${API_URL}?labels=branch:${BRANCH_NAME}" \
-    #                 | jq -r '.[0].html_url')
+    #     echo "${{env.BRANCH_NAME}}"
+    #     echo "${{env.API_URL}}"
+    #     echo "${{env.SECRET_TOKEN}}"
+
+    - name: Get Issue URL
+      shell: powershell
+      id: get_issue_url
+      run: |
+        $ISSUE_URL=$(curl -sSL -H "Authorization: token ${{env.SECRET_TOKEN}}" -H "Accept: application/vnd.github.v3+json" "${{env.API_URL}}?labels=branch:${{env.BRANCH_NAME}}" | jq -r '.[0].html_url')
