@@ -48,11 +48,6 @@ jobs:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-    - name: Look labels
+    - name: Send webhook
       shell: powershell
-      run: |
-        echo "${{env.PR_LABEL_LIST}}"
-
-    # - name: Send webhook
-    #   shell: powershell
-    #   run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "${{ github.event.pull_request.title }}"
+      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" ${{ env.PR_LABEL_LIST }}
