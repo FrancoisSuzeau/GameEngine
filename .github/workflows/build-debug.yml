@@ -61,7 +61,6 @@ jobs:
         vs-prerelease: true
         vs-version: '17.8.0'
   build:
-    steps:
     - name: Build debug
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild ${{env.SOLUTION_FILE_PATH}}
