@@ -36,6 +36,7 @@ $return = $fieldsArray.Add($field1)
 [string[]]$lblArray = $args[3]
 if($lblArray.Count -ne 0)
 {
+    Write-Host $lblArray
     # Creating 1st field -> feature release
     $field2 = [PSCustomObject]@{
     name = ':wave:  Pull request label :' 
