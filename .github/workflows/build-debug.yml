@@ -68,5 +68,5 @@ jobs:
     - name: Get Branch Name
       shell: powershell
       run: |
-        BRANCH_NAME="${{ github.ref }}"
-        echo ${{BRANCH_NAME}}
+        BRANCH_NAME=$(echo "${{ github.ref }}")
+         echo "::set-output name=branch_name::${BRANCH_NAME}"
