@@ -76,7 +76,7 @@ jobs:
       shell: powershell
       id: get_issue_url
       run: |
-        ISSUE_URL=$(curl -sSL -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        $ISSUE_URL=$(curl -sSL -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                     -H "Accept: application/vnd.github.v3+json" \
                     "${API_URL}?labels=branch:${BRANCH_NAME}" \
                     | jq -r '.[0].html_url')
