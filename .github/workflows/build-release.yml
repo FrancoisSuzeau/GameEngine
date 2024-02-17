@@ -12,6 +12,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
+  PR_LABEL_LIST: ${{ toJson(github.event.pull_request.labels.*.name) }}
 
 permissions:
   contents: read
@@ -39,15 +40,19 @@ jobs:
         vs-prerelease: true
         vs-version: '17.8.0'
 
-    - name: Build release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+    # - name: Build release
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
 
   publish:
     runs-on: [Windows, self-hosted]
     needs: build
     steps:
-
-    - name: Send webhook
+    - name: Look labels
       shell: powershell
-      run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "${{ github.event.pull_request.title }}"
+      run: |
+        echo "${{env.PR_LABEL_LIST}}"
+
+    # - name: Send webhook
+    #   shell: powershell
+    #   run: .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "Feature added :" "${{ github.event.pull_request.title }}"
