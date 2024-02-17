@@ -35,6 +35,7 @@ env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
   BRANCH_NAME: "${{ github.ref }}"
+  BRANCH_NAME: "${{BRANCH_NAME#refs/heads/}}"
 
 permissions:
   contents: read
