@@ -27,7 +27,7 @@ $thumbnailObject = [PSCustomObject]@{
 $labels = ""
 if($lblArray.Count -ne 0)
 {
-    foreach($elem in $lblArray)
+    foreach($elem in $lblArray.ToArray())
     {
         Write-Host $elem
     }
@@ -40,7 +40,7 @@ if($lblArray.Count -ne 0)
 # Creating 1st field -> feature release
 $field1 = [PSCustomObject]@{
     name = ':unicorn: ' +  "**" + $args[2] + "**"
-    value = $labels
+    value = "*" + $labels + "*"
     inline = "true"
 }
 
