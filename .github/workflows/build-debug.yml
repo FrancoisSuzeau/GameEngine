@@ -34,7 +34,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "Squeamish.sln"
-  BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+  BRANCH_NAME: "${{ github.ref }}"
 
 permissions:
   contents: read
@@ -67,4 +67,4 @@ jobs:
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
     - name: Get Branch Name
       shell: powershell
-      run: echo $env.BRANCH_NAME
+      run: echo "${{env.BRANCH_NAME}}"
