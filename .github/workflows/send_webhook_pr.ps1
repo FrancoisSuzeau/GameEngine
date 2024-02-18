@@ -1,6 +1,5 @@
 # Settings webhook url
-$discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
-$WEBHOOK_URL = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
+$discordWebhookUrl = "https://discord.com/api/webhooks/1175831319079555195/kcwebNYUIHrkI16dM7qS9E3OVmESIlAFmb0fphEzoGuERZSDIGU4jY9DTeQrvYN_KRU1"
 $username = "Github Webhook"
 $webhook_content = "You might want to take a look .."
 $authorObject = [PSCustomObject]@{
@@ -86,7 +85,7 @@ $payload = [PSCustomObject]@{
 
 try {
     #http $WEBHOOK_URL username=$username content=$webhook_content embeds=$embedArray --ignore-stdin
-    Invoke-RestMethod -Uri $WEBHOOK_URL -Method Post -Headers @{"Content-Type" = "application/json"} -Body ($payload | ConvertTo-Json -Depth 4)
+    Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -Headers @{"Content-Type" = "application/json"} -Body ($payload | ConvertTo-Json -Depth 4)
 }
 catch {
     Write-Host "Error: $_"
