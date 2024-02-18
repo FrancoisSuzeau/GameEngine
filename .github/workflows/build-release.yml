@@ -63,6 +63,7 @@ jobs:
     needs: retrieve-pr-info
     steps:
     - name: Send webhook
+      id: publish_webhook
       shell: powershell
       run: |
         .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labelsarray $body $html_url
