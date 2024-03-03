@@ -1,0 +1,156 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6200",
+          "message": {
+            "text": "Index '53' is out of valid index range '0' to '52' for non-stack buffer 'imgl3wProcs.ptr'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/f58/Documents/Dev/Squeamish/ImGUI/imgui_impl_opengl3_loader.h"
+                },
+                "region": {
+                  "startLine": 751,
+                  "startColumn": 9,
+                  "endLine": 751,
+                  "endColumn": 26
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "load_procs",
+                  "decoratedName": "load_procs",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6031",
+          "message": {
+            "text": "Return value ignored: 'sscanf'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/f58/Documents/Dev/Squeamish/ImGUI/imgui_impl_opengl3.cpp"
+                },
+                "region": {
+                  "startLine": 222,
+                  "startColumn": 9,
+                  "endLine": 222,
+                  "endColumn": 46
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ImGui_ImplOpenGL3_Init",
+                  "decoratedName": "?ImGui_ImplOpenGL3_Init@@YA_NPEBD@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6031",
+          "message": {
+            "text": "Return value ignored: 'sscanf'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/f58/Documents/Dev/Squeamish/ImGUI/imgui_impl_opengl3.cpp"
+                },
+                "region": {
+                  "startLine": 613,
+                  "startColumn": 5,
+                  "endLine": 613,
+                  "endColumn": 51
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ImGui_ImplOpenGL3_CreateDeviceObjects",
+                  "decoratedName": "?ImGui_ImplOpenGL3_CreateDeviceObjects@@YA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.38.32919.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/f58/Documents/Dev/Squeamish/ImGUI/imgui_impl_opengl3_loader.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "284278a65f4543505c98e3f840d29122fe400e29e4c168759df084554834f4be"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/Users/f58/Documents/Dev/Squeamish/ImGUI/imgui_impl_opengl3.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "b3499c293e1213efaf3ba5417816ee459ab8d66a67d224cf006d48803098e94d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/imgui/imgui.h"
+          },
+          "hashes": {
+            "sha-256": "14ff878dd7127c95cddb89be002e7826734d34ada935e9bd0ac92909bd16d826"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/imgui/imconfig.h"
+          },
+          "hashes": {
+            "sha-256": "3de00daa35087bdf39e7d917b5ffa7affec457cfa961d09a175064f67e64a810"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/imgui/imgui_impl_opengl3.h"
+          },
+          "hashes": {
+            "sha-256": "515e38c31d1c6a4e290dbae381818b4aa4d1418ccc8605da519b0f39fde0da3d"
+          }
+        }
+      ]
+    }
+  ]
+}

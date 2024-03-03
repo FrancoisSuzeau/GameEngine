@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\f58\Documents\Dev\Squeamish\ImGUI\</FILEPATH>
+      <FILENAME>imgui_impl_opengl3_loader.h</FILENAME>
+      <LINE>751</LINE>
+      <COLUMN>25</COLUMN>
+    </SFA>
+    <DEFECTCODE>6200</DEFECTCODE>
+    <DESCRIPTION>Index '53' is out of valid index range '0' to '52' for non-stack buffer 'imgl3wProcs.ptr'.</DESCRIPTION>
+    <FUNCTION>load_procs</FUNCTION>
+    <DECORATED>load_procs</DECORATED>
+    <FUNCLINE>747</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\f58\Documents\Dev\Squeamish\ImGUI\</FILEPATH>
+      <FILENAME>imgui_impl_opengl3.cpp</FILENAME>
+      <LINE>222</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>ImGui_ImplOpenGL3_Init</FUNCTION>
+    <DECORATED>?ImGui_ImplOpenGL3_Init@@YA_NPEBD@Z</DECORATED>
+    <FUNCLINE>193</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\f58\Documents\Dev\Squeamish\ImGUI\</FILEPATH>
+      <FILENAME>imgui_impl_opengl3.cpp</FILENAME>
+      <LINE>613</LINE>
+      <COLUMN>10</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>ImGui_ImplOpenGL3_CreateDeviceObjects</FUNCTION>
+    <DECORATED>?ImGui_ImplOpenGL3_CreateDeviceObjects@@YA_NXZ</DECORATED>
+    <FUNCLINE>598</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

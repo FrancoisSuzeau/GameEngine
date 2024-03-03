@@ -94,6 +94,13 @@ namespace Services
 			init_succeded = false;
 			SDL_Quit();
 		}
+
+		if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1) < 0)
+		{
+			SQ_APP_ERROR("Class {} in function {} : Cannot use double buffering - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
+			init_succeded = false;
+			SDL_Quit();
+		}
 	}
 
 	void GraphicInitializerService::SetDimensions()
