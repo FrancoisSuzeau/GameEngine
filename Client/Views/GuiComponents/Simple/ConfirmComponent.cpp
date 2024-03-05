@@ -21,13 +21,14 @@ namespace Views
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		w_width = 400;
+		w_height = 120;
 	}
 	void ConfirmComponent::Render()
 	{
 		if (m_state_service && m_parent_view_model)
 		{
-			int w_width = 400;
-			int w_height = 120;
+			
 			bool show_confirm = m_state_service->getShowConfirm();
 			if (show_confirm)
 			{

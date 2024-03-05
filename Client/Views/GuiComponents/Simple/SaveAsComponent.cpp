@@ -21,6 +21,8 @@ namespace Views
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		w_width = 400;
+		w_height = 120;
 	}
 	void SaveAsComponent::Render()
 	{
@@ -28,8 +30,7 @@ namespace Views
 		{
 			bool show_save_as = m_state_service->getShowSaveAs();
 			bool show_confirm = m_state_service->getShowConfirm();
-			int w_width = 400;
-			int w_height = 120;
+			
 			if (show_save_as)
 			{
 				ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));

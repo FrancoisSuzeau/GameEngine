@@ -21,15 +21,16 @@ namespace Views
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		w_width = 400;
+		w_height = 200;
 	}
 	void StartComponent::Render()
 	{
 		if (m_state_service && m_parent_view_model && !m_state_service->getContinued())
 		{
-			int w = 400;
-			int h = 200;
-			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w / 2)), (float)((m_state_service->getHeight() / 2) - (h / 2))));
-			ImGui::SetNextWindowSize(ImVec2((float)w, (float)h));
+			
+			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
+			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 			ImGuiStyle& style = ImGui::GetStyle();
 			float frame_rounding_save = style.FrameRounding;
 			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
@@ -51,8 +52,8 @@ namespace Views
 					if (m_selected != -1)
 					{
 						style.FrameRounding = 20.f;
-						ImGui::SetCursorPosY(h - 45.f);
-						if (ImGui::Button("Select", ImVec2((float)(w - 15.f), 30.f)))
+						ImGui::SetCursorPosY(w_height - 45.f);
+						if (ImGui::Button("Select", ImVec2((float)(w_width - 15.f), 30.f)))
 						{
 							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(created_scene[m_selected]));
 							m_parent_view_model->AddCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setContinued, m_state_service, true)));

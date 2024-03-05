@@ -32,6 +32,8 @@ namespace Views {
 
 	protected:
 		std::shared_ptr<ViewModels::IViewModel> m_parent_view_model;
+		int w_height;
+		int w_width;
 	};
 	
 }
