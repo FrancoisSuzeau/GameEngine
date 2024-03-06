@@ -39,6 +39,7 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
 		void RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderCustomizeSelectedCpSection();
 		bool show_color_picker;
 	};
 }

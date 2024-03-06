@@ -30,28 +30,36 @@ namespace Views
 	void WorkBarComponent::Render()
 	{
 
+		this->RenderCustomizeSelectedCpSection();
+
+	}
+	void WorkBarComponent::RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+	}
+	void WorkBarComponent::RenderCustomizeSelectedCpSection()
+	{
 		if (m_state_service && m_state_service->getContinued())
 		{
 			w_height = m_state_service->getHeight();
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth()) - w_width), 0));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
-			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar 
-				| ImGuiWindowFlags_NoScrollbar 
-				| ImGuiWindowFlags_NoResize 
-				| ImGuiWindowFlags_NoFocusOnAppearing 
+			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar
+				| ImGuiWindowFlags_NoScrollbar
+				| ImGuiWindowFlags_NoResize
+				| ImGuiWindowFlags_NoFocusOnAppearing
 				| ImGuiWindowFlags_NoBringToFrontOnFocus;
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar;
 			ImGuiStyle& style = ImGui::GetStyle();
 			frame_rounding_save = style.FrameRounding;
 			ImVec2 window_padding_save = style.WindowPadding;
-			
+
 			style.FrameRounding = 20.f;
 			style.WindowPadding.y = 30.f;
-
+			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
 			if (ImGui::Begin("WorkBar", nullptr, window_flags))
 			{
-				std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
+
 				if (selected_renderer)
 				{
 					style.WindowPadding = window_padding_save;
@@ -82,18 +90,14 @@ namespace Views
 					ImGui::EndChild();
 					selected_renderer.reset();
 				}
-				
+
 				ImGui::End();
 			}
-			
+
 			style.FrameRounding = frame_rounding_save;
 			style.WindowPadding = window_padding_save;
-			
-		}
 
-	}
-	void WorkBarComponent::RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
-	{
+		}
 	}
 	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
 	{
