@@ -21,14 +21,18 @@ namespace Views
 		{
 			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 		}
+		else
+		{
+			w_width = 400;
+			
+		}
 	}
 	void WorkBarComponent::Render()
 	{
 
 		if (m_state_service && m_state_service->getContinued())
 		{
-			int w_width = 400;
-			int w_height = m_state_service->getHeight();
+			w_height = m_state_service->getHeight();
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth()) - w_width), 0));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar 
@@ -39,7 +43,7 @@ namespace Views
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar;
 			ImGuiStyle& style = ImGui::GetStyle();
-			float frame_rounding_save = style.FrameRounding;
+			frame_rounding_save = style.FrameRounding;
 			ImVec2 window_padding_save = style.WindowPadding;
 			
 			style.FrameRounding = 20.f;
