@@ -43,6 +43,7 @@ namespace Views
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
+		int item_current;
 	};
 }
 

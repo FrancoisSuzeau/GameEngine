@@ -14,7 +14,7 @@ namespace Views
 			m_state_service.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent() : show_color_picker(false)
+	WorkBarComponent::WorkBarComponent() : show_color_picker(false), item_current(-1)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -54,7 +54,12 @@ namespace Views
 	{
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 450), true, window_flags2))
 		{
-
+			const char* items[] = { "Triangle", "Square" };
+			ImGui::Text("Add new :");
+			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
+			{
+				item_current = -1;
+			}
 			ImGui::EndChild();
 		}
 	}
