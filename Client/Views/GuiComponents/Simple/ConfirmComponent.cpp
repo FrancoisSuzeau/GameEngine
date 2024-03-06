@@ -39,7 +39,7 @@ namespace Views
 				{
 					ImGui::Text(m_state_service->getConfirmMessage().c_str());
 					ImGuiStyle& style = ImGui::GetStyle();
-					float frame_rounding_save = style.FrameRounding;
+					frame_rounding_save = style.FrameRounding;
 					style.FrameRounding = 20.f;
 					ImGui::SetCursorPosY((float)(w_height - 45.f));
 					if (ImGui::Button("Accept", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)

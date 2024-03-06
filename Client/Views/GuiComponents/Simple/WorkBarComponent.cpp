@@ -43,7 +43,7 @@ namespace Views
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar;
 			ImGuiStyle& style = ImGui::GetStyle();
-			float frame_rounding_save = style.FrameRounding;
+			frame_rounding_save = style.FrameRounding;
 			ImVec2 window_padding_save = style.WindowPadding;
 			
 			style.FrameRounding = 20.f;

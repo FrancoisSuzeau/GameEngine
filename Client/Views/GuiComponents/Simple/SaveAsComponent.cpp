@@ -42,7 +42,7 @@ namespace Views
 					ImGui::Text(m_state_service->getConfirmMessage().c_str());
 					ImGui::InputText("Enter name here ...", filename, IM_ARRAYSIZE(filename));
 					ImGuiStyle& style = ImGui::GetStyle();
-					float frame_rounding_save = style.FrameRounding;
+					frame_rounding_save = style.FrameRounding;
 					style.FrameRounding = 20.f;
 					ImGui::SetCursorPosY(w_height - 45.f);
 					if (filename[0] != '\0')

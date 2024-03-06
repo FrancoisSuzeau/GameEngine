@@ -32,7 +32,7 @@ namespace Views
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2) - (w_width / 2)), (float)((m_state_service->getHeight() / 2) - (w_height / 2))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 			ImGuiStyle& style = ImGui::GetStyle();
-			float frame_rounding_save = style.FrameRounding;
+			frame_rounding_save = style.FrameRounding;
 			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 			if (!created_scene.empty())
 			{
