@@ -24,19 +24,9 @@ namespace Views
 		else
 		{
 			w_width = 400;
-			
 		}
 	}
 	void WorkBarComponent::Render()
-	{
-
-		this->RenderCustomizeSelectedCpSection();
-
-	}
-	void WorkBarComponent::RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
-	{
-	}
-	void WorkBarComponent::RenderCustomizeSelectedCpSection()
 	{
 		if (m_state_service && m_state_service->getContinued())
 		{
@@ -50,6 +40,30 @@ namespace Views
 				| ImGuiWindowFlags_NoBringToFrontOnFocus;
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar;
+
+			if (ImGui::Begin("WorkBar", nullptr, window_flags))
+			{
+				this->RenderGeneralFunctionnalities(window_flags2);
+				this->RenderCustomizeSelectedCpSection(tab_bar_flags, window_flags2);
+
+				ImGui::End();
+			}	
+		}
+	}
+	void WorkBarComponent::RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2)
+	{
+		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 450), true, window_flags2))
+		{
+
+			ImGui::EndChild();
+		}
+	}
+
+	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
+	{
+		if (m_state_service && m_state_service->getContinued())
+		{
+
 			ImGuiStyle& style = ImGui::GetStyle();
 			frame_rounding_save = style.FrameRounding;
 			ImVec2 window_padding_save = style.WindowPadding;
@@ -57,13 +71,11 @@ namespace Views
 			style.FrameRounding = 20.f;
 			style.WindowPadding.y = 30.f;
 			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
-			if (ImGui::Begin("WorkBar", nullptr, window_flags))
+			if (selected_renderer)
 			{
-
-				if (selected_renderer)
+				style.WindowPadding = window_padding_save;
+				if (ImGui::BeginChild("ChildSelectedCpt", ImVec2(0, 450), true, window_flags2))
 				{
-					style.WindowPadding = window_padding_save;
-					ImGui::BeginChild("ChildR", ImVec2(0, 450), true, window_flags2);
 					if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
 					{
 						if (ImGui::BeginTabItem("Properties"))
@@ -75,7 +87,7 @@ namespace Views
 						if (ImGui::BeginTabItem("Appearance"))
 						{
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
-
+							this->RenderAppearanceTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
 						if (ImGui::BeginTabItem("Infos"))
@@ -88,10 +100,9 @@ namespace Views
 					}
 
 					ImGui::EndChild();
-					selected_renderer.reset();
 				}
 
-				ImGui::End();
+				selected_renderer.reset();
 			}
 
 			style.FrameRounding = frame_rounding_save;
@@ -99,6 +110,7 @@ namespace Views
 
 		}
 	}
+
 	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
@@ -130,4 +142,13 @@ namespace Views
 			selected_renderer->SetPosition(position);
 		}
 	}
+
+	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+	}
+
+	void WorkBarComponent::RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+	}
+	
 }
