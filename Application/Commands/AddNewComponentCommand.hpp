@@ -17,10 +17,11 @@ namespace Commands {
 	class AddNewComponentCommmand : public ICommand
 	{
 	public:
-		AddNewComponentCommmand();
+		AddNewComponentCommmand(Enums::RendererType component_type);
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
+		Enums::RendererType const m_component_type;
 	};
 }
 
