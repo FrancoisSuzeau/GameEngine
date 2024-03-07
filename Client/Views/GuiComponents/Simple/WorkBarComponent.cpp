@@ -52,16 +52,27 @@ namespace Views
 	}
 	void WorkBarComponent::RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2)
 	{
+		bool show_confirm = m_state_service->getShowConfirm();
+
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 450), true, window_flags2))
 		{
 			const char* items[] = { "Triangle", "Square" };
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
+
+				if (m_parent_view_model)
+				{
+					m_parent_view_model->AddCommand(new Commands::AddNewComponentCommmand());
+					m_state_service->setConfirmMessage("You are about to add a new component. Are you sure ?");
+					show_confirm = true;
+				}
 				item_current = -1;
 			}
 			ImGui::EndChild();
 		}
+
+		m_state_service->setShowConfirm(show_confirm);
 	}
 
 	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)

@@ -5,7 +5,6 @@
 #include "SaveSceneCommand.hpp"
 
 namespace Commands
-
 {
 	SaveSceneCommand::SaveSceneCommand(std::string const filename)
 	{
