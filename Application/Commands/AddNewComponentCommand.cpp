@@ -43,7 +43,6 @@ namespace Commands
 		if (m_camera_service)
 		{
 			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
-			position.z = -1.f;
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
@@ -74,6 +73,7 @@ namespace Commands
 			new_component_to_make->SetSelected(true);
 			m_state_service->addRenderer(new_component_to_make);
 			m_state_service->setSelectedRenderer();
+			new_component_to_make.reset();
 		}
 	}
 }

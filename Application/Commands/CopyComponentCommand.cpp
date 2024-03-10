@@ -71,13 +71,13 @@ namespace Commands
 		if (m_state_service && m_renderer_to_copy && m_camera_service)
 		{
 			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
-			position.z = -1.f;
 			
 			m_renderer_to_copy->SetSelected(false);
 			new_component_to_make->SetPosition(position);
 			new_component_to_make->SetSelected(true);
 			m_state_service->addRenderer(new_component_to_make);
 			m_state_service->setSelectedRenderer();
+			new_component_to_make.reset();
 		}
 	}
 }
