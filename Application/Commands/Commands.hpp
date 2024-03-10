@@ -13,5 +13,6 @@
 #include "SaveConfigCommand.hpp"
 #include "LoadSceneCommand.hpp"
 #include "ModifyConfigsCommand.hpp"
+#include "AddNewComponentCommand.hpp"
 
 #endif

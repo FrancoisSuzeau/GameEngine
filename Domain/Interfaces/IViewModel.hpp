@@ -31,11 +31,11 @@ namespace ViewModels {
 		virtual void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) {};
 		virtual void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) {};
 		virtual void RenderGrid(GLenum const mode, float const line_width) {};
-		virtual void AddCommand(Commands::ICommand* command)
+		virtual void AddCommand(std::unique_ptr<Commands::ICommand> command)
 		{
 			if (command)
 			{
-				m_commands.push_back(std::unique_ptr<Commands::ICommand>(command));
+				m_commands.push_back(std::move(command));
 			}
 		}
 		virtual void OnCommand() 
@@ -50,7 +50,11 @@ namespace ViewModels {
 				}
 			}
 
-			m_commands.clear();
+			if (!m_commands.empty())
+			{
+				m_commands.clear();
+			}
+			
 		};
 
 	protected:

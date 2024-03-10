@@ -21,6 +21,14 @@ namespace Commands
 		}
 	}
 
+	ModifyConfigsCommand::~ModifyConfigsCommand()
+	{
+		if (m_configs)
+		{
+			m_configs.reset();
+		}
+	}
+
 	void ModifyConfigsCommand::Execute()
 	{
 		if (m_configs)

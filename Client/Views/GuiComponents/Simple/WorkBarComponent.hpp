@@ -19,6 +19,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
+#include "IRenderer.hpp"
 #include "Services/StateService.hpp"
 #include "Container/Container.hpp"
 
@@ -39,7 +40,11 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
 		void RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
+		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
+		int item_current;
 	};
 }
 

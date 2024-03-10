@@ -242,6 +242,14 @@ namespace Services
 	{
 		return m_previous_selected_renderer_color;
 	}
+
+	void StateService::addRenderer(std::shared_ptr<Renderers::IRenderer> new_renderer)
+	{
+		if (new_renderer)
+		{
+			m_renderers.push_back(new_renderer);
+		}
+	}
 	
 	
 	glm::mat4 StateService::GetProjectionMatrix() const

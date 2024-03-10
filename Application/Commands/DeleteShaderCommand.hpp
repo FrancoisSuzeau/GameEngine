@@ -17,6 +17,7 @@ namespace Commands {
 	{
 	public:
 		DeleteShaderCommand(std::string const shader_name);
+		~DeleteShaderCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

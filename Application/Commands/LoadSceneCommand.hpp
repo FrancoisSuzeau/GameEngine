@@ -20,7 +20,7 @@ namespace Commands {
 	{
 	public:
 		LoadSceneCommand(std::string const filename);
-		
+		~LoadSceneCommand();
 		void Execute() override;
 	private:
 

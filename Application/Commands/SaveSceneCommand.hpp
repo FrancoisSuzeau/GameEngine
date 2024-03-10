@@ -19,6 +19,7 @@ namespace Commands {
 	public:
 		SaveSceneCommand(std::string const filename);
 		SaveSceneCommand();
+		~SaveSceneCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::JsonService> m_json_service;

@@ -15,6 +15,14 @@ namespace Commands
 		}
 	}
 
+	DeleteShaderCommand::~DeleteShaderCommand()
+	{
+		if (m_shader_service)
+		{
+			m_shader_service.reset();
+		}
+	}
+
 	void DeleteShaderCommand::Execute()
 	{
 		if (m_shader_service)

@@ -16,6 +16,14 @@ namespace Commands
 		}
 	}
 
+	LoadNewShaderCommand::~LoadNewShaderCommand()
+	{
+		if (m_shader_service)
+		{
+			m_shader_service.reset();
+		}
+	}
+
 	void LoadNewShaderCommand::Execute()
 	{
 		if (m_shader_service)

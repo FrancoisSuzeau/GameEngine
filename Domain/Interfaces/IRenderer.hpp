@@ -19,7 +19,7 @@
 #endif
 
 namespace Enums {
-	enum RendererType {NONE, TRIANGLE, SQUARE, SQUARE_TEXTURED, GRID, SKYBOX};
+	enum RendererType {NONE = -1, TRIANGLE = 0, SQUARE = 1, SQUARE_TEXTURED = 2, GRID = 3, SKYBOX = 4};
 }
 
 namespace Renderers {

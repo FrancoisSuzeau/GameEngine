@@ -90,6 +90,9 @@
     <ClCompile Include="Services\KeyboardInputService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commands\AddNewComponentCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp">
@@ -177,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\KeyboardInputService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\AddNewComponentCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

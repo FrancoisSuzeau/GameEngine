@@ -5,7 +5,6 @@
 #include "SaveSceneCommand.hpp"
 
 namespace Commands
-
 {
 	SaveSceneCommand::SaveSceneCommand(std::string const filename)
 	{
@@ -46,6 +45,19 @@ namespace Commands
 			{
 				SQ_APP_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+		}
+	}
+
+	SaveSceneCommand::~SaveSceneCommand()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+
+		if (m_json_service)
+		{
+			m_json_service.reset();
 		}
 	}
 

@@ -17,6 +17,7 @@ namespace Commands {
 	{
 	public:
 		ExitCommand(std::function<void(bool)> callback);
+		~ExitCommand();
 		void Execute() override;
 	private:
 		std::function<void(bool)> m_callback;

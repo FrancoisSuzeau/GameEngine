@@ -19,6 +19,14 @@ namespace Commands
 		}
 	}
 
+	ModifyShaderCommand::~ModifyShaderCommand()
+	{
+		if (m_shader_service)
+		{
+			m_shader_service.reset();
+		}
+	}
+
 	void ModifyShaderCommand::Execute()
 	{
 		if (m_shader_service)

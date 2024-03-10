@@ -17,6 +17,7 @@ namespace Commands {
 	{
 	public:
 		LoadNewShaderCommand(std::string const shader_name, Enums::ShaderType const shader_type);
+		~LoadNewShaderCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

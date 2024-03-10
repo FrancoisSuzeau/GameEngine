@@ -11,6 +11,10 @@ namespace Commands
 		
 	}
 
+	ExitCommand::~ExitCommand()
+	{
+	}
+
 	void ExitCommand::Execute()
 	{
 		m_callback(true);
