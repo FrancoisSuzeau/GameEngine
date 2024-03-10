@@ -1,0 +1,25 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Publish embeded card when pull request is closed and merged
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  publish_if_merged:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: [Windows, self-hosted]
+    steps:
+    - run: |
+        $body = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pulls/${{ github.event.pull_request.number }} | jq -r '.body'
+        $issuenumber = [regex]::Match($body, '\d+').Value
+        $html_url = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/$issuenumber | jq -r '.html_url'
+        $labels = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/issues/${{ github.event.pull_request.number }}/labels | jq '[.[].name]'
+        $labelsarray = $labels | ConvertFrom-Json
+        .github/workflows/send_webhook_pr.ps1 ${{ github.actor }} https://github.com/${{ github.actor }}.png?size=460 "${{ github.event.pull_request.title }}" $labelsarray $body $html_url
