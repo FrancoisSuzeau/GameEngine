@@ -43,6 +43,7 @@ namespace Commands
 		if (m_camera_service)
 		{
 			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
+			position.z = -1.f;
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
@@ -52,6 +53,10 @@ namespace Commands
 			case Enums::RendererType::SQUARE:
 				this->MakeNewComponent(std::make_shared<Renderers::Square>(position, glm::vec4(1.f), glm::vec3(0.2f)));
 				SQ_APP_TRACE("New square added");
+				break;
+			case Enums::RendererType::SKYBOX:
+			case Enums::RendererType::GRID:
+				SQ_APP_TRACE("This component type cannot be added to the scene");
 				break;
 			case Enums::RendererType::NONE:
 			default:

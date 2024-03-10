@@ -23,6 +23,8 @@ namespace Commands {
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Renderers::IRenderer> m_renderer_to_copy;
+		std::shared_ptr<Services::CameraService> m_camera_service;
+		void MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make);
 	};
 }
 
