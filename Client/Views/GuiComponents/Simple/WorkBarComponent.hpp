@@ -39,12 +39,14 @@ namespace Views
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
-		void RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
+		void RenderOtherFunTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer);
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
 		int item_current;
+		int current_tab;
+		std::vector<ImVec2> tabs_size;
 	};
 }
 
