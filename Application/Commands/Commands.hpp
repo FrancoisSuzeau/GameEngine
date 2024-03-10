@@ -15,5 +15,6 @@
 #include "ModifyConfigsCommand.hpp"
 #include "AddNewComponentCommand.hpp"
 #include "DeleteComponent.hpp"
+#include "CopyComponentCommand.hpp"
 
 #endif
