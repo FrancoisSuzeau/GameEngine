@@ -13,8 +13,13 @@ namespace Views
 		{
 			m_state_service.reset();
 		}
+
+		if (!tabs_size.empty())
+		{
+			tabs_size.clear();
+		}
 	}
-	WorkBarComponent::WorkBarComponent() : show_color_picker(false), item_current(-1)
+	WorkBarComponent::WorkBarComponent() : show_color_picker(false), item_current(-1), current_tab(0)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -25,6 +30,10 @@ namespace Views
 		{
 			w_width = 400;
 		}
+
+		tabs_size.push_back(ImVec2(0, 250));
+		tabs_size.push_back(ImVec2(0, 300));
+		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
 	{
@@ -90,26 +99,29 @@ namespace Views
 			if (selected_renderer)
 			{
 				style.WindowPadding = window_padding_save;
-				if (ImGui::BeginChild("ChildSelectedCpt", ImVec2(0, 480), true, window_flags2))
+				if (ImGui::BeginChild("ChildSelectedCpt", (current_tab < tabs_size.size() ? tabs_size.at(current_tab) : ImVec2(0, 300)), true, window_flags2))
 				{
 					if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
 					{
 						if (ImGui::BeginTabItem("Properties"))
 						{
+							current_tab = 0;
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
 							this->RenderPropertiesTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
 						if (ImGui::BeginTabItem("Appearance"))
 						{
+							current_tab = 1;
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
 							this->RenderAppearanceTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
-						if (ImGui::BeginTabItem("Infos"))
+						if (ImGui::BeginTabItem("Others"))
 						{
+							current_tab = 2;
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
-							this->RenderInfosTab(selected_renderer);
+							this->RenderOtherFunTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
 						ImGui::EndTabBar();
@@ -130,20 +142,9 @@ namespace Views
 	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
-		{
-			bool show_confirm = m_state_service->getShowConfirm();
-
-			glm::vec4 color = selected_renderer->GetBackgroundColor();
-			glm::vec4 ref_color = m_state_service->getRefColor();
+		{	
 			glm::vec3 size = selected_renderer->GetSize();
 			glm::vec3 position = selected_renderer->GetPosition();
-
-			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
-				| ImGuiColorEditFlags_AlphaBar
-				| ImGuiColorEditFlags_PickerHueWheel
-				| ImGuiColorEditFlags_NoInputs;
-			ImGui::BulletText("Background color : ");
-			ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
 
 			ImGui::BulletText("Position : ");
 			ImGui::SliderFloat("X - Axis", &position.x, -5.0f, 5.0f, "%.3f");
@@ -156,11 +157,35 @@ namespace Views
 			ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "%.3f");
 
 			selected_renderer->SetSize(size);
-			selected_renderer->SetBackgroundColor(color);
 			selected_renderer->SetPosition(position);
+		}
+	}
 
-			ImGui::Separator();
+	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+		if (m_state_service && selected_renderer)
+		{
+			glm::vec4 color = selected_renderer->GetBackgroundColor();
+			glm::vec4 ref_color = m_state_service->getRefColor();
 
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
+				| ImGuiColorEditFlags_AlphaBar
+				| ImGuiColorEditFlags_PickerHueWheel
+				| ImGuiColorEditFlags_NoInputs;
+			ImGui::BulletText("Background color : ");
+			ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
+
+			selected_renderer->SetBackgroundColor(color);
+		}
+	}
+
+	void WorkBarComponent::RenderOtherFunTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	{
+		if (m_state_service && selected_renderer)
+		{
+			bool show_confirm = m_state_service->getShowConfirm();
+			ImGui::BulletText("Delete component :");
+			ImGui::SameLine();
 			ImGui::PushID(0);
 			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.6f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.7f));
@@ -179,14 +204,6 @@ namespace Views
 
 			m_state_service->setShowConfirm(show_confirm);
 		}
-	}
-
-	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
-	{
-	}
-
-	void WorkBarComponent::RenderInfosTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
-	{
 	}
 	
 }
