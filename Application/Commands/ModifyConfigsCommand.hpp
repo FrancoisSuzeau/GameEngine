@@ -19,6 +19,7 @@ namespace Commands {
 	public:
 		
 		ModifyConfigsCommand(std::string const filename, Enums::ConfigsModifier configs_modifier);
+		~ModifyConfigsCommand();
 		void Execute() override;
 	private:
 

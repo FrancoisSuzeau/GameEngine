@@ -19,6 +19,7 @@ namespace Commands {
 		ModifyShaderCommand(std::string const shader_name, Enums::ShaderModifier shader_modifier, std::string const location,
 			glm::vec3 const& vec_to_add = glm::vec3(), glm::mat4 const& matrice_to_add = glm::mat4(), int const count = 0, float const to_ad = 0,
 			int const to_add = 0);
+		~ModifyShaderCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

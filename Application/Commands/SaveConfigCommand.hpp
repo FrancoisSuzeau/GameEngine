@@ -18,6 +18,7 @@ namespace Commands {
 	{
 	public:
 		SaveConfigCommand();
+		~SaveConfigCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::JsonService> m_json_service;

@@ -48,6 +48,19 @@ namespace Commands
 		}
 	}
 
+	SaveSceneCommand::~SaveSceneCommand()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+
+		if (m_json_service)
+		{
+			m_json_service.reset();
+		}
+	}
+
 	void SaveSceneCommand::Execute()
 	{
 		if (m_json_service && m_state_service)

@@ -18,6 +18,7 @@ namespace Commands {
 	{
 	public:
 		AddNewComponentCommmand(Enums::RendererType component_type);
+		~AddNewComponentCommmand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;

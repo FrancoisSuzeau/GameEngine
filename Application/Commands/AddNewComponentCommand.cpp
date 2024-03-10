@@ -19,6 +19,14 @@ namespace Commands
 		}
 	}
 
+	AddNewComponentCommmand::~AddNewComponentCommmand()
+	{
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
+	}
+
 	void AddNewComponentCommmand::Execute()
 	{
 		switch (m_component_type)
