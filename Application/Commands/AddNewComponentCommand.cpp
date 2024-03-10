@@ -16,6 +16,12 @@ namespace Commands
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_camera_service = container->GetReference<Services::CameraService>();
+			if (!m_camera_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -25,24 +31,33 @@ namespace Commands
 		{
 			m_state_service.reset();
 		}
+
+		if (m_camera_service)
+		{
+			m_camera_service.reset();
+		}
 	}
 
 	void AddNewComponentCommmand::Execute()
 	{
-		switch (m_component_type)
+		if (m_camera_service)
 		{
-		case Enums::RendererType::TRIANGLE:
-			this->MakeNewComponent(std::make_shared<Renderers::Triangle>(glm::vec3(0.f), glm::vec4(1.f), glm::vec3(0.2f)));
-			SQ_APP_TRACE("New triangle added");
-			break;
-		case Enums::RendererType::SQUARE:
-			this->MakeNewComponent(std::make_shared<Renderers::Square>(glm::vec3(0.f), glm::vec4(1.f), glm::vec3(0.2f)));
-			SQ_APP_TRACE("New square added");
-			break;
-		case Enums::RendererType::NONE:
-		default:
-			SQ_APP_TRACE("Component type not known. Cannot add it");
-			break;
+			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
+			switch (m_component_type)
+			{
+			case Enums::RendererType::TRIANGLE:
+				this->MakeNewComponent(std::make_shared<Renderers::Triangle>(position, glm::vec4(1.f), glm::vec3(0.2f)));
+				SQ_APP_TRACE("New triangle added");
+				break;
+			case Enums::RendererType::SQUARE:
+				this->MakeNewComponent(std::make_shared<Renderers::Square>(position, glm::vec4(1.f), glm::vec3(0.2f)));
+				SQ_APP_TRACE("New square added");
+				break;
+			case Enums::RendererType::NONE:
+			default:
+				SQ_APP_TRACE("Component type not known. Cannot add it");
+				break;
+			}
 		}
 
 	}
