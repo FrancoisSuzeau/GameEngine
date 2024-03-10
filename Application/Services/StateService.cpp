@@ -250,6 +250,13 @@ namespace Services
 			m_renderers.push_back(new_renderer);
 		}
 	}
+
+	void StateService::deleteRenderer()
+	{
+		this->unSelectRenderer();
+		auto to_remove = std::remove_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		m_renderers.erase(to_remove, m_renderers.end());
+	}
 	
 	
 	glm::mat4 StateService::GetProjectionMatrix() const

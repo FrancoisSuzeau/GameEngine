@@ -14,5 +14,6 @@
 #include "LoadSceneCommand.hpp"
 #include "ModifyConfigsCommand.hpp"
 #include "AddNewComponentCommand.hpp"
+#include "DeleteComponent.hpp"
 
 #endif

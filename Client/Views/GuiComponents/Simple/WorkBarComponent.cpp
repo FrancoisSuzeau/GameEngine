@@ -90,7 +90,7 @@ namespace Views
 			if (selected_renderer)
 			{
 				style.WindowPadding = window_padding_save;
-				if (ImGui::BeginChild("ChildSelectedCpt", ImVec2(0, 450), true, window_flags2))
+				if (ImGui::BeginChild("ChildSelectedCpt", ImVec2(0, 480), true, window_flags2))
 				{
 					if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
 					{
@@ -131,6 +131,8 @@ namespace Views
 	{
 		if (m_state_service && selected_renderer)
 		{
+			bool show_confirm = m_state_service->getShowConfirm();
+
 			glm::vec4 color = selected_renderer->GetBackgroundColor();
 			glm::vec4 ref_color = m_state_service->getRefColor();
 			glm::vec3 size = selected_renderer->GetSize();
@@ -156,6 +158,26 @@ namespace Views
 			selected_renderer->SetSize(size);
 			selected_renderer->SetBackgroundColor(color);
 			selected_renderer->SetPosition(position);
+
+			ImGui::Separator();
+
+			ImGui::PushID(0);
+			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.6f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.7f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.8f, 0.8f));
+			if (ImGui::Button("Delete"))
+			{
+				if (m_parent_view_model)
+				{
+					m_parent_view_model->AddCommand(std::make_unique<Commands::DeleteComponent>());
+					m_state_service->setConfirmMessage("You are about to delete a component. Are you sure ?");
+					show_confirm = true;
+				}
+			}
+			ImGui::PopStyleColor(3);
+			ImGui::PopID();
+
+			m_state_service->setShowConfirm(show_confirm);
 		}
 	}
 
