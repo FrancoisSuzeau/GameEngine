@@ -50,9 +50,9 @@ namespace Views
 						if (ImGui::Button("Save", ImVec2((float)(w_width - 15.f), 30.f)))
 						{
 
-							m_parent_view_model->AddCommand(new Commands::SaveSceneCommand(filename));
-							m_parent_view_model->AddCommand(new Commands::ModifyConfigsCommand(filename, Enums::ConfigsModifier::ADDFILE));
-							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(filename));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::SaveSceneCommand>(filename));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(filename, Enums::ConfigsModifier::ADDFILE));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(filename));
 							show_save_as = false;
 							show_confirm = true;
 							m_state_service->setConfirmMessage("Are you sure you want to save this scene as " + std::string(filename));

@@ -63,7 +63,7 @@ namespace Views
 
 				if (m_parent_view_model)
 				{	
-					m_parent_view_model->AddCommand(new Commands::AddNewComponentCommmand(static_cast<Enums::RendererType>(item_current)));
+					m_parent_view_model->AddCommand(std::make_unique<Commands::AddNewComponentCommmand>(static_cast<Enums::RendererType>(item_current)));
 					m_state_service->setConfirmMessage("You are about to add a new component. Are you sure ?");
 					show_confirm = true;
 				}

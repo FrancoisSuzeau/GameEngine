@@ -55,8 +55,8 @@ namespace Views
 						ImGui::SetCursorPosY(w_height - 45.f);
 						if (ImGui::Button("Select", ImVec2((float)(w_width - 15.f), 30.f)))
 						{
-							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(created_scene[m_selected]));
-							m_parent_view_model->AddCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setContinued, m_state_service, true)));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(created_scene[m_selected]));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::ExitCommand>(std::bind(&Services::StateService::setContinued, m_state_service, true)));
 							m_parent_view_model->OnCommand();
 
 						}

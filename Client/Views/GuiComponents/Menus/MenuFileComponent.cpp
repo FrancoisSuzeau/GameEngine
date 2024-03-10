@@ -38,7 +38,7 @@ namespace Views
 			{
 				if (ImGui::MenuItem("New", "Ctrl+Shift+N", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 				{
-					m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(""));
+					m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(""));
 					m_state_service->setConfirmMessage("You are about to create a new scene. Are you sure ?");
 				}
 
@@ -49,7 +49,7 @@ namespace Views
 					{
 						if (ImGui::MenuItem(it.c_str(), NULL, &show_confirm))
 						{
-							m_parent_view_model->AddCommand(new Commands::LoadSceneCommand(it));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(it));
 							m_state_service->setConfirmMessage("Are you sure you want to open " + it + " ?");
 						}
 					}
@@ -58,7 +58,7 @@ namespace Views
 
 				if (ImGui::MenuItem("Save scene", "Ctrl+S", &show_confirm, m_state_service->getContinued() && m_state_service->getFileName() != ""))
 				{
-					m_parent_view_model->AddCommand(new Commands::SaveSceneCommand());
+					m_parent_view_model->AddCommand(std::make_unique<Commands::SaveSceneCommand>());
 					m_state_service->setConfirmMessage("Are you sure you want to save this scene ?");
 				}
 
@@ -74,10 +74,10 @@ namespace Views
 				{
 					if (m_state_service->getContinued())
 					{
-						m_parent_view_model->AddCommand(new Commands::SaveConfigCommand());
+						m_parent_view_model->AddCommand(std::make_unique<Commands::SaveConfigCommand>());
 					}
 					m_state_service->setConfirmMessage("Are you sure you want to leave ?");
-					m_parent_view_model->AddCommand(new Commands::ExitCommand(std::bind(&Services::StateService::setExit, m_state_service, true)));
+					m_parent_view_model->AddCommand(std::make_unique<Commands::ExitCommand>(std::bind(&Services::StateService::setExit, m_state_service, true)));
 				}
 				ImGui::EndMenu();
 			}
