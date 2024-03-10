@@ -24,9 +24,11 @@ namespace Commands
 		switch (m_component_type)
 		{
 		case Enums::RendererType::TRIANGLE:
+			this->MakeNewComponent(std::make_shared<Renderers::Triangle>(glm::vec3(0.f), glm::vec4(1.f), glm::vec3(0.2f)));
 			SQ_APP_TRACE("New triangle added");
 			break;
 		case Enums::RendererType::SQUARE:
+			this->MakeNewComponent(std::make_shared<Renderers::Square>(glm::vec3(0.f), glm::vec4(1.f), glm::vec3(0.2f)));
 			SQ_APP_TRACE("New square added");
 			break;
 		case Enums::RendererType::NONE:
@@ -35,5 +37,15 @@ namespace Commands
 			break;
 		}
 
+	}
+	void AddNewComponentCommmand::MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make)
+	{
+		if (m_state_service)
+		{
+			new_component_to_make->Construct();
+			new_component_to_make->SetSelected(true);
+			m_state_service->addRenderer(new_component_to_make);
+			m_state_service->setSelectedRenderer();
+		}
 	}
 }

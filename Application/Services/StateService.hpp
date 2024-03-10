@@ -75,7 +75,7 @@ namespace Services {
 		void setPopupHovered(bool const new_val);
 		bool getPopupHovered() const;
 		glm::vec4 getRefColor() const;
-		
+		void addRenderer(std::shared_ptr<Renderers::IRenderer> new_renderer);
 
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();

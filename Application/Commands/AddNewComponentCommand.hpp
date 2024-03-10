@@ -22,6 +22,7 @@ namespace Commands {
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
 		Enums::RendererType const m_component_type;
+		void MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make);
 	};
 }
 
