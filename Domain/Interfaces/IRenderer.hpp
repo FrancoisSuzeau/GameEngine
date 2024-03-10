@@ -108,7 +108,7 @@ namespace Renderers {
 			return m_selected;
 		}
 
-		void IncrementAngle(float const incr)
+		virtual void IncrementAngle(float const incr)
 		{
 			if (m_angle > 360.f)
 			{
@@ -120,7 +120,7 @@ namespace Renderers {
 			}
 		}
 
-		float GetAngle() const
+		virtual float GetAngle() const
 		{
 			return m_angle;
 		}

@@ -50,6 +50,7 @@ namespace Views
 					ImGui::SetCursorPos(ImVec2((float)(w_width / 2.f), (float)(w_height - 45.f)));
 					if (ImGui::Button("Cancel", ImVec2((float)(w_width / 2.f - 15.f), 30.f)) && m_state_service)
 					{
+						m_parent_view_model->DeleteCommmands();
 						show_confirm = false;
 					}
 					style.FrameRounding = frame_rounding_save;
