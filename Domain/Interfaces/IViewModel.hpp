@@ -45,6 +45,19 @@ namespace ViewModels {
 				if (it[0])
 				{
 					it[0]->Execute();
+				}
+			}
+
+			this->DeleteCommmands();
+			
+		};
+
+		virtual void DeleteCommmands()
+		{
+			for (std::vector<std::unique_ptr<Commands::ICommand>>::iterator it = m_commands.begin(); it != m_commands.end(); it++)
+			{
+				if (it[0])
+				{
 					it[0].reset();
 					it[0] = nullptr;
 				}
@@ -54,8 +67,7 @@ namespace ViewModels {
 			{
 				m_commands.clear();
 			}
-			
-		};
+		}
 
 	protected:
 		std::vector<std::unique_ptr<Commands::ICommand>> m_commands;

@@ -190,7 +190,7 @@ namespace Views
 			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.6f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.7f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.8f, 0.8f));
-			if (ImGui::Button("Delete"))
+			if (ImGui::Button("Delete", ImVec2(100, 20)))
 			{
 				if (m_parent_view_model)
 				{
@@ -201,6 +201,18 @@ namespace Views
 			}
 			ImGui::PopStyleColor(3);
 			ImGui::PopID();
+
+			ImGui::BulletText("Copy component :");
+			ImGui::SameLine();
+			if (ImGui::Button("Copy", ImVec2(100, 20)))
+			{
+				if (m_parent_view_model)
+				{
+					m_parent_view_model->AddCommand(std::make_unique<Commands::CopyComponentCommand>(selected_renderer));
+					m_state_service->setConfirmMessage("You are about to copy a component. Are you sure ?");
+					show_confirm = true;
+				}
+			}
 
 			m_state_service->setShowConfirm(show_confirm);
 		}

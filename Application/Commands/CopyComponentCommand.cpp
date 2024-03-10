@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : AddNewComponentCommand.cpp
+// File : CopyComponentCommand.cpp
 // Purpose : Implementing the load new shader command
 /******************************************************************************************************************************************/
-#include "AddNewComponentCommand.hpp"
+#include "CopyComponentCommand.hpp"
 
 namespace Commands
 {
-	AddNewComponentCommmand::AddNewComponentCommmand(Enums::RendererType component_type) : m_component_type(component_type)
+	CopyComponentCommand::CopyComponentCommand(std::shared_ptr<Renderers::IRenderer> renderer_to_copy) : m_renderer_to_copy(renderer_to_copy)
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -25,11 +25,16 @@ namespace Commands
 		}
 	}
 
-	AddNewComponentCommmand::~AddNewComponentCommmand()
+	CopyComponentCommand::~CopyComponentCommand()
 	{
 		if (m_state_service)
 		{
 			m_state_service.reset();
+		}
+
+		if (m_renderer_to_copy)
+		{
+			m_renderer_to_copy.reset();
 		}
 
 		if (m_camera_service)
@@ -38,38 +43,37 @@ namespace Commands
 		}
 	}
 
-	void AddNewComponentCommmand::Execute()
+	void CopyComponentCommand::Execute()
 	{
-		if (m_camera_service)
+		if (m_state_service && m_renderer_to_copy)
 		{
-			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
-			switch (m_component_type)
+			switch (m_renderer_to_copy->GetType())
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->MakeNewComponent(std::make_shared<Renderers::Triangle>(position, glm::vec4(1.f), glm::vec3(0.2f)));
-				SQ_APP_TRACE("New triangle added");
+				this->MakeNewComponent(std::make_shared<Renderers::Triangle>(*std::dynamic_pointer_cast<Renderers::Triangle>(m_renderer_to_copy)));
+				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->MakeNewComponent(std::make_shared<Renderers::Square>(position, glm::vec4(1.f), glm::vec3(0.2f)));
-				SQ_APP_TRACE("New square added");
+				this->MakeNewComponent(std::make_shared<Renderers::Square>(*std::dynamic_pointer_cast<Renderers::Square>(m_renderer_to_copy)));
+				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
-				SQ_APP_TRACE("This component type cannot be added to the scene");
-				break;
 			case Enums::RendererType::NONE:
 			default:
-				SQ_APP_TRACE("Component type not known. Cannot add it");
 				break;
 			}
+			
 		}
-
 	}
-	void AddNewComponentCommmand::MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make)
+	void CopyComponentCommand::MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make)
 	{
-		if (m_state_service)
+		if (m_state_service && m_renderer_to_copy && m_camera_service)
 		{
-			new_component_to_make->Construct();
+			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
+			
+			m_renderer_to_copy->SetSelected(false);
+			new_component_to_make->SetPosition(position);
 			new_component_to_make->SetSelected(true);
 			m_state_service->addRenderer(new_component_to_make);
 			m_state_service->setSelectedRenderer();
