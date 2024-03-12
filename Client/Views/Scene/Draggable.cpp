@@ -5,7 +5,7 @@
 
 #include "Draggable.hpp"
 
-namespace Component
+namespace Views
 {
 	Draggable::Draggable()
 	{

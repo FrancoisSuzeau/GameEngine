@@ -18,10 +18,6 @@ namespace Component {
 	public:
 		virtual ~IComponent() {}
 		virtual void Clean() = 0;
-		virtual void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
-		virtual void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
-		virtual void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) {}
-		virtual void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) {}
 
 		
 

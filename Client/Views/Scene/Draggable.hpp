@@ -11,17 +11,17 @@
 #include "Renderers/Renderers.hpp"
 #include "Services/MouseInputService.hpp"
 
-namespace Component
+namespace Views
 {
-	class Draggable : public IComponent
+	class Draggable
 	{
 	public:
 		Draggable();
-		void Clean() override;
-		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
-		void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
-		void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer) override;
-		void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
+		void Clean();
+		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
+		void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
+		void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
+		void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
 	private:
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboard_input_service;

@@ -9,7 +9,7 @@ namespace Views
 {
 	Canvas::Canvas()
 	{
-		m_draggable_component = std::make_unique<Component::Draggable >();
+		m_draggable_component = std::make_unique<Views::Draggable >();
 
 		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
 		if (!m_shader_service)
@@ -28,7 +28,6 @@ namespace Views
 
 		if (m_shader_service)
 		{
-			m_shader_service->DeInit();
 			m_shader_service.reset();
 		}
 	}
