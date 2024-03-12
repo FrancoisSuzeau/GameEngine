@@ -9,6 +9,7 @@
 #include "../Views/Views.hpp"
 #include "Container/Container.hpp"
 #include "../Views/Transformer.hpp"
+#include "Services/ShaderService.hpp"
 
 
 #include <iostream>
@@ -31,13 +32,12 @@ namespace ViewModels
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;
-		std::unique_ptr<Component::TexturedComponent> m_textured_component;
-		std::unique_ptr<Component::ComponentBase> m_untextured_component;
 		
 		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
 		std::shared_ptr<Renderers::Grid> m_grid_renderer;
 		std::shared_ptr<Renderers::Skybox> m_skybox_renderer;
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
 	};
 }
 

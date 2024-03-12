@@ -6,8 +6,7 @@
 #define CANVAS_H
 
 #include "IView.hpp"
-#include "ComponentBase.hpp"
-#include "TexturedComponent.hpp"
+#include "Services/ShaderService.hpp"
 #include "Draggable.hpp"
 #include "../Transformer.hpp"
 #include <map>
@@ -24,7 +23,8 @@ namespace Views
 		void TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 		void DragRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers) override;
 	private:
-		std::map<std::string, std::unique_ptr<Component::IComponent>> m_components_map;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
+		std::unique_ptr<Component::Draggable> m_draggable_component;
 	};
 }
 
