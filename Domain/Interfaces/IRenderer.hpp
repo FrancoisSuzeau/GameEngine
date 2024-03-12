@@ -38,16 +38,18 @@ namespace Renderers {
 			CleanEbo();
 			m_vertices.clear();
 		}
-		virtual Enums::RendererType GetType() const
-		{
-			return m_type;
-		}
 
 		virtual GLuint GetVAO() const
 		{
 			return m_vao;
 		}
 
+		virtual Enums::RendererType GetType() const
+		{
+			return m_type;
+		}
+
+		
 		virtual glm::mat4 GetModelMat() const
 		{
 			return m_model_mat;

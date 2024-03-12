@@ -1,29 +1,25 @@
 /******************************************************************************************************************************************/
-// File : TexturedComponent.hpp
+// File : ComponentBase.hpp
 // Purpose : The Component view implementing basis of element on canvas
 /******************************************************************************************************************************************/
-#ifndef TEXTUREDCOMPONENT_H
-#define TEXTUREDCOMPONENT_H
+#ifndef COMPONENTBASE_H
+#define COMPONENTBASE_H
 
-#include "IComponent.hpp"
-#include "Services/ShaderService.hpp"
-#include "Container/Container.hpp"
-#include "Constants/NumberConstants.hpp"
-#include "Renderers/Renderers.hpp"
-#include "../Transformer.hpp"
-#include <GL/glew.h>
+#include "../../Interfaces/IComponent.hpp"
 
 namespace Component
 {
-	class TexturedComponent : public IComponent
+	class ComponentBase : public IComponent
 	{
 	public:
-		TexturedComponent();
+		ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color);
 		void Clean() override;
 
-	private:
-		
+		glm::vec4 GetBackgroundColor() const;
 
+	private:
+		glm::vec4 m_back_ground_color;
+		
 	};
 }
 
