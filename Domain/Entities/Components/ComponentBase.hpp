@@ -13,8 +13,6 @@ namespace Component
 	{
 	public:
 		ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color);
-		void Clean() override;
-		void Construct() override;
 
 		glm::vec4 GetBackgroundColor() const;
 		void SetBackgroundColor(glm::vec4 new_bacground_color);

@@ -140,19 +140,6 @@ namespace Services
 				default:
 					break;
 				}
-				/*switch (j.template get<Enums::RendererType>())
-				{
-				case Enums::RendererType::TRIANGLE:
-					renderers.push_back(std::make_shared<Renderers::Triangle>(position, color, size));
-					break;
-				case Enums::RendererType::SQUARE:
-					renderers.push_back(std::make_shared<Renderers::Square>(position, color, size));
-					break;
-				case Enums::RendererType::SQUARE_TEXTURED:
-					break;
-				default:
-					break;
-				}*/
 			}
 			m_scene.reset();
 		}

@@ -205,10 +205,6 @@ namespace Services
 		this->CleanRenderers();
 
 		m_renderers = renderers;
-		for (auto it : m_renderers)
-		{
-			it->Construct();
-		}
 	}
 
 	void StateService::setSelectedRenderer()
@@ -270,15 +266,6 @@ namespace Services
 	
 	void StateService::CleanRenderers()
 	{
-		for (auto it : m_renderers)
-		{
-			if (it)
-			{
-				it->Clean();
-				it.reset();
-			}
-		}
-
 		m_renderers.clear();
 	}
 	void StateService::CleanConfig()

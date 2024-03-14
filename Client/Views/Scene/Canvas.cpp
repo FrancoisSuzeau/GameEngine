@@ -42,60 +42,60 @@ namespace Views
 			}
 			glLineWidth(line_width);
 			glPolygonMode(GL_FRONT_AND_BACK, mode);
-			switch (it[0]->GetType())
+
+			std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
+			
+			if (component && m_shader_service)
 			{
-			case Enums::RendererType::TRIANGLE:
-			{
-				std::shared_ptr<Component::ComponentBase> t = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
-				
-				std::string shader_name = Constants::UNTEXTURED_SHADER;
-				if (mode == GL_LINE)
+				switch (component->GetType())
 				{
-					shader_name = Constants::HOVER_SHADER;
-				}
-				if (m_shader_service && t)
+				case Enums::RendererType::TRIANGLE:
 				{
+					std::string shader_name = Constants::UNTEXTURED_SHADER;
+					if (mode == GL_LINE)
+					{
+						shader_name = Constants::HOVER_SHADER;
+					}
 					/*glBindVertexArray(t->GetVAO());
-					if (glIsVertexArray(t->GetVAO()) == GL_TRUE)
-					{
-						GLuint program_id = m_shader_service->GetProgramId(shader_name);
-						glUseProgram(program_id);
-						Component::Transformer::PutIntoShader(t, m_shader_service, shader_name);
-						glDrawArrays(GL_TRIANGLES, 0, 3);
-						glUseProgram(0);
-						glBindVertexArray(0);
-					}*/
+						if (glIsVertexArray(t->GetVAO()) == GL_TRUE)
+						{
+							GLuint program_id = m_shader_service->GetProgramId(shader_name);
+							glUseProgram(program_id);
+							Component::Transformer::PutIntoShader(t, m_shader_service, shader_name);
+							glDrawArrays(GL_TRIANGLES, 0, 3);
+							glUseProgram(0);
+							glBindVertexArray(0);
+						}*/
 				}
-				t.reset();
-			}
-			break;
-			case Enums::RendererType::SQUARE:
-			{
-				std::shared_ptr<Component::ComponentBase> s = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
-				std::string shader_name = Constants::UNTEXTURED_SHADER;
-				if (mode == GL_LINE)
-				{
-					shader_name = Constants::HOVER_SHADER;
-				}
-				if (m_shader_service && s)
-				{
-					/*glBindVertexArray(s->GetVAO());
-					if (glIsVertexArray(s->GetVAO()) == GL_TRUE)
-					{
-						GLuint program_id = m_shader_service->GetProgramId(shader_name);
-						glUseProgram(program_id);
-						Component::Transformer::PutIntoShader(s, m_shader_service, shader_name);
-						glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-						glUseProgram(0);
-						glBindVertexArray(0);
-					}*/
-				}
-				s.reset();
-			}
-			break;
-			case Enums::RendererType::NONE:
-			default:
 				break;
+				case Enums::RendererType::SQUARE:
+				{
+					std::string shader_name = Constants::UNTEXTURED_SHADER;
+					if (mode == GL_LINE)
+					{
+						shader_name = Constants::HOVER_SHADER;
+					}
+					/*glBindVertexArray(s->GetVAO());
+						if (glIsVertexArray(s->GetVAO()) == GL_TRUE)
+						{
+							GLuint program_id = m_shader_service->GetProgramId(shader_name);
+							glUseProgram(program_id);
+							Component::Transformer::PutIntoShader(s, m_shader_service, shader_name);
+							glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+							glUseProgram(0);
+							glBindVertexArray(0);
+						}*/
+				}
+				break;
+				case Enums::RendererType::NONE:
+				case::Enums::RendererType::GRID:
+				case Enums::RendererType::SKYBOX:
+				case Enums::RendererType::SQUARE_TEXTURED:
+				default:
+					break;
+				}
+
+				component.reset();
 			}
 			
 		}

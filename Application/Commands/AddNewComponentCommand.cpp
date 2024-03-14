@@ -69,7 +69,6 @@ namespace Commands
 	{
 		if (m_state_service)
 		{
-			new_component_to_make->Construct();
 			new_component_to_make->SetSelected(true);
 			m_state_service->addRenderer(new_component_to_make);
 			m_state_service->setSelectedRenderer();

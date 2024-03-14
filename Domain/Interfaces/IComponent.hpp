@@ -17,8 +17,6 @@ namespace Component {
 	{
 	public:
 		virtual ~IComponent() {}
-		virtual void Clean() = 0;
-		virtual void Construct() = 0;
 
 		virtual glm::vec4 GetBackgroundColor() const { return glm::vec4(); }
 		virtual void SetBackgroundColor(glm::vec4 new_bacground_color) {}

@@ -17,14 +17,7 @@ namespace Component {
 		m_selected = false;
 		m_angle = 0.f;
 	}
-
-	void TexturedComponent::Clean()
-	{
-		
-	}
-	void TexturedComponent::Construct()
-	{
-	}
+	
 	unsigned int TexturedComponent::GetTextureId() const
 	{
 		return m_texture_id;

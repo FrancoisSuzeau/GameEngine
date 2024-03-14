@@ -19,13 +19,6 @@ namespace Component
 		m_angle = 0.f;
 	}
 
-	void ComponentBase::Clean()
-	{
-		
-	}
-	void ComponentBase::Construct()
-	{
-	}
 	glm::vec4 ComponentBase::GetBackgroundColor() const
 	{
 		return m_back_ground_color;
