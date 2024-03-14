@@ -16,17 +16,6 @@ namespace Renderers {
 		m_bytes_vertices_size = m_vec_vertices.capacity() * sizeof(glm::vec3);
 		m_bytes_indices_size = m_vec_indices.capacity() * sizeof(glm::uvec4);
 		m_lenght = (GLuint)(m_vec_vertices.capacity() * 4);
-		
-
-		m_type = Enums::RendererType::GRID;
-		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = glm::vec4(1.f);
-		m_position = glm::vec3(-10.f, -1.f, -10.f);
-		m_size = glm::vec3(20.f);
-
-		m_hovered = false;
-		m_selected = false;
-		m_angle = 0.f;
 	}
 
 	Grid::~Grid()

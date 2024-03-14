@@ -6,24 +6,15 @@
 
 namespace Renderers {
 
-	Square::Square(glm::vec3 position, glm::vec4 color, glm::vec3 size)
+	Square::Square()
 	{
 		m_vbo = 0;
 		m_vao = 0;
 		m_ebo = 0;
 		m_vertices.reserve(12);
 		m_bytes_vertices_size = 12 * sizeof(GLfloat);
-		m_type = Enums::RendererType::SQUARE;
 		m_indices.reserve(6);
 		m_bytes_indices_size = 6 * sizeof(unsigned int);
-
-		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = color;
-		m_position = position;
-		m_size = size;
-		m_hovered = false;
-		m_selected = false;
-		m_angle = 0.f;
 	}
 
 	Square::~Square()

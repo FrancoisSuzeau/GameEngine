@@ -6,21 +6,12 @@
 
 namespace Renderers {
 
-	Triangle::Triangle(glm::vec3 position, glm::vec4 color, glm::vec3 size)
+	Triangle::Triangle()
 	{
 		m_vbo = 0;
 		m_vao = 0;
 		m_vertices.reserve(9);
 		m_bytes_vertices_size = 9 * sizeof(GLfloat);
-		m_type = Enums::RendererType::TRIANGLE;
-
-		m_model_mat = glm::mat4(1.f);
-		m_back_ground_color = color;
-		m_position = position;
-		m_size = size;
-		m_hovered = false;
-		m_selected = false;
-		m_angle = 0.f;
 	}
 
 	Triangle::~Triangle()
