@@ -31,6 +31,7 @@ namespace Renderers {
 	public:
 		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
+		virtual void Draw() = 0;
 		virtual void Clean()
 		{
 			CleanVbo();

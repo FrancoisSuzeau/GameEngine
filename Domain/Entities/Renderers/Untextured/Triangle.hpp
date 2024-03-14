@@ -18,6 +18,7 @@ namespace Renderers {
 		~Triangle();
 
 		void Construct() override;
+		void Draw() override;
 		void Clean();
 		glm::vec3 GetVertex1() const;
 		glm::vec3 GetVertex2() const;

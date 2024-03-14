@@ -29,6 +29,9 @@ namespace Renderers {
 		m_texture_coord.clear();
 		
 	}
+	void ScreenRenderer::Draw()
+	{
+	}
 	unsigned int ScreenRenderer::GetTextureId() const
 	{
 		return m_texture_id;

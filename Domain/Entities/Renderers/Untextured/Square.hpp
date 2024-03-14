@@ -20,6 +20,7 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
+		void Draw() override;
 
 
 	protected:

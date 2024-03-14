@@ -22,6 +22,7 @@ namespace Views {
 		virtual void Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width) {};
 		virtual void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) {};
 		virtual void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) {};
+		virtual void ConstructRenderer() {};
 		virtual void Clean() {};
 		virtual void SetParent(ViewModels::IViewModel* parent) 
 		{

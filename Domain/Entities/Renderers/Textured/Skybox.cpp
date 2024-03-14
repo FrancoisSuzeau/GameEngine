@@ -26,6 +26,9 @@ namespace Renderers {
 		base::Clean();
 
 	}
+    void Skybox::Draw()
+    {
+    }
 	unsigned int Skybox::GetTextureId() const
 	{
         return m_texture_id;

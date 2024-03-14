@@ -24,6 +24,16 @@ namespace Renderers {
 		this->Attach();
 	}
 
+	void Triangle::Draw()
+	{
+		glBindVertexArray(this->GetVAO());
+		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		{
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glBindVertexArray(0);
+		}
+	}
+
 	void Triangle::Clean()
 	{
 		base::Clean();
@@ -47,6 +57,7 @@ namespace Renderers {
 	void Triangle::Attach()
 	{
 		/************************************************* VBO management ********************************************************/
+
 		glGenBuffers(1, &m_vbo);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

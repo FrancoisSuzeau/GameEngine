@@ -30,6 +30,15 @@ namespace Views
 		{
 			m_shader_service.reset();
 		}
+
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it->second)
+			{
+				it->second->Clean();
+				it->second.reset();
+			}
+		}
 	}
 
 	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width)
@@ -43,61 +52,35 @@ namespace Views
 			glLineWidth(line_width);
 			glPolygonMode(GL_FRONT_AND_BACK, mode);
 
-			std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
-			
-			if (component && m_shader_service)
+			switch (it[0]->GetType())
 			{
-				switch (component->GetType())
-				{
-				case Enums::RendererType::TRIANGLE:
-				{
-					std::string shader_name = Constants::UNTEXTURED_SHADER;
-					if (mode == GL_LINE)
-					{
-						shader_name = Constants::HOVER_SHADER;
-					}
-					/*glBindVertexArray(t->GetVAO());
-						if (glIsVertexArray(t->GetVAO()) == GL_TRUE)
-						{
-							GLuint program_id = m_shader_service->GetProgramId(shader_name);
-							glUseProgram(program_id);
-							Component::Transformer::PutIntoShader(t, m_shader_service, shader_name);
-							glDrawArrays(GL_TRIANGLES, 0, 3);
-							glUseProgram(0);
-							glBindVertexArray(0);
-						}*/
-				}
-				break;
-				case Enums::RendererType::SQUARE:
-				{
-					std::string shader_name = Constants::UNTEXTURED_SHADER;
-					if (mode == GL_LINE)
-					{
-						shader_name = Constants::HOVER_SHADER;
-					}
-					/*glBindVertexArray(s->GetVAO());
-						if (glIsVertexArray(s->GetVAO()) == GL_TRUE)
-						{
-							GLuint program_id = m_shader_service->GetProgramId(shader_name);
-							glUseProgram(program_id);
-							Component::Transformer::PutIntoShader(s, m_shader_service, shader_name);
-							glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-							glUseProgram(0);
-							glBindVertexArray(0);
-						}*/
-				}
-				break;
-				case Enums::RendererType::NONE:
-				case::Enums::RendererType::GRID:
-				case Enums::RendererType::SKYBOX:
-				case Enums::RendererType::SQUARE_TEXTURED:
-				default:
-					break;
-				}
+			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::TRIANGLE:
+			{
+				std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
-				component.reset();
+				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
+				{
+					std::string shader_name = Constants::UNTEXTURED_SHADER;
+					if (mode == GL_LINE)
+					{
+						shader_name = Constants::HOVER_SHADER;
+					}
+
+					glUseProgram(m_shader_service->GetProgramId(shader_name));
+					Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+					m_renderers.at(component->GetType())->Draw();
+					glUseProgram(0);
+
+					component.reset();
+				}
 			}
-			
+			break;
+			case Enums::RendererType::SQUARE_TEXTURED:
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
@@ -121,6 +104,18 @@ namespace Views
 
 			m_draggable_component->OnSelectRenderers(renderers);
 		}
-		
+
+	}
+	void Canvas::ConstructRenderer()
+	{
+		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
+		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it->second)
+			{
+				it->second->Construct();
+			}
+		}
 	}
 }

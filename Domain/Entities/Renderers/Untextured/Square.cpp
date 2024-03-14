@@ -33,6 +33,16 @@ namespace Renderers {
 		m_indices.clear();
 	}
 
+	void Square::Draw()
+	{
+		glBindVertexArray(this->GetVAO());
+		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		{
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+		}
+	}
+
 	void Square::Attach()
 	{
 		

@@ -36,6 +36,10 @@ namespace Renderers {
 
 	}
 
+	void Grid::Draw()
+	{
+	}
+
 	GLint Grid::GetLength() const
 	{
 		return m_lenght;

@@ -58,6 +58,7 @@ namespace ViewModels
 			if (m_canvas)
 			{
 				m_canvas->SetParent(this);
+				m_canvas->ConstructRenderer();
 			}
 			else
 			{
