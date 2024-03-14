@@ -25,9 +25,9 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers, std::string const filename);
+		void SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const renderers, std::string const filename);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
-		std::vector<std::shared_ptr<Renderers::IRenderer>> LoadScene(std::string const filename);
+		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
 
 	private:

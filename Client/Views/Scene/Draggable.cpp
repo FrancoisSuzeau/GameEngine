@@ -60,7 +60,7 @@ namespace Views
 			m_keyboard_input_service.reset();
 		}
 	}
-	void Draggable::OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Draggable::OnSelectRenderer(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (renderer && m_mouse_input_service && m_state_service)
 		{
@@ -74,7 +74,7 @@ namespace Views
 
 	}
 
-	void Draggable::OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Draggable::OnHoverRenderer(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (renderer)
 		{
@@ -83,7 +83,7 @@ namespace Views
 		}
 	}
 
-	void Draggable::OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Draggable::OnUnSelectRenderer(std::shared_ptr<Component::IComponent> renderer)
 	{
 
 		if (m_mouse_input_service && renderer && m_keyboard_input_service && m_state_service)
@@ -101,14 +101,14 @@ namespace Views
 		}
 	}
 
-	void Draggable::OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void Draggable::OnSelectRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
 		if (m_keyboard_input_service && m_state_service)
 		{
 			if (m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
 			{
 				m_state_service->unSelectRenderer();
-				for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+				for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 				{
 					this->OnSelectRenderer(it[0]);
 				}
@@ -117,7 +117,7 @@ namespace Views
 		}
 	}
 
-	bool Draggable::CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer)
+	bool Draggable::CalculateIntersection(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (m_mouse_input_service && renderer && m_state_service && m_camera_service)
 		{

@@ -95,7 +95,7 @@ namespace ViewModels
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getRenderers();
 			m_canvas->Render(renderers, mode, line_width);
 		}
 	}
@@ -103,7 +103,7 @@ namespace ViewModels
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Renderers::IRenderer>> renderers = m_state_service->getRenderers();
+			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getRenderers();
 			m_canvas->DragRenderers(renderers);
 			m_canvas->TransformRenderers(renderers);
 		}
@@ -113,9 +113,9 @@ namespace ViewModels
 		if (m_shader_service && m_framebuffer_renderer)
 		{
 			m_framebuffer_renderer->SetTextureID(fb_texture_id);
-			Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
+			/*Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
 			Component::Transformer::Resize(m_framebuffer_renderer);
-			Component::Transformer::Move(m_framebuffer_renderer);
+			Component::Transformer::Move(m_framebuffer_renderer);*/
 			glLineWidth(line_width);
 			glPolygonMode(GL_FRONT_AND_BACK, mode);
 			glBindVertexArray(m_framebuffer_renderer->GetVAO());
@@ -123,7 +123,7 @@ namespace ViewModels
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
 
-				Component::Transformer::PutIntoShader(m_framebuffer_renderer, m_shader_service, Constants::SCREEN_SHADER);
+				//Component::Transformer::PutIntoShader(m_framebuffer_renderer, m_shader_service, Constants::SCREEN_SHADER);
 
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, m_framebuffer_renderer->GetTextureId());
@@ -154,7 +154,7 @@ namespace ViewModels
 			if (glIsVertexArray(m_skybox_renderer->GetVAO()) == GL_TRUE)
 			{
 
-				Component::Transformer::PutIntoShader(m_skybox_renderer, m_shader_service, Constants::SKYBOX_SHADER);
+				//Component::Transformer::PutIntoShader(m_skybox_renderer, m_shader_service, Constants::SKYBOX_SHADER);
 
 				glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox_renderer->GetTextureId());
 				if (glIsTexture(m_skybox_renderer->GetTextureId()) == GL_TRUE)
@@ -176,9 +176,9 @@ namespace ViewModels
 	{
 		if (m_shader_service && m_grid_renderer)
 		{
-			Component::Transformer::ReinitModelMat(m_grid_renderer);
+			/*Component::Transformer::ReinitModelMat(m_grid_renderer);
 			Component::Transformer::Move(m_grid_renderer);
-			Component::Transformer::Resize(m_grid_renderer);
+			Component::Transformer::Resize(m_grid_renderer);*/
 			glLineWidth(line_width);
 			glPolygonMode(GL_FRONT_AND_BACK, mode);
 			glBindVertexArray(m_grid_renderer->GetVAO());
@@ -186,7 +186,7 @@ namespace ViewModels
 			{
 				GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
 				glUseProgram(program_id);
-				Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+				//Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 				glDrawElements(GL_LINES, m_grid_renderer->GetLength(), GL_UNSIGNED_INT, NULL);
 				glUseProgram(0);
 				glBindVertexArray(0);

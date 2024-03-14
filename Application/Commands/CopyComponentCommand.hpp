@@ -17,14 +17,14 @@ namespace Commands {
 	class CopyComponentCommand : public ICommand
 	{
 	public:
-		CopyComponentCommand(std::shared_ptr<Renderers::IRenderer> renderer_to_copy);
+		CopyComponentCommand(std::shared_ptr<Component::IComponent> renderer_to_copy);
 		~CopyComponentCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
-		std::shared_ptr<Renderers::IRenderer> m_renderer_to_copy;
+		std::shared_ptr<Component::IComponent> m_renderer_to_copy;
 		std::shared_ptr<Services::CameraService> m_camera_service;
-		void MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make);
+		void MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make);
 	};
 }
 

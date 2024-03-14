@@ -27,7 +27,7 @@ namespace Services
 		}
 	}
 
-	void JsonService::SaveScene(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers, std::string const filename)
+	void JsonService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const renderers, std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
@@ -41,14 +41,14 @@ namespace Services
 			m_json_loader_service->SaveConfigs(configs);
 		}
 	}
-	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonService::LoadScene(std::string const filename)
+	std::vector<std::shared_ptr<Component::IComponent>> JsonService::LoadScene(std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
 			return m_json_loader_service->GetScene(filename);
 		}
 
-		return std::vector<std::shared_ptr<Renderers::IRenderer>>();
+		return std::vector<std::shared_ptr<Component::IComponent>>();
 	}
 	std::shared_ptr<ConfigEntity> JsonService::LoadConfigs()
 	{

@@ -15,6 +15,7 @@ namespace Component
 	public:
 		TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, unsigned int texture_id);
 		void Clean() override;
+		void Construct() override;
 		unsigned int GetTextureId() const;
 
 	private:

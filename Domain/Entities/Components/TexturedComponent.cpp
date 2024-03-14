@@ -22,6 +22,9 @@ namespace Component {
 	{
 		
 	}
+	void TexturedComponent::Construct()
+	{
+	}
 	unsigned int TexturedComponent::GetTextureId() const
 	{
 		return m_texture_id;

@@ -46,11 +46,11 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->MakeNewComponent(std::make_shared<Renderers::Triangle>(position, glm::vec4(1.f), glm::vec3(0.2f)));
+				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->MakeNewComponent(std::make_shared<Renderers::Square>(position, glm::vec4(1.f), glm::vec3(0.2f)));
+				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
 				SQ_APP_TRACE("New square added");
 				break;
 			case Enums::RendererType::SKYBOX:
@@ -65,7 +65,7 @@ namespace Commands
 		}
 
 	}
-	void AddNewComponentCommmand::MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make)
+	void AddNewComponentCommmand::MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make)
 	{
 		if (m_state_service)
 		{

@@ -63,19 +63,19 @@ namespace Services {
 		bool getMouseClicked() const;
 		void setShowContextMenu(bool const new_val);
 		bool getShowContextMenu() const;
-		std::shared_ptr<Renderers::IRenderer> getSelectedRenderer() const;
+		std::shared_ptr<Component::IComponent> getSelectedRenderer() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
-		std::vector<std::shared_ptr<Renderers::IRenderer>> getRenderers() const;
-		void setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers);
+		std::vector<std::shared_ptr<Component::IComponent>> getRenderers() const;
+		void setRenderers(std::vector<std::shared_ptr<Component::IComponent>> const renderers);
 		void setSelectedRenderer();
 		void unSelectRenderer();
 		void setPopupHovered(bool const new_val);
 		bool getPopupHovered() const;
 		glm::vec4 getRefColor() const;
-		void addRenderer(std::shared_ptr<Renderers::IRenderer> new_renderer);
+		void addRenderer(std::shared_ptr<Component::IComponent> new_renderer);
 		void deleteRenderer();
 
 		glm::mat4 GetProjectionMatrix() const;
@@ -104,9 +104,9 @@ namespace Services {
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
-		std::vector<std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		std::vector<std::shared_ptr<Component::IComponent>> m_renderers;
 		std::string  m_confirm_message;
-		std::shared_ptr<Renderers::IRenderer> m_selected_renderer;
+		std::shared_ptr<Component::IComponent> m_selected_renderer;
 
 	};
 }

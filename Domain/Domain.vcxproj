@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Components\ComponentBase.hpp" />
+    <ClInclude Include="Entities\Components\Components.hpp" />
     <ClInclude Include="Entities\Components\TexturedComponent.hpp" />
     <ClInclude Include="Entities\ConfigEntity.hpp" />
     <ClInclude Include="Entities\Renderers\Renderers.hpp" />

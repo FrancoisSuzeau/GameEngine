@@ -8,7 +8,6 @@
 #include "IComponent.hpp"
 #include "Container/Container.hpp"
 #include "Constants/NumberConstants.hpp"
-#include "Renderers/Renderers.hpp"
 #include "Services/MouseInputService.hpp"
 
 namespace Views
@@ -18,17 +17,17 @@ namespace Views
 	public:
 		Draggable();
 		void Clean();
-		void OnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
-		void OnHoverRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
-		void OnUnSelectRenderer(std::shared_ptr<Renderers::IRenderer> renderer);
-		void OnSelectRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers);
+		void OnSelectRenderer(std::shared_ptr<Component::IComponent> renderer);
+		void OnHoverRenderer(std::shared_ptr<Component::IComponent> renderer);
+		void OnUnSelectRenderer(std::shared_ptr<Component::IComponent> renderer);
+		void OnSelectRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers);
 	private:
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboard_input_service;
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 
-		bool CalculateIntersection(std::shared_ptr<Renderers::IRenderer> renderer);
+		bool CalculateIntersection(std::shared_ptr<Component::IComponent> renderer);
 
 	};
 }

@@ -175,7 +175,7 @@ namespace Services
 		return m_show_context_menu;
 	}
 
-	std::shared_ptr<Renderers::IRenderer> StateService::getSelectedRenderer() const
+	std::shared_ptr<Component::IComponent> StateService::getSelectedRenderer() const
 	{
 		return m_selected_renderer;
 	}
@@ -195,12 +195,12 @@ namespace Services
 		m_configs = configs;
 	}
 
-	std::vector<std::shared_ptr<Renderers::IRenderer>> StateService::getRenderers() const
+	std::vector<std::shared_ptr<Component::IComponent>> StateService::getRenderers() const
 	{
 		return m_renderers;
 	}
 
-	void StateService::setRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> const renderers)
+	void StateService::setRenderers(std::vector<std::shared_ptr<Component::IComponent>> const renderers)
 	{
 		this->CleanRenderers();
 
@@ -214,7 +214,7 @@ namespace Services
 	void StateService::setSelectedRenderer()
 	{
 		this->unSelectRenderer();
-		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Component::IComponent> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
 		
 		if (result != m_renderers.end())
 		{
@@ -243,7 +243,7 @@ namespace Services
 		return m_previous_selected_renderer_color;
 	}
 
-	void StateService::addRenderer(std::shared_ptr<Renderers::IRenderer> new_renderer)
+	void StateService::addRenderer(std::shared_ptr<Component::IComponent> new_renderer)
 	{
 		if (new_renderer)
 		{
@@ -254,7 +254,7 @@ namespace Services
 	void StateService::deleteRenderer()
 	{
 		this->unSelectRenderer();
-		auto to_remove = std::remove_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Renderers::IRenderer> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		auto to_remove = std::remove_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Component::IComponent> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
 		m_renderers.erase(to_remove, m_renderers.end());
 	}
 	

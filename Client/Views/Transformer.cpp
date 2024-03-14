@@ -7,7 +7,7 @@
 
 namespace Component
 {
-	void Transformer::PutIntoShader(std::shared_ptr<Renderers::IRenderer> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::PutIntoShader(std::shared_ptr<Component::IComponent> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
 		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!state_service)
@@ -30,7 +30,7 @@ namespace Component
 		
 	}
 
-	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::Move(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (renderer)
 		{
@@ -39,7 +39,7 @@ namespace Component
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::Resize(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (renderer)
 		{
@@ -48,13 +48,13 @@ namespace Component
 			renderer->SetModelMat(model);
 		}
 	}
-	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 axis)
+	void Transformer::Rotate(std::shared_ptr<Component::IComponent> renderer, glm::vec3 axis)
 	{
 		glm::mat4 model = renderer->GetModelMat();
 		model = glm::rotate(model, glm::radians(renderer->GetAngle()), axis);
 		renderer->SetModelMat(model);
 	}
-	void Transformer::ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::ReinitModelMat(std::shared_ptr<Component::IComponent> renderer)
 	{
 		if (renderer)
 		{

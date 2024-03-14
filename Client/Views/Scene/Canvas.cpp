@@ -32,9 +32,9 @@ namespace Views
 		}
 	}
 
-	void Canvas::Render(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers, GLenum const mode, float const line_width)
+	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width)
 	{
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
 			if (m_draggable_component)
 			{
@@ -46,7 +46,7 @@ namespace Views
 			{
 			case Enums::RendererType::TRIANGLE:
 			{
-				std::shared_ptr<Renderers::Triangle> t = std::dynamic_pointer_cast<Renderers::Triangle> (it[0]);
+				std::shared_ptr<Component::ComponentBase> t = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 				
 				std::string shader_name = Constants::UNTEXTURED_SHADER;
 				if (mode == GL_LINE)
@@ -55,7 +55,7 @@ namespace Views
 				}
 				if (m_shader_service && t)
 				{
-					glBindVertexArray(t->GetVAO());
+					/*glBindVertexArray(t->GetVAO());
 					if (glIsVertexArray(t->GetVAO()) == GL_TRUE)
 					{
 						GLuint program_id = m_shader_service->GetProgramId(shader_name);
@@ -64,14 +64,14 @@ namespace Views
 						glDrawArrays(GL_TRIANGLES, 0, 3);
 						glUseProgram(0);
 						glBindVertexArray(0);
-					}
+					}*/
 				}
 				t.reset();
 			}
 			break;
 			case Enums::RendererType::SQUARE:
 			{
-				std::shared_ptr<Renderers::Square> s = std::dynamic_pointer_cast<Renderers::Square> (it[0]);
+				std::shared_ptr<Component::ComponentBase> s = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 				std::string shader_name = Constants::UNTEXTURED_SHADER;
 				if (mode == GL_LINE)
 				{
@@ -79,7 +79,7 @@ namespace Views
 				}
 				if (m_shader_service && s)
 				{
-					glBindVertexArray(s->GetVAO());
+					/*glBindVertexArray(s->GetVAO());
 					if (glIsVertexArray(s->GetVAO()) == GL_TRUE)
 					{
 						GLuint program_id = m_shader_service->GetProgramId(shader_name);
@@ -88,7 +88,7 @@ namespace Views
 						glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 						glUseProgram(0);
 						glBindVertexArray(0);
-					}
+					}*/
 				}
 				s.reset();
 			}
@@ -100,20 +100,20 @@ namespace Views
 			
 		}
 	}
-	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
 			Component::Transformer::ReinitModelMat(it[0]);
 			Component::Transformer::Move(it[0]);
 			Component::Transformer::Resize(it[0]);
 		}
 	}
-	void Canvas::DragRenderers(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void Canvas::DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
 		if (m_draggable_component)
 		{
-			for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 			{
 				m_draggable_component->OnSelectRenderer(it[0]);
 				m_draggable_component->OnUnSelectRenderer(it[0]);

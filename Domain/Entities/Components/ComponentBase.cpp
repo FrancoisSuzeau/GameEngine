@@ -23,8 +23,15 @@ namespace Component
 	{
 		
 	}
+	void ComponentBase::Construct()
+	{
+	}
 	glm::vec4 ComponentBase::GetBackgroundColor() const
 	{
 		return m_back_ground_color;
+	}
+	void ComponentBase::SetBackgroundColor(glm::vec4 new_bacground_color)
+	{
+		m_back_ground_color = new_bacground_color;
 	}
 }

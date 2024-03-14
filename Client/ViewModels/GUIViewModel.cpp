@@ -34,7 +34,6 @@ namespace ViewModels
 			this->PushSimpleComponent(container->GetReference<Views::ConfirmComponent>(), "Confirm");
 			this->PushSimpleComponent(container->GetReference<Views::StartComponent>(), "Start screen");
 			this->PushSimpleComponent(container->GetReference<Views::WorkBarComponent>(), "Work bar Component");
-			this->PushMenuComponent(container->GetReference<Views::ContextMenuComponent>(), "Context Menu");
 		}
 	}
 
