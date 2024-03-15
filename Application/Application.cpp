@@ -29,7 +29,7 @@ namespace Starting
         this->SetServiceBuilder<Services::TextureLoaderService>();
         this->SetServiceBuilder<Services::CameraService>();
         this->SetServiceBuilder<Services::StateService>();
-        this->SetServiceBuilder<Services::JsonService>();
+        this->SetServiceBuilder<Services::LoaderService>();
         this->SetServiceBuilder<Services::MouseInputService>();
         this->SetServiceBuilder<Services::KeyboardInputService>();
     }
@@ -53,7 +53,7 @@ namespace Starting
         this->DeleteReference<Services::TextureLoaderService>();
         this->DeleteReference<Services::CameraService>();
         this->DeleteReference<Services::StateService>();
-        this->DeleteReference<Services::JsonService>();
+        this->DeleteReference<Services::LoaderService>();
         this->DeleteReference<Services::MouseInputService>();
         this->DeleteReference<Services::KeyboardInputService>();
     }

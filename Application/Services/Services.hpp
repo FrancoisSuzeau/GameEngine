@@ -12,7 +12,7 @@
 #include "ShaderService.hpp"
 #include "FramebufferService.hpp"
 #include "CameraService.hpp"
-#include "JsonService.hpp"
+#include "LoaderService.hpp"
 #include "MouseInputService.hpp"
 #include "KeyboardInputService.hpp"
 

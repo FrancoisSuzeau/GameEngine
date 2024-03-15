@@ -6,7 +6,7 @@
 #include "TexturedComponent.hpp"
 
 namespace Component {
-	TexturedComponent::TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, unsigned int texture_id) : m_texture_id(texture_id)
+	TexturedComponent::TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type) : m_texture_id(0)
 	{
 		m_type = type;
 
@@ -17,9 +17,26 @@ namespace Component {
 		m_selected = false;
 		m_angle = 0.f;
 	}
+
+	void TexturedComponent::Clean()
+	{
+		this->DestroyTexture();
+	}
 	
 	unsigned int TexturedComponent::GetTextureId() const
 	{
 		return m_texture_id;
+	}
+	void TexturedComponent::SetTextureId(unsigned int const texure_id)
+	{
+		m_texture_id = texure_id;
+	}
+	void TexturedComponent::DestroyTexture()
+	{
+		if (m_texture_id != 0)
+		{
+			glDeleteTextures(1, &m_texture_id);
+			m_texture_id = 0;
+		}
 	}
 }

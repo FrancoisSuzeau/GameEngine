@@ -16,6 +16,7 @@ namespace Component
 
 		glm::vec4 GetBackgroundColor() const;
 		void SetBackgroundColor(glm::vec4 new_bacground_color);
+		void Clean() override;
 
 	private:
 		glm::vec4 m_back_ground_color;

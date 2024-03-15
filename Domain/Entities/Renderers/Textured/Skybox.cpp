@@ -11,7 +11,6 @@ namespace Renderers {
 		m_vao = 0;
 		m_vertices.reserve(108);
 		m_bytes_vertices_size = 108 * sizeof(GLfloat);
-        m_texture_id = 0;
 	}
 	Skybox::~Skybox()
 	{
@@ -26,17 +25,24 @@ namespace Renderers {
 		base::Clean();
 
 	}
-    void Skybox::Draw()
+    void Skybox::Draw(unsigned int texture_id)
     {
+        glBindVertexArray(this->GetVAO());
+        if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+        {
+
+            glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
+            if (glIsTexture(texture_id) == GL_TRUE)
+            {
+                glDrawArrays(GL_TRIANGLES, 0, 36);
+
+                glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+            }
+
+            glBindVertexArray(0);
+        }
     }
-	unsigned int Skybox::GetTextureId() const
-	{
-        return m_texture_id;
-	}
-	void Skybox::SetTextureID(unsigned int const texture_id)
-	{
-        m_texture_id = texture_id;
-	}
+	
 	void Skybox::Attach()
 	{
         glGenBuffers(1, &m_vbo);

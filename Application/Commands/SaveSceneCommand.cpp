@@ -21,7 +21,7 @@ namespace Commands
 				m_state_service->setFileName(filename);
 			}
 
-			m_json_service = container->GetReference<Services::JsonService>();
+			m_json_service = container->GetReference<Services::LoaderService>();
 			if (!m_json_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
@@ -40,7 +40,7 @@ namespace Commands
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			m_json_service = container->GetReference<Services::JsonService>();
+			m_json_service = container->GetReference<Services::LoaderService>();
 			if (!m_json_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);

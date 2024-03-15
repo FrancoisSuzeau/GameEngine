@@ -75,7 +75,7 @@ namespace Engines
 		if (container)
 		{
 			std::shared_ptr<Services::StateService> state_service = container->GetReference<Services::StateService>();
-			std::shared_ptr<Services::JsonService> json_services = container->GetReference<Services::JsonService>();
+			std::shared_ptr<Services::LoaderService> json_services = container->GetReference<Services::LoaderService>();
 			if (state_service && json_services)
 			{
 				state_service->setConfigs(json_services->LoadConfigs());

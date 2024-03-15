@@ -20,19 +20,13 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
-		void Draw() override;
-
-		unsigned int GetTextureId() const;
-		void SetTextureID(unsigned int const texture_id);
+		void Draw(unsigned int texture_id) override;
 
 	private:
 		void Attach();
 		void Load();
 
 		typedef IRenderer base;
-
-		unsigned int m_texture_id;
-
 
 	};
 }

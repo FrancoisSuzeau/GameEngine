@@ -13,7 +13,7 @@ namespace Renderers {
 		m_bytes_vertices_size = 18 * sizeof(GLfloat);
 		m_texture_coord.reserve(12);
 		m_bytes_textcoord_size = 12 * sizeof(GLfloat);
-		m_texture_id = 0;
+
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{
@@ -32,14 +32,7 @@ namespace Renderers {
 	void ScreenRenderer::Draw()
 	{
 	}
-	unsigned int ScreenRenderer::GetTextureId() const
-	{
-		return m_texture_id;
-	}
-	void ScreenRenderer::SetTextureID(unsigned int const texture_id)
-	{
-		m_texture_id = texture_id;
-	}
+
 	void ScreenRenderer::Attach()
 	{
 		glGenBuffers(1, &m_vbo);

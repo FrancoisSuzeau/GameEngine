@@ -39,7 +39,6 @@ namespace Engines
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboad_input_service;
-		unsigned int m_skybox_texture;
 		
 	};
 }

@@ -39,6 +39,8 @@ namespace Views
 				it->second.reset();
 			}
 		}
+
+		m_renderers.clear();
 	}
 
 	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width)

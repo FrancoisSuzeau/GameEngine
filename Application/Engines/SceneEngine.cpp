@@ -62,18 +62,6 @@ namespace Engines
 				SQ_APP_ERROR("Class {} in function {} : State service service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			std::shared_ptr<Services::TextureLoaderService> tex = container->GetReference<Services::TextureLoaderService>();
-			if (tex)
-			{
-				
-				m_skybox_texture = tex->BuildSkyboxTexture("resources/skybox/calm_lake");
-				tex.reset();
-			}
-			else
-			{
-				SQ_APP_ERROR("Class {} in function {} : Texture service loader is not referenced yet", __FILE__, __FUNCTION__);
-			}
-
 			if (!m_mouse_input_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Mouse input service is not referenced yet", __FILE__, __FUNCTION__);
@@ -141,7 +129,7 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				//view_model->RenderSkybox(m_skybox_texture, GL_FILL, 0.f);
+				view_model->RenderSkybox(GL_FILL, 0.f);
 				view_model.reset();
 			}
 

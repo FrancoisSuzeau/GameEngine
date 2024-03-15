@@ -266,6 +266,14 @@ namespace Services
 	
 	void StateService::CleanRenderers()
 	{
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it[0].reset();
+			}
+		}
 		m_renderers.clear();
 	}
 	void StateService::CleanConfig()
