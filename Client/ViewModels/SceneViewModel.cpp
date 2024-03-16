@@ -15,11 +15,11 @@ namespace ViewModels
 			m_canvas.reset();
 		}
 
-		/*if (m_framebuffer_renderer)
+		if (m_framebuffer_cpt)
 		{
-			m_framebuffer_renderer->Clean();
-			m_framebuffer_renderer.reset();
-		}*/
+			m_framebuffer_cpt->Clean();
+			m_framebuffer_cpt.reset();
+		}
 
 		if (m_loader_service)
 		{
@@ -100,6 +100,7 @@ namespace ViewModels
 			}
 
 			m_renderers.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Renderers::Skybox>());
+			m_renderers.insert_or_assign(Enums::RendererType::SQUARE_TEXTURED, std::make_shared<Renderers::ScreenRenderer>());
 			for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 			{
 				if (it->second)
@@ -108,11 +109,11 @@ namespace ViewModels
 				}
 			}
 
-			/*m_framebuffer_renderer = std::make_shared<Renderers::ScreenRenderer>();
-			if (m_framebuffer_renderer)
+			m_framebuffer_cpt = std::make_shared<Component::TexturedComponent>(glm::vec3(-0.1f), glm::vec3(0.9f), Enums::RendererType::SKYBOX);
+			if (m_framebuffer_cpt)
 			{
-				m_framebuffer_renderer->Construct();
-			}*/
+				m_framebuffer_cpt->SetTextureId(0);
+			}
 
 			/*m_grid_renderer = std::make_shared<Renderers::Grid>(48);
 			if (m_grid_renderer)
@@ -144,33 +145,40 @@ namespace ViewModels
 	}
 	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width)
 	{
-		//if (m_shader_service && m_framebuffer_renderer)
-		//{
-		//	/*Component::Transformer::ReinitModelMat(m_framebuffer_renderer);
-		//	Component::Transformer::Resize(m_framebuffer_renderer);
-		//	Component::Transformer::Move(m_framebuffer_renderer);*/
-		//	glLineWidth(line_width);
-		//	glPolygonMode(GL_FRONT_AND_BACK, mode);
-		//	glBindVertexArray(m_framebuffer_renderer->GetVAO());
-		//	//if (glIsVertexArray(m_framebuffer_renderer->GetVAO()) == GL_TRUE)
-		//	//{
-		//	//	glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
+		if (m_shader_service && m_framebuffer_cpt)
+		{
+			Component::Transformer::ReinitModelMat(m_framebuffer_cpt);
+			Component::Transformer::Resize(m_framebuffer_cpt);
+			Component::Transformer::Move(m_framebuffer_cpt);
+			glLineWidth(line_width);
+			glPolygonMode(GL_FRONT_AND_BACK, mode);
+			m_framebuffer_cpt->SetTextureId(fb_texture_id);
 
-		//	//	//Component::Transformer::PutIntoShader(m_framebuffer_renderer, m_shader_service, Constants::SCREEN_SHADER);
+			if (m_renderers.contains(Enums::RendererType::SQUARE_TEXTURED) && m_renderers.at(Enums::RendererType::SQUARE_TEXTURED))
+			{
+				glBindVertexArray(m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->GetVAO());
+				if (glIsVertexArray(m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->GetVAO()) == GL_TRUE)
+				{
+					glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
 
-		//	//	glActiveTexture(GL_TEXTURE0);
-		//	//	glBindTexture(GL_TEXTURE_2D, m_framebuffer_renderer->GetTextureId());
-		//	//	if (glIsTexture(m_framebuffer_renderer->GetTextureId()) == GL_TRUE)
-		//	//	{
-		//	//		glDrawArrays(GL_TRIANGLES, 0, 6);
+					Component::Transformer::PutIntoShader(m_framebuffer_cpt, m_shader_service, Constants::SCREEN_SHADER);
 
-		//	//		glActiveTexture(GL_TEXTURE0);
-		//	//		glBindTexture(GL_TEXTURE_2D, 0);
-		//	//	}
-		//	//	glUseProgram(0);
-		//	//	glBindVertexArray(0);
-		//	//}
-		//}
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, m_framebuffer_cpt->GetTextureId());
+					if (glIsTexture(m_framebuffer_cpt->GetTextureId()) == GL_TRUE)
+					{
+						glDrawArrays(GL_TRIANGLES, 0, 6);
+
+						glActiveTexture(GL_TEXTURE0);
+						glBindTexture(GL_TEXTURE_2D, 0);
+					}
+					glUseProgram(0);
+					glBindVertexArray(0);
+				}
+			}
+
+			
+		}
 	}
 	void SceneViewModel::RenderSkybox(GLenum const mode, float const line_width)
 	{

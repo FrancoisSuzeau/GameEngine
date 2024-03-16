@@ -114,7 +114,7 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				//view_model->RenderFrameBuffer(fb_texture_id, GL_FILL, 0.f);
+				view_model->RenderFrameBuffer(fb_texture_id, GL_FILL, 0.f);
 				view_model.reset();
 			}
 
