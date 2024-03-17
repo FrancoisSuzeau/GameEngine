@@ -25,7 +25,7 @@ namespace Renderers {
 		base::Clean();
 
 	}
-    void Skybox::Draw(unsigned int texture_id)
+    void Skybox::Draw(unsigned int const texture_id)
     {
         glBindVertexArray(this->GetVAO());
         if (glIsVertexArray(this->GetVAO()) == GL_TRUE)

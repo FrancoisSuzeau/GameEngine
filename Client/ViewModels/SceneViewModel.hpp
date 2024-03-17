@@ -26,7 +26,7 @@ namespace ViewModels
 		
 		void RenderComponents(GLenum const mode, float const line_width) override;
 		void ManageComponents() override;
-		void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) override;
+		void RenderFrameBuffer(GLenum const mode, float const line_width) override;
 		void RenderSkybox(GLenum const mode, float const line_width) override;
 		void RenderGrid(GLenum const mode, float const line_width) override;
 		
@@ -40,6 +40,7 @@ namespace ViewModels
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 	};
 }
 

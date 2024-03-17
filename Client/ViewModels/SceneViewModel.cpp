@@ -48,6 +48,11 @@ namespace ViewModels
 			m_state_service.reset();
 		}
 
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
+
 		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)
@@ -93,6 +98,12 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
+			if (!m_framebuffer_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
 			m_skybox_cpt = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX);
 			if (m_skybox_cpt && m_loader_service)
 			{
@@ -120,9 +131,6 @@ namespace ViewModels
 			{
 				m_grid_renderer->Construct();
 			}*/
-
-			
-
 		}
 	}
 
@@ -142,8 +150,13 @@ namespace ViewModels
 			m_canvas->DragRenderers(renderers);
 			m_canvas->TransformRenderers(renderers);
 		}
+
+		if (m_framebuffer_cpt && m_framebuffer_service)
+		{
+			m_framebuffer_cpt->SetTextureId(m_framebuffer_service->GetTextureId());
+		}
 	}
-	void SceneViewModel::RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width)
+	void SceneViewModel::RenderFrameBuffer(GLenum const mode, float const line_width)
 	{
 		if (m_shader_service && m_framebuffer_cpt)
 		{
@@ -152,32 +165,16 @@ namespace ViewModels
 			Component::Transformer::Move(m_framebuffer_cpt);
 			glLineWidth(line_width);
 			glPolygonMode(GL_FRONT_AND_BACK, mode);
-			m_framebuffer_cpt->SetTextureId(fb_texture_id);
 
 			if (m_renderers.contains(Enums::RendererType::SQUARE_TEXTURED) && m_renderers.at(Enums::RendererType::SQUARE_TEXTURED))
 			{
-				glBindVertexArray(m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->GetVAO());
-				if (glIsVertexArray(m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->GetVAO()) == GL_TRUE)
-				{
-					glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
+				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
 
-					Component::Transformer::PutIntoShader(m_framebuffer_cpt, m_shader_service, Constants::SCREEN_SHADER);
-
-					glActiveTexture(GL_TEXTURE0);
-					glBindTexture(GL_TEXTURE_2D, m_framebuffer_cpt->GetTextureId());
-					if (glIsTexture(m_framebuffer_cpt->GetTextureId()) == GL_TRUE)
-					{
-						glDrawArrays(GL_TRIANGLES, 0, 6);
-
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, 0);
-					}
-					glUseProgram(0);
-					glBindVertexArray(0);
-				}
+				Component::Transformer::PutIntoShader(m_framebuffer_cpt, m_shader_service, Constants::SCREEN_SHADER);
+				m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->Draw(m_framebuffer_cpt->GetTextureId());
+				
+				glUseProgram(0);
 			}
-
-			
 		}
 	}
 	void SceneViewModel::RenderSkybox(GLenum const mode, float const line_width)

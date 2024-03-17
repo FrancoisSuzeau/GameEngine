@@ -126,7 +126,7 @@ namespace Engines
 
 				m_framebuffer_service->UnbindFramebuffer();
 
-				m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
+				m_scene_engine->RenderFrameBuffer(view_model_builder);
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);

@@ -40,6 +40,7 @@ namespace Engines
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
 			
+			
 			if (m_shader_service)
 			{
 				m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
@@ -107,14 +108,14 @@ namespace Engines
 		}
 	}
 
-	void SceneEngine::RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int fb_texture_id)
+	void SceneEngine::RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderFrameBuffer(fb_texture_id, GL_FILL, 0.f);
+				view_model->RenderFrameBuffer(0, GL_FILL, 0.f);
 				view_model.reset();
 			}
 

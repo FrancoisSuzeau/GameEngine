@@ -29,8 +29,22 @@ namespace Renderers {
 		m_texture_coord.clear();
 		
 	}
-	void ScreenRenderer::Draw()
+	void ScreenRenderer::Draw(unsigned int const texture_id)
 	{
+		glBindVertexArray(this->GetVAO());
+		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture_id);
+			if (glIsTexture(texture_id) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+			glBindVertexArray(0);
+		}
 	}
 
 	void ScreenRenderer::Attach()

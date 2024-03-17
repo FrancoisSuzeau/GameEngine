@@ -20,7 +20,7 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
-		void Draw() override;
+		void Draw(unsigned int const texture_id) override;
 
 	private:
 		void Attach();

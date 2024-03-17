@@ -26,7 +26,7 @@ namespace Engines
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, unsigned int fb_texture_id);
+		void RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void UpdateAll(SDL_Event event);
 		
 	private:
