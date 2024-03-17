@@ -38,6 +38,12 @@ namespace Renderers {
 
 	void Grid::Draw()
 	{
+		glBindVertexArray(this->GetVAO());
+		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		{
+			glDrawElements(GL_LINES, this->GetLength(), GL_UNSIGNED_INT, NULL);
+			glBindVertexArray(0);
+		}
 	}
 
 	GLint Grid::GetLength() const

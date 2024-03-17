@@ -32,11 +32,11 @@ namespace ViewModels
 			m_skybox_cpt.reset();
 		}
 
-		/*if (m_grid_renderer)
+		if (m_grid_renderer)
 		{
 			m_grid_renderer->Clean();
 			m_grid_renderer.reset();
-		}*/
+		}
 
 		if (m_shader_service)
 		{
@@ -112,6 +112,7 @@ namespace ViewModels
 
 			m_renderers.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Renderers::Skybox>());
 			m_renderers.insert_or_assign(Enums::RendererType::SQUARE_TEXTURED, std::make_shared<Renderers::ScreenRenderer>());
+			m_renderers.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Renderers::Grid>(48));
 			for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 			{
 				if (it->second)
@@ -126,11 +127,7 @@ namespace ViewModels
 				m_framebuffer_cpt->SetTextureId(0);
 			}
 
-			/*m_grid_renderer = std::make_shared<Renderers::Grid>(48);
-			if (m_grid_renderer)
-			{
-				m_grid_renderer->Construct();
-			}*/
+			m_grid_renderer = std::make_shared<Component::ComponentBase>(glm::vec3(-10.f, -1.f, -5.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f));
 		}
 	}
 
@@ -200,24 +197,24 @@ namespace ViewModels
 
 	void SceneViewModel::RenderGrid(GLenum const mode, float const line_width)
 	{
-		//if (m_shader_service && m_grid_renderer)
-		//{
-		//	/*Component::Transformer::ReinitModelMat(m_grid_renderer);
-		//	Component::Transformer::Move(m_grid_renderer);
-		//	Component::Transformer::Resize(m_grid_renderer);*/
-		//	glLineWidth(line_width);
-		//	glPolygonMode(GL_FRONT_AND_BACK, mode);
-		//	glBindVertexArray(m_grid_renderer->GetVAO());
-		//	if (glIsVertexArray(m_grid_renderer->GetVAO()) == GL_TRUE)
-		//	{
-		//		GLuint program_id = m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER);
-		//		glUseProgram(program_id);
-		//		//Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
-		//		glDrawElements(GL_LINES, m_grid_renderer->GetLength(), GL_UNSIGNED_INT, NULL);
-		//		glUseProgram(0);
-		//		glBindVertexArray(0);
-		//	}
-		//}
+		if (m_shader_service && m_grid_renderer)
+		{
+			Component::Transformer::ReinitModelMat(m_grid_renderer);
+			Component::Transformer::Move(m_grid_renderer);
+			Component::Transformer::Resize(m_grid_renderer);
+			glLineWidth(line_width);
+			glPolygonMode(GL_FRONT_AND_BACK, mode);
+
+			if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
+			{
+				glUseProgram(m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER));
+				Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+
+				m_renderers.at(Enums::RendererType::GRID)->Draw();
+				glUseProgram(0);
+			}
+			
+		}
 	}
 	
 }

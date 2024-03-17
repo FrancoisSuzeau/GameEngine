@@ -20,7 +20,7 @@ namespace Renderers {
 		void Construct() override;
 		void Clean() override;
 		void Draw() override;
-		GLint GetLength() const;
+		GLint GetLength() const override;
 
 
 	private:

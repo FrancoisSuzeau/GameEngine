@@ -34,7 +34,7 @@ namespace ViewModels
 		std::shared_ptr<Views::IView> m_canvas;
 		
 		std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>> m_renderers;
-		std::shared_ptr<Renderers::Grid> m_grid_renderer;
+		std::shared_ptr<Component::ComponentBase> m_grid_renderer;
 		std::shared_ptr<Component::TexturedComponent> m_skybox_cpt;
 		std::shared_ptr<Component::TexturedComponent> m_framebuffer_cpt;
 		std::shared_ptr<Services::StateService> m_state_service;
