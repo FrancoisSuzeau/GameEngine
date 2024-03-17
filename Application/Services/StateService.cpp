@@ -8,7 +8,7 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_renderer(nullptr), m_popup_hovered(false), m_previous_selected_renderer_color(1.f)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false), m_previous_selected_component_color(1.f)
 	{
 	}
 
@@ -38,7 +38,7 @@ namespace Services
 	{
 
 		this->CleanRenderers();
-		m_selected_renderer = nullptr;
+		m_selected_component = nullptr;
 		
 	}
 
@@ -175,9 +175,9 @@ namespace Services
 		return m_show_context_menu;
 	}
 
-	std::shared_ptr<Component::IComponent> StateService::getSelectedRenderer() const
+	std::shared_ptr<Component::IComponent> StateService::getSelectedComponent() const
 	{
-		return m_selected_renderer;
+		return m_selected_component;
 	}
 
 	std::string StateService::getFileName() const
@@ -195,33 +195,33 @@ namespace Services
 		m_configs = configs;
 	}
 
-	std::vector<std::shared_ptr<Component::IComponent>> StateService::getRenderers() const
+	std::vector<std::shared_ptr<Component::IComponent>> StateService::getComponents() const
 	{
-		return m_renderers;
+		return m_components;
 	}
 
-	void StateService::setRenderers(std::vector<std::shared_ptr<Component::IComponent>> const renderers)
+	void StateService::setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components)
 	{
 		this->CleanRenderers();
 
-		m_renderers = renderers;
+		m_components = components;
 	}
 
-	void StateService::setSelectedRenderer()
+	void StateService::setSelectedComponent()
 	{
-		this->unSelectRenderer();
-		auto result = std::find_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Component::IComponent> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
+		this->unSelectComponent();
+		auto result = std::find_if(m_components.begin(), m_components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
 		
-		if (result != m_renderers.end())
+		if (result != m_components.end())
 		{
-			m_selected_renderer = *result;
-			m_previous_selected_renderer_color = m_selected_renderer->GetBackgroundColor();
+			m_selected_component = *result;
+			m_previous_selected_component_color = m_selected_component->GetBackgroundColor();
 		}
 	}
 
-	void StateService::unSelectRenderer()
+	void StateService::unSelectComponent()
 	{
-		m_selected_renderer = nullptr;
+		m_selected_component = nullptr;
 	}
 
 	void StateService::setPopupHovered(bool const new_val)
@@ -236,22 +236,22 @@ namespace Services
 
 	glm::vec4 StateService::getRefColor() const
 	{
-		return m_previous_selected_renderer_color;
+		return m_previous_selected_component_color;
 	}
 
-	void StateService::addRenderer(std::shared_ptr<Component::IComponent> new_renderer)
+	void StateService::addComponent(std::shared_ptr<Component::IComponent> new_component)
 	{
-		if (new_renderer)
+		if (new_component)
 		{
-			m_renderers.push_back(new_renderer);
+			m_components.push_back(new_component);
 		}
 	}
 
-	void StateService::deleteRenderer()
+	void StateService::deleteComponent()
 	{
-		this->unSelectRenderer();
-		auto to_remove = std::remove_if(m_renderers.begin(), m_renderers.end(), [](const std::shared_ptr<Component::IComponent> selectable_renderer) {return selectable_renderer->GetSelected() == true; });
-		m_renderers.erase(to_remove, m_renderers.end());
+		this->unSelectComponent();
+		auto to_remove = std::remove_if(m_components.begin(), m_components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
+		m_components.erase(to_remove, m_components.end());
 	}
 	
 	
@@ -266,7 +266,7 @@ namespace Services
 	
 	void StateService::CleanRenderers()
 	{
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
 		{
 			if (it[0])
 			{
@@ -274,7 +274,7 @@ namespace Services
 				it[0].reset();
 			}
 		}
-		m_renderers.clear();
+		m_components.clear();
 	}
 	void StateService::CleanConfig()
 	{

@@ -38,11 +38,11 @@ namespace Services
 		}
 	}
 
-	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const renderers, std::string const filename)
+	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveScene(filename, renderers);
+			m_json_loader_service->SaveScene(filename, components);
 		}
 	}
 	void LoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> configs)

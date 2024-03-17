@@ -68,7 +68,7 @@ namespace Views
 			if (is_intersected && m_mouse_input_service->GetMouseButton()[SDL_BUTTON_LEFT])
 			{
 				renderer->SetSelected(true);
-				m_state_service->setSelectedRenderer();
+				m_state_service->setSelectedComponent();
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace Views
 				!m_state_service->getPopupHovered())
 			{
 				renderer->SetSelected(false);
-				m_state_service->unSelectRenderer();
+				m_state_service->unSelectComponent();
 			}
 		}
 	}
@@ -107,7 +107,7 @@ namespace Views
 		{
 			if (m_keyboard_input_service->GetKeys()[SDL_SCANCODE_LCTRL])
 			{
-				m_state_service->unSelectRenderer();
+				m_state_service->unSelectComponent();
 				for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 				{
 					this->OnSelectRenderer(it[0]);

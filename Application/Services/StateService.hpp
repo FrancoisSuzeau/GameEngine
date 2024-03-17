@@ -63,20 +63,20 @@ namespace Services {
 		bool getMouseClicked() const;
 		void setShowContextMenu(bool const new_val);
 		bool getShowContextMenu() const;
-		std::shared_ptr<Component::IComponent> getSelectedRenderer() const;
+		std::shared_ptr<Component::IComponent> getSelectedComponent() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
-		std::vector<std::shared_ptr<Component::IComponent>> getRenderers() const;
-		void setRenderers(std::vector<std::shared_ptr<Component::IComponent>> const renderers);
-		void setSelectedRenderer();
-		void unSelectRenderer();
+		std::vector<std::shared_ptr<Component::IComponent>> getComponents() const;
+		void setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components);
+		void setSelectedComponent();
+		void unSelectComponent();
 		void setPopupHovered(bool const new_val);
 		bool getPopupHovered() const;
 		glm::vec4 getRefColor() const;
-		void addRenderer(std::shared_ptr<Component::IComponent> new_renderer);
-		void deleteRenderer();
+		void addComponent(std::shared_ptr<Component::IComponent> new_component);
+		void deleteComponent();
 
 		glm::mat4 GetProjectionMatrix() const;
 		void RefreshProjectionMatrix();
@@ -99,14 +99,14 @@ namespace Services {
 		bool m_mouse_clicked;
 		bool m_show_context_menu;
 		bool m_popup_hovered;
-		glm::vec4 m_previous_selected_renderer_color;
+		glm::vec4 m_previous_selected_component_color;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
-		std::vector<std::shared_ptr<Component::IComponent>> m_renderers;
+		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string  m_confirm_message;
-		std::shared_ptr<Component::IComponent> m_selected_renderer;
+		std::shared_ptr<Component::IComponent> m_selected_component;
 
 	};
 }

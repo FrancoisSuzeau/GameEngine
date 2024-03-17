@@ -31,7 +31,7 @@ namespace Views
 			m_shader_service.reset();
 		}
 
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_components.begin(); it != m_components.end(); it++)
 		{
 			if (it->second)
 			{
@@ -40,7 +40,7 @@ namespace Views
 			}
 		}
 
-		m_renderers.clear();
+		m_components.clear();
 	}
 
 	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width)
@@ -61,7 +61,7 @@ namespace Views
 			{
 				std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
-				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
+				if (component && m_shader_service && (m_components.contains(component->GetType()) && m_components.at(component->GetType())))
 				{
 					std::string shader_name = Constants::UNTEXTURED_SHADER;
 					if (mode == GL_LINE)
@@ -71,7 +71,7 @@ namespace Views
 
 					glUseProgram(m_shader_service->GetProgramId(shader_name));
 					Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-					m_renderers.at(component->GetType())->Draw();
+					m_components.at(component->GetType())->Draw();
 					glUseProgram(0);
 
 					component.reset();
@@ -110,9 +110,9 @@ namespace Views
 	}
 	void Canvas::ConstructRenderer()
 	{
-		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
-		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		m_components.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
+		m_components.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_components.begin(); it != m_components.end(); it++)
 		{
 			if (it->second)
 			{

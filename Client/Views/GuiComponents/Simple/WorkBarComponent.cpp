@@ -95,7 +95,7 @@ namespace Views
 
 			style.FrameRounding = 20.f;
 			style.WindowPadding.y = 30.f;
-			std::shared_ptr<Component::IComponent> selected_renderer = m_state_service->getSelectedRenderer();
+			std::shared_ptr<Component::IComponent> selected_renderer = m_state_service->getSelectedComponent();
 			if (selected_renderer)
 			{
 				style.WindowPadding = window_padding_save;

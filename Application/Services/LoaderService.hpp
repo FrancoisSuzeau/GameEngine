@@ -25,7 +25,7 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const renderers, std::string const filename);
+		void SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
 		unsigned int LoadSkybox(std::string const path);
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);

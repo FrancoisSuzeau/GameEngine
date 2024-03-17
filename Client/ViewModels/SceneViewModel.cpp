@@ -32,10 +32,10 @@ namespace ViewModels
 			m_skybox_cpt.reset();
 		}
 
-		if (m_grid_renderer)
+		if (m_grid_cpt)
 		{
-			m_grid_renderer->Clean();
-			m_grid_renderer.reset();
+			m_grid_cpt->Clean();
+			m_grid_cpt.reset();
 		}
 
 		if (m_shader_service)
@@ -127,7 +127,7 @@ namespace ViewModels
 				m_framebuffer_cpt->SetTextureId(0);
 			}
 
-			m_grid_renderer = std::make_shared<Component::ComponentBase>(glm::vec3(-10.f, -1.f, -5.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f));
+			m_grid_cpt = std::make_shared<Component::ComponentBase>(glm::vec3(-10.f, -1.f, -5.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f));
 		}
 	}
 
@@ -135,7 +135,7 @@ namespace ViewModels
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getRenderers();
+			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getComponents();
 			m_canvas->Render(renderers, mode, line_width);
 		}
 	}
@@ -143,7 +143,7 @@ namespace ViewModels
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getRenderers();
+			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getComponents();
 			m_canvas->DragRenderers(renderers);
 			m_canvas->TransformRenderers(renderers);
 		}
@@ -178,10 +178,10 @@ namespace ViewModels
 			if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER));
-				Component::Transformer::ReinitModelMat(m_grid_renderer);
-				Component::Transformer::Move(m_grid_renderer);
-				Component::Transformer::Resize(m_grid_renderer);
-				Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
+				Component::Transformer::ReinitModelMat(m_grid_cpt);
+				Component::Transformer::Move(m_grid_cpt);
+				Component::Transformer::Resize(m_grid_cpt);
+				Component::Transformer::PutIntoShader(m_grid_cpt, m_shader_service, Constants::UNTEXTURED_SHADER);
 
 				m_renderers.at(Enums::RendererType::GRID)->Draw();
 				glUseProgram(0);

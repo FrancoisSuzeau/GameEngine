@@ -70,8 +70,8 @@ namespace Commands
 		if (m_state_service)
 		{
 			new_component_to_make->SetSelected(true);
-			m_state_service->addRenderer(new_component_to_make);
-			m_state_service->setSelectedRenderer();
+			m_state_service->addComponent(new_component_to_make);
+			m_state_service->setSelectedComponent();
 			new_component_to_make.reset();
 		}
 	}
