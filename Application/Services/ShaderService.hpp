@@ -24,7 +24,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 		void AddShader(std::string shader_name, Enums::ShaderType shader_type);
-		void DeleteShader(std::string shader_name);
+		void DeleteShaderProgram(std::string const shader_program_name);
 		GLuint GetProgramId(std::string const shader_name);
 
 		void            setVec(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add);
@@ -36,7 +36,8 @@ namespace Services {
 
 	private:
 		std::shared_ptr<LoaderService> m_loader_service;
-		std::map<std::string, std::shared_ptr<Shaders::Shader>> m_shader_map;
+		std::shared_ptr<Shaders::Shader> m_shader;
+		std::map<std::string, GLuint> m_shader_program_map;
 	};
 }
 

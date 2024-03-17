@@ -18,19 +18,14 @@ namespace Shaders
 	class Shader
 	{
 	public:
-		Shader(GLuint program_id);
+		Shader();
 		~Shader();
-		GLuint			getProgramId() const;
-		void            setVec(std::string const location, glm::vec3 const& vec_to_add);
-		void            setVec(std::string const location, glm::vec4 const& vec_to_add);
-		void            setMat4(std::string const location, glm::mat4 const& matrice_to_add);
-		void            setTexture(std::string const location, int const count);
-		void            setFloat(std::string const location, float const to_ad);
-		void            setInt(std::string const location, int const to_ad);
-
-		void			deleteProgram();
-	private:
-		GLuint          m_program_id;
+		void            setVec(GLuint program_id, std::string const location, glm::vec3 const& vec_to_add);
+		void            setVec(GLuint program_id, std::string const location, glm::vec4 const& vec_to_add);
+		void            setMat4(GLuint program_id, std::string const location, glm::mat4 const& matrice_to_add);
+		void            setTexture(GLuint program_id, std::string const location, int const count);
+		void            setFloat(GLuint program_id, std::string const location, float const to_ad);
+		void            setInt(GLuint program_id, std::string const location, int const to_ad);
 	};
 }
 

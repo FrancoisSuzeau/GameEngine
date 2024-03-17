@@ -90,15 +90,14 @@ namespace Services
 		return nullptr;
 	}
 
-	std::shared_ptr<Shaders::Shader> LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)
+	GLuint LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)
 	{
 		if (m_shader_loader)
 		{
-			GLuint program_id = m_shader_loader->loadShader(shader_name, shader_type);
-			return std::make_shared<Shaders::Shader>(program_id);
+			return m_shader_loader->loadShader(shader_name, shader_type);
 		}
 
-		return nullptr;
+		return 0;
 	}
 }
 

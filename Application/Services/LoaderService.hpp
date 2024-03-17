@@ -30,7 +30,7 @@ namespace Services {
 		unsigned int LoadSkybox(std::string const path);
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
-		std::shared_ptr<Shaders::Shader> LoadShader(std::string shader_name, Enums::ShaderType shader_type);
+		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 
 	private:
 		std::shared_ptr<JsonLoaderService> m_json_loader_service;
