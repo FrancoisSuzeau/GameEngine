@@ -153,68 +153,65 @@ namespace ViewModels
 			m_framebuffer_cpt->SetTextureId(m_framebuffer_service->GetTextureId());
 		}
 	}
-	void SceneViewModel::RenderFrameBuffer(GLenum const mode, float const line_width)
-	{
-		if (m_shader_service && m_framebuffer_cpt)
-		{
-			Component::Transformer::ReinitModelMat(m_framebuffer_cpt);
-			Component::Transformer::Resize(m_framebuffer_cpt);
-			Component::Transformer::Move(m_framebuffer_cpt);
-			glLineWidth(line_width);
-			glPolygonMode(GL_FRONT_AND_BACK, mode);
 
+	void SceneViewModel::RenderSceneElements(GLenum const mode, float const line_width, Enums::RendererType element)
+	{
+		glLineWidth(line_width);
+		glPolygonMode(GL_FRONT_AND_BACK, mode);
+
+		switch (element)
+		{
+		case Enums::SQUARE_TEXTURED:
 			if (m_renderers.contains(Enums::RendererType::SQUARE_TEXTURED) && m_renderers.at(Enums::RendererType::SQUARE_TEXTURED))
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::SCREEN_SHADER));
-
+				Component::Transformer::ReinitModelMat(m_framebuffer_cpt);
+				Component::Transformer::Move(m_framebuffer_cpt);
+				Component::Transformer::Resize(m_framebuffer_cpt);
 				Component::Transformer::PutIntoShader(m_framebuffer_cpt, m_shader_service, Constants::SCREEN_SHADER);
 				m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->Draw(m_framebuffer_cpt->GetTextureId());
-				
+
 				glUseProgram(0);
 			}
-		}
-	}
-	void SceneViewModel::RenderSkybox(GLenum const mode, float const line_width)
-	{
-		if (m_shader_service && m_skybox_cpt)
-		{
-			glLineWidth(line_width);
-			glPolygonMode(GL_FRONT_AND_BACK, mode);
-			glDepthFunc(GL_LEQUAL);
-
-			if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX))
-			{
-				glUseProgram(m_shader_service->GetProgramId(Constants::SKYBOX_SHADER));
-				Component::Transformer::PutIntoShader(m_skybox_cpt, m_shader_service, Constants::SKYBOX_SHADER);
-
-				m_renderers.at(Enums::RendererType::SKYBOX)->Draw(m_skybox_cpt->GetTextureId());
-				glUseProgram(0);
-			}
-
-			glDepthFunc(GL_LESS);
-		}
-	}
-
-	void SceneViewModel::RenderGrid(GLenum const mode, float const line_width)
-	{
-		if (m_shader_service && m_grid_renderer)
-		{
-			Component::Transformer::ReinitModelMat(m_grid_renderer);
-			Component::Transformer::Move(m_grid_renderer);
-			Component::Transformer::Resize(m_grid_renderer);
-			glLineWidth(line_width);
-			glPolygonMode(GL_FRONT_AND_BACK, mode);
-
+			break;
+		case Enums::GRID:
 			if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
 			{
 				glUseProgram(m_shader_service->GetProgramId(Constants::UNTEXTURED_SHADER));
+				Component::Transformer::ReinitModelMat(m_grid_renderer);
+				Component::Transformer::Move(m_grid_renderer);
+				Component::Transformer::Resize(m_grid_renderer);
 				Component::Transformer::PutIntoShader(m_grid_renderer, m_shader_service, Constants::UNTEXTURED_SHADER);
 
 				m_renderers.at(Enums::RendererType::GRID)->Draw();
 				glUseProgram(0);
 			}
-			
+			break;
+		case Enums::SKYBOX:
+			if (m_shader_service && m_skybox_cpt)
+			{
+				glDepthFunc(GL_LEQUAL);
+
+				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX))
+				{
+					glUseProgram(m_shader_service->GetProgramId(Constants::SKYBOX_SHADER));
+					Component::Transformer::PutIntoShader(m_skybox_cpt, m_shader_service, Constants::SKYBOX_SHADER);
+
+					m_renderers.at(Enums::RendererType::SKYBOX)->Draw(m_skybox_cpt->GetTextureId());
+					glUseProgram(0);
+				}
+
+				glDepthFunc(GL_LESS);
+			}
+			break;
+		case Enums::TRIANGLE:
+		case Enums::SQUARE:
+		case Enums::NONE:
+		default:
+			break;
 		}
+		
+		
 	}
 	
 }
