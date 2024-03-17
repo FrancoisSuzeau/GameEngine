@@ -34,7 +34,6 @@ namespace Services {
 		~ShaderLoaderService();
 
 		GLuint            loadShader(std::string const shader_name, Enums::ShaderType shader_type);
-		void			deleteProgram(GLuint program_id);
 		
 	private:
 

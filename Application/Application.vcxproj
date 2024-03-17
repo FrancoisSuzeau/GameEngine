@@ -31,12 +31,9 @@
     <ClCompile Include="Services\LoaderService.cpp" />
     <ClCompile Include="Services\CameraService.cpp" />
     <ClCompile Include="Commands\ExitCommand.cpp" />
-    <ClCompile Include="Commands\DeleteShaderCommand.cpp" />
     <ClCompile Include="Engines\MainEngine.cpp" />
     <ClCompile Include="Engines\GUIEngine.cpp" />
     <ClCompile Include="Engines\SceneEngine.cpp" />
-    <ClCompile Include="Commands\LoadNewShaderCommand.cpp" />
-    <ClCompile Include="Commands\ModifyShaderCommand.cpp" />
     <ClCompile Include="Services\FramebufferService.cpp" />
     <ClCompile Include="Services\AudioInitalizerService.cpp" />
     <ClCompile Include="Services\GraphicInitializerService.cpp" />
@@ -63,13 +60,10 @@
     <ClInclude Include="Services\CameraService.hpp" />
     <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
-    <ClInclude Include="Commands\DeleteShaderCommand.hpp" />
     <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
-    <ClInclude Include="Commands\LoadNewShaderCommand.hpp" />
-    <ClInclude Include="Commands\ModifyShaderCommand.hpp" />
     <ClInclude Include="Services\FramebufferService.hpp" />
     <ClInclude Include="Services\AudioInitializerService.hpp" />
     <ClInclude Include="Services\GraphicInitializerService.hpp" />

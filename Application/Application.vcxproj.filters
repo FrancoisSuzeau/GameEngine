@@ -54,15 +54,6 @@
     <ClCompile Include="Services\ShaderService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Commands\LoadNewShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\DeleteShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\ModifyShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Services\FramebufferService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,15 +141,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commands\Commands.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\LoadNewShaderCommand.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\DeleteShaderCommand.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\ModifyShaderCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\FramebufferService.hpp">

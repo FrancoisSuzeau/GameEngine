@@ -27,6 +27,8 @@ namespace Shaders
 		void            setTexture(std::string const location, int const count);
 		void            setFloat(std::string const location, float const to_ad);
 		void            setInt(std::string const location, int const to_ad);
+
+		void			deleteProgram();
 	private:
 		GLuint          m_program_id;
 	};

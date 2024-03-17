@@ -6,9 +6,9 @@
 #define SHADERSERVICE_H
 
 #include "IService.hpp"
+#include "LoaderService.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "ExternalServices.hpp"
 #include "Shader.hpp"
 #include <iostream>
 #include <map>
@@ -23,7 +23,7 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void LoadShader(std::string shader_name, Enums::ShaderType shader_type);
+		void AddShader(std::string shader_name, Enums::ShaderType shader_type);
 		void DeleteShader(std::string shader_name);
 		GLuint GetProgramId(std::string const shader_name);
 
@@ -35,8 +35,8 @@ namespace Services {
 		void            setInt(std::string shader_name, std::string const location, int const to_ad);
 
 	private:
-		std::shared_ptr<Services::ShaderLoaderService> m_shader_loader;
-		std::map<std::string, std::unique_ptr<Shaders::Shader>> m_shader_map;
+		std::shared_ptr<LoaderService> m_loader_service;
+		std::map<std::string, std::shared_ptr<Shaders::Shader>> m_shader_map;
 	};
 }
 

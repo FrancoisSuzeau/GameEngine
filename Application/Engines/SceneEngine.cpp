@@ -43,10 +43,10 @@ namespace Engines
 			
 			if (m_shader_service)
 			{
-				m_shader_service->LoadShader(Constants::SCREEN_SHADER, Enums::NORMAL);
-				m_shader_service->LoadShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
-				m_shader_service->LoadShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
-				m_shader_service->LoadShader(Constants::HOVER_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::SCREEN_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::HOVER_SHADER, Enums::NORMAL);
 			}
 			else
 			{

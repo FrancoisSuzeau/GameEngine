@@ -6,7 +6,7 @@
 #define LOADERSERVICE_H
 
 #include "IService.hpp"
-#include "Services.hpp"
+#include "Shader.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "ExternalServices.hpp"
@@ -30,10 +30,12 @@ namespace Services {
 		unsigned int LoadSkybox(std::string const path);
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
+		std::shared_ptr<Shaders::Shader> LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 
 	private:
 		std::shared_ptr<JsonLoaderService> m_json_loader_service;
 		std::shared_ptr<TextureLoaderService> m_texture_loader_service;
+		std::shared_ptr<ShaderLoaderService> m_shader_loader;
 	};
 }
 

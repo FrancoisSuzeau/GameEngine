@@ -8,39 +8,37 @@ namespace Services
 {
 	void ShaderService::Init()
 	{
-		m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
-		if (!m_shader_loader)
+		m_loader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::LoaderService>();
+		if (!m_loader_service)
 		{
-			SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+			SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
 		}
 		
 	}
 
 	void ShaderService::DeInit()
 	{
-		for (std::map<std::string, std::unique_ptr<Shaders::Shader>>::iterator it = m_shader_map.begin(); it != m_shader_map.end(); it++)
+		for (std::map<std::string, std::shared_ptr<Shaders::Shader>>::iterator it = m_shader_map.begin(); it != m_shader_map.end(); it++)
 		{
-			if (it->second && m_shader_loader)
+			if (it->second)
 			{
-				GLuint program_id = it->second->getProgramId();
-				m_shader_loader->deleteProgram(program_id);
+				it->second->deleteProgram();
 				it->second.reset();
 			}
 		}
-
 		m_shader_map.clear();
-		if (m_shader_loader)
+
+		if (m_loader_service)
 		{
-			m_shader_loader.reset();
+			m_loader_service.reset();
 		}
 	}
 
-	void ShaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)
+	void ShaderService::AddShader(std::string shader_name, Enums::ShaderType shader_type)
 	{
-		if (!m_shader_map.contains(shader_name) && m_shader_loader)
+		if (!m_shader_map.contains(shader_name) && m_loader_service)
 		{
-			GLuint program_id = m_shader_loader->loadShader(shader_name, shader_type);
-			m_shader_map.insert_or_assign(shader_name, std::unique_ptr<Shaders::Shader>(new Shaders::Shader(program_id)));
+			m_shader_map.insert_or_assign(shader_name, m_loader_service->LoadShader(shader_name, shader_type));
 		}
 		else
 		{
@@ -51,10 +49,9 @@ namespace Services
 
 	void ShaderService::DeleteShader(std::string shader_name)
 	{
-		if (m_shader_map.contains(shader_name) && m_shader_loader && m_shader_map.at(shader_name))
+		if (m_shader_map.contains(shader_name) && m_shader_map.at(shader_name))
 		{
-			GLuint program_id = m_shader_map.at(shader_name)->getProgramId();
-			m_shader_loader->deleteProgram(program_id);
+			m_shader_map.at(shader_name)->deleteProgram();
 			m_shader_map.at(shader_name).reset();
 			m_shader_map.erase(shader_name);
 		}

@@ -49,6 +49,14 @@ namespace Shaders
     {
         glUniform1i(glGetUniformLocation(m_program_id, location.c_str()), to_add);
     }
+    void Shader::deleteProgram()
+    {
+        if (glIsProgram(m_program_id) == GL_TRUE)
+        {
+            glDeleteProgram(m_program_id);
+            m_program_id = 0;
+        }
+    }
 }
 
 

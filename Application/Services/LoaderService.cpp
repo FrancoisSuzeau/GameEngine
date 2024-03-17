@@ -22,6 +22,12 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : Texture loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
+			if (!m_shader_loader)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -35,6 +41,11 @@ namespace Services
 		if (m_texture_loader_service)
 		{
 			m_texture_loader_service.reset();
+		}
+
+		if (m_shader_loader)
+		{
+			m_shader_loader.reset();
 		}
 	}
 
@@ -76,7 +87,18 @@ namespace Services
 		{
 			return m_json_loader_service->GetConfigs();
 		}
-		return std::make_shared<ConfigEntity>();
+		return nullptr;
+	}
+
+	std::shared_ptr<Shaders::Shader> LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)
+	{
+		if (m_shader_loader)
+		{
+			GLuint program_id = m_shader_loader->loadShader(shader_name, shader_type);
+			return std::make_shared<Shaders::Shader>(program_id);
+		}
+
+		return nullptr;
 	}
 }
 
