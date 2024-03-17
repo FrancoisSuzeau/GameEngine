@@ -6,7 +6,6 @@
 #define LOADERSERVICE_H
 
 #include "IService.hpp"
-#include "Shader.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "ExternalServices.hpp"

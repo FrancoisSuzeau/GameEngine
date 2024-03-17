@@ -24,9 +24,9 @@ namespace ViewModels
 		~SceneViewModel() override;
 		void Construct() override;
 		
-		void RenderComponents(GLenum const mode, float const line_width) override;
+		void RenderComponents() override;
 		void ManageComponents() override;
-		void RenderSceneElements(GLenum const mode, float const line_width, Enums::RendererType element) override;
+		void RenderSceneElements(Enums::RendererType element) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;
@@ -39,6 +39,10 @@ namespace ViewModels
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
+
+		void LambdaRender(std::function<void(unsigned int)> callback);
+		void LambdaRender(std::function<void> callback);
 
 
 	};

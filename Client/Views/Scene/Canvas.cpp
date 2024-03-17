@@ -11,10 +11,20 @@ namespace Views
 	{
 		m_draggable_component = std::make_unique<Views::Draggable >();
 
-		m_shader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderService>();
-		if (!m_shader_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+			m_shader_service = container->GetReference<Services::ShaderService>();
+			if (!m_shader_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -31,6 +41,11 @@ namespace Views
 			m_shader_service.reset();
 		}
 
+		if (m_runtime_service)
+		{
+			m_runtime_service.reset();
+		}
+
 		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_components.begin(); it != m_components.end(); it++)
 		{
 			if (it->second)
@@ -43,7 +58,7 @@ namespace Views
 		m_components.clear();
 	}
 
-	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers, GLenum const mode, float const line_width)
+	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
 		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
@@ -51,8 +66,6 @@ namespace Views
 			{
 				m_draggable_component->OnHoverRenderer(it[0]);
 			}
-			glLineWidth(line_width);
-			glPolygonMode(GL_FRONT_AND_BACK, mode);
 
 			switch (it[0]->GetType())
 			{
@@ -64,15 +77,17 @@ namespace Views
 				if (component && m_shader_service && (m_components.contains(component->GetType()) && m_components.at(component->GetType())))
 				{
 					std::string shader_name = Constants::UNTEXTURED_SHADER;
-					if (mode == GL_LINE)
+					if (m_runtime_service && m_runtime_service->IsRenderingLine())
 					{
 						shader_name = Constants::HOVER_SHADER;
 					}
-
-					glUseProgram(m_shader_service->GetProgramId(shader_name));
-					Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-					m_components.at(component->GetType())->Draw();
-					glUseProgram(0);
+					if (m_shader_service)
+					{
+						m_shader_service->BindShaderProgram(shader_name);
+						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+						m_components.at(component->GetType())->Draw();
+						m_shader_service->UnbindShaderProgram();
+					}
 
 					component.reset();
 				}

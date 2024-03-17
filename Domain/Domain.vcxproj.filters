@@ -30,7 +30,7 @@
     <ClInclude Include="Interfaces\ICommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders\Shader.hpp">
+    <ClInclude Include="OpenGLService\OpenGLService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IView.hpp">
@@ -77,7 +77,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shaders\Shader.cpp">
+    <ClCompile Include="OpenGLService\OpenGLService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp">

@@ -15,5 +15,6 @@
 #include "LoaderService.hpp"
 #include "MouseInputService.hpp"
 #include "KeyboardInputService.hpp"
+#include "RunTimeService.hpp"
 
 #endif

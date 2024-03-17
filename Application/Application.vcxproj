@@ -26,6 +26,7 @@
     <ClCompile Include="Commands\ModifyConfigsCommand.cpp" />
     <ClCompile Include="Commands\DeleteComponent.cpp" />
     <ClCompile Include="Commands\CopyComponentCommand.cpp" />
+    <ClCompile Include="Services\RunTimeService.cpp" />
     <ClCompile Include="Services\KeyboardInputService.cpp" />
     <ClCompile Include="Services\MouseInputService.cpp" />
     <ClCompile Include="Services\LoaderService.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="Commands\ModifyConfigsCommand.hpp" />
     <ClInclude Include="Commands\DeleteComponent.hpp" />
     <ClInclude Include="Commands\CopyComponentCommand.hpp" />
+    <ClInclude Include="Services\RunTimeService.hpp" />
     <ClInclude Include="Services\KeyboardInputService.hpp" />
     <ClInclude Include="Services\MouseInputService.hpp" />
     <ClInclude Include="Services\LoaderService.hpp" />
@@ -179,7 +181,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Shaders;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\OpenGLService;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

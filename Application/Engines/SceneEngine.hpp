@@ -10,7 +10,6 @@
 #include <string>
 #include "../Builders/ViewModelBuilder.hpp"
 
-#include "../Shaders/Shader.hpp"
 #include "IEngine.hpp"
 #include "Constants/StringConstants.hpp"
 #include "Renderers/Renderers.hpp"
@@ -32,13 +31,12 @@ namespace Engines
 	private:
 		void InitFrame() override;
 		void EndFrame() override;
-		void RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboad_input_service;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		
 	};
 }

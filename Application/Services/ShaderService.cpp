@@ -8,13 +8,21 @@ namespace Services
 {
 	void ShaderService::Init()
 	{
-		m_loader_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::LoaderService>();
-		if (!m_loader_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
-		}
+			m_loader_service = container->GetReference<Services::LoaderService>();
+			if (!m_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 
-		m_shader = std::make_shared<Shaders::Shader>();
+			m_opengl_service = container->GetReference<Services::OpenGLService>();
+			if (!m_opengl_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : OpenGL service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+		}
 		
 	}
 
@@ -32,9 +40,9 @@ namespace Services
 			m_loader_service.reset();
 		}
 
-		if (m_shader)
+		if (m_opengl_service)
 		{
-			m_shader.reset();
+			m_opengl_service.reset();
 		}
 	}
 
@@ -51,61 +59,67 @@ namespace Services
 		
 	}
 
-	GLuint ShaderService::GetProgramId(std::string const shader_name)
+	void ShaderService::BindShaderProgram(std::string const shader_name)
 	{
-		if (m_shader_program_map.contains(shader_name))
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
-			return m_shader_program_map.at(shader_name);
+			m_opengl_service->bindProgram( m_shader_program_map.at(shader_name));
 		}
+	}
 
-		return Constants::Return_error;
+	void ShaderService::UnbindShaderProgram()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->bindProgram(0);
+		}
 	}
 	 
 	void ShaderService::setVec(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add)
 	{
 
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
-			m_shader->setVec(m_shader_program_map.at(shader_name), location, vec_to_add);
+			m_opengl_service->setVec(m_shader_program_map.at(shader_name), location, vec_to_add);
 		}
 	}
 	void ShaderService::setVec(std::string shader_name, std::string const location, glm::vec4 const& vec_to_add)
 	{
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
-			m_shader->setVec(m_shader_program_map.at(shader_name), location, vec_to_add);
+			m_opengl_service->setVec(m_shader_program_map.at(shader_name), location, vec_to_add);
 		}
 	}
 	void ShaderService::setMat4(std::string shader_name, std::string const location, glm::mat4 const& matrice_to_add)
 	{
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
-			m_shader->setMat4(m_shader_program_map.at(shader_name), location, matrice_to_add);
+			m_opengl_service->setMat4(m_shader_program_map.at(shader_name), location, matrice_to_add);
 		}
 	}
 	void ShaderService::setTexture(std::string shader_name, std::string const location, int const count)
 	{
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
 			
-			m_shader->setTexture(m_shader_program_map.at(shader_name), location, count);
+			m_opengl_service->setTexture(m_shader_program_map.at(shader_name), location, count);
 			
 		}
 	}
 	void ShaderService::setFloat(std::string shader_name, std::string const location, float const to_ad)
 	{
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
 			
-			m_shader->setFloat(m_shader_program_map.at(shader_name), location, to_ad);
+			m_opengl_service->setFloat(m_shader_program_map.at(shader_name), location, to_ad);
 			
 		}
 	}
 	void ShaderService::setInt(std::string shader_name, std::string const location, int const to_ad)
 	{
-		if (m_shader_program_map.contains(shader_name) && m_shader)
+		if (m_shader_program_map.contains(shader_name) && m_opengl_service)
 		{
-			m_shader->setInt(m_shader_program_map.at(shader_name), location, to_ad);
+			m_opengl_service->setInt(m_shader_program_map.at(shader_name), location, to_ad);
 		}
 	}
 	void ShaderService::DeleteShaderProgram(std::string const shader_name)

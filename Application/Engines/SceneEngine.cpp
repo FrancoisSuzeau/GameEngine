@@ -28,6 +28,11 @@ namespace Engines
 		{
 			m_keyboad_input_service.reset();
 		}
+
+		if (m_runtime_service)
+		{
+			m_runtime_service.reset();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -39,7 +44,7 @@ namespace Engines
 			m_state_service = container->GetReference<Services::StateService>();
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
-			
+			m_runtime_service = container->GetReference<Services::RunTimeService>();
 			
 			if (m_shader_service)
 			{
@@ -72,26 +77,34 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Keyboard input service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				m_runtime_service->RenderingInFill();
+			}
 		}
 		
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		this->RenderSkybox(view_model_builder);
-		this->RenderGrid(view_model_builder);
-		
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model)
+			if (view_model && m_runtime_service)
 			{
-				if(m_state_service)
-				{
-					view_model->RenderComponents(GL_FILL, 0.f);
-					view_model->RenderComponents(GL_LINE, 4.f);
-					
-				}
+				view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
+				m_runtime_service->RenderingInLine(2.f);
+				view_model->RenderSceneElements(Enums::RendererType::GRID);
+				m_runtime_service->RenderingInFill();
+				view_model->RenderComponents();
+				m_runtime_service->RenderingInLine(4.f);
+				view_model->RenderComponents();
+				m_runtime_service->RenderingInFill();
 
 				view_model.reset();
 			}
@@ -115,38 +128,10 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderSceneElements(GL_FILL, 0.f, Enums::RendererType::SQUARE_TEXTURED);
+				view_model->RenderSceneElements(Enums::RendererType::SQUARE_TEXTURED);
 				view_model.reset();
 			}
 
-		}
-	}
-
-	void SceneEngine::RenderSkybox(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
-	{
-		
-		if (view_model_builder)
-		{
-			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model)
-			{
-				view_model->RenderSceneElements(GL_FILL, 0.f, Enums::RendererType::SKYBOX);
-				view_model.reset();
-			}
-
-		}
-	}
-
-	void SceneEngine::RenderGrid(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
-	{
-		if (view_model_builder)
-		{
-			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model)
-			{
-				view_model->RenderSceneElements(GL_LINE, 2.f, Enums::RendererType::GRID);
-				view_model.reset();
-			}
 		}
 	}
 	

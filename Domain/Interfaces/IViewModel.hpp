@@ -26,9 +26,9 @@ namespace ViewModels {
 		virtual void Construct() = 0;
 
 		virtual void RenderComponents(Enums::ComponentType view_type) {}
-		virtual void RenderComponents(GLenum const mode, float const line_width) {}
+		virtual void RenderComponents() {}
 		virtual void ManageComponents() {}
-		virtual void RenderSceneElements(GLenum const mode, float const line_width, Enums::RendererType element) {}
+		virtual void RenderSceneElements(Enums::RendererType element) {}
 		virtual void AddCommand(std::unique_ptr<Commands::ICommand> command)
 		{
 			if (command)

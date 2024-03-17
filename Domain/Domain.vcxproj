@@ -35,7 +35,7 @@
     <ClInclude Include="Interfaces\IInstance.hpp" />
     <ClInclude Include="Interfaces\IService.hpp" />
     <ClInclude Include="Interfaces\IViewModel.hpp" />
-    <ClInclude Include="Shaders\Shader.hpp" />
+    <ClInclude Include="OpenGLService\OpenGLService.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
@@ -46,7 +46,7 @@
     <ClCompile Include="Entities\ConfigEntity.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
-    <ClCompile Include="Shaders\Shader.cpp" />
+    <ClCompile Include="OpenGLService\OpenGLService.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp" />
