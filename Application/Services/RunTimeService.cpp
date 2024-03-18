@@ -67,5 +67,26 @@ namespace Services
 	{
 		return m_is_rendering_line;
 	}
+	void RunTimeService::RefreshScreen()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->clearScreen();
+		}
+	}
+	void RunTimeService::EnableBlendCapture()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->enable(GL_BLEND);
+		}
+	}
+	void RunTimeService::SetMinusSrcAlpha()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->blend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+	}
 }
 

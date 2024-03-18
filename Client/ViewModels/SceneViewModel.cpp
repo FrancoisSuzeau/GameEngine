@@ -146,17 +146,17 @@ namespace ViewModels
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getComponents();
-			m_canvas->Render(renderers);
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
+			m_canvas->Render(components);
 		}
 	}
 	void SceneViewModel::ManageComponents()
 	{
 		if (m_state_service)
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> renderers = m_state_service->getComponents();
-			m_canvas->DragRenderers(renderers);
-			m_canvas->TransformRenderers(renderers);
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
+			m_canvas->DragRenderers(components);
+			m_canvas->TransformRenderers(components);
 		}
 
 		if (m_framebuffer_cpt && m_framebuffer_service)
@@ -174,26 +174,17 @@ namespace ViewModels
 			case Enums::SQUARE_TEXTURED:
 				if (m_renderers.contains(Enums::RendererType::SQUARE_TEXTURED) && m_renderers.at(Enums::RendererType::SQUARE_TEXTURED))
 				{
-					m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
-					Component::Transformer::ReinitModelMat(m_framebuffer_cpt);
-					Component::Transformer::Move(m_framebuffer_cpt);
-					Component::Transformer::Resize(m_framebuffer_cpt);
-					Component::Transformer::PutIntoShader(m_framebuffer_cpt, m_shader_service, Constants::SCREEN_SHADER);
-					m_renderers.at(Enums::RendererType::SQUARE_TEXTURED)->Draw(m_framebuffer_cpt->GetTextureId());
-					m_shader_service->UnbindShaderProgram();
+					std::shared_ptr<Renderers::ScreenRenderer> f = std::dynamic_pointer_cast<Renderers::ScreenRenderer>(m_renderers.at(Enums::RendererType::SQUARE_TEXTURED));
+					this->LambdaRender(std::bind(&Renderers::ScreenRenderer::Draw, f, m_framebuffer_cpt->GetTextureId()), Constants::SCREEN_SHADER, m_framebuffer_cpt);
+					f.reset();
 				}
 				break;
 			case Enums::GRID:
 				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
 				{
-					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
-					Component::Transformer::ReinitModelMat(m_grid_cpt);
-					Component::Transformer::Move(m_grid_cpt);
-					Component::Transformer::Resize(m_grid_cpt);
-					Component::Transformer::PutIntoShader(m_grid_cpt, m_shader_service, Constants::UNTEXTURED_SHADER);
-					//m_renderers.at(Enums::RendererType::GRID)->Draw();
-					//this->LambdaRender()
-					m_shader_service->UnbindShaderProgram();
+					std::shared_ptr<Renderers::Grid> g = std::dynamic_pointer_cast<Renderers::Grid>(m_renderers.at(Enums::RendererType::GRID));
+					this->LambdaRender(std::bind(&Renderers::Grid::Draw, g), Constants::UNTEXTURED_SHADER, m_grid_cpt);
+					g.reset();
 				}
 				break;
 			case Enums::SKYBOX:
@@ -203,13 +194,9 @@ namespace ViewModels
 
 					if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX))
 					{
-						m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
-						Component::Transformer::ReinitModelMat(m_skybox_cpt);
-						Component::Transformer::Move(m_skybox_cpt);
-						Component::Transformer::Resize(m_skybox_cpt);
-						Component::Transformer::PutIntoShader(m_skybox_cpt, m_shader_service, Constants::SKYBOX_SHADER);
-						m_renderers.at(Enums::RendererType::SKYBOX)->Draw(m_skybox_cpt->GetTextureId());
-						m_shader_service->UnbindShaderProgram();
+						std::shared_ptr<Renderers::Skybox> s = std::dynamic_pointer_cast<Renderers::Skybox>(m_renderers.at(Enums::RendererType::SKYBOX));
+						this->LambdaRender(std::bind(&Renderers::Skybox::Draw, s, m_skybox_cpt->GetTextureId()), Constants::SKYBOX_SHADER, m_skybox_cpt);
+						s.reset();
 					}
 
 					m_runtime_service->LessDepth();
@@ -225,14 +212,17 @@ namespace ViewModels
 		
 		
 	}
-
-	void SceneViewModel::LambdaRender(std::function<void(unsigned int)> callback)
-	{
-	}
 	
-	void SceneViewModel::LambdaRender(std::function<void> callback)
+	void SceneViewModel::LambdaRender(std::function<void()> callback, std::string const shader_name, std::shared_ptr<Component::IComponent> cpt)
 	{
-
+		m_shader_service->BindShaderProgram(shader_name);
+		Component::Transformer::ReinitModelMat(cpt);
+		Component::Transformer::Move(cpt);
+		Component::Transformer::Resize(cpt);
+		Component::Transformer::PutIntoShader(cpt, m_shader_service, shader_name);
+		callback();
+		m_shader_service->UnbindShaderProgram();
+		
 	}
 }
 

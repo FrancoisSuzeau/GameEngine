@@ -47,7 +47,7 @@ namespace Engines {
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
-		unsigned int skybox_texture = 0;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		
 	};
 }

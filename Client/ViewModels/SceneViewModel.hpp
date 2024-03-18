@@ -11,6 +11,7 @@
 #include "../Views/Transformer.hpp"
 #include "Services/ShaderService.hpp"
 
+#include <functional>
 
 #include <iostream>
 #include <map>
@@ -41,8 +42,7 @@ namespace ViewModels
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 
-		void LambdaRender(std::function<void(unsigned int)> callback);
-		void LambdaRender(std::function<void> callback);
+		void LambdaRender(std::function<void()> callback, std::string const shader_name, std::shared_ptr<Component::IComponent> cpt);
 
 
 	};

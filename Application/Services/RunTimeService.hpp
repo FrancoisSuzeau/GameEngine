@@ -31,6 +31,9 @@ namespace Services {
 		void LequalDepth();
 		void LessDepth();
 		bool IsRenderingLine() const;
+		void RefreshScreen();
+		void EnableBlendCapture();
+		void SetMinusSrcAlpha();
 
 	private:
 		std::shared_ptr<Services::OpenGLService> m_opengl_service;
