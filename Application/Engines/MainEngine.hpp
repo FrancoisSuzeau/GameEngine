@@ -34,7 +34,7 @@ namespace Engines {
 
 
 	private:
-		SDL_Window* m_window = nullptr;
+		std::shared_ptr<SDL_Window> m_window;
 		Uint32                  start_loop = 0, end_loop = 0, time_past = 0;
 		unsigned int            frame_rate = 0;
 

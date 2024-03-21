@@ -12,14 +12,11 @@ namespace Services
         std::shared_ptr<Services::GraphicInitializerService> graph_service_init = container->GetReference<Services::GraphicInitializerService>();
         if (graph_service_init)
         {
-            SDL_GLContext gl_context = graph_service_init->GetGLContext();
-            SDL_Window* sdl_window = graph_service_init->GetSDLWindow();
-
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
             m_io = ImGui::GetIO();
             ImGui::StyleColorsDark();
-            ImGui_ImplSDL2_InitForOpenGL(sdl_window, gl_context);
+            ImGui_ImplSDL2_InitForOpenGL(graph_service_init->GetSDLWindow().get(), graph_service_init->GetGLContext());
             ImGui_ImplOpenGL3_Init(Constants::IMGUIVERSION.c_str());
 
             SQ_APP_DEBUG("ImGui service SUCCESSFULLY initialized");

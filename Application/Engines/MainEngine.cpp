@@ -29,6 +29,11 @@ namespace Engines
 		{
 			m_runtime_service.reset();
 		}
+
+		if (m_window)
+		{
+			m_window.reset();
+		}
 	}
 
 	void MainEngine::Construct()
@@ -172,7 +177,7 @@ namespace Engines
 		if (m_gui_engine && m_window)
 		{
 			m_gui_engine->EndFrame();
-			SDL_GL_SwapWindow(m_window);
+			SDL_GL_SwapWindow(m_window.get());
 		}
 	}
 
