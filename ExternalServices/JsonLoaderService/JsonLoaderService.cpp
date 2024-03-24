@@ -36,14 +36,14 @@ namespace Services
 		this->SaveFile(filename, std::move(m_scene));
 	}
 
-	void JsonLoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> config)
+	void JsonLoaderService::SaveConfigs(std::unique_ptr<ConfigEntity> config)
 	{
 		if (m_configs)
 		{
 			m_configs.reset();
 		}
 
-		m_configs = this->ConvertToJsonFormat(config);
+		m_configs = this->ConvertToJsonFormat(std::move(config));
 		this->SaveFile(Constants::CONFIGFILE, std::move(m_configs));
 	}
 
@@ -73,7 +73,7 @@ namespace Services
 		return this->ConvertToRenderers();
 	}
 
-	std::shared_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
+	std::unique_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
 	{
 		if (m_configs)
 		{
@@ -120,7 +120,7 @@ namespace Services
 		return std::make_unique<json>(j);
 	}
 
-	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
+	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::unique_ptr<ConfigEntity> config)
 	{
 		json json_config = { {"create_scenes", config->GetCreatedScenes()}};
 		return std::make_unique<json>(json_config);
@@ -156,9 +156,9 @@ namespace Services
 		return renderers;
 	}
 
-	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
+	std::unique_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
 	{
-		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
+		std::unique_ptr<ConfigEntity> config = std::make_unique<ConfigEntity>();
 		config->SetCreatedScene(this->GetStringVectorNode(std::move(m_configs), "create_scenes"));
 		return config;
 	}

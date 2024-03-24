@@ -56,11 +56,11 @@ namespace Services
 			m_json_loader_service->SaveScene(filename, components);
 		}
 	}
-	void LoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> configs)
+	void LoaderService::SaveConfigs(std::unique_ptr<ConfigEntity> configs)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveConfigs(configs);
+			m_json_loader_service->SaveConfigs(std::move(configs));
 		}
 	}
 	unsigned int LoaderService::LoadSkybox(std::string const path)
@@ -81,7 +81,7 @@ namespace Services
 
 		return std::vector<std::shared_ptr<Component::IComponent>>();
 	}
-	std::shared_ptr<ConfigEntity> LoaderService::LoadConfigs()
+	std::unique_ptr<ConfigEntity> LoaderService::LoadConfigs()
 	{
 		if(m_json_loader_service)
 		{

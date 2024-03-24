@@ -23,9 +23,10 @@ namespace Commands {
 		void Execute() override;
 	private:
 
-		std::shared_ptr<Services::ConfigEntity> m_configs;
+		std::unique_ptr<Services::ConfigEntity> m_configs;
 		std::string const m_filename;
 		Enums::ConfigsModifier m_configs_modifier;
+		std::shared_ptr<Services::StateService> m_state_service;
 
 	};
 }
