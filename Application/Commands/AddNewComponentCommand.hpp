@@ -24,7 +24,7 @@ namespace Commands {
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		Enums::RendererType const m_component_type;
-		void MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make);
+		void MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make);
 	};
 }
 

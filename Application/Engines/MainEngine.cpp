@@ -24,6 +24,16 @@ namespace Engines
 		{
 			m_framebuffer_service.reset();
 		}
+
+		if (m_runtime_service)
+		{
+			m_runtime_service.reset();
+		}
+
+		if (m_window)
+		{
+			m_window.reset();
+		}
 	}
 
 	void MainEngine::Construct()
@@ -64,6 +74,13 @@ namespace Engines
 			else
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+
 			}
 			
 		}
@@ -126,7 +143,7 @@ namespace Engines
 
 				//m_framebuffer_service->UnbindFramebuffer();
 
-				//m_scene_engine->RenderFrameBuffer(view_model_builder, m_framebuffer_service->GetTextureId());
+				//m_scene_engine->RenderFrameBuffer(view_model_builder);
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);
@@ -142,10 +159,12 @@ namespace Engines
 	void MainEngine::InitFrame()
 	{
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		if (m_runtime_service)
+		{
+			m_runtime_service->RefreshScreen();
+			m_runtime_service->EnableBlendCapture();
+			m_runtime_service->SetMinusSrcAlpha();
+		}
 
 		if (m_gui_engine)
 		{
@@ -158,7 +177,7 @@ namespace Engines
 		if (m_gui_engine && m_window)
 		{
 			m_gui_engine->EndFrame();
-			SDL_GL_SwapWindow(m_window);
+			SDL_GL_SwapWindow(m_window.get());
 		}
 	}
 

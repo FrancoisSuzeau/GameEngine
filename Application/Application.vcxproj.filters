@@ -54,15 +54,6 @@
     <ClCompile Include="Services\ShaderService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Commands\LoadNewShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\DeleteShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\ModifyShaderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Services\FramebufferService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,7 +63,7 @@
     <ClCompile Include="Commands\SaveSceneCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Services\JsonService.cpp">
+    <ClCompile Include="Services\LoaderService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Commands\SaveConfigCommand.cpp">
@@ -97,6 +88,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Commands\CopyComponentCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Services\RunTimeService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,15 +146,6 @@
     <ClInclude Include="Commands\Commands.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Commands\LoadNewShaderCommand.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\DeleteShaderCommand.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\ModifyShaderCommand.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Services\FramebufferService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -170,7 +155,7 @@
     <ClInclude Include="Commands\SaveSceneCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Services\JsonService.hpp">
+    <ClInclude Include="Services\LoaderService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commands\SaveConfigCommand.hpp">
@@ -195,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commands\CopyComponentCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\RunTimeService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

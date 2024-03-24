@@ -7,7 +7,7 @@
 
 namespace Component
 {
-	void Transformer::PutIntoShader(std::shared_ptr<Renderers::IRenderer> renderer, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::PutIntoShader(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
 		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!state_service)
@@ -16,11 +16,11 @@ namespace Component
 		}
 		else
 		{
-			if (renderer && shader_service)
+			if (component && shader_service)
 			{
-				shader_service->setInt(shader_name, "render_line", renderer->GetHovered() || renderer->GetSelected());
-				shader_service->setVec(shader_name, "background_color", renderer->GetBackgroundColor());
-				shader_service->setMat4(shader_name, "model", renderer->GetModelMat());
+				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
+				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
+				shader_service->setMat4(shader_name, "model", component->GetModelMat());
 				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
@@ -30,35 +30,35 @@ namespace Component
 		
 	}
 
-	void Transformer::Move(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::Move(std::shared_ptr<Component::IComponent> component)
 	{
-		if (renderer)
+		if (component)
 		{
-			glm::mat4 model = renderer->GetModelMat();
-			model = glm::translate(model, renderer->GetPosition());
-			renderer->SetModelMat(model);
+			glm::mat4 model = component->GetModelMat();
+			model = glm::translate(model, component->GetPosition());
+			component->SetModelMat(model);
 		}
 	}
-	void Transformer::Resize(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::Resize(std::shared_ptr<Component::IComponent> component)
 	{
-		if (renderer)
+		if (component)
 		{
-			glm::mat4 model = renderer->GetModelMat();
-			model = glm::scale(model, renderer->GetSize());
-			renderer->SetModelMat(model);
+			glm::mat4 model = component->GetModelMat();
+			model = glm::scale(model, component->GetSize());
+			component->SetModelMat(model);
 		}
 	}
-	void Transformer::Rotate(std::shared_ptr<Renderers::IRenderer> renderer, glm::vec3 axis)
+	void Transformer::Rotate(std::shared_ptr<Component::IComponent> component, glm::vec3 axis)
 	{
-		glm::mat4 model = renderer->GetModelMat();
-		model = glm::rotate(model, glm::radians(renderer->GetAngle()), axis);
-		renderer->SetModelMat(model);
+		glm::mat4 model = component->GetModelMat();
+		model = glm::rotate(model, glm::radians(component->GetAngle()), axis);
+		component->SetModelMat(model);
 	}
-	void Transformer::ReinitModelMat(std::shared_ptr<Renderers::IRenderer> renderer)
+	void Transformer::ReinitModelMat(std::shared_ptr<Component::IComponent> component)
 	{
-		if (renderer)
+		if (component)
 		{
-			renderer->SetModelMat(glm::mat4(1.f));
+			component->SetModelMat(glm::mat4(1.f));
 		}
 	}
 	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)

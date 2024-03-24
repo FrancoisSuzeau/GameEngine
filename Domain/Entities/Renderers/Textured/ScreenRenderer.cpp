@@ -13,13 +13,7 @@ namespace Renderers {
 		m_bytes_vertices_size = 18 * sizeof(GLfloat);
 		m_texture_coord.reserve(12);
 		m_bytes_textcoord_size = 12 * sizeof(GLfloat);
-		m_texture_id = 0;
-		m_type = Enums::RendererType::SQUARE_TEXTURED;
-		m_hovered = false;
-		m_selected = false;
-		m_angle = 0.f;
-		m_size = glm::vec3(0.9f);
-		m_position = glm::vec3(-0.1f, 0.f, 0.f);
+
 	}
 	ScreenRenderer::~ScreenRenderer()
 	{
@@ -35,14 +29,24 @@ namespace Renderers {
 		m_texture_coord.clear();
 		
 	}
-	unsigned int ScreenRenderer::GetTextureId() const
+	void ScreenRenderer::Draw(unsigned int const texture_id)
 	{
-		return m_texture_id;
+		glBindVertexArray(this->GetVAO());
+		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture_id);
+			if (glIsTexture(texture_id) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+			glBindVertexArray(0);
+		}
 	}
-	void ScreenRenderer::SetTextureID(unsigned int const texture_id)
-	{
-		m_texture_id = texture_id;
-	}
+
 	void ScreenRenderer::Attach()
 	{
 		glGenBuffers(1, &m_vbo);

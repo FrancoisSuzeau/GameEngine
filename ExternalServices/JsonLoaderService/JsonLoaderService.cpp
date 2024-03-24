@@ -26,7 +26,7 @@ namespace Services
 		}
 	}
 
-	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
 		if (m_scene)
 		{
@@ -62,7 +62,7 @@ namespace Services
 		
 	}
 
-	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonLoaderService::GetScene(std::string const filename)
+	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::GetScene(std::string const filename)
 	{
 		m_scene = this->ReadFile(filename);
 
@@ -95,10 +95,10 @@ namespace Services
 		return nullptr;
 	}
 
-	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Renderers::IRenderer>> renderers)
+	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> renderers)
 	{
 		std::vector<json> renderers_json_format;
-		for (std::vector<std::shared_ptr<Renderers::IRenderer>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
 		{
 			json renderer_json_format = {
 				{"type", it[0]->GetType()},
@@ -118,9 +118,9 @@ namespace Services
 		return std::make_shared<json>(json_config);
 	}
 
-	std::vector<std::shared_ptr<Renderers::IRenderer>> JsonLoaderService::ConvertToRenderers()
+	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
 	{
-		std::vector<std::shared_ptr<Renderers::IRenderer>> renderers;
+		std::vector<std::shared_ptr<Component::IComponent>> renderers;
 		if (m_scene)
 		{
 			for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
@@ -132,10 +132,8 @@ namespace Services
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
-					renderers.push_back(std::make_shared<Renderers::Triangle>(position, color, size));
-					break;
 				case Enums::RendererType::SQUARE:
-					renderers.push_back(std::make_shared<Renderers::Square>(position, color, size));
+					renderers.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
 					break;
 				case Enums::RendererType::SQUARE_TEXTURED:
 					break;

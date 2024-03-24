@@ -31,7 +31,7 @@ namespace Commands
 	{
 		if (m_state_service)
 		{
-			m_state_service->deleteRenderer();
+			m_state_service->deleteComponent();
 			SQ_APP_TRACE("Component deleted !");
 		}
 	}

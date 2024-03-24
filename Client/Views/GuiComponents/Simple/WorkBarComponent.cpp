@@ -95,7 +95,7 @@ namespace Views
 
 			style.FrameRounding = 20.f;
 			style.WindowPadding.y = 30.f;
-			std::shared_ptr<Renderers::IRenderer> selected_renderer = m_state_service->getSelectedRenderer();
+			std::shared_ptr<Component::IComponent> selected_renderer = m_state_service->getSelectedComponent();
 			if (selected_renderer)
 			{
 				style.WindowPadding = window_padding_save;
@@ -139,7 +139,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{	
@@ -161,7 +161,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{
@@ -179,7 +179,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderOtherFunTab(std::shared_ptr<Renderers::IRenderer> selected_renderer)
+	void WorkBarComponent::RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{

@@ -9,7 +9,9 @@
 #include "../Views/Views.hpp"
 #include "Container/Container.hpp"
 #include "../Views/Transformer.hpp"
+#include "Services/ShaderService.hpp"
 
+#include <functional>
 
 #include <iostream>
 #include <map>
@@ -23,21 +25,26 @@ namespace ViewModels
 		~SceneViewModel() override;
 		void Construct() override;
 		
-		void RenderComponents(GLenum const mode, float const line_width) override;
+		void RenderComponents() override;
 		void ManageComponents() override;
-		void RenderFrameBuffer(unsigned int fb_texture_id, GLenum const mode, float const line_width) override;
-		void RenderSkybox(unsigned int skybox_texture_id, GLenum const mode, float const line_width) override;
-		void RenderGrid(GLenum const mode, float const line_width) override;
+		void RenderSceneElements(Enums::RendererType element) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;
-		std::unique_ptr<Component::TexturedComponent> m_textured_component;
-		std::unique_ptr<Component::ComponentBase> m_untextured_component;
 		
-		std::shared_ptr<Renderers::ScreenRenderer> m_framebuffer_renderer;
-		std::shared_ptr<Renderers::Grid> m_grid_renderer;
-		std::shared_ptr<Renderers::Skybox> m_skybox_renderer;
+		std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		std::shared_ptr<Component::ComponentBase> m_grid_cpt;
+		std::shared_ptr<Component::TexturedComponent> m_skybox_cpt;
+		std::shared_ptr<Component::TexturedComponent> m_framebuffer_cpt;
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
+
+		void LambdaRender(std::function<void()> callback, std::string const shader_name, std::shared_ptr<Component::IComponent> cpt);
+
+
 	};
 }
 

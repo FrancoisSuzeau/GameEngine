@@ -5,26 +5,22 @@
 #ifndef TEXTUREDCOMPONENT_H
 #define TEXTUREDCOMPONENT_H
 
-#include "IComponent.hpp"
-#include "Services/ShaderService.hpp"
-#include "Container/Container.hpp"
-#include "Constants/NumberConstants.hpp"
-#include "Renderers/Renderers.hpp"
-#include "../Transformer.hpp"
-#include <GL/glew.h>
+
+#include "../../Interfaces/IComponent.hpp"
 
 namespace Component
 {
 	class TexturedComponent : public IComponent
 	{
 	public:
-		TexturedComponent();
+		TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type);
+		unsigned int GetTextureId() const;
+		void SetTextureId(unsigned int const texure_id);
 		void Clean() override;
-		void Render(std::shared_ptr<Renderers::ScreenRenderer> renderer, GLenum const mode, float const line_width) override;
-		void Render(std::shared_ptr < Renderers::Skybox>  renderer, GLenum const mode, float const line_width) override;
 
 	private:
-		std::shared_ptr<Services::ShaderService> m_shader_service;
+		unsigned int m_texture_id;
+		void DestroyTexture();
 
 	};
 }

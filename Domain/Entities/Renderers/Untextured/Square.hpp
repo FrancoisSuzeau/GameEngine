@@ -15,11 +15,12 @@ namespace Renderers {
 	{
 	public:
 		
-		Square(glm::vec3 position, glm::vec4 color, glm::vec3 size);
+		Square();
 		~Square();
 
 		void Construct() override;
 		void Clean() override;
+		void Draw() override;
 
 
 	protected:

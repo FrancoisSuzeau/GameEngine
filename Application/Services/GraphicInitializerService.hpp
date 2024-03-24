@@ -24,7 +24,7 @@ namespace Services {
 		void DeInit() override;
 
 		SDL_GLContext GetGLContext() const;
-		SDL_Window* GetSDLWindow() const;
+		std::shared_ptr<SDL_Window> GetSDLWindow() const;
 		int GetWidth() const;
 		int GetHeight() const;
  
@@ -42,9 +42,15 @@ namespace Services {
 
 		int m_width;
 		int m_height;
-		SDL_Window* m_window = nullptr;
+		std::shared_ptr<SDL_Window> m_window;
 		SDL_GLContext gl_context = 0;
 		bool init_succeded;
+
+		struct SDLWindowDeleter {
+			void operator()(SDL_Window* window) const {
+				SDL_DestroyWindow(window);
+			}
+		};
 	};
 }
 

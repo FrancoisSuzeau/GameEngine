@@ -18,8 +18,9 @@ namespace Renderers {
 		~Grid();
 
 		void Construct() override;
-		void Clean();
-		GLint GetLength() const;
+		void Clean() override;
+		void Draw() override;
+		GLint GetLength() const override;
 
 
 	private:

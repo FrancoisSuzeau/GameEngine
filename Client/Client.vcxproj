@@ -111,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Shaders;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Interfaces;$(SolutionDir)ExternalServices;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Application;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\OpenGLService;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Interfaces;$(SolutionDir)ExternalServices;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Application;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\IoC;$(SolutionDir)Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -142,15 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Views\GuiComponents\Menus\ContextMenComponent.cpp" />
     <ClCompile Include="Views\Scene\Draggable.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\ConfirmComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\SaveAsComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\StartComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\EventViewerComponent.cpp" />
-    <ClCompile Include="Views\Scene\TexturedComponent.cpp" />
     <ClCompile Include="Views\Transformer.cpp" />
-    <ClCompile Include="Views\Scene\ComponentBase.cpp" />
     <ClCompile Include="ViewModels\SceneViewModel.cpp" />
     <ClCompile Include="Views\Scene\Canvas.cpp" />
     <ClCompile Include="Views\GuiComponents\Menus\MenuFileComponent.cpp" />
@@ -183,16 +180,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Views\GuiComponents\Menus\ContextMenuComponent.hpp" />
     <ClInclude Include="Views\Scene\Draggable.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Views\GuiComponents\Simple\ConfirmComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\SaveAsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\StartComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\EventViewerComponent.hpp" />
-    <ClInclude Include="Views\Scene\TexturedComponent.hpp" />
     <ClInclude Include="Views\Transformer.hpp" />
-    <ClInclude Include="Views\Scene\ComponentBase.hpp" />
     <ClInclude Include="ViewModels\SceneViewModel.hpp" />
     <ClInclude Include="Views\Scene\Canvas.hpp" />
     <ClInclude Include="Views\GuiComponents\Menus\MenuFileComponent.hpp" />

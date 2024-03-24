@@ -20,9 +20,7 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
-
-		unsigned int GetTextureId() const;
-		void SetTextureID(unsigned int const texture_id);
+		void Draw(unsigned int const texture_id) override;
 
 	private:
 		void Attach();
@@ -31,7 +29,6 @@ namespace Renderers {
 		std::vector<GLfloat> m_texture_coord;
 		unsigned int m_bytes_textcoord_size;
 		typedef IRenderer base;
-		unsigned int m_texture_id;
 
 
 	};

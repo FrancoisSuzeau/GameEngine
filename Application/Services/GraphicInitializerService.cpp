@@ -47,7 +47,7 @@ namespace Services
 		return gl_context;
 	}
 
-	SDL_Window* GraphicInitializerService::GetSDLWindow() const
+	std::shared_ptr<SDL_Window> GraphicInitializerService::GetSDLWindow() const
 	{
 		return m_window;
 	}
@@ -111,8 +111,8 @@ namespace Services
 
 	void GraphicInitializerService::SetSDLWindow()
 	{
-		m_window = SDL_CreateWindow("Squeamish", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-		if (m_window == nullptr)
+		m_window = std::shared_ptr<SDL_Window> (SDL_CreateWindow("Squeamish", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL), SDLWindowDeleter());
+		if (!m_window)
 		{
 			SQ_APP_ERROR("Class {} in function {} : Cannot create SDL Window - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
@@ -122,12 +122,16 @@ namespace Services
 
 	void GraphicInitializerService::SetSDLGLContext()
 	{
-		gl_context = SDL_GL_CreateContext(m_window);
+		gl_context = SDL_GL_CreateContext(m_window.get());
 		if (gl_context == 0)
 		{
 			SQ_APP_ERROR("Class {} in function {} : Cannot create SDL GL context - SDL Error : {}", __FILE__, __FUNCTION__, SDL_GetError());
 			init_succeded = false;
-			SDL_DestroyWindow(m_window);
+			if (m_window)
+			{
+				SDL_DestroyWindow(m_window.get());
+				m_window.reset();
+			}
 			SDL_Quit();
 		}
 	}
@@ -141,14 +145,22 @@ namespace Services
 			SQ_APP_ERROR("Class {} in function {} : Glew FAILED to initialize - Glew Error : {}", __FILE__,  __FUNCTION__, (const char*)glewGetErrorString(glew));
 			init_succeded = false;
 			SDL_GL_DeleteContext(gl_context);
-			SDL_DestroyWindow(m_window);
+			if (m_window)
+			{
+				SDL_DestroyWindow(m_window.get());
+				m_window.reset();
+			}
 			SDL_Quit();
 		}
 	}
 
 	void GraphicInitializerService::DestroySDLWindow()
 	{
-		SDL_DestroyWindow(m_window);
+		if (m_window.use_count() != 0)
+		{
+			SDL_DestroyWindow(m_window.get());
+			m_window.reset();
+		}
 	}
 
 	void GraphicInitializerService::DestroySDLGLContext()

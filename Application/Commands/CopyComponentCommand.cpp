@@ -6,7 +6,7 @@
 
 namespace Commands
 {
-	CopyComponentCommand::CopyComponentCommand(std::shared_ptr<Renderers::IRenderer> renderer_to_copy) : m_renderer_to_copy(renderer_to_copy)
+	CopyComponentCommand::CopyComponentCommand(std::shared_ptr<Component::IComponent> renderer_to_copy) : m_renderer_to_copy(renderer_to_copy)
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
@@ -50,11 +50,11 @@ namespace Commands
 			switch (m_renderer_to_copy->GetType())
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->MakeNewComponent(std::make_shared<Renderers::Triangle>(*std::dynamic_pointer_cast<Renderers::Triangle>(m_renderer_to_copy)));
+				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->MakeNewComponent(std::make_shared<Renderers::Square>(*std::dynamic_pointer_cast<Renderers::Square>(m_renderer_to_copy)));
+				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SKYBOX:
@@ -66,7 +66,7 @@ namespace Commands
 			
 		}
 	}
-	void CopyComponentCommand::MakeNewComponent(std::shared_ptr<Renderers::IRenderer> new_component_to_make)
+	void CopyComponentCommand::MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make)
 	{
 		if (m_state_service && m_renderer_to_copy && m_camera_service)
 		{
@@ -75,8 +75,8 @@ namespace Commands
 			m_renderer_to_copy->SetSelected(false);
 			new_component_to_make->SetPosition(position);
 			new_component_to_make->SetSelected(true);
-			m_state_service->addRenderer(new_component_to_make);
-			m_state_service->setSelectedRenderer();
+			m_state_service->addComponent(new_component_to_make);
+			m_state_service->setSelectedComponent();
 			new_component_to_make.reset();
 		}
 	}

@@ -14,10 +14,11 @@ namespace Renderers {
 	class Triangle : public IRenderer
 	{
 	public:
-		Triangle(glm::vec3 position, glm::vec4 color, glm::vec3 size) ;
+		Triangle() ;
 		~Triangle();
 
 		void Construct() override;
+		void Draw() override;
 		void Clean();
 		glm::vec3 GetVertex1() const;
 		glm::vec3 GetVertex2() const;

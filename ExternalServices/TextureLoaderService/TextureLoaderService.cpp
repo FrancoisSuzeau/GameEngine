@@ -18,7 +18,7 @@ namespace Services
 
 	void TextureLoaderService::DeInit()
 	{
-		this->DestroyTexture(texture_id);
+		
 	}
 
 	TextureLoaderService::TextureLoaderService()
@@ -33,7 +33,7 @@ namespace Services
 
 	unsigned int TextureLoaderService::BuildSkyboxTexture(std::string const repository_path)
 	{
-		texture_id = 0;
+		unsigned int texture_id = 0;
 		glGenTextures(1, &texture_id);
 
 		if (texture_id != 0)
@@ -68,15 +68,6 @@ namespace Services
 		}
 
 		return texture_id;
-	}
-
-	void TextureLoaderService::DestroyTexture(unsigned int texture_id)
-	{
-		if (texture_id != 0)
-		{
-			glDeleteTextures(1, &texture_id);
-			texture_id = 0;
-		}
 	}
 
 	SDL_Surface* TextureLoaderService::LoadTexture(std::string path)

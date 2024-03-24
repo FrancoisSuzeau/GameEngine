@@ -30,7 +30,7 @@
     <ClInclude Include="Interfaces\ICommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders\Shader.hpp">
+    <ClInclude Include="OpenGLService\OpenGLService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IView.hpp">
@@ -66,9 +66,18 @@
     <ClInclude Include="Entities\ConfigEntity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Components\TexturedComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Components\ComponentBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Components\Components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shaders\Shader.cpp">
+    <ClCompile Include="OpenGLService\OpenGLService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp">
@@ -87,6 +96,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\ConfigEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Components\TexturedComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Components\ComponentBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

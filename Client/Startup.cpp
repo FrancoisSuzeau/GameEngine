@@ -35,7 +35,6 @@ namespace Starting
             app->AddView<Views::SaveAsComponent>();
             app->AddView<Views::ConfirmComponent>();
             app->AddView<Views::WorkBarComponent>();
-            app->AddView<Views::ContextMenuComponent>();
 
             app->AddViewModel<ViewModels::GuiViewModel>(Constants::GUIVIEWMODEL);
         }

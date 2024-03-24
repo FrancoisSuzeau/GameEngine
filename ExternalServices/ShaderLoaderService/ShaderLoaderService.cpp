@@ -34,7 +34,6 @@ namespace Services
 		{
 			deleteShader(m_geometry_ID, GL_FALSE, program_id);
 		}
-		deleteProgram(program_id);
 		m_vertex_path = Constants::SHADERSPATH + shader_name + Constants::SHADERVERTEXT;
 		m_fragment_path = Constants::SHADERSPATH + shader_name + Constants::SHADERFRAGEXT;
 		if (shader_type == Enums::ShaderType::GEOMETRIC)
@@ -119,7 +118,6 @@ namespace Services
 
 			//memory release
 			delete[] error;
-			deleteProgram(program_id);
 			deleteShader(m_vertex_ID, link_error, program_id);
 			deleteShader(m_fragment_ID, link_error, program_id);
 			if (m_geometry_path != Constants::NONE)
@@ -252,16 +250,6 @@ namespace Services
 			glDeleteShader(shader);
 			SQ_EXTSERVICE_TRACE("Delete shader");
 			shader = 0;
-		}
-	}
-
-	void ShaderLoaderService::deleteProgram(GLuint program_id)
-	{
-		if (glIsProgram(program_id) == GL_TRUE)
-		{
-			glDeleteProgram(program_id);
-			SQ_EXTSERVICE_TRACE("Delete program");
-			program_id = 0;
 		}
 	}
 

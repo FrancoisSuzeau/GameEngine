@@ -24,14 +24,16 @@ namespace Starting
         this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
         this->SetServiceBuilder<Services::JsonLoaderService>();
         this->SetServiceBuilder<Services::ShaderLoaderService>();
+        this->SetServiceBuilder<Services::OpenGLService>();
         this->SetServiceBuilder<Services::ShaderService>();
         this->SetServiceBuilder<Services::FramebufferService>();
         this->SetServiceBuilder<Services::TextureLoaderService>();
         this->SetServiceBuilder<Services::CameraService>();
         this->SetServiceBuilder<Services::StateService>();
-        this->SetServiceBuilder<Services::JsonService>();
+        this->SetServiceBuilder<Services::LoaderService>();
         this->SetServiceBuilder<Services::MouseInputService>();
         this->SetServiceBuilder<Services::KeyboardInputService>();
+        this->SetServiceBuilder<Services::RunTimeService>();
     }
 
     void Application::SetAllEngine()
@@ -53,9 +55,11 @@ namespace Starting
         this->DeleteReference<Services::TextureLoaderService>();
         this->DeleteReference<Services::CameraService>();
         this->DeleteReference<Services::StateService>();
-        this->DeleteReference<Services::JsonService>();
+        this->DeleteReference<Services::LoaderService>();
         this->DeleteReference<Services::MouseInputService>();
         this->DeleteReference<Services::KeyboardInputService>();
+        this->DeleteReference<Services::OpenGLService>();
+        this->DeleteReference<Services::RunTimeService>();
     }
 
     void Application::ShutAllEngine()

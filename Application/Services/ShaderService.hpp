@@ -6,10 +6,10 @@
 #define SHADERSERVICE_H
 
 #include "IService.hpp"
+#include "LoaderService.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "ExternalServices.hpp"
-#include "Shader.hpp"
+#include "OpenGLService.hpp"
 #include <iostream>
 #include <map>
 #include <memory>
@@ -23,9 +23,10 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void LoadShader(std::string shader_name, Enums::ShaderType shader_type);
-		void DeleteShader(std::string shader_name);
-		GLuint GetProgramId(std::string const shader_name);
+		void AddShader(std::string shader_name, Enums::ShaderType shader_type);
+		void DeleteShaderProgram(std::string const shader_program_name);
+		void BindShaderProgram(std::string const shader_name);
+		void UnbindShaderProgram();
 
 		void            setVec(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add);
 		void            setVec(std::string shader_name, std::string const location, glm::vec4 const& vec_to_add);
@@ -35,8 +36,9 @@ namespace Services {
 		void            setInt(std::string shader_name, std::string const location, int const to_ad);
 
 	private:
-		std::shared_ptr<Services::ShaderLoaderService> m_shader_loader;
-		std::map<std::string, std::unique_ptr<Shaders::Shader>> m_shader_map;
+		std::shared_ptr<LoaderService> m_loader_service;
+		std::shared_ptr<Services::OpenGLService> m_opengl_service;
+		std::map<std::string, GLuint> m_shader_program_map;
 	};
 }
 
