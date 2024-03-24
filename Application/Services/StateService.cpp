@@ -39,6 +39,7 @@ namespace Services
 
 		this->CleanRenderers();
 		m_selected_component = nullptr;
+		this->CleanConfig();
 		
 	}
 
@@ -192,10 +193,7 @@ namespace Services
 
 	void StateService::setConfigs(std::unique_ptr<Services::ConfigEntity> configs)
 	{
-		if (m_configs)
-		{
-			m_configs.reset();
-		}
+		this->CleanConfig();
 		m_configs = std::move(configs);
 	}
 
