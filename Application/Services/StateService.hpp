@@ -66,8 +66,8 @@ namespace Services {
 		std::shared_ptr<Component::IComponent> getSelectedComponent() const;
 
 		std::string getFileName() const;
-		std::unique_ptr<Services::ConfigEntity> getConfigs() const;
-		void setConfigs(std::unique_ptr<Services::ConfigEntity> configs);
+		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
+		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
 		std::vector<std::shared_ptr<Component::IComponent>> getComponents() const;
 		void setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components);
 		void setSelectedComponent();
@@ -103,7 +103,7 @@ namespace Services {
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
 		bool m_continued;
-		std::unique_ptr<Services::ConfigEntity> m_configs;
+		std::shared_ptr<Services::ConfigEntity> m_configs;
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;

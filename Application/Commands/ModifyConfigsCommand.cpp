@@ -48,7 +48,7 @@ namespace Commands
 				break;
 			}
 
-			m_state_service->setConfigs(std::move(m_configs));
+			//m_state_service->setConfigs(std::move(m_configs));
 		}
 	}
 }

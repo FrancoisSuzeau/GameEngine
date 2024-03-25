@@ -186,15 +186,15 @@ namespace Services
 		return m_current_filename;
 	}
 
-	std::unique_ptr<Services::ConfigEntity> StateService::getConfigs() const
+	std::shared_ptr<Services::ConfigEntity> StateService::getConfigs() const
 	{
-		return std::make_unique<Services::ConfigEntity>(*m_configs);
+		return m_configs;
 	}
 
-	void StateService::setConfigs(std::unique_ptr<Services::ConfigEntity> configs)
+	void StateService::setConfigs(std::shared_ptr<Services::ConfigEntity> configs)
 	{
 		this->CleanConfig();
-		m_configs = std::move(configs);
+		m_configs = configs;
 	}
 
 	std::vector<std::shared_ptr<Component::IComponent>> StateService::getComponents() const
