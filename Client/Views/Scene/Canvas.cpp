@@ -46,7 +46,7 @@ namespace Views
 			m_runtime_service.reset();
 		}
 
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_components.begin(); it != m_components.end(); it++)
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)
 			{
@@ -55,12 +55,12 @@ namespace Views
 			}
 		}
 
-		m_components.clear();
+		m_renderers.clear();
 	}
 
-	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			if (m_draggable_component)
 			{
@@ -74,7 +74,7 @@ namespace Views
 			{
 				std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
-				if (component && m_shader_service && (m_components.contains(component->GetType()) && m_components.at(component->GetType())))
+				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
 				{
 					std::string shader_name = Constants::UNTEXTURED_SHADER;
 					if (m_runtime_service && m_runtime_service->IsRenderingLine())
@@ -85,7 +85,7 @@ namespace Views
 					{
 						m_shader_service->BindShaderProgram(shader_name);
 						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-						m_components.at(component->GetType())->Draw();
+						m_renderers.at(component->GetType())->Draw();
 						m_shader_service->UnbindShaderProgram();
 					}
 
@@ -100,34 +100,34 @@ namespace Views
 			}
 		}
 	}
-	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			Component::Transformer::ReinitModelMat(it[0]);
 			Component::Transformer::Move(it[0]);
 			Component::Transformer::Resize(it[0]);
 		}
 	}
-	void Canvas::DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	void Canvas::DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		if (m_draggable_component)
 		{
-			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 			{
 				m_draggable_component->OnSelectRenderer(it[0]);
 				m_draggable_component->OnUnSelectRenderer(it[0]);
 			}
 
-			m_draggable_component->OnSelectRenderers(renderers);
+			m_draggable_component->OnSelectRenderers(components);
 		}
 
 	}
 	void Canvas::ConstructRenderer()
 	{
-		m_components.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
-		m_components.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_components.begin(); it != m_components.end(); it++)
+		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
+		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
+		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)
 			{

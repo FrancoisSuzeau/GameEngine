@@ -26,13 +26,13 @@ namespace Services
 		}
 	}
 
-	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		if (m_scene)
 		{
 			m_scene.reset();
 		}
-		m_scene = this->ConvertToJsonFormat(renderers);
+		m_scene = this->ConvertToJsonFormat(components);
 		this->SaveFile(filename, std::move(m_scene));
 	}
 
@@ -103,10 +103,10 @@ namespace Services
 		return nullptr;
 	}
 
-	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		std::vector<json> renderers_json_format;
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			json renderer_json_format = {
 				{"type", it[0]->GetType()},

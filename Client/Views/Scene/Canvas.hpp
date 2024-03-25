@@ -20,14 +20,14 @@ namespace Views
 	public:
 		Canvas();
 		void Clean() override;
-		void Render(std::vector<std::shared_ptr<Component::IComponent>> renderers) override;
-		void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) override;
-		void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) override;
+		void Render(std::vector<std::shared_ptr<Component::IComponent>> components) override;
+		void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) override;
+		void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void ConstructRenderer() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::unique_ptr<Views::Draggable> m_draggable_component;
-		std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>> m_components;
+		std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>> m_renderers;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 	};
 }

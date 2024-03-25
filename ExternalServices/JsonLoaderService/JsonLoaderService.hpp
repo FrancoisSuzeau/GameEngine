@@ -36,7 +36,7 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> renderers);
+		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> config);
 		std::vector<std::shared_ptr<Component::IComponent>> GetScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> GetConfigs();
@@ -45,7 +45,7 @@ namespace Services {
 		std::unique_ptr<nlohmann::json> m_scene;
 		void SaveFile(std::string const filename, std::unique_ptr<nlohmann::json> const content);
 		std::unique_ptr<nlohmann::json> ReadFile(std::string const filename);
-		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> renderers);
+		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components);
 		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<ConfigEntity> map_config);
 		std::vector<std::shared_ptr<Component::IComponent>> ConvertToRenderers();
 		std::shared_ptr<ConfigEntity> ConvertToConfigEntity();
