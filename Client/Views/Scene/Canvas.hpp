@@ -21,8 +21,8 @@ namespace Views
 		Canvas();
 		void Clean() override;
 		void Render(std::vector<std::shared_ptr<Component::IComponent>> components) override;
-		void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) override;
-		void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) override;
+		void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
+		void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void ConstructRenderer() override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;

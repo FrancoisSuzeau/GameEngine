@@ -20,8 +20,8 @@ namespace Views {
 		virtual ~IView() { SetParent(nullptr); }
 		virtual void Render() {};
 		virtual void Render(std::vector<std::shared_ptr<Component::IComponent>> components) {};
-		virtual void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) {};
-		virtual void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> components) {};
+		virtual void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
+		virtual void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void ConstructRenderer() {};
 		virtual void Clean() {};
 		virtual void SetParent(ViewModels::IViewModel* parent) 

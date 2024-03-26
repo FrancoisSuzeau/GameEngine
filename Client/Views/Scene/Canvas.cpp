@@ -100,7 +100,7 @@ namespace Views
 			}
 		}
 	}
-	void Canvas::TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> components)
+	void Canvas::TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 		{
@@ -109,7 +109,7 @@ namespace Views
 			Component::Transformer::Resize(it[0]);
 		}
 	}
-	void Canvas::DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> components)
+	void Canvas::DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		if (m_draggable_component)
 		{

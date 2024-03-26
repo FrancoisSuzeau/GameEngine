@@ -138,8 +138,8 @@ namespace ViewModels
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
-			m_canvas->DragRenderers(components);
-			m_canvas->TransformRenderers(components);
+			m_canvas->DragComponents(components);
+			m_canvas->TransformComponents(components);
 		}
 
 		this->TransformSceneElements();
