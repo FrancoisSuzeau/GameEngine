@@ -46,7 +46,7 @@ namespace Views
 			m_runtime_service.reset();
 		}
 
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)
 			{
@@ -125,9 +125,9 @@ namespace Views
 	}
 	void Canvas::ConstructRenderer()
 	{
-		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_shared<Renderers::Triangle>());
-		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_shared<Renderers::Square>());
-		for (std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
+		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_unique<Renderers::Triangle>());
+		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_unique<Renderers::Square>());
+		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)
 			{

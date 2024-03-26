@@ -13,9 +13,8 @@ namespace Component
 	class TexturedComponent : public IComponent
 	{
 	public:
-		TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type);
-		unsigned int GetTextureId() const;
-		void SetTextureId(unsigned int const texure_id);
+		TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, unsigned int texure_id);
+		unsigned int GetTextureId() const override;
 		void Clean() override;
 
 	private:

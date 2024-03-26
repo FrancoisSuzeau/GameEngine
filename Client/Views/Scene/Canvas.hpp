@@ -27,7 +27,7 @@ namespace Views
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::unique_ptr<Views::Draggable> m_draggable_component;
-		std::map<Enums::RendererType, std::shared_ptr<Renderers::IRenderer>> m_renderers;
+		std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>> m_renderers;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 	};
 }
