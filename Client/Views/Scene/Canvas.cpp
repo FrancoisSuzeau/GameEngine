@@ -7,8 +7,9 @@
 
 namespace Views
 {
-	Canvas::Canvas()
+	Canvas::Canvas(std::shared_ptr<ViewModels::IViewModel> parent)
 	{
+		m_parent_view_model = parent;
 		m_draggable_component = std::make_unique<Views::Draggable >();
 
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -56,6 +57,11 @@ namespace Views
 		}
 
 		m_renderers.clear();
+
+		if (m_parent_view_model)
+		{
+			m_parent_view_model.reset();
+		}
 	}
 
 	void Canvas::Render(std::vector<std::shared_ptr<Component::IComponent>> components)

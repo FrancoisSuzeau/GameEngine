@@ -35,7 +35,7 @@ namespace Views
 
 	public:
 
-		MenuFileComponent();
+		MenuFileComponent(std::shared_ptr<ViewModels::IViewModel> parent);
 		~MenuFileComponent() override;
 		void Render() override;
 	private:

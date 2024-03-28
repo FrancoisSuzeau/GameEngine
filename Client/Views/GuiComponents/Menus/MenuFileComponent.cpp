@@ -7,8 +7,9 @@
 
 namespace Views
 {
-	MenuFileComponent::MenuFileComponent()
+	MenuFileComponent::MenuFileComponent(std::shared_ptr<ViewModels::IViewModel> parent)
 	{
+		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
@@ -21,7 +22,10 @@ namespace Views
 	}
 	MenuFileComponent::~MenuFileComponent()
 	{
-		this->SetParent(nullptr);
+		if (m_parent_view_model)
+		{
+			m_parent_view_model.reset();
+		}
 		if (m_state_service)
 		{
 			m_state_service.reset();

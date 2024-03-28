@@ -32,7 +32,7 @@ namespace Views
 
 	public:
 
-		MenuEditComponent();
+		MenuEditComponent(std::shared_ptr<ViewModels::IViewModel> parent);
 		~MenuEditComponent() override;
 		void Render() override;
 	private:

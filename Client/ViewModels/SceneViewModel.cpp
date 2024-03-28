@@ -71,10 +71,10 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
-			m_canvas = container->GetReference<Views::Canvas>();
+			m_canvas = std::make_unique<Views::Canvas>(shared_from_this());
 			if (m_canvas)
 			{
-				m_canvas->SetParent(this);
+				//m_canvas->SetParent(shared_from_this());
 				m_canvas->ConstructRenderer();
 			}
 			else
@@ -130,7 +130,10 @@ namespace ViewModels
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
-			m_canvas->Render(components);
+			if (m_canvas)
+			{
+				m_canvas->Render(components);
+			}
 		}
 	}
 	void SceneViewModel::ManageScene()
@@ -138,8 +141,11 @@ namespace ViewModels
 		if (m_state_service)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
-			m_canvas->DragComponents(components);
-			m_canvas->TransformComponents(components);
+			if (m_canvas)
+			{
+				m_canvas->DragComponents(components);
+				m_canvas->TransformComponents(components);
+			}
 		}
 
 		this->TransformSceneElements();

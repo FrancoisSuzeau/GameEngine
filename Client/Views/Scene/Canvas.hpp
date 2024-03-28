@@ -18,7 +18,7 @@ namespace Views
 	class Canvas : public IView
 	{
 	public:
-		Canvas();
+		Canvas(std::shared_ptr<ViewModels::IViewModel> parent);
 		void Clean() override;
 		void Render(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;

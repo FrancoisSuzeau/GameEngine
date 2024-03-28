@@ -9,32 +9,40 @@ namespace ViewModels
 {
 	GuiViewModel::~GuiViewModel()
 	{
-		this->PopComponent(m_simple_components);
+		for (std::vector<std::unique_ptr<Views::IView>>::iterator it = m_simple_components.begin(); it != m_simple_components.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it[0].reset();
+			}
+		}
+
+		for (std::vector<std::unique_ptr<Views::IView>>::iterator it = m_menu_components.begin(); it != m_menu_components.end(); it++)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it[0].reset();
+			}
+		}
 		m_simple_components.clear();
-		this->PopComponent(m_menu_components);
 		m_menu_components.clear();
 	}
 	void GuiViewModel::Construct()
 	{
-		
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
-		{
-
-
-			this->PushSimpleComponent(container->GetReference< Views::MetricsComponent>(), "Metrics");
-			this->PushSimpleComponent(container->GetReference< Views::StackToolsComponent>(), "Stack Tools");
-			this->PushSimpleComponent(container->GetReference< Views::AppAboutComponent>(), "About app");
-			this->PushSimpleComponent(container->GetReference< Views::AppStyleEditorComponent>(), "Style editor");
-			this->PushMenuComponent(container->GetReference<Views::MenuFileComponent>(), "Menu file");
-			this->PushMenuComponent(container->GetReference< Views::MenuToolsComponent>(), "Menu tools");
-			this->PushMenuComponent(container->GetReference< Views::MenuEditComponent>(), "Menu edit");
-			this->PushSimpleComponent(container->GetReference<Views::EventViewerComponent>(), "Event viewer");
-			this->PushSimpleComponent(container->GetReference<Views::SaveAsComponent>(), "Save as");
-			this->PushSimpleComponent(container->GetReference<Views::ConfirmComponent>(), "Confirm");
-			this->PushSimpleComponent(container->GetReference<Views::StartComponent>(), "Start screen");
-			this->PushSimpleComponent(container->GetReference<Views::WorkBarComponent>(), "Work bar Component");
-		}
+		m_simple_components.push_back(std::make_unique< Views::MetricsComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique< Views::StackToolsComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique< Views::AppAboutComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique< Views::AppStyleEditorComponent>(shared_from_this()));
+		m_menu_components.push_back(std::make_unique<Views::MenuFileComponent>(shared_from_this()));
+		m_menu_components.push_back(std::make_unique< Views::MenuToolsComponent>(shared_from_this()));
+		m_menu_components.push_back(std::make_unique< Views::MenuEditComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::EventViewerComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::SaveAsComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::ConfirmComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::StartComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::WorkBarComponent>(shared_from_this()));
 	}
 
 	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)
@@ -42,7 +50,7 @@ namespace ViewModels
 		switch (component_type)
 		{
 		case Enums::SIMPLE:
-			for (std::vector<std::shared_ptr<Views::IView>>::iterator it = m_simple_components.begin(); it != m_simple_components.end(); it++)
+			for (std::vector<std::unique_ptr<Views::IView>>::iterator it = m_simple_components.begin(); it != m_simple_components.end(); it++)
 			{
 				if (it[0])
 				{
@@ -51,7 +59,7 @@ namespace ViewModels
 			}
 			break;
 		case Enums::MENUS:
-			for (std::vector<std::shared_ptr<Views::IView>>::iterator it = m_menu_components.begin(); it != m_menu_components.end(); it++)
+			for (std::vector<std::unique_ptr<Views::IView>>::iterator it = m_menu_components.begin(); it != m_menu_components.end(); it++)
 			{
 				if (it[0])
 				{
@@ -62,44 +70,6 @@ namespace ViewModels
 		case Enums::CANVAS:
 		default:
 			break;
-		}
-	}
-
-	void GuiViewModel::PushSimpleComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name)
-	{
-		if (component)
-		{
-			component->SetParent(this);
-			m_simple_components.push_back(component);
-		}
-		else
-		{
-			SQ_CLIENT_ERROR("Class {} in function {} : {} component is not referenced yet", __FILE__, __FUNCTION__, cpt_name);
-		}
-	}
-
-	void GuiViewModel::PushMenuComponent(std::shared_ptr<Views::IView> component, std::string const cpt_name)
-	{
-		if (component)
-		{
-			component->SetParent(this);
-			m_menu_components.push_back(component);
-		}
-		else
-		{
-			SQ_CLIENT_ERROR("Class {} in function {} : {} component is not referenced yet", __FILE__, __FUNCTION__, cpt_name);
-		}
-	}
-
-	void GuiViewModel::PopComponent(std::vector<std::shared_ptr<Views::IView>> components)
-	{
-		for (std::vector<std::shared_ptr<Views::IView>>::iterator it = components.begin(); it != components.end(); it++)
-		{
-			if (it[0])
-			{
-				it[0]->Clean();
-				it[0].reset();
-			}
 		}
 	}
 

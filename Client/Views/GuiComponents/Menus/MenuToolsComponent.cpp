@@ -14,10 +14,14 @@ namespace Views
 			m_state_service.reset();
 		}
 
-		this->SetParent(nullptr);
+		if (m_parent_view_model)
+		{
+			m_parent_view_model.reset();
+		}
 	}
-	MenuToolsComponent::MenuToolsComponent() : metrics(false), tools(false), infos(false), style(false)
+	MenuToolsComponent::MenuToolsComponent(std::shared_ptr<ViewModels::IViewModel> parent) : metrics(false), tools(false), infos(false), style(false)
 	{
+		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
 		{

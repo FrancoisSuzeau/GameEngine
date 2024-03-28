@@ -7,8 +7,9 @@
 
 namespace Views
 {
-	MenuEditComponent::MenuEditComponent()
+	MenuEditComponent::MenuEditComponent(std::shared_ptr<ViewModels::IViewModel> parent)
 	{
+		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
 		{
@@ -22,7 +23,10 @@ namespace Views
 			m_state_service.reset();
 		}
 
-		this->SetParent(nullptr);
+		if (m_parent_view_model) 
+		{ 
+			m_parent_view_model.reset(); 
+		}
 	}
 	void MenuEditComponent::Render()
 	{

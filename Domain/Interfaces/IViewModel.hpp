@@ -18,7 +18,7 @@ namespace Enums {
 
 namespace ViewModels {
 
-	class IViewModel
+	class IViewModel : public std::enable_shared_from_this < IViewModel>
 	{
 	public:
 		virtual ~IViewModel() { }
