@@ -9,12 +9,12 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
-		SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
+		SQ_EXTSERVICE_DEBUG("JSON Loader service SUCCESSFULLY initialized");
 	}
 
 	void JsonLoaderService::DeInit()
 	{
-		SQ_EXTSERVICE_DEBUG("JSON service shutdown");
+		SQ_EXTSERVICE_DEBUG("JSON Loader service shutdown");
 		if (m_scene)
 		{
 			m_scene.reset();
