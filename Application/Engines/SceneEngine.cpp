@@ -116,7 +116,7 @@ namespace Engines
 		std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 		if (view_model)
 		{
-			view_model->ManageComponents();
+			view_model->ManageScene();
 			view_model.reset();
 		}
 	}
@@ -128,7 +128,7 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			if (view_model)
 			{
-				view_model->RenderSceneElements(Enums::RendererType::SQUARE_TEXTURED);
+				//view_model->RenderSceneElements(Enums::RendererType::SQUARE_TEXTURED);
 				view_model.reset();
 			}
 

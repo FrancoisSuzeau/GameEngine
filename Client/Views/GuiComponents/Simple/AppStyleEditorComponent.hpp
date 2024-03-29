@@ -32,7 +32,7 @@ namespace Views
 
 	public:
 		~AppStyleEditorComponent() override;
-		AppStyleEditorComponent();
+		AppStyleEditorComponent(std::shared_ptr<ViewModels::IViewModel> parent);
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;

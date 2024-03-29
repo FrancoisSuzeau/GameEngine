@@ -22,7 +22,7 @@ namespace Views
 		
 	public:
 		~MetricsComponent() override;
-		MetricsComponent();
+		MetricsComponent(std::shared_ptr<ViewModels::IViewModel> parent);
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;

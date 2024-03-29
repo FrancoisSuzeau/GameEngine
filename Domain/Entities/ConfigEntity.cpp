@@ -13,6 +13,7 @@ namespace Services {
 
 	ConfigEntity::~ConfigEntity()
 	{
+		m_created_scenes.clear();
 	}
 
 	void ConfigEntity::AddCreatedScene(std::string const created_scene)

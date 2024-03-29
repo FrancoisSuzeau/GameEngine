@@ -13,9 +13,15 @@ namespace Views
 		{
 			m_state_service.reset();
 		}
+
+		if (m_parent_view_model)
+		{
+			m_parent_view_model.reset();
+		}
 	}
-	StartComponent::StartComponent() : m_selected(-1)
+	StartComponent::StartComponent(std::shared_ptr<ViewModels::IViewModel> parent) : m_selected(-1)
 	{
+		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
 		{

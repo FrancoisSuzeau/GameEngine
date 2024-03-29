@@ -13,7 +13,6 @@
 #include <nlohmann/json.hpp>
 
 #include "IService.hpp"
-//#include "Renderers/Renderers.hpp"
 #include "Components/Components.hpp"
 #include <string>
 #include <iostream>
@@ -37,23 +36,23 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> renderers);
+		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> config);
 		std::vector<std::shared_ptr<Component::IComponent>> GetScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> GetConfigs();
 	private:
-		std::shared_ptr<nlohmann::json> m_configs;
-		std::shared_ptr<nlohmann::json> m_scene;
-		void SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> const content);
-		std::shared_ptr<nlohmann::json> ReadFile(std::string filename);
-		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> renderers);
-		std::shared_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<ConfigEntity> map_config);
+		std::unique_ptr<nlohmann::json> m_configs;
+		std::unique_ptr<nlohmann::json> m_scene;
+		void SaveFile(std::string const filename, std::unique_ptr<nlohmann::json> const content);
+		std::unique_ptr<nlohmann::json> ReadFile(std::string const filename);
+		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components);
+		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<ConfigEntity> map_config);
 		std::vector<std::shared_ptr<Component::IComponent>> ConvertToRenderers();
 		std::shared_ptr<ConfigEntity> ConvertToConfigEntity();
-		std::string GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
-		glm::vec4 GetVec4Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
-		glm::vec3 GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
-		std::vector<std::string> GetStringVectorNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name);
+		std::string GetStringNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		glm::vec4 GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		glm::vec3 GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		std::vector<std::string> GetStringVectorNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		
 	};
 }

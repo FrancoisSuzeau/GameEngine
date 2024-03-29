@@ -17,19 +17,13 @@ namespace Views {
 	class IView
 	{
 	public:
-		virtual ~IView() { SetParent(nullptr); }
+		virtual ~IView() {};
 		virtual void Render() {};
-		virtual void Render(std::vector<std::shared_ptr<Component::IComponent>> renderers) {};
-		virtual void TransformRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) {};
-		virtual void DragRenderers(std::vector<std::shared_ptr<Component::IComponent>> renderers) {};
+		virtual void Render(std::vector<std::shared_ptr<Component::IComponent>> components) {};
+		virtual void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
+		virtual void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void ConstructRenderer() {};
 		virtual void Clean() {};
-		virtual void SetParent(ViewModels::IViewModel* parent) 
-		{
-			m_parent_view_model = std::shared_ptr<ViewModels::IViewModel>(parent);
-		};
-
-		virtual void SetSceneViewModel(ViewModels::IViewModel* scene_viewmodel) {};
 
 	protected:
 		std::shared_ptr<ViewModels::IViewModel> m_parent_view_model;

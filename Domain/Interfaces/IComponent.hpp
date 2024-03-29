@@ -23,6 +23,8 @@ namespace Component {
 		virtual glm::vec4 GetBackgroundColor() const { return glm::vec4(); }
 		virtual void SetBackgroundColor(glm::vec4 new_bacground_color) {}
 
+		virtual unsigned int GetTextureId() const { return 0; };
+
 		virtual Enums::RendererType GetType() const
 		{
 			return m_type;

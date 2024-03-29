@@ -22,10 +22,6 @@ namespace Starting {
 		static void ConfigureClientViews(std::shared_ptr<Application> app);
 		static void DeleteClientViews(std::shared_ptr<Application> app);
 	private:
-		static void ConfigureClientGUI(std::shared_ptr<Application> app);
-		static void ConfigureClientScene(std::shared_ptr<Application> app);
-		static void DeleteClientGUI(std::shared_ptr<Application> app);
-		static void DeleteClientScene(std::shared_ptr<Application> app);
 	};
 }
 

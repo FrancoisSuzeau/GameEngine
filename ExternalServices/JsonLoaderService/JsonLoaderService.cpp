@@ -9,12 +9,12 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
-		SQ_EXTSERVICE_DEBUG("JSON service SUCCESSFULLY initialized");
+		SQ_EXTSERVICE_DEBUG("JSON Loader service SUCCESSFULLY initialized");
 	}
 
 	void JsonLoaderService::DeInit()
 	{
-		SQ_EXTSERVICE_DEBUG("JSON service shutdown");
+		SQ_EXTSERVICE_DEBUG("JSON Loader service shutdown");
 		if (m_scene)
 		{
 			m_scene.reset();
@@ -26,14 +26,14 @@ namespace Services
 		}
 	}
 
-	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		if (m_scene)
 		{
 			m_scene.reset();
 		}
-		m_scene = this->ConvertToJsonFormat(renderers);
-		this->SaveFile(filename, m_scene);
+		m_scene = this->ConvertToJsonFormat(components);
+		this->SaveFile(filename, std::move(m_scene));
 	}
 
 	void JsonLoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> config)
@@ -44,10 +44,10 @@ namespace Services
 		}
 
 		m_configs = this->ConvertToJsonFormat(config);
-		this->SaveFile(Constants::CONFIGFILE, m_configs);
+		this->SaveFile(Constants::CONFIGFILE, std::move(m_configs));
 	}
 
-	void JsonLoaderService::SaveFile(std::string const filename, std::shared_ptr<nlohmann::json> content)
+	void JsonLoaderService::SaveFile(std::string const filename, std::unique_ptr<nlohmann::json> content)
 	{
 		if (!filename.empty())
 		{
@@ -64,6 +64,10 @@ namespace Services
 
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::GetScene(std::string const filename)
 	{
+		if (m_scene)
+		{
+			m_scene.reset();
+		}
 		m_scene = this->ReadFile(filename);
 
 		return this->ConvertToRenderers();
@@ -71,11 +75,15 @@ namespace Services
 
 	std::shared_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
 	{
+		if (m_configs)
+		{
+			m_configs.reset();
+		}
 		m_configs = this->ReadFile(Constants::CONFIGFILE);
 		return this->ConvertToConfigEntity();
 	}
 
-	std::shared_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string filename)
+	std::unique_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string const filename)
 	{
 		std::ifstream flux_in(filename + Constants::JSONEXT);
 		if (flux_in.is_open())
@@ -83,7 +91,7 @@ namespace Services
 			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
 			try
 			{
-				return std::make_shared<nlohmann::json>(json::parse(flux_in));
+				return std::make_unique<nlohmann::json>(json::parse(flux_in));
 			}
 			catch (const std::exception& e)
 			{
@@ -95,10 +103,10 @@ namespace Services
 		return nullptr;
 	}
 
-	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> renderers)
+	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		std::vector<json> renderers_json_format;
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = renderers.begin(); it != renderers.end(); it++)
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 		{
 			json renderer_json_format = {
 				{"type", it[0]->GetType()},
@@ -109,13 +117,13 @@ namespace Services
 			renderers_json_format.push_back(renderer_json_format);
 		}
 		json j(renderers_json_format);
-		return std::make_shared<json>(j);
+		return std::make_unique<json>(j);
 	}
 
-	std::shared_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
+	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
 	{
 		json json_config = { {"create_scenes", config->GetCreatedScenes()}};
-		return std::make_shared<json>(json_config);
+		return std::make_unique<json>(json_config);
 	}
 
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
@@ -125,10 +133,10 @@ namespace Services
 		{
 			for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
 			{
-				json j = this->GetStringNode(std::make_shared<json>(*it), "type");
-				glm::vec3 position = this->GetVec3Node(std::make_shared<json>(*it), "position");
-				glm::vec4 color = this->GetVec4Node(std::make_shared<json>(*it), "color");
-				glm::vec3 size = this->GetVec3Node(std::make_shared<json>(*it), "size");
+				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
+				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
+				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
+				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
@@ -151,11 +159,11 @@ namespace Services
 	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
 	{
 		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
-		config->SetCreatedScene(this->GetStringVectorNode(m_configs, "create_scenes"));
+		config->SetCreatedScene(this->GetStringVectorNode(std::move(m_configs), "create_scenes"));
 		return config;
 	}
 
-	std::string JsonLoaderService::GetStringNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	std::string JsonLoaderService::GetStringNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
 	{
 		if (json_content)
 		{
@@ -176,7 +184,7 @@ namespace Services
 
 	}
 
-	glm::vec4 JsonLoaderService::GetVec4Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	glm::vec4 JsonLoaderService::GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
 	{
 		if (json_content)
 		{
@@ -197,7 +205,7 @@ namespace Services
 		return glm::vec4(0.f);
 	}
 
-	glm::vec3 JsonLoaderService::GetVec3Node(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	glm::vec3 JsonLoaderService::GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
 	{
 		if (json_content)
 		{
@@ -217,7 +225,7 @@ namespace Services
 		return glm::vec3(0.f);
 	}
 
-	std::vector<std::string> JsonLoaderService::GetStringVectorNode(std::shared_ptr<nlohmann::json> json_content, std::string node_name)
+	std::vector<std::string> JsonLoaderService::GetStringVectorNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
 	{
 		if (json_content)
 		{

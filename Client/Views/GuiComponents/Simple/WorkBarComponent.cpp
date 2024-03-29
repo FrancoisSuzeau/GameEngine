@@ -18,9 +18,15 @@ namespace Views
 		{
 			tabs_size.clear();
 		}
+
+		if (m_parent_view_model)
+		{
+			m_parent_view_model.reset();
+		}
 	}
-	WorkBarComponent::WorkBarComponent() : show_color_picker(false), item_current(-1), current_tab(0)
+	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0)
 	{
+		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
 		{
