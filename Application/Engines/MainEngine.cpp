@@ -130,7 +130,6 @@ namespace Engines
 					if (!m_state_service->getGuiOpen())
 					{
 						m_scene_engine->UpdateAll(event);
-						m_state_service->RefreshProjectionMatrix();
 					}
 				}
 				

@@ -14,13 +14,12 @@ namespace Renderers {
 	class Grid : public IRenderer
 	{
 	public:
-		Grid(int slices);
+		Grid(const int grid_size, const float grid_spacing);
 		~Grid();
 
 		void Construct() override;
 		void Clean() override;
 		void Draw() override;
-		GLint GetLength() const override;
 
 
 	private:
@@ -29,12 +28,12 @@ namespace Renderers {
 
 		typedef IRenderer base;
 
-		std::vector<glm::vec3> m_vec_vertices;
-		std::vector<glm::uvec4> m_vec_indices;
-		size_t m_bytes_indices_size;
-		GLint m_lenght;
-		int m_slices;
+		
+		int const m_grid_size;
+		float const m_grid_spacing;
 
+		std::vector<glm::vec3> m_vec_vertices;
+		std::vector<unsigned int> m_vec_indices;
 
 
 	};

@@ -29,7 +29,7 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
-			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 		}
 		
 	}
@@ -260,10 +260,6 @@ namespace Services
 	glm::mat4 StateService::GetProjectionMatrix() const
 	{
 		return m_projection_matrix;
-	}
-	void StateService::RefreshProjectionMatrix()
-	{
-		m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
 	}
 	
 	void StateService::CleanRenderers()

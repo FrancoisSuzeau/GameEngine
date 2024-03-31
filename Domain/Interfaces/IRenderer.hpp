@@ -45,7 +45,6 @@ namespace Renderers {
 			return m_vao;
 		}
 
-		virtual GLint GetLength() const { return 0; }
 
 	protected:
 		std::vector<GLfloat> m_vertices;

@@ -79,7 +79,6 @@ namespace Services {
 		void deleteComponent();
 
 		glm::mat4 GetProjectionMatrix() const;
-		void RefreshProjectionMatrix();
 		
 
 	private:
