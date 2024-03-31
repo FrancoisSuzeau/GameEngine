@@ -79,6 +79,9 @@ namespace Services {
 		void deleteComponent();
 
 		glm::mat4 GetProjectionMatrix() const;
+
+		void setGridScalingTrigger(float const new_val);
+		float getGridScalingTrigger() const;
 		
 
 	private:
@@ -106,6 +109,7 @@ namespace Services {
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;
+		float m_grid_scaling_trigger;
 
 	};
 }

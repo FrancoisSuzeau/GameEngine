@@ -111,6 +111,12 @@ namespace ViewModels
 				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
+			m_camera_service = container->GetReference<Services::CameraService>();
+			if (!m_camera_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
 			if (m_loader_service)
 			{
 				m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, m_loader_service->LoadSkybox("resources/skybox/calm_lake")));
@@ -127,11 +133,8 @@ namespace ViewModels
 				}
 			}
 
-			m_camera_service = container->GetReference<Services::CameraService>();
-			if (!m_camera_service)
-			{
-				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
-			}
+			current_relative_distance_from_cam = 30.f;
+			this->ManageGridScaling();
 		}
 	}
 
@@ -158,12 +161,7 @@ namespace ViewModels
 			}
 		}
 
-		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
-		{
-			glm::vec3 cam_pos = m_camera_service->GetPos();
-			m_components.at(Enums::RendererType::GRID)->SetPosition(glm::vec3(cam_pos.x - ((float)m_grid_size / 5.f), -1.f, cam_pos.z - ((float)m_grid_size / 5.f)));
-		}
-
+		this->ManageGridScaling();
 		this->TransformSceneElements();
 	}
 
@@ -209,6 +207,23 @@ namespace ViewModels
 				Component::Transformer::Move(it->second);
 				Component::Transformer::Resize(it->second);
 			}
+		}
+	}
+	void SceneViewModel::ManageGridScaling()
+	{
+		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service)
+		{
+			glm::vec3 cam_pos = m_camera_service->GetPos();
+			m_components.at(Enums::RendererType::GRID)->SetPosition(glm::vec3(cam_pos.x - ((float)m_grid_size / 5.f), -1.f, cam_pos.z - ((float)m_grid_size / 5.f)));
+			glm::vec3 camera_to_grid = m_components.at(Enums::RendererType::GRID)->GetPosition() - cam_pos;
+			float relative_dist = glm::dot(camera_to_grid, m_camera_service->GetTarget());
+			if (std::abs(relative_dist - current_relative_distance_from_cam) >= m_state_service->getGridScalingTrigger())
+			{
+				std::cout << "Moved 40 units" << std::endl;
+				m_renderers.at(Enums::RendererType::GRID)->Actualize(relative_dist);
+				current_relative_distance_from_cam = relative_dist;
+			}
+			
 		}
 	}
 }

@@ -7,6 +7,7 @@
 
 #include <GL/glew.h>
 #include <vector>
+#include <iostream>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -32,6 +33,7 @@ namespace Renderers {
 		virtual void Construct() = 0;
 		virtual void Draw() {};
 		virtual void Draw(unsigned int texture_id) {};
+		virtual void Actualize(float const relative_distance_from_cam) {};
 		virtual void Clean()
 		{
 			CleanVbo();

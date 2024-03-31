@@ -28,8 +28,7 @@ namespace Renderers {
 	void Grid::Clean()
 	{
 		base::Clean();
-		
-
+		m_vec_vertices.clear();
 	}
 
 	void Grid::Draw()
@@ -41,6 +40,14 @@ namespace Renderers {
 			glDrawArrays(GL_LINES, 0, (GLsizei)m_vec_vertices.size());
 			glBindVertexArray(0);
 		}
+	}
+
+	void Grid::Actualize(float const relative_distance_from_cam)
+	{
+		float new_grid_spacing = m_grid_spacing * (1.f + relative_distance_from_cam * 0.05f);
+		m_grid_spacing = new_grid_spacing;
+		this->Clean();
+		this->Construct();
 	}
 
 	void Grid::Attach()

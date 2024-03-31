@@ -20,6 +20,7 @@ namespace Renderers {
 		void Construct() override;
 		void Clean() override;
 		void Draw() override;
+		void Actualize(float const relative_distance_from_cam) override;
 
 
 	private:
@@ -30,7 +31,7 @@ namespace Renderers {
 
 		
 		int const m_grid_size;
-		float const m_grid_spacing;
+		float m_grid_spacing;
 
 		std::vector<glm::vec3> m_vec_vertices;
 		std::vector<unsigned int> m_vec_indices;
