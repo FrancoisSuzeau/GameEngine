@@ -62,7 +62,7 @@ namespace Services
 		m_x_motion_dir = 0.f;
 		m_y_motion_dir = 0.f;
 
-		if (m_camera_service)
+		if (m_camera_service && m_state_service)
 		{
 			switch (event.type)
 			{
@@ -85,8 +85,8 @@ namespace Services
 					m_y_pos = event.motion.y;
 					break;
 				case SDL_MOUSEWHEEL:
-					if (event.wheel.y > 0) { m_camera_service->ChangeHigh(-1.f); }
-					if (event.wheel.y < 0) { m_camera_service->ChangeHigh(1.f); }
+					if (event.wheel.y > 0) { m_camera_service->ChangeHigh(-1.f); m_state_service->setScrollDir(Enums::ScrollDir::Bottom); }
+					if (event.wheel.y < 0) { m_camera_service->ChangeHigh(1.f); m_state_service->setScrollDir(Enums::ScrollDir::Up); }
 					break;
 
 				default:

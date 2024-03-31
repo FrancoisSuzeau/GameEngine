@@ -33,7 +33,7 @@ namespace Renderers {
 		virtual void Construct() = 0;
 		virtual void Draw() {};
 		virtual void Draw(unsigned int texture_id) {};
-		virtual void Actualize(float const relative_distance_from_cam) {};
+		virtual void Actualize(int const grid_scaling_ratio, int const behavior) {};
 		virtual void Clean()
 		{
 			CleanVbo();

@@ -42,10 +42,20 @@ namespace Renderers {
 		}
 	}
 
-	void Grid::Actualize(float const relative_distance_from_cam)
+	void Grid::Actualize(int const grid_scaling_ratio, int const behavior)
 	{
-		float new_grid_spacing = m_grid_spacing * (1.f + relative_distance_from_cam * 0.05f);
-		m_grid_spacing = new_grid_spacing;
+		switch (behavior)
+		{
+		case 1:
+			m_grid_spacing += (float)grid_scaling_ratio / 100.f;
+			break;
+		case -1:
+			m_grid_spacing -= (float)grid_scaling_ratio / 100.f;
+			break;
+		default:
+			break;
+		}
+		
 		this->Clean();
 		this->Construct();
 	}
