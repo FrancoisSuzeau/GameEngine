@@ -8,8 +8,8 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false), m_previous_selected_component_color(1.f),
-		m_grid_scaling_trigger(25.f)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false), 
+		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE)
 	{
 	}
 
@@ -263,14 +263,14 @@ namespace Services
 		return m_projection_matrix;
 	}
 
-	void StateService::setGridScalingTrigger(float const new_val)
+	void StateService::setConfigPannel(std::string const new_val)
 	{
-		m_grid_scaling_trigger = new_val;
+		m_pannel_view = new_val;
 	}
 
-	float StateService::getGridScalingTrigger() const
+	std::string StateService::getConfigPannel() const
 	{
-		return m_grid_scaling_trigger;
+		return m_pannel_view;
 	}
 	
 	void StateService::CleanRenderers()

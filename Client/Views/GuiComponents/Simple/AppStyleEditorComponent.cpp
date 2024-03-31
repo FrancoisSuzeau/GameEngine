@@ -35,7 +35,7 @@ namespace Views
 			bool show_editor = m_state_service->getShowStyleEditor();
 			if (show_editor)
 			{
-				ImGui::Begin("Dear ImGui Style Editor", &show_editor);
+				ImGui::Begin("Dear ImGui Style Editor", &show_editor, ImGuiWindowFlags_NoCollapse);
 				ImGui::ShowStyleEditor();
 				ImGui::End();
 			}

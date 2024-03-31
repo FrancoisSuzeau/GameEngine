@@ -42,7 +42,7 @@ namespace Views
 			std::vector<std::string> created_scene = m_state_service->getConfigs()->GetCreatedScenes();
 			if (!created_scene.empty())
 			{
-				if (ImGui::Begin("Select recent work :"))
+				if (ImGui::Begin("Select recent work :", NULL, ImGuiWindowFlags_NoCollapse))
 				{
 					int n = 0;
 

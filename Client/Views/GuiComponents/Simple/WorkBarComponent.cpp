@@ -84,6 +84,7 @@ namespace Views
 				}
 				item_current = -1;
 			}
+
 			ImGui::EndChild();
 		}
 

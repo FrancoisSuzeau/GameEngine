@@ -72,6 +72,12 @@
     <ClCompile Include="Views\GuiComponents\Simple\WorkBarComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\Menus\MenuSettingsComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\GuiComponents\Simple\PannelComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -132,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\GuiComponents\Simple\WorkBarComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\Menus\MenuSettingsComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\Simple\PannelComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,11 +23,14 @@ namespace Services {
 		void AddCreatedScene(std::string const created_scene);
 		void SetCreatedScene(std::vector<std::string> const created_scenes);
 		std::vector<std::string> GetCreatedScenes() const;
+		float GetGridScalingTrigger() const;
+		void SetGridScalingTrigger(float const grid_scaling_trigger);
 
 		
 	private:
 		
 		std::vector<std::string> m_created_scenes;
+		float m_grid_scaling_trigger;
 
 
 	};

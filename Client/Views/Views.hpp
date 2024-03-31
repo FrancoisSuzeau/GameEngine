@@ -12,6 +12,7 @@
 #include "GuiComponents/Menus/MenuToolsComponent.hpp"
 #include "GuiComponents/Menus/MenuEditComponent.hpp"
 #include "GuiComponents/Menus/MenuFileComponent.hpp"
+#include "GuiComponents/Menus/MenuSettingsComponent.hpp"
 #include "GuiComponents/Simple/EventViewerComponent.hpp"
 #include "Scene/Canvas.hpp"
 #include "Scene/Draggable.hpp"
@@ -20,5 +21,6 @@
 #include "GuiComponents/Simple/SaveAsComponent.hpp"
 #include "GuiComponents/Simple/ConfirmComponent.hpp"
 #include "GuiComponents/Simple/WorkBarComponent.hpp"
+#include "GuiComponents/Simple/PannelComponent.hpp"
 
 #endif

@@ -36,7 +36,7 @@ namespace Views
 
 			if (show_event) 
 			{
-				if (ImGui::Begin("Event viewer", &show_event))
+				if (ImGui::Begin("Event viewer", &show_event, ImGuiWindowFlags_NoCollapse))
 				{
 					ImGuiIO& io = ImGui::GetIO();
 

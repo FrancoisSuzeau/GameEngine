@@ -34,4 +34,14 @@ namespace Services {
 		return m_created_scenes;
 	}
 
+	float ConfigEntity::GetGridScalingTrigger() const
+	{
+		return m_grid_scaling_trigger;
+	}
+
+	void ConfigEntity::SetGridScalingTrigger(float const grid_scaling_trigger)
+	{
+		m_grid_scaling_trigger = grid_scaling_trigger;
+	}
+
 }

@@ -41,7 +41,11 @@ namespace Views
 				ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
 				ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
-				if (ImGui::Begin(" ", &show_confirm))
+				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar
+					| ImGuiWindowFlags_NoResize
+					| ImGuiWindowFlags_NoCollapse;
+
+				if (ImGui::Begin(" ", &show_confirm, window_flags))
 				{
 					ImGui::Text(m_state_service->getConfirmMessage().c_str());
 					ImGuiStyle& style = ImGui::GetStyle();
@@ -60,8 +64,10 @@ namespace Views
 						show_confirm = false;
 					}
 					style.FrameRounding = frame_rounding_save;
+
+					ImGui::End();
 				}
-				ImGui::End();
+				
 			}
 			m_state_service->setShowConfirm(show_confirm);
 		}

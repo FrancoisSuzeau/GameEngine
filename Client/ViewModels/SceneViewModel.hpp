@@ -45,7 +45,7 @@ namespace ViewModels
 
 		void TransformSceneElements();
 		void ManageGridScaling();
-		float current_relative_distance_from_cam;
+		float m_current_relative_distance_from_cam;
 
 	};
 }

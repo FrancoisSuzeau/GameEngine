@@ -80,8 +80,8 @@ namespace Services {
 
 		glm::mat4 GetProjectionMatrix() const;
 
-		void setGridScalingTrigger(float const new_val);
-		float getGridScalingTrigger() const;
+		void setConfigPannel(std::string const new_val);
+		std::string getConfigPannel() const;
 		
 
 	private:
@@ -109,7 +109,7 @@ namespace Services {
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;
-		float m_grid_scaling_trigger;
+		std::string m_pannel_view;
 
 	};
 }

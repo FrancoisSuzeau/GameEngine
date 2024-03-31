@@ -133,7 +133,7 @@ namespace ViewModels
 				}
 			}
 
-			current_relative_distance_from_cam = 30.f;
+			m_current_relative_distance_from_cam = 30.f;
 			this->ManageGridScaling();
 		}
 	}
@@ -211,17 +211,17 @@ namespace ViewModels
 	}
 	void SceneViewModel::ManageGridScaling()
 	{
-		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service)
+		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs())
 		{
 			glm::vec3 cam_pos = m_camera_service->GetPos();
 			m_components.at(Enums::RendererType::GRID)->SetPosition(glm::vec3(cam_pos.x - ((float)m_grid_size / 5.f), -1.f, cam_pos.z - ((float)m_grid_size / 5.f)));
 			glm::vec3 camera_to_grid = m_components.at(Enums::RendererType::GRID)->GetPosition() - cam_pos;
 			float relative_dist = glm::dot(camera_to_grid, m_camera_service->GetTarget());
-			if (std::abs(relative_dist - current_relative_distance_from_cam) >= m_state_service->getGridScalingTrigger())
+			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
 				std::cout << "Moved 40 units" << std::endl;
 				m_renderers.at(Enums::RendererType::GRID)->Actualize(relative_dist);
-				current_relative_distance_from_cam = relative_dist;
+				m_current_relative_distance_from_cam = relative_dist;
 			}
 			
 		}

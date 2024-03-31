@@ -42,6 +42,7 @@ namespace Constants {
 	std::string const COMPONENT_DRAGGABLE = "COMPONENT_DRAGGABLE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
 	std::string const DEFAULT_FILENAME = "default_scene";
+	std::string const SCENE_CONFIG_PANNEL = "scene pannel";
 }
 
 #endif
