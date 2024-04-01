@@ -128,7 +128,11 @@ namespace Services
 
 	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
 	{
-		json json_config = { {"create_scenes", config->GetCreatedScenes()}, {"grid_scaling_trigger", config->GetGridScalingTrigger()}};
+		json json_config = { 
+			{"create_scenes", config->GetCreatedScenes()}, 
+			{"grid_scaling_trigger", config->GetGridScalingTrigger()},
+			{"grid_scaling_ratio", config->GetGridScalingRatio()}
+		};
 		return std::make_unique<json>(json_config);
 	}
 
@@ -166,6 +170,7 @@ namespace Services
 		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
 		config->SetCreatedScene(this->GetStringVectorNode(Enums::JsonType::Config, "create_scenes"));
 		config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
+		config->SetGridScalingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_scaling_ratio"));
 		return config;
 	}
 
@@ -270,6 +275,23 @@ namespace Services
 
 
 		return 0.f;
+	}
+
+	int JsonLoaderService::GetIntNode(Enums::JsonType json_type, std::string node_name)
+	{
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
+		{
+			int node = m_json_contents.at(json_type)->value(node_name, 0);
+			if (node == 0)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return 0;
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+		return 0;
 	}
 
 }

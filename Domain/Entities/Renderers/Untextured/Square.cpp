@@ -11,10 +11,8 @@ namespace Renderers {
 		m_vbo = 0;
 		m_vao = 0;
 		m_ebo = 0;
-		m_vertices.reserve(12);
-		m_bytes_vertices_size = 12 * sizeof(GLfloat);
-		m_indices.reserve(6);
-		m_bytes_indices_size = 6 * sizeof(unsigned int);
+		m_bytes_vertices_size = 0;
+		m_bytes_indices_size = 0;
 	}
 
 	Square::~Square()
@@ -30,25 +28,36 @@ namespace Renderers {
 	void Square::Clean()
 	{
 		base::Clean();
-		m_indices.clear();
 	}
 
 	void Square::Draw()
 	{
-		glBindVertexArray(this->GetVAO());
-		if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+		if (m_vao != 0)
 		{
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
+				glBindVertexArray(0);
+			}
 		}
 	}
 
 	void Square::Attach()
 	{
-		
-		glGenVertexArrays(1, &m_vao);
-		glGenBuffers(1, &m_vbo);
-		glGenBuffers(1, &m_ebo);
+		if (m_vao == 0)
+		{
+			glGenVertexArrays(1, &m_vao);
+		}
+
+		if (m_vbo == 0)
+		{
+			glGenBuffers(1, &m_vbo);
+		}
+		if (m_ebo == 0)
+		{
+			glGenBuffers(1, &m_ebo);
+		}
 
 		if (m_vbo != 0)
 		{
@@ -129,6 +138,9 @@ namespace Renderers {
 		m_indices.push_back(1);
 		m_indices.push_back(2);
 		m_indices.push_back(3);
+
+		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+		m_bytes_indices_size = m_indices.size() * sizeof(unsigned int);
 	}
 
 }

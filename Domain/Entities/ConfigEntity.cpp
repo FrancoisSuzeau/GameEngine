@@ -44,4 +44,14 @@ namespace Services {
 		m_grid_scaling_trigger = grid_scaling_trigger;
 	}
 
+	void ConfigEntity::SetGridScalingRatio(int const grid_scaling_ratio)
+	{
+		m_grid_scaling_ratio = grid_scaling_ratio;
+	}
+
+	int ConfigEntity::GetGridScalingRatio() const
+	{
+		return m_grid_scaling_ratio;
+	}
+
 }

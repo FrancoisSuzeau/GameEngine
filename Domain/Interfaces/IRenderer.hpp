@@ -40,11 +40,7 @@ namespace Renderers {
 			CleanVao();
 			CleanEbo();
 			m_vertices.clear();
-		}
-
-		virtual GLuint GetVAO() const
-		{
-			return m_vao;
+			m_indices.clear();
 		}
 
 
@@ -54,6 +50,9 @@ namespace Renderers {
 		GLuint m_vbo;
 		GLuint m_vao;
 		GLuint m_ebo;
+
+		std::vector<unsigned int> m_indices;
+		unsigned int m_bytes_indices_size;
 
 	private:
 		virtual void CleanVbo()

@@ -34,7 +34,8 @@ namespace Renderers {
 		float m_grid_spacing;
 
 		std::vector<glm::vec3> m_vec_vertices;
-		std::vector<unsigned int> m_vec_indices;
+		std::vector<unsigned int> m_indices;
+		unsigned int m_bytes_indices_size;
 
 
 	};

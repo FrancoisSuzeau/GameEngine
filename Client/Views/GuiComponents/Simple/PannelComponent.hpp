@@ -38,6 +38,7 @@ namespace Views
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderConfigPannel();
+		int item_current;
 	};
 }
 

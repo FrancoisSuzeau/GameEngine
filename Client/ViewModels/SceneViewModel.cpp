@@ -179,14 +179,14 @@ namespace ViewModels
 				m_renderers.at(element)->Draw();
 				m_shader_service->UnbindShaderProgram();
 				break;
-			/*case Enums::SKYBOX:
+			case Enums::SKYBOX:
 				m_runtime_service->LequalDepth();
 				m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
 				Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::SKYBOX_SHADER);
 				m_renderers.at(element)->Draw(m_components.at(element)->GetTextureId());
 				m_shader_service->UnbindShaderProgram();
 				m_runtime_service->LessDepth();
-				break;*/
+				break;
 			case Enums::TRIANGLE:
 			case Enums::SQUARE:
 			case Enums::SQUARE_TEXTURED:
@@ -218,7 +218,7 @@ namespace ViewModels
 			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
-				std::cout << m_state_service->getScrollDir() << std::endl;
+				std::cout << m_state_service->getConfigs()->GetGridScalingRatio() << std::endl;
 				m_renderers.at(Enums::RendererType::GRID)->Actualize(2, m_state_service->getScrollDir());
 				m_current_relative_distance_from_cam = relative_dist;
 			}

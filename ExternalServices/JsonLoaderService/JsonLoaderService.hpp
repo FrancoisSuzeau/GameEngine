@@ -59,6 +59,7 @@ namespace Services {
 		glm::vec3 GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);
 		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
+		int GetIntNode(Enums::JsonType json_type, std::string node_name);
 		
 	};
 }

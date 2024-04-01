@@ -26,8 +26,6 @@ namespace Renderers {
 	protected:
 		void Attach();
 		void Load();
-		std::vector<unsigned int> m_indices;
-		unsigned int m_bytes_indices_size;
 
 	private:
 		typedef IRenderer base;
