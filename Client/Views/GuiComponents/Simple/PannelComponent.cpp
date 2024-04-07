@@ -79,7 +79,7 @@ namespace Views
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridScalingRatio());
 			if (it != values.end())
 			{
-				item_current = std::distance(values.begin(), it);
+				item_current = (int)std::distance(values.begin(), it);
 			}
 			else
 			{

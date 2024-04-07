@@ -44,7 +44,7 @@ namespace ViewModels
 		std::map<Enums::RendererType, std::shared_ptr<Component::IComponent>> m_components;
 
 		void TransformSceneElements();
-		void ManageGridScaling();
+		void ManageGridScaling(Enums::RendererType grid_type);
 		float m_current_relative_distance_from_cam;
 
 	};

@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-	Grid::Grid(const int grid_size, const float grid_spacing) : m_grid_size(grid_size), m_grid_spacing(grid_spacing)
+	Grid::Grid(const int grid_size, const float grid_spacing) : m_grid_size(grid_size), m_grid_spacing(grid_spacing / 100.f)
 	{
 		m_ebo = 0;
 		m_vao = 0;
@@ -34,7 +34,6 @@ namespace Renderers {
 
 	void Grid::Draw()
 	{
-
 		if (m_vao != 0)
 		{
 			glBindVertexArray(m_vao);
@@ -180,7 +179,7 @@ namespace Renderers {
 			m_indices.push_back(i);
 		}
 
-		m_bytes_indices_size = m_indices.size() * sizeof(unsigned int);
+		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
 
 }

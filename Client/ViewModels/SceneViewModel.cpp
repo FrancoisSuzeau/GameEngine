@@ -121,10 +121,14 @@ namespace ViewModels
 			{
 				m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, m_loader_service->LoadSkybox("resources/skybox/calm_lake")));
 			}
-			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Component::ComponentBase>(glm::vec3(-(float)m_grid_size / 5.f, -1.f, -(float)m_grid_size / 5.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
+			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
+			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_unique<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 
 			m_renderers.insert_or_assign(Enums::RendererType::SKYBOX, std::make_unique<Renderers::Skybox>());
-			m_renderers.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Renderers::Grid>(m_grid_size, 0.02f));
+			if (m_state_service && m_state_service->getConfigs())
+			{
+				m_renderers.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Renderers::Grid>(m_grid_size, (float)m_state_service->getConfigs()->GetGridScalingRatio()));
+			}
 			for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 			{
 				if (it->second)
@@ -134,7 +138,8 @@ namespace ViewModels
 			}
 
 			m_current_relative_distance_from_cam = 40.f;
-			this->ManageGridScaling();
+			this->ManageGridScaling(Enums::RendererType::GRID);
+			this->ManageGridScaling(Enums::RendererType::SUBBGRID);
 		}
 	}
 
@@ -161,36 +166,52 @@ namespace ViewModels
 			}
 		}
 
-		this->ManageGridScaling();
+		this->ManageGridScaling(Enums::RendererType::GRID);
+		this->ManageGridScaling(Enums::RendererType::SUBBGRID);
 		this->TransformSceneElements();
 	}
 
 	void SceneViewModel::RenderSceneElements(Enums::RendererType element)
 	{
 
-		if (m_renderers.contains(element) && m_renderers.at(element) && m_shader_service && m_runtime_service && m_components.contains(element) && m_components.at(element))
+		if (m_shader_service && m_runtime_service && m_components.contains(element) && m_components.at(element))
 		{
 
 			switch (element)
 			{
-			case Enums::GRID:
-				m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
-				Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
-				m_renderers.at(element)->Draw();
-				m_shader_service->UnbindShaderProgram();
+			case Enums::RendererType::GRID:
+				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
+				{
+					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
+					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
+					m_renderers.at(element)->Draw();
+					m_shader_service->UnbindShaderProgram();
+				}
 				break;
-			case Enums::SKYBOX:
-				m_runtime_service->LequalDepth();
-				m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
-				Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::SKYBOX_SHADER);
-				m_renderers.at(element)->Draw(m_components.at(element)->GetTextureId());
-				m_shader_service->UnbindShaderProgram();
-				m_runtime_service->LessDepth();
+			case Enums::RendererType::SUBBGRID:
+				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
+				{
+					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
+					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
+					m_renderers.at(Enums::RendererType::GRID)->Draw();
+					m_shader_service->UnbindShaderProgram();
+				}
 				break;
-			case Enums::TRIANGLE:
-			case Enums::SQUARE:
-			case Enums::SQUARE_TEXTURED:
-			case Enums::NONE:
+			case Enums::RendererType::SKYBOX:
+				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX))
+				{
+					m_runtime_service->LequalDepth();
+					m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
+					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::SKYBOX_SHADER);
+					m_renderers.at(element)->Draw(m_components.at(element)->GetTextureId());
+					m_shader_service->UnbindShaderProgram();
+					m_runtime_service->LessDepth();
+				}
+				break;
+			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::SQUARE_TEXTURED:
+			case Enums::RendererType::NONE:
 			default:
 				break;
 			}
@@ -209,19 +230,35 @@ namespace ViewModels
 			}
 		}
 	}
-	void SceneViewModel::ManageGridScaling()
+	void SceneViewModel::ManageGridScaling(Enums::RendererType grid_type)
 	{
-		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs())
+		if (m_components.contains(grid_type) && m_components.at(grid_type) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs())
 		{
 			glm::vec3 cam_pos = m_camera_service->GetPos();
-			m_components.at(Enums::RendererType::GRID)->SetPosition(glm::vec3(cam_pos.x - ((float)m_grid_size / 5.f), -1.f, cam_pos.z - ((float)m_grid_size / 5.f)));
-			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
+			float x = cam_pos.x - ((float)m_grid_size / 5.f);
+			float z = cam_pos.z - ((float)m_grid_size / 5.f);
+			switch (grid_type)
+			{
+			case Enums::GRID:
+				m_components.at(grid_type)->SetPosition(glm::vec3(x, -1.f, z));
+				break;
+			case Enums::SUBBGRID:
+				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)m_state_service->getConfigs()->GetGridScalingRatio() / 2.f), -1.f, z + ((float)m_state_service->getConfigs()->GetGridScalingRatio() / 2.f)));
+				break;
+			case Enums::SKYBOX:
+			case Enums::NONE:
+			case Enums::TRIANGLE:
+			case Enums::SQUARE:
+			case Enums::SQUARE_TEXTURED:
+			default:
+				break;
+			}
+			/*float relative_dist = glm::length(cam_pos - m_components.at(grid_type)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
-				std::cout << m_state_service->getConfigs()->GetGridScalingRatio() << std::endl;
-				m_renderers.at(Enums::RendererType::GRID)->Actualize(2, m_state_service->getScrollDir());
+				m_renderers.at(Enums::RendererType::GRID)->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
 				m_current_relative_distance_from_cam = relative_dist;
-			}
+			}*/
 			
 		}
 	}

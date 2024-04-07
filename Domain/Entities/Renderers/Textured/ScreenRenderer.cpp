@@ -106,6 +106,6 @@ namespace Renderers {
 		};
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
-		m_bytes_textcoord_size = m_texture_coord.size() * sizeof(GLfloat);
+		m_bytes_textcoord_size = (unsigned int)(m_texture_coord.size() * sizeof(GLfloat));
 	}
 }

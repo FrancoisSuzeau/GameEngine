@@ -151,7 +151,7 @@ namespace Renderers {
 			m_indices.push_back(i);
 		}
 
-		m_bytes_indices_size = m_indices.size() * sizeof(unsigned int);
+		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
 	
 }

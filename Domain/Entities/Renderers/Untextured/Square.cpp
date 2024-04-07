@@ -140,7 +140,7 @@ namespace Renderers {
 		m_indices.push_back(3);
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
-		m_bytes_indices_size = m_indices.size() * sizeof(unsigned int);
+		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
 
 }
