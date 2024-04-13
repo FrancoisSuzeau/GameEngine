@@ -125,6 +125,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Includes;$(SolutionDir)Includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

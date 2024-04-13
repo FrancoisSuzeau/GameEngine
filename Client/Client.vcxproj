@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Application;$(SolutionDir)ImGUI;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ExternalServices;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\OpenGLService;$(SolutionDir)Includes;$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Application;$(SolutionDir)ImGUI;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ExternalServices;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

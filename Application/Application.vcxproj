@@ -198,7 +198,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Includes;$(SolutionDir)ImGUI;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices;$(SolutionDir)Domain\Shaders;$(SolutionDir)Domain\Entities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\OpenGLService;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Includes;$(SolutionDir)ImGUI;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices;$(SolutionDir)Domain\Shaders;$(SolutionDir)Domain\Entities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
