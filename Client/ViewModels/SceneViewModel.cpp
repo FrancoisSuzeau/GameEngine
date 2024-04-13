@@ -68,6 +68,7 @@ namespace ViewModels
 	void SceneViewModel::Construct()
 	{
 		m_grid_size = 150;
+		m_actualize_count = 1;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
@@ -123,6 +124,7 @@ namespace ViewModels
 			}
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_unique<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
+			m_components.insert_or_assign(Enums::RendererType::SUBGRID2, std::make_unique<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBGRID2, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 
 			m_renderers.insert_or_assign(Enums::RendererType::SKYBOX, std::make_unique<Renderers::Skybox>());
 			if (m_state_service && m_state_service->getConfigs())
@@ -168,6 +170,7 @@ namespace ViewModels
 
 		this->ManageGridScaling(Enums::RendererType::GRID);
 		this->ManageGridScaling(Enums::RendererType::SUBBGRID);
+		this->ManageGridScaling(Enums::RendererType::SUBGRID2);
 		this->TransformSceneElements();
 	}
 
@@ -188,6 +191,7 @@ namespace ViewModels
 					m_shader_service->UnbindShaderProgram();
 				}
 				break;
+			case::Enums::RendererType::SUBGRID2:
 			case Enums::RendererType::SUBBGRID:
 				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
 				{
@@ -239,17 +243,20 @@ namespace ViewModels
 			float z = cam_pos.z - ((float)m_grid_size / 5.f);
 			switch (grid_type)
 			{
-			case Enums::GRID:
+			case Enums::RendererType::GRID:
 				m_components.at(grid_type)->SetPosition(glm::vec3(x, -1.f, z));
 				break;
-			case Enums::SUBBGRID:
-				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)m_state_service->getConfigs()->GetGridScalingRatio() / 2.f), -1.f, z + ((float)m_state_service->getConfigs()->GetGridScalingRatio() / 2.f)));
+			case Enums::RendererType::SUBBGRID:
+				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f), -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f)));
 				break;
-			case Enums::SKYBOX:
-			case Enums::NONE:
-			case Enums::TRIANGLE:
-			case Enums::SQUARE:
-			case Enums::SQUARE_TEXTURED:
+			case Enums::RendererType::SUBGRID2:
+				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f, -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f));
+				break;
+			case Enums::RendererType::SKYBOX:
+			case Enums::RendererType::NONE:
+			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::SQUARE_TEXTURED:
 			default:
 				break;
 			}
@@ -257,6 +264,7 @@ namespace ViewModels
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
 				m_renderers.at(Enums::RendererType::GRID)->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
+				m_actualize_count += m_state_service->getScrollDir();
 				m_current_relative_distance_from_cam = relative_dist;
 			}
 			

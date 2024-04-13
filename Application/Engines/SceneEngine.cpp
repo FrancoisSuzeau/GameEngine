@@ -102,6 +102,7 @@ namespace Engines
 				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInLine(1.f);
 				view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
+				view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
 				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
 				m_runtime_service->RenderingInLine(4.f);
