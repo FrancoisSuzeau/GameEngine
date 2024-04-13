@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <cassert>
+#include <map>
 #include "Constants/StringConstants.hpp"
 #include "Logger.hpp"
 
@@ -17,6 +18,7 @@
 #include <string>
 #include <iostream>
 #include "ConfigEntity.hpp"
+#include "Enums/EngineEnum.hpp"
 
 namespace Enums {
 	NLOHMANN_JSON_SERIALIZE_ENUM(RendererType, {
@@ -41,18 +43,23 @@ namespace Services {
 		std::vector<std::shared_ptr<Component::IComponent>> GetScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> GetConfigs();
 	private:
-		std::unique_ptr<nlohmann::json> m_configs;
-		std::unique_ptr<nlohmann::json> m_scene;
-		void SaveFile(std::string const filename, std::unique_ptr<nlohmann::json> const content);
+		std::map<Enums::JsonType, std::unique_ptr<nlohmann::json>> m_json_contents;
+		void SaveFile(std::string const filename, Enums::JsonType json_type);
 		std::unique_ptr<nlohmann::json> ReadFile(std::string const filename);
 		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components);
 		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<ConfigEntity> map_config);
 		std::vector<std::shared_ptr<Component::IComponent>> ConvertToRenderers();
 		std::shared_ptr<ConfigEntity> ConvertToConfigEntity();
+
+
 		std::string GetStringNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec4 GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec3 GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
-		std::vector<std::string> GetStringVectorNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);
+		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
+		int GetIntNode(Enums::JsonType json_type, std::string node_name);
+
+		bool m_file_exist;
 		
 	};
 }

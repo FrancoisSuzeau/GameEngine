@@ -43,7 +43,7 @@ namespace Views
 				ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
 
-				if (ImGui::Begin(" ", &show_save_as))
+				if (ImGui::Begin(" ", &show_save_as, ImGuiWindowFlags_NoCollapse))
 				{
 					ImGui::Text(m_state_service->getConfirmMessage().c_str());
 					ImGui::InputText("Enter name here ...", filename, IM_ARRAYSIZE(filename));

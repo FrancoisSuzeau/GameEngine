@@ -79,7 +79,12 @@ namespace Services {
 		void deleteComponent();
 
 		glm::mat4 GetProjectionMatrix() const;
-		void RefreshProjectionMatrix();
+
+		void setConfigPannel(std::string const new_val);
+		std::string getConfigPannel() const;
+
+		void setScrollDir(Enums::ScrollDir const new_scroll_dir);
+		Enums::ScrollDir getScrollDir() const;
 		
 
 	private:
@@ -107,6 +112,8 @@ namespace Services {
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;
+		std::string m_pannel_view;
+		Enums::ScrollDir m_scroll_dir;
 
 	};
 }

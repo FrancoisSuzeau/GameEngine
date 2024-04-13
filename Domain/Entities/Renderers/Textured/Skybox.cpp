@@ -7,10 +7,11 @@
 namespace Renderers {
 	Skybox::Skybox()
 	{
-		m_vbo = 0;
-		m_vao = 0;
-		m_vertices.reserve(108);
-		m_bytes_vertices_size = 108 * sizeof(GLfloat);
+        m_vbo = 0;
+        m_vao = 0;
+        m_ebo = 0;
+        m_bytes_vertices_size = 0;
+        m_bytes_indices_size = 0;
 	}
 	Skybox::~Skybox()
 	{
@@ -27,25 +28,35 @@ namespace Renderers {
 	}
     void Skybox::Draw(unsigned int const texture_id)
     {
-        glBindVertexArray(this->GetVAO());
-        if (glIsVertexArray(this->GetVAO()) == GL_TRUE)
+        if (m_vao != 0)
         {
-
-            glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
-            if (glIsTexture(texture_id) == GL_TRUE)
+            glBindVertexArray(m_vao);
+            if (glIsVertexArray(m_vao) == GL_TRUE)
             {
-                glDrawArrays(GL_TRIANGLES, 0, 36);
+                glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
+                if (glIsTexture(texture_id) == GL_TRUE)
+                {
+                    glDrawArrays(GL_TRIANGLES, 0, 36);
 
-                glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+                    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+                }
+
+                glBindVertexArray(0);
             }
-
-            glBindVertexArray(0);
         }
     }
 	
 	void Skybox::Attach()
 	{
-        glGenBuffers(1, &m_vbo);
+        if (m_vbo == 0)
+        {
+            glGenBuffers(1, &m_vbo);
+        }
+
+        if (m_vao == 0)
+        {
+            glGenVertexArrays(1, &m_vao);
+        }
 
         if (m_vbo != 0)
         {
@@ -59,8 +70,6 @@ namespace Renderers {
 
             }
         }
-
-        glGenVertexArrays(1, &m_vao);
 
         if (m_vao != 0)
         {
@@ -87,7 +96,7 @@ namespace Renderers {
 	}
 	void Skybox::Load()
 	{
-        float skyboxVertices[108] = {
+        m_vertices = {
             // positions          
             -1.0f,  1.0f, -1.0f,
             -1.0f, -1.0f, -1.0f,
@@ -132,11 +141,6 @@ namespace Renderers {
              1.0f, -1.0f,  1.0f
         };
 
-        
-        for (int i = 0; i < 108; i++)
-        {
-            m_vertices.push_back(skyboxVertices[i]);
-        }
-		
+        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);	
 	}
 }

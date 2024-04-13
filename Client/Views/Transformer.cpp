@@ -9,14 +9,15 @@ namespace Component
 {
 	void Transformer::PutIntoShader(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
-		std::shared_ptr<Services::StateService> state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-		if (!state_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
-		}
-		else
-		{
-			if (component && shader_service)
+			std::shared_ptr<Services::StateService> state_service = container->GetReference<Services::StateService>();
+			if (!state_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			if (component && shader_service && state_service)
 			{
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
@@ -24,8 +25,10 @@ namespace Component
 				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
+
+				state_service.reset();
 			}
-			state_service.reset();
+			
 		}
 		
 	}

@@ -39,11 +39,14 @@ namespace ViewModels
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
-
+		std::shared_ptr<Services::CameraService> m_camera_service;
+		int m_grid_size;
+		int m_actualize_count;
 		std::map<Enums::RendererType, std::shared_ptr<Component::IComponent>> m_components;
 
 		void TransformSceneElements();
-
+		void ManageGridScaling(Enums::RendererType grid_type);
+		float m_current_relative_distance_from_cam;
 
 	};
 }

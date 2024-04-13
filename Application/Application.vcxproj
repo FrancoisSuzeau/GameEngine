@@ -79,9 +79,6 @@
     <ClInclude Include="Services\ShaderService.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Crosscutting\Crosscutting.vcxproj">
-      <Project>{5784969b-bfb2-4a52-ae5a-007445befdd5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.vcxproj">
       <Project>{73c22434-0261-4229-8081-1b070803ae72}</Project>
     </ProjectReference>

@@ -61,6 +61,10 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : GUI Engine is not referenced yet", __FILE__, __FUNCTION__);
 			}
+			else
+			{
+				m_gui_engine->LoadConfigs();
+			}
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
 			{
@@ -92,7 +96,7 @@ namespace Engines
 		SDL_Event event;
 		if (m_state_service && m_gui_engine && m_scene_engine)
 		{
-			m_gui_engine->LoadConfigs();
+			//m_gui_engine->LoadConfigs();
 			
 			while (!m_state_service->getContinued() && !m_state_service->getExit())
 			{
@@ -130,7 +134,6 @@ namespace Engines
 					if (!m_state_service->getGuiOpen())
 					{
 						m_scene_engine->UpdateAll(event);
-						m_state_service->RefreshProjectionMatrix();
 					}
 				}
 				

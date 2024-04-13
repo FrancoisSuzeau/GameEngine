@@ -38,11 +38,13 @@ namespace ViewModels
 		m_menu_components.push_back(std::make_unique<Views::MenuFileComponent>(shared_from_this()));
 		m_menu_components.push_back(std::make_unique< Views::MenuToolsComponent>(shared_from_this()));
 		m_menu_components.push_back(std::make_unique< Views::MenuEditComponent>(shared_from_this()));
+		m_menu_components.push_back(std::make_unique< Views::MenuSettingsComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::EventViewerComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::SaveAsComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::ConfirmComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::StartComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::WorkBarComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::PannelComponent>(shared_from_this()));
 	}
 
 	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)

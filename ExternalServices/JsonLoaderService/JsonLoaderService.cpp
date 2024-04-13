@@ -9,54 +9,57 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
+		m_file_exist = false;
 		SQ_EXTSERVICE_DEBUG("JSON Loader service SUCCESSFULLY initialized");
 	}
 
 	void JsonLoaderService::DeInit()
 	{
 		SQ_EXTSERVICE_DEBUG("JSON Loader service shutdown");
-		if (m_scene)
+		for (std::map<Enums::JsonType, std::unique_ptr<nlohmann::json>>::iterator it = m_json_contents.begin(); it != m_json_contents.end(); ++it)
 		{
-			m_scene.reset();
+			if (it->second)
+			{
+				it->second.reset();
+			}
 		}
 
-		if (m_configs)
-		{
-			m_configs.reset();
-		}
+		m_json_contents.clear();
 	}
 
 	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
-		if (m_scene)
+		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene))
 		{
-			m_scene.reset();
+			m_json_contents.at(Enums::JsonType::Scene).reset();
+			m_json_contents.erase(Enums::JsonType::Scene);
 		}
-		m_scene = this->ConvertToJsonFormat(components);
-		this->SaveFile(filename, std::move(m_scene));
+		
+		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ConvertToJsonFormat(components));
+		this->SaveFile(filename, Enums::JsonType::Scene);
 	}
 
 	void JsonLoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> config)
 	{
-		if (m_configs)
+		if (m_json_contents.contains(Enums::JsonType::Config) && m_json_contents.at(Enums::JsonType::Config))
 		{
-			m_configs.reset();
+			m_json_contents.at(Enums::JsonType::Config).reset();
+			m_json_contents.erase(Enums::JsonType::Config);
 		}
 
-		m_configs = this->ConvertToJsonFormat(config);
-		this->SaveFile(Constants::CONFIGFILE, std::move(m_configs));
+		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ConvertToJsonFormat(config));
+		this->SaveFile(Constants::CONFIGFILE, Enums::JsonType::Config);
 	}
 
-	void JsonLoaderService::SaveFile(std::string const filename, std::unique_ptr<nlohmann::json> content)
+	void JsonLoaderService::SaveFile(std::string const filename, Enums::JsonType json_type)
 	{
 		if (!filename.empty())
 		{
 			std::ofstream flux_out(filename + Constants::JSONEXT);
-			if (flux_out.is_open() && content)
+			if (flux_out.is_open() && m_json_contents.contains(json_type) && m_json_contents.at(json_type))
 			{
-				flux_out << content->dump(4);
+				flux_out << m_json_contents.at(json_type)->dump(4);
 				flux_out.close();
-				content.reset();
 			}
 		}
 		
@@ -64,22 +67,28 @@ namespace Services
 
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::GetScene(std::string const filename)
 	{
-		if (m_scene)
+		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene))
 		{
-			m_scene.reset();
+			m_json_contents.at(Enums::JsonType::Scene).reset();
+			m_json_contents.erase(Enums::JsonType::Scene);
 		}
-		m_scene = this->ReadFile(filename);
+
+		m_file_exist = false;
+		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ReadFile(filename));
 
 		return this->ConvertToRenderers();
 	}
 
 	std::shared_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
 	{
-		if (m_configs)
+		if (m_json_contents.contains(Enums::JsonType::Config) && m_json_contents.at(Enums::JsonType::Config))
 		{
-			m_configs.reset();
+			m_json_contents.at(Enums::JsonType::Config).reset();
+			m_json_contents.erase(Enums::JsonType::Config);
 		}
-		m_configs = this->ReadFile(Constants::CONFIGFILE);
+
+		m_file_exist = false;
+		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ReadFile(Constants::CONFIGFILE));
 		return this->ConvertToConfigEntity();
 	}
 
@@ -91,6 +100,7 @@ namespace Services
 			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
 			try
 			{
+				m_file_exist = true;
 				return std::make_unique<nlohmann::json>(json::parse(flux_in));
 			}
 			catch (const std::exception& e)
@@ -122,16 +132,20 @@ namespace Services
 
 	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<ConfigEntity> config)
 	{
-		json json_config = { {"create_scenes", config->GetCreatedScenes()}};
+		json json_config = { 
+			{"create_scenes", config->GetCreatedScenes()}, 
+			{"grid_scaling_trigger", config->GetGridScalingTrigger()},
+			{"grid_scaling_ratio", config->GetGridScalingRatio()}
+		};
 		return std::make_unique<json>(json_config);
 	}
 
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
 	{
 		std::vector<std::shared_ptr<Component::IComponent>> renderers;
-		if (m_scene)
+		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene) && m_file_exist)
 		{
-			for (json::iterator it = m_scene->begin(); it != m_scene->end(); ++it)
+			for (json::iterator it = m_json_contents.at(Enums::JsonType::Scene)->begin(); it != m_json_contents.at(Enums::JsonType::Scene)->end(); ++it)
 			{
 				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
@@ -149,7 +163,6 @@ namespace Services
 					break;
 				}
 			}
-			m_scene.reset();
 		}
 
 
@@ -159,7 +172,13 @@ namespace Services
 	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
 	{
 		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
-		config->SetCreatedScene(this->GetStringVectorNode(std::move(m_configs), "create_scenes"));
+		if (m_file_exist)
+		{
+			config->SetCreatedScene(this->GetStringVectorNode(Enums::JsonType::Config, "create_scenes"));
+			config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
+			config->SetGridScalingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_scaling_ratio"));
+		}
+		
 		return config;
 	}
 
@@ -225,12 +244,11 @@ namespace Services
 		return glm::vec3(0.f);
 	}
 
-	std::vector<std::string> JsonLoaderService::GetStringVectorNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
+	std::vector<std::string> JsonLoaderService::GetStringVectorNode(Enums::JsonType json_type, std::string node_name)
 	{
-		if (json_content)
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
 		{
-			json node = json_content->at(node_name);
-			json_content.reset();
+			json node = m_json_contents.at(json_type)->at(node_name);
 			if (node == Constants::NONE)
 			{
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
@@ -246,6 +264,42 @@ namespace Services
 			return vect;
 		}
 		return std::vector<std::string>();
+	}
+
+	float JsonLoaderService::GetFloatNode(Enums::JsonType json_type, std::string node_name)
+	{
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
+		{
+			float node = m_json_contents.at(json_type)->value(node_name, 0.f);
+			if (node == 0.f)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return 0.f;
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+
+
+		return 0.f;
+	}
+
+	int JsonLoaderService::GetIntNode(Enums::JsonType json_type, std::string node_name)
+	{
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
+		{
+			int node = m_json_contents.at(json_type)->value(node_name, 0);
+			if (node == 0)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return 0;
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+		return 0;
 	}
 
 }

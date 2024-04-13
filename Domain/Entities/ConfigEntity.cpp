@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity()
+	ConfigEntity::ConfigEntity() : m_grid_scaling_ratio(4), m_grid_scaling_trigger(25.f)
 	{
 		
 	}
@@ -32,6 +32,26 @@ namespace Services {
 	std::vector<std::string> ConfigEntity::GetCreatedScenes() const
 	{
 		return m_created_scenes;
+	}
+
+	float ConfigEntity::GetGridScalingTrigger() const
+	{
+		return m_grid_scaling_trigger;
+	}
+
+	void ConfigEntity::SetGridScalingTrigger(float const grid_scaling_trigger)
+	{
+		m_grid_scaling_trigger = grid_scaling_trigger;
+	}
+
+	void ConfigEntity::SetGridScalingRatio(int const grid_scaling_ratio)
+	{
+		m_grid_scaling_ratio = grid_scaling_ratio;
+	}
+
+	int ConfigEntity::GetGridScalingRatio() const
+	{
+		return m_grid_scaling_ratio;
 	}
 
 }

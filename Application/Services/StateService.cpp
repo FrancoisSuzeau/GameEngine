@@ -8,7 +8,8 @@ namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
-		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false), m_previous_selected_component_color(1.f)
+		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
+		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scroll_dir(Enums::ScrollDir::Up)
 	{
 	}
 
@@ -29,7 +30,7 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
-			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 		}
 		
 	}
@@ -261,9 +262,25 @@ namespace Services
 	{
 		return m_projection_matrix;
 	}
-	void StateService::RefreshProjectionMatrix()
+
+	void StateService::setConfigPannel(std::string const new_val)
 	{
-		m_projection_matrix = glm::perspective(glm::radians(45.f), (float)m_width / (float)m_height, 0.1f, 20.0f);
+		m_pannel_view = new_val;
+	}
+
+	std::string StateService::getConfigPannel() const
+	{
+		return m_pannel_view;
+	}
+
+	void StateService::setScrollDir(Enums::ScrollDir const new_scroll_dir)
+	{
+		m_scroll_dir = new_scroll_dir;
+	}
+
+	Enums::ScrollDir StateService::getScrollDir() const
+	{
+		return m_scroll_dir;
 	}
 	
 	void StateService::CleanRenderers()
