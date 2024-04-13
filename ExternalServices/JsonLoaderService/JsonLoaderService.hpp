@@ -44,8 +44,6 @@ namespace Services {
 		std::shared_ptr<ConfigEntity> GetConfigs();
 	private:
 		std::map<Enums::JsonType, std::unique_ptr<nlohmann::json>> m_json_contents;
-		/*std::unique_ptr<nlohmann::json> m_configs;
-		std::unique_ptr<nlohmann::json> m_scene;*/
 		void SaveFile(std::string const filename, Enums::JsonType json_type);
 		std::unique_ptr<nlohmann::json> ReadFile(std::string const filename);
 		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components);
@@ -60,6 +58,8 @@ namespace Services {
 		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);
 		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
 		int GetIntNode(Enums::JsonType json_type, std::string node_name);
+
+		bool m_file_exist;
 		
 	};
 }

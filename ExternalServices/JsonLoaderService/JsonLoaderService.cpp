@@ -9,6 +9,7 @@ namespace Services
 	using json = nlohmann::json;
 	void JsonLoaderService::Init()
 	{
+		m_file_exist = false;
 		SQ_EXTSERVICE_DEBUG("JSON Loader service SUCCESSFULLY initialized");
 	}
 
@@ -72,6 +73,7 @@ namespace Services
 			m_json_contents.erase(Enums::JsonType::Scene);
 		}
 
+		m_file_exist = false;
 		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ReadFile(filename));
 
 		return this->ConvertToRenderers();
@@ -85,6 +87,7 @@ namespace Services
 			m_json_contents.erase(Enums::JsonType::Config);
 		}
 
+		m_file_exist = false;
 		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ReadFile(Constants::CONFIGFILE));
 		return this->ConvertToConfigEntity();
 	}
@@ -97,6 +100,7 @@ namespace Services
 			SQ_EXTSERVICE_TRACE("JSON [{}] file SUCCESSFULLY readed", filename + Constants::JSONEXT);
 			try
 			{
+				m_file_exist = true;
 				return std::make_unique<nlohmann::json>(json::parse(flux_in));
 			}
 			catch (const std::exception& e)
@@ -139,7 +143,7 @@ namespace Services
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
 	{
 		std::vector<std::shared_ptr<Component::IComponent>> renderers;
-		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene))
+		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene) && m_file_exist)
 		{
 			for (json::iterator it = m_json_contents.at(Enums::JsonType::Scene)->begin(); it != m_json_contents.at(Enums::JsonType::Scene)->end(); ++it)
 			{
@@ -168,9 +172,13 @@ namespace Services
 	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
 	{
 		std::shared_ptr<ConfigEntity> config = std::make_shared<ConfigEntity>();
-		config->SetCreatedScene(this->GetStringVectorNode(Enums::JsonType::Config, "create_scenes"));
-		config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
-		config->SetGridScalingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_scaling_ratio"));
+		if (m_file_exist)
+		{
+			config->SetCreatedScene(this->GetStringVectorNode(Enums::JsonType::Config, "create_scenes"));
+			config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
+			config->SetGridScalingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_scaling_ratio"));
+		}
+		
 		return config;
 	}
 

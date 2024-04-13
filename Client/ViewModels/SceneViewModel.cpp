@@ -253,12 +253,12 @@ namespace ViewModels
 			default:
 				break;
 			}
-			/*float relative_dist = glm::length(cam_pos - m_components.at(grid_type)->GetPosition());
+			float relative_dist = glm::length(cam_pos - m_components.at(grid_type)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
 				m_renderers.at(Enums::RendererType::GRID)->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
 				m_current_relative_distance_from_cam = relative_dist;
-			}*/
+			}
 			
 		}
 	}
