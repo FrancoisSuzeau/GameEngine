@@ -94,8 +94,17 @@ namespace Views
 			}
 
 			bool render_grid = m_state_service->getConfigs()->GetRenderGrid();
-			ImGui::Checkbox("Render Grid", &render_grid);
-			m_state_service->getConfigs()->SetRenderGrid(render_grid);
+			if (ImGui::Checkbox("Render Grid", &render_grid))
+			{
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(render_grid, Enums::ConfigsModifier::RENDERGRID));
+				m_parent_view_model->OnCommand();
+			}
+
+			/*if (ImGui::Button("Actualize"))
+			{
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
+				m_parent_view_model->OnCommand();
+			}*/
 
 			ImGui::Separator();
 		}

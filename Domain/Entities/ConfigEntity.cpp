@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_scaling_ratio(4), m_grid_scaling_trigger(25.f), m_render_grid(false)
+	ConfigEntity::ConfigEntity() : m_grid_scaling_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true)
 	{
 		
 	}

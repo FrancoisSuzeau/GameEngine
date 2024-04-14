@@ -129,7 +129,7 @@ namespace ViewModels
 			m_renderers.insert_or_assign(Enums::RendererType::SKYBOX, std::make_unique<Renderers::Skybox>());
 			if (m_state_service && m_state_service->getConfigs())
 			{
-				m_renderers.insert_or_assign(Enums::RendererType::GRID, std::make_unique<Renderers::Grid>(m_grid_size, (float)m_state_service->getConfigs()->GetGridScalingRatio()));
+				m_state_service->setGridRenderer(std::make_shared<Renderers::Grid>(m_grid_size, (float)m_state_service->getConfigs()->GetGridScalingRatio()));
 			}
 			for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 			{
@@ -179,21 +179,21 @@ namespace ViewModels
 			switch (element)
 			{
 			case Enums::RendererType::GRID:
-				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service->getConfigs()->GetRenderGrid())
+				if (m_state_service->getGridRenderer() && m_state_service->getConfigs()->GetRenderGrid())
 				{
 					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
-					m_renderers.at(element)->Draw();
+					m_state_service->getGridRenderer()->Draw();
 					m_shader_service->UnbindShaderProgram();
 				}
 				break;
 			case::Enums::RendererType::SUBGRID2:
 			case Enums::RendererType::SUBBGRID:
-				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service->getConfigs()->GetRenderGrid())
+				if (m_state_service->getGridRenderer() && m_state_service->getConfigs()->GetRenderGrid())
 				{
 					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
-					m_renderers.at(Enums::RendererType::GRID)->Draw();
+					m_state_service->getGridRenderer()->Draw();
 					m_shader_service->UnbindShaderProgram();
 				}
 				break;
@@ -232,7 +232,7 @@ namespace ViewModels
 	}
 	void SceneViewModel::ManageGridScaling()
 	{
-		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID)
+		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_state_service->getGridRenderer()
 			&& m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderGrid() &&
 			m_components.contains(Enums::RendererType::SUBBGRID) && m_components.at(Enums::RendererType::SUBBGRID) &&
 			m_components.contains(Enums::RendererType::SUBGRID2) && m_components.at(Enums::RendererType::SUBGRID2))
@@ -248,7 +248,7 @@ namespace ViewModels
 			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
-				m_renderers.at(Enums::RendererType::GRID)->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
+				m_state_service->getGridRenderer()->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
 				m_actualize_count += m_state_service->getScrollDir();
 				m_current_relative_distance_from_cam = relative_dist;
 			}

@@ -13,5 +13,6 @@
 #include "AddNewComponentCommand.hpp"
 #include "DeleteComponent.hpp"
 #include "CopyComponentCommand.hpp"
+#include "ActualizeCommand.hpp"
 
 #endif

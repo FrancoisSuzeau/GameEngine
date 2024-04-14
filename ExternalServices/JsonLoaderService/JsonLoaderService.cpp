@@ -308,12 +308,7 @@ namespace Services
 	{
 		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
 		{
-			bool node = m_json_contents.at(json_type)->value(node_name, false);
-			if (node == false)
-			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
-				return false;
-			}
+			bool node = m_json_contents.at(json_type)->value(node_name, true);
 
 			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
 			return node;

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Commands\ActualizeCommand.cpp" />
     <ClCompile Include="Commands\AddNewComponentCommand.cpp" />
     <ClCompile Include="Commands\SaveSceneCommand.cpp" />
     <ClCompile Include="Commands\SaveConfigCommand.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="Services\ShaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Commands\ActualizeCommand.hpp" />
     <ClInclude Include="Commands\AddNewComponentCommand.hpp" />
     <ClInclude Include="Builders\Builders.hpp" />
     <ClInclude Include="Commands\SaveSceneCommand.hpp" />

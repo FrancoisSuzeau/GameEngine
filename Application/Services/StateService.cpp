@@ -38,9 +38,13 @@ namespace Services
 	void StateService::DeInit()
 	{
 
-		this->CleanRenderers();
+		this->CleanComponents();
 		m_selected_component = nullptr;
 		this->CleanConfig();
+		if (m_scene_grid)
+		{
+			m_scene_grid.reset();
+		}
 		
 	}
 
@@ -205,7 +209,7 @@ namespace Services
 
 	void StateService::setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components)
 	{
-		this->CleanRenderers();
+		this->CleanComponents();
 
 		m_components = components;
 	}
@@ -282,8 +286,18 @@ namespace Services
 	{
 		return m_scroll_dir;
 	}
+
+	void StateService::setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer)
+	{
+		m_scene_grid = grid_renderer;
+	}
+
+	std::shared_ptr<Renderers::Grid> StateService::getGridRenderer() const
+	{
+		return m_scene_grid;
+	}
 	
-	void StateService::CleanRenderers()
+	void StateService::CleanComponents()
 	{
 		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
 		{

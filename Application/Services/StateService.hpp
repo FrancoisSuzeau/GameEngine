@@ -85,11 +85,14 @@ namespace Services {
 
 		void setScrollDir(Enums::ScrollDir const new_scroll_dir);
 		Enums::ScrollDir getScrollDir() const;
+
+		void setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer);
+		std::shared_ptr<Renderers::Grid> getGridRenderer() const;
 		
 
 	private:
 
-		void CleanRenderers();
+		void CleanComponents();
 		void CleanConfig();
 		int m_width;
 		int m_height;
@@ -114,6 +117,7 @@ namespace Services {
 		std::shared_ptr<Component::IComponent> m_selected_component;
 		std::string m_pannel_view;
 		Enums::ScrollDir m_scroll_dir;
+		std::shared_ptr<Renderers::Grid> m_scene_grid;
 
 	};
 }
