@@ -140,8 +140,6 @@ namespace ViewModels
 			}
 
 			m_current_relative_distance_from_cam = 40.f;
-			this->ManageGridScaling(Enums::RendererType::GRID);
-			this->ManageGridScaling(Enums::RendererType::SUBBGRID);
 		}
 	}
 
@@ -168,9 +166,7 @@ namespace ViewModels
 			}
 		}
 
-		this->ManageGridScaling(Enums::RendererType::GRID);
-		this->ManageGridScaling(Enums::RendererType::SUBBGRID);
-		this->ManageGridScaling(Enums::RendererType::SUBGRID2);
+		this->ManageGridScaling();
 		this->TransformSceneElements();
 	}
 
@@ -234,33 +230,22 @@ namespace ViewModels
 			}
 		}
 	}
-	void SceneViewModel::ManageGridScaling(Enums::RendererType grid_type)
+	void SceneViewModel::ManageGridScaling()
 	{
-		if (m_components.contains(grid_type) && m_components.at(grid_type) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderGrid())
+		if (m_components.contains(Enums::RendererType::GRID) && m_components.at(Enums::RendererType::GRID) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID)
+			&& m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderGrid() &&
+			m_components.contains(Enums::RendererType::SUBBGRID) && m_components.at(Enums::RendererType::SUBBGRID) &&
+			m_components.contains(Enums::RendererType::SUBGRID2) && m_components.at(Enums::RendererType::SUBGRID2))
 		{
 			glm::vec3 cam_pos = m_camera_service->GetPos();
-			float x = cam_pos.x - ((float)m_grid_size / 5.f);
-			float z = cam_pos.z - ((float)m_grid_size / 5.f);
-			switch (grid_type)
-			{
-			case Enums::RendererType::GRID:
-				m_components.at(grid_type)->SetPosition(glm::vec3(x, -1.f, z));
-				break;
-			case Enums::RendererType::SUBBGRID:
-				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f), -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f)));
-				break;
-			case Enums::RendererType::SUBGRID2:
-				m_components.at(grid_type)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f, -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f));
-				break;
-			case Enums::RendererType::SKYBOX:
-			case Enums::RendererType::NONE:
-			case Enums::RendererType::TRIANGLE:
-			case Enums::RendererType::SQUARE:
-			case Enums::RendererType::SQUARE_TEXTURED:
-			default:
-				break;
-			}
-			float relative_dist = glm::length(cam_pos - m_components.at(grid_type)->GetPosition());
+			float x = cam_pos.x - ((float)m_grid_size / 2.f);
+			float z = cam_pos.z - ((float)m_grid_size / 2.f);
+
+			m_components.at(Enums::RendererType::GRID)->SetPosition(glm::vec3(x, -1.f, z));
+			m_components.at(Enums::RendererType::SUBBGRID)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f), -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f)));
+			m_components.at(Enums::RendererType::SUBGRID2)->SetPosition(glm::vec3(x + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f, -1.f, z + ((float)(m_state_service->getConfigs()->GetGridScalingRatio() * m_actualize_count) / 3.f) * 2.f));
+
+			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
 				m_renderers.at(Enums::RendererType::GRID)->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());

@@ -30,7 +30,7 @@ namespace Views
 	}
 	void MenuEditComponent::Render()
 	{
-		if (ImGui::BeginMenu("Edit", m_state_service && m_state_service->getContinued()))
+		if (ImGui::BeginMenu("Edit", m_state_service && m_state_service->getContinued() && !m_state_service->getGuiOpen()))
 		{
 			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
 			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
