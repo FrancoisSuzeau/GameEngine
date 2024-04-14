@@ -114,7 +114,7 @@ namespace Services
 
 	bool StateService::getGuiOpen() const
 	{
-		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu || m_popup_hovered;
+		return m_show_save_as || m_show_confirm || m_show_app_info || m_show_event || m_show_metrics || m_show_style_editor || m_show_tools || m_show_context_menu || m_popup_hovered || m_pannel_view != Constants::NONE;
 	}
 
 	bool StateService::getContinued() const

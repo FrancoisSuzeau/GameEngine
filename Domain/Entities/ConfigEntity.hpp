@@ -27,6 +27,8 @@ namespace Services {
 		void SetGridScalingTrigger(float const grid_scaling_trigger);
 		void SetGridScalingRatio(int const grid_scaling_ratio);
 		int GetGridScalingRatio() const;
+		void SetRenderGrid(bool const render_grid);
+		bool GetRenderGrid() const;
 
 		
 	private:
@@ -34,6 +36,7 @@ namespace Services {
 		std::vector<std::string> m_created_scenes;
 		float m_grid_scaling_trigger;
 		int m_grid_scaling_ratio;
+		bool m_render_grid;
 
 
 	};

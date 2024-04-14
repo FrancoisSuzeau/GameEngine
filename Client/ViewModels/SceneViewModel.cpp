@@ -177,13 +177,13 @@ namespace ViewModels
 	void SceneViewModel::RenderSceneElements(Enums::RendererType element)
 	{
 
-		if (m_shader_service && m_runtime_service && m_components.contains(element) && m_components.at(element))
+		if (m_shader_service && m_runtime_service && m_components.contains(element) && m_components.at(element) && m_state_service && m_state_service->getConfigs())
 		{
 
 			switch (element)
 			{
 			case Enums::RendererType::GRID:
-				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
+				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service->getConfigs()->GetRenderGrid())
 				{
 					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
@@ -193,7 +193,7 @@ namespace ViewModels
 				break;
 			case::Enums::RendererType::SUBGRID2:
 			case Enums::RendererType::SUBBGRID:
-				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID))
+				if (m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service->getConfigs()->GetRenderGrid())
 				{
 					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
@@ -236,7 +236,7 @@ namespace ViewModels
 	}
 	void SceneViewModel::ManageGridScaling(Enums::RendererType grid_type)
 	{
-		if (m_components.contains(grid_type) && m_components.at(grid_type) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs())
+		if (m_components.contains(grid_type) && m_components.at(grid_type) && m_camera_service && m_renderers.contains(Enums::RendererType::GRID) && m_renderers.at(Enums::RendererType::GRID) && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderGrid())
 		{
 			glm::vec3 cam_pos = m_camera_service->GetPos();
 			float x = cam_pos.x - ((float)m_grid_size / 5.f);

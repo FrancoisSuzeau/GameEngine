@@ -73,8 +73,6 @@ namespace Views
 				m_parent_view_model->OnCommand();
 			}
 
-			ImGui::Separator();
-
 			std::vector<int> values = { 2, 6, 10 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridScalingRatio());
 			if (it != values.end())
@@ -94,6 +92,12 @@ namespace Views
 					m_parent_view_model->OnCommand();
 				}
 			}
+
+			bool render_grid = m_state_service->getConfigs()->GetRenderGrid();
+			ImGui::Checkbox("Render Grid", &render_grid);
+			m_state_service->getConfigs()->SetRenderGrid(render_grid);
+
+			ImGui::Separator();
 		}
 		
 	}

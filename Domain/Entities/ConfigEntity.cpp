@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_scaling_ratio(4), m_grid_scaling_trigger(25.f)
+	ConfigEntity::ConfigEntity() : m_grid_scaling_ratio(4), m_grid_scaling_trigger(25.f), m_render_grid(false)
 	{
 		
 	}
@@ -52,6 +52,16 @@ namespace Services {
 	int ConfigEntity::GetGridScalingRatio() const
 	{
 		return m_grid_scaling_ratio;
+	}
+
+	void ConfigEntity::SetRenderGrid(bool const render_grid)
+	{
+		m_render_grid = render_grid;
+	}
+
+	bool ConfigEntity::GetRenderGrid() const
+	{
+		return m_render_grid;
 	}
 
 }
