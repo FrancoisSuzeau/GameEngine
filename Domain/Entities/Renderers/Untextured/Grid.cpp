@@ -45,19 +45,9 @@ namespace Renderers {
 		}
 	}
 
-	void Grid::Actualize(int const grid_scaling_ratio, int const behavior)
+	void Grid::Actualize(int const grid_scaling_ratio)
 	{
-		switch (behavior)
-		{
-		case 1:
-			m_grid_spacing += (float)grid_scaling_ratio / 100.f;
-			break;
-		case -1:
-			m_grid_spacing -= (float)grid_scaling_ratio / 100.f;
-			break;
-		default:
-			break;
-		}
+		m_grid_spacing = (float)grid_scaling_ratio / 100.f;
 		
 		m_vec_vertices.clear();
 		m_indices.clear();

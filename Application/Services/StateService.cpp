@@ -9,7 +9,7 @@ namespace Services
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
-		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scroll_dir(Enums::ScrollDir::Up)
+		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false)
 	{
 	}
 
@@ -277,14 +277,14 @@ namespace Services
 		return m_pannel_view;
 	}
 
-	void StateService::setScrollDir(Enums::ScrollDir const new_scroll_dir)
+	void StateService::setScalingWay(Enums::ScallingWay const new_scroll_dir)
 	{
-		m_scroll_dir = new_scroll_dir;
+		m_scaling_way = new_scroll_dir;
 	}
 
-	Enums::ScrollDir StateService::getScrollDir() const
+	Enums::ScallingWay StateService::getScalingWay() const
 	{
-		return m_scroll_dir;
+		return m_scaling_way;
 	}
 
 	void StateService::setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer)
@@ -295,6 +295,16 @@ namespace Services
 	std::shared_ptr<Renderers::Grid> StateService::getGridRenderer() const
 	{
 		return m_scene_grid;
+	}
+
+	bool StateService::getActualize() const
+	{
+		return m_actualize;
+	}
+
+	void StateService::setActualize(bool const new_val)
+	{
+		m_actualize = new_val;
 	}
 	
 	void StateService::CleanComponents()

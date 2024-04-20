@@ -29,9 +29,11 @@ namespace Commands
 
 	void ActualizeCommand::Execute()
 	{
-		if (m_state_service && m_state_service->getGridRenderer())
+		if (m_state_service && m_state_service->getGridRenderer() && m_state_service->getActualize())
 		{
-			m_state_service->getGridRenderer()->Actualize(m_state_service->getConfigs()->GetGridScalingRatio(), m_state_service->getScrollDir());
+			m_state_service->getGridRenderer()->Actualize(m_state_service->getConfigs()->GetGridScalingRatio());
+			m_state_service->setActualize(false);
+			m_state_service->setScalingWay(Enums::ScallingWay::EMPTY);
 		}
 	}
 }

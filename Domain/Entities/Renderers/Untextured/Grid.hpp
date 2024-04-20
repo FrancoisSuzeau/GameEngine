@@ -20,7 +20,7 @@ namespace Renderers {
 		void Construct() override;
 		void Clean() override;
 		void Draw() override;
-		void Actualize(int const grid_scaling_ratio, int const behavior) override;
+		void Actualize(int const grid_scaling_ratio) override;
 
 
 	private:

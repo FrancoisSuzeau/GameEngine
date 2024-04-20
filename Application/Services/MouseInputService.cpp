@@ -85,13 +85,14 @@ namespace Services
 					m_y_pos = event.motion.y;
 					break;
 				case SDL_MOUSEWHEEL:
-					if (event.wheel.y > 0) { m_camera_service->ChangeHigh(-1.f); m_state_service->setScrollDir(Enums::ScrollDir::Bottom); }
-					if (event.wheel.y < 0) { m_camera_service->ChangeHigh(1.f); m_state_service->setScrollDir(Enums::ScrollDir::Up); }
+					if (event.wheel.y > 0) { m_camera_service->ChangeHigh(-1.f); m_state_service->setScalingWay(Enums::ScallingWay::Bottom); }
+					if (event.wheel.y < 0) { m_camera_service->ChangeHigh(1.f); m_state_service->setScalingWay(Enums::ScallingWay::Up); }
 					break;
 
 				default:
 					break;
 			}
+
 			
 			m_view_mat = m_view_mat = m_camera_service->GetCameraView();
 			this->SetNormalizedDeviceCoords();

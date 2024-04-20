@@ -83,11 +83,14 @@ namespace Services {
 		void setConfigPannel(std::string const new_val);
 		std::string getConfigPannel() const;
 
-		void setScrollDir(Enums::ScrollDir const new_scroll_dir);
-		Enums::ScrollDir getScrollDir() const;
+		void setScalingWay(Enums::ScallingWay const new_scroll_dir);
+		Enums::ScallingWay getScalingWay() const;
 
 		void setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer);
 		std::shared_ptr<Renderers::Grid> getGridRenderer() const;
+
+		bool getActualize() const;
+		void setActualize(bool const new_val);
 		
 
 	private:
@@ -107,6 +110,7 @@ namespace Services {
 		bool m_mouse_clicked;
 		bool m_show_context_menu;
 		bool m_popup_hovered;
+		bool m_actualize;
 		glm::vec4 m_previous_selected_component_color;
 		glm::mat4 m_projection_matrix;
 		std::string m_current_filename;
@@ -116,7 +120,7 @@ namespace Services {
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;
 		std::string m_pannel_view;
-		Enums::ScrollDir m_scroll_dir;
+		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 
 	};

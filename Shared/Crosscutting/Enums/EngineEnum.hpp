@@ -14,7 +14,7 @@ namespace Enums {
 	enum CameraMovement {FORWARD, BACKWARD, LEFT, RIGHT};
 	enum ConfigsModifier {ADDFILE, CHANGETRIGGER, CHANGERATIO, RENDERGRID};
 	enum JsonType {Scene, Config};
-	enum ScrollDir {Up = 1, Bottom = -1};
+	enum ScallingWay {Up = 1, Bottom = -1, EMPTY = 0};
 }
 
 #endif
