@@ -88,7 +88,7 @@ namespace Commands
 				m_configs->AddCreatedScene(m_filename);
 				break;
 			case Enums::ConfigsModifier::CHANGERATIO:
-				m_configs->SetGridScalingRatio(m_grid_scaling_ratio);
+				m_configs->SetGridSpacingRatio(m_grid_scaling_ratio);
 				break;
 			case Enums::ConfigsModifier::CHANGETRIGGER:
 				m_configs->SetGridScalingTrigger(m_grid_scaling_trigger);

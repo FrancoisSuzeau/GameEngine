@@ -31,7 +31,7 @@ namespace Views
 		{
 			render_grid = m_state_service->getConfigs()->GetRenderGrid();
 			std::vector<int> values = { 4, 8, 12 };
-			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridScalingRatio());
+			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
 			{
 				item_current = (int)std::distance(values.begin(), it);

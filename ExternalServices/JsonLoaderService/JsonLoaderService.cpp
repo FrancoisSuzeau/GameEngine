@@ -135,7 +135,7 @@ namespace Services
 		json json_config = { 
 			{"create_scenes", config->GetCreatedScenes()}, 
 			{"grid_scaling_trigger", config->GetGridScalingTrigger()},
-			{"grid_scaling_ratio", config->GetGridScalingRatio()},
+			{"grid_spacing_ratio", config->GetGridSpacingRatio()},
 			{"render_grid", config->GetRenderGrid()}
 		};
 		return std::make_unique<json>(json_config);
@@ -177,7 +177,7 @@ namespace Services
 		{
 			config->SetCreatedScene(this->GetStringVectorNode(Enums::JsonType::Config, "create_scenes"));
 			config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
-			config->SetGridScalingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_scaling_ratio"));
+			config->SetGridSpacingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_spacing_ratio"));
 			config->SetRenderGrid(this->GetBoolNode(Enums::JsonType::Config, "render_grid"));
 		}
 		
