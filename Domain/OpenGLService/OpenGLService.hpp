@@ -33,6 +33,7 @@ namespace Services
 		void clearScreen();
 		void enable(GLenum const cap);
 		void blend(GLenum const s_factor, GLenum const d_factor);
+		void drawTexture(unsigned int const texture) const;
 	};
 }
 

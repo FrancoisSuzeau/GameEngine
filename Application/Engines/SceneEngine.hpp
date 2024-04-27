@@ -14,6 +14,7 @@
 #include "Constants/StringConstants.hpp"
 #include "Renderers/Renderers.hpp"
 #include "../Services/Services.hpp"
+#include "../Transformer.hpp"
 
 namespace Engines
 {
@@ -25,7 +26,7 @@ namespace Engines
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
+		void RenderScreen(unsigned int const screen_texture);
 		void UpdateAll(SDL_Event event);
 		
 	private:
@@ -37,6 +38,8 @@ namespace Engines
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboad_input_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
+		std::unique_ptr<Renderers::ScreenRenderer> m_screen_renderer;
+		std::shared_ptr<Component::TexturedComponent> m_screen_component;
 		
 	};
 }

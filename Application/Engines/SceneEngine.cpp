@@ -33,6 +33,16 @@ namespace Engines
 		{
 			m_runtime_service.reset();
 		}
+
+		if (m_screen_renderer)
+		{
+			m_screen_renderer->Clean();
+			m_screen_renderer.reset();
+		}
+		if (m_screen_component)
+		{
+			m_screen_component->Clean();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -88,6 +98,13 @@ namespace Engines
 			}
 		}
 		
+		m_screen_renderer = std::make_unique<Renderers::ScreenRenderer>();
+		if (m_screen_renderer)
+		{
+			m_screen_renderer->Construct();
+		}
+
+		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, 0);
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
@@ -122,19 +139,23 @@ namespace Engines
 			view_model->ManageScene();
 			view_model.reset();
 		}
+
+		if (m_screen_component)
+		{
+			Component::Transformer::ReinitModelMat(m_screen_component);
+			Component::Transformer::Resize(m_screen_component);
+			Component::Transformer::Move(m_screen_component);
+		}
 	}
 
-	void SceneEngine::RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	void SceneEngine::RenderScreen(unsigned int const screen_texture)
 	{
-		if (view_model_builder)
+		if (m_screen_renderer && m_shader_service && m_screen_component)
 		{
-			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model)
-			{
-				//view_model->RenderSceneElements(Enums::RendererType::SQUARE_TEXTURED);
-				view_model.reset();
-			}
-
+			m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
+			Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
+			m_screen_renderer->Draw(screen_texture);
+			m_shader_service->UnbindShaderProgram();
 		}
 	}
 	
