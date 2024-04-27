@@ -35,27 +35,24 @@ namespace Views
 			std::string config_pannel = m_state_service->getConfigPannel(); 
 
 			
-			if (config_pannel == Constants::NONE)
+			if (ImGui::BeginMenu("Settings", !m_state_service->getGuiOpen()))
 			{
-				if (ImGui::BeginMenu("Settings", !m_state_service->getGuiOpen()))
+				if (m_state_service->getContinued())
 				{
-					if (m_state_service->getContinued())
+					ImGui::PushID(0);
+					ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
+					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
+					if (ImGui::Button("Scene"))
 					{
-						ImGui::PushID(0);
-						ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
-						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
-						if (ImGui::Button("Scene"))
-						{
-							config_pannel = Constants::SCENE_CONFIG_PANNEL;
-						}
-						ImGui::PopStyleColor(2);
-						ImGui::PopID();
-						ImGui::SameLine(); ImGui::TextDisabled("Open the config scene pannel");
+						config_pannel = Constants::SCENE_CONFIG_PANNEL;
 					}
-
-					ImGui::TextDisabled("Another settings ...");
-					ImGui::EndMenu();
+					ImGui::PopStyleColor(2);
+					ImGui::PopID();
+					ImGui::SameLine(); ImGui::TextDisabled("Open the config scene pannel");
 				}
+
+				ImGui::TextDisabled("Another settings ...");
+				ImGui::EndMenu();
 			}
 
 			m_state_service->setConfigPannel(config_pannel);

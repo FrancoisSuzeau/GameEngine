@@ -96,7 +96,6 @@ namespace Engines
 		SDL_Event event;
 		if (m_state_service && m_gui_engine && m_scene_engine)
 		{
-			//m_gui_engine->LoadConfigs();
 			
 			while (!m_state_service->getContinued() && !m_state_service->getExit())
 			{

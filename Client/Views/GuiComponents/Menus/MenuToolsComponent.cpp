@@ -32,7 +32,7 @@ namespace Views
 	{
 		if (m_parent_view_model && m_state_service)
 		{
-			if (ImGui::BeginMenu("Tools", m_state_service->getContinued()))
+			if (ImGui::BeginMenu("Tools", m_state_service->getContinued() && !m_state_service->getGuiOpen()))
 			{
 				metrics = m_state_service->getShowMetrics();
 				tools = m_state_service->getShowTools();

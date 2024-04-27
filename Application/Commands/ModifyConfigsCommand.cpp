@@ -9,7 +9,21 @@ namespace Commands
 {
 
 	ModifyConfigsCommand::ModifyConfigsCommand(std::string const filename, Enums::ConfigsModifier configs_modifier) : m_grid_scaling_ratio(0), m_grid_scaling_trigger(0.f),
-		m_filename(filename), m_configs_modifier(configs_modifier)
+		m_filename(filename), m_configs_modifier(configs_modifier), m_render_grid(false)
+	{
+		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
+		if (!m_state_service)
+		{
+			SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+		}
+		else
+		{
+			m_configs = m_state_service->getConfigs();
+		}
+	}
+
+	ModifyConfigsCommand::ModifyConfigsCommand(bool const render_grid, Enums::ConfigsModifier configs_modifier) : m_grid_scaling_ratio(0), m_grid_scaling_trigger(0.f),
+		m_filename(""), m_configs_modifier(configs_modifier), m_render_grid(render_grid)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -23,7 +37,7 @@ namespace Commands
 	}
 
 	ModifyConfigsCommand::ModifyConfigsCommand(float const grid_scaling_trigger, Enums::ConfigsModifier configs_modifier) : m_filename(""), m_grid_scaling_ratio(0),
-		m_grid_scaling_trigger(grid_scaling_trigger), m_configs_modifier(configs_modifier)
+		m_grid_scaling_trigger(grid_scaling_trigger), m_configs_modifier(configs_modifier), m_render_grid(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -37,7 +51,7 @@ namespace Commands
 	}
 
 	ModifyConfigsCommand::ModifyConfigsCommand(int const grid_scaling_ratio, Enums::ConfigsModifier configs_modifier) : m_filename(""), m_grid_scaling_trigger(0.f),
-		m_grid_scaling_ratio(grid_scaling_ratio), m_configs_modifier(configs_modifier)
+		m_grid_scaling_ratio(grid_scaling_ratio), m_configs_modifier(configs_modifier), m_render_grid(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -74,10 +88,13 @@ namespace Commands
 				m_configs->AddCreatedScene(m_filename);
 				break;
 			case Enums::ConfigsModifier::CHANGERATIO:
-				m_configs->SetGridScalingRatio(m_grid_scaling_ratio);
+				m_configs->SetGridSpacingRatio(m_grid_scaling_ratio);
 				break;
 			case Enums::ConfigsModifier::CHANGETRIGGER:
 				m_configs->SetGridScalingTrigger(m_grid_scaling_trigger);
+				break;
+			case Enums::ConfigsModifier::RENDERGRID:
+				m_configs->SetRenderGrid(m_render_grid);
 				break;
 			default:
 				break;

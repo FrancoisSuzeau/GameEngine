@@ -39,6 +39,9 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderConfigPannel();
 		int item_current;
+		int previous_item_current;
+		bool render_grid;
+		float trigger;
 	};
 }
 

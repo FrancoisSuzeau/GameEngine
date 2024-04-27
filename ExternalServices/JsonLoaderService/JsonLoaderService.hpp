@@ -58,6 +58,7 @@ namespace Services {
 		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);
 		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
 		int GetIntNode(Enums::JsonType json_type, std::string node_name);
+		bool GetBoolNode(Enums::JsonType json_type, std::string node_name);
 
 		bool m_file_exist;
 		
