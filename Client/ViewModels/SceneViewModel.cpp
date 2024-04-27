@@ -67,8 +67,7 @@ namespace ViewModels
 	}
 	void SceneViewModel::Construct()
 	{
-		m_grid_size = 150;
-		m_actualize_count = 1;
+		m_grid_size = 300;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
@@ -251,9 +250,11 @@ namespace ViewModels
 			m_components.contains(Enums::RendererType::SUBBGRID) && m_components.at(Enums::RendererType::SUBBGRID) &&
 			m_components.contains(Enums::RendererType::SUBGRID2) && m_components.at(Enums::RendererType::SUBGRID2))
 		{
+			
 			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
+				std::cout << m_camera_service->GetPos().y << std::endl;
 				glm::vec3 actual_size = m_components.at(Enums::RendererType::GRID)->GetSize();
 				glm::vec3 actual_size2 = m_components.at(Enums::RendererType::SUBBGRID)->GetSize();
 				glm::vec3 actual_size3 = m_components.at(Enums::RendererType::SUBGRID2)->GetSize();
@@ -277,7 +278,6 @@ namespace ViewModels
 				m_components.at(Enums::RendererType::GRID)->SetSize(actual_size);
 				m_components.at(Enums::RendererType::SUBBGRID)->SetSize(actual_size2);
 				m_components.at(Enums::RendererType::SUBGRID2)->SetSize(actual_size3);
-				m_actualize_count += m_state_service->getScalingWay();
 				m_current_relative_distance_from_cam = relative_dist;
 			}
 		}
