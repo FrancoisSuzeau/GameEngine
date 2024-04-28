@@ -46,6 +46,10 @@ namespace Views
 					{
 						config_pannel = Constants::SCENE_CONFIG_PANNEL;
 					}
+					if (ImGui::Button("Debug options"))
+					{
+						config_pannel = Constants::DEBUG_CONFIG_PANNEL;
+					}
 					ImGui::PopStyleColor(2);
 					ImGui::PopID();
 					ImGui::SameLine(); ImGui::TextDisabled("Open the config scene pannel");

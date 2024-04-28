@@ -19,7 +19,8 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0)
+	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0),
+		activate_debug(false)
 	{
 		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -32,6 +33,7 @@ namespace Views
 			render_grid = m_state_service->getConfigs()->GetRenderGrid();
 			activate_bloom = m_state_service->getConfigs()->GetBloom();
 			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
+			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
@@ -66,42 +68,14 @@ namespace Views
 						this->RenderGridPannelModifier();
 						ImGui::Separator();
 						this->RenderBloomPannelModifier();
-
-						ImGui::Separator();
-
-						ImGuiStyle& style = ImGui::GetStyle();
-						frame_rounding_save = style.FrameRounding;
-						style.FrameRounding = 20.f;
-						ImGui::SetCursorPosY(w_height - 45.f);
-						if (m_state_service->getActualize())
-						{
-
-							if (ImGui::Button("Actualize", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)))
-							{
-								if (item_current > previous_item_current)
-								{
-									m_state_service->setScalingWay(Enums::ScallingWay::Up);
-									previous_item_current = item_current;
-								}
-								if (item_current < previous_item_current)
-								{
-									m_state_service->setScalingWay(Enums::ScallingWay::Bottom);
-									previous_item_current = item_current;
-								}
-								m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
-								m_parent_view_model->OnCommand();
-							}
-							ImGui::SameLine();
-						}
-						ImGui::SetCursorPosY(w_height - 45.f);
-
-						if (ImGui::Button("Reset to default", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)))
-						{
-
-						}
-						style.FrameRounding = frame_rounding_save;
 					}
 
+					if (config_pannel == Constants::DEBUG_CONFIG_PANNEL)
+					{
+						this->RenderDebugModifier();
+					}
+
+					this->RenderButtons();
 					ImGui::End();
 				}
 			}
@@ -168,5 +142,54 @@ namespace Views
 				m_state_service->setActualize(true);
 			}
 		}
+	}
+	void PannelComponent::RenderDebugModifier()
+	{
+		if (m_state_service && m_state_service->getConfigs())
+		{
+			ImGui::Text("Back buffer debug : ");
+			if (ImGui::Checkbox("Acivate debug", &activate_debug))
+			{
+				m_state_service->setActualize(true);
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(activate_debug, Enums::ConfigsModifier::RENDERDEBUG));
+
+			}
+		}
+	}
+	void PannelComponent::RenderButtons()
+	{
+		ImGui::Separator();
+
+		ImGuiStyle& style = ImGui::GetStyle();
+		frame_rounding_save = style.FrameRounding;
+		style.FrameRounding = 20.f;
+		ImGui::SetCursorPosY(w_height - 45.f);
+		if (m_state_service->getActualize())
+		{
+
+			if (ImGui::Button("Actualize", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)))
+			{
+				if (item_current > previous_item_current)
+				{
+					m_state_service->setScalingWay(Enums::ScallingWay::Up);
+					previous_item_current = item_current;
+				}
+				if (item_current < previous_item_current)
+				{
+					m_state_service->setScalingWay(Enums::ScallingWay::Bottom);
+					previous_item_current = item_current;
+				}
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
+				m_parent_view_model->OnCommand();
+			}
+			ImGui::SameLine();
+		}
+		ImGui::SetCursorPosY(w_height - 45.f);
+
+		if (ImGui::Button("Reset to default", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)))
+		{
+
+		}
+		style.FrameRounding = frame_rounding_save;
 	}
 }

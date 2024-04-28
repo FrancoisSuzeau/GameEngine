@@ -33,6 +33,8 @@ namespace Services {
 		void SetBloomStrength(int const new_val);
 		bool GetBloom() const;
 		void SetBloom(bool const bloom);
+		void SetRenderDebug(bool const debug);
+		bool GetRenderDebug() const;
 
 		
 	private:
@@ -43,6 +45,7 @@ namespace Services {
 		bool m_render_grid;
 		int m_bloom_strength;
 		bool m_active_bloom;
+		bool m_render_debug;
 
 	};
 }

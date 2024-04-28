@@ -102,6 +102,9 @@ namespace Commands
 			case Enums::ConfigsModifier::BLOOM:
 				m_configs->SetBloom(m_bool_value);
 				break;
+			case Enums::ConfigsModifier::RENDERDEBUG:
+				m_configs->SetRenderDebug(m_bool_value);
+				break;
 			default:
 				break;
 			}

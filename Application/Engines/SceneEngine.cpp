@@ -42,6 +42,7 @@ namespace Engines
 		if (m_screen_component)
 		{
 			m_screen_component->Clean();
+			m_screen_component.reset();
 		}
 
 		if (m_framebuffer_service)
@@ -183,7 +184,6 @@ namespace Engines
 					}
 					horizontal = !horizontal;
 					m_screen_component->SetHorizontal(horizontal);
-
 				}
 
 				m_shader_service->UnbindShaderProgram();
@@ -192,7 +192,7 @@ namespace Engines
 
 				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0), m_framebuffer_service->GetTextureId(!horizontal));
 				m_shader_service->UnbindShaderProgram();
 			}
 			else

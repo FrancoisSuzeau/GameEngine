@@ -14,6 +14,11 @@ namespace Views
 			m_state_service.reset();
 		}
 
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
+
 		if (!tabs_size.empty())
 		{
 			tabs_size.clear();
@@ -27,14 +32,24 @@ namespace Views
 	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0)
 	{
 		m_parent_view_model = parent;
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-		if (!m_state_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
-		}
-		else
-		{
-			w_width = 400;
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				w_width = 400;
+			}
+
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
+			if (!m_framebuffer_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
@@ -60,6 +75,7 @@ namespace Views
 			{
 				this->RenderGeneralFunctionnalities(window_flags2);
 				this->RenderCustomizeSelectedCpSection(tab_bar_flags, window_flags2);
+				this->RenderDebugFunctionnalities(window_flags2);
 
 				ImGui::End();
 			}	
@@ -69,7 +85,7 @@ namespace Views
 	{
 		bool show_confirm = m_state_service->getShowConfirm();
 
-		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 450), true, window_flags2))
+		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
 			const char* items[] = { "Triangle", "Square" };
 			ImGui::Text("Add new :");
@@ -89,6 +105,24 @@ namespace Views
 		}
 
 		m_state_service->setShowConfirm(show_confirm);
+	}
+
+	void WorkBarComponent::RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2)
+	{
+		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug())
+		{
+			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 350), true, window_flags2))
+			{
+				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+				ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+				ImGui::Text("Bloom back buffer");
+				ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				ImGui::EndChild();
+			}
+		}
+		
 	}
 
 	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)

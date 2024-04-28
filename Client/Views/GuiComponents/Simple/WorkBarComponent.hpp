@@ -38,11 +38,13 @@ namespace Views
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
+		void RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
 		int item_current;
 		int current_tab;

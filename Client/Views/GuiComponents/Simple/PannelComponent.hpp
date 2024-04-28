@@ -39,12 +39,15 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderGridPannelModifier();
 		void RenderBloomPannelModifier();
+		void RenderDebugModifier();
+		void RenderButtons();
 		int item_current;
 		int previous_item_current;
 		bool render_grid;
 		bool activate_bloom;
 		float trigger;
 		int bloom_strength;
+		bool activate_debug;
 	};
 }
 
