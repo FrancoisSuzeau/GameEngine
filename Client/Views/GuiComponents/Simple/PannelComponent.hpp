@@ -37,11 +37,14 @@ namespace Views
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
-		void RenderConfigPannel();
+		void RenderGridPannelModifier();
+		void RenderBloomPannelModifier();
 		int item_current;
 		int previous_item_current;
 		bool render_grid;
+		bool activate_bloom;
 		float trigger;
+		int bloom_strength;
 	};
 }
 

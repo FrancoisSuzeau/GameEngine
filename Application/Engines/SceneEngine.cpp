@@ -127,11 +127,11 @@ namespace Engines
 			if (view_model && m_runtime_service)
 			{
 				view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
-				m_runtime_service->RenderingInLine(2.f);
-				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInLine(1.f);
 				view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 				view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
+				m_runtime_service->RenderingInLine(2.f);
+				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
 				m_runtime_service->RenderingInLine(4.f);
@@ -162,36 +162,48 @@ namespace Engines
 
 	void SceneEngine::RenderScreen()
 	{
-		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service)
+		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service && m_state_service && m_state_service->getConfigs())
 		{
 			
-			bool horizontal = true;
-			bool first_it = true;
-			m_screen_component->SetHorizontal(horizontal);
-			m_shader_service->BindShaderProgram(Constants::BLOOM_SHADER);
-			for (size_t i = 0; i < 10; i++)
+			if (m_state_service->getConfigs()->GetBloom())
 			{
-				m_framebuffer_service->BindFramebuffer(horizontal);
-
-				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::BLOOM_SHADER);
-				m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
-				if (first_it)
-				{
-					first_it = false;
-				}
-				horizontal = !horizontal;
+				bool horizontal = true;
+				bool first_it = true;
 				m_screen_component->SetHorizontal(horizontal);
+				m_shader_service->BindShaderProgram(Constants::BLOOM_SHADER);
+				for (size_t i = 0; i < m_state_service->getConfigs()->GetBloomStrength(); i++)
+				{
+					m_framebuffer_service->BindFramebuffer(horizontal);
 
+					Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::BLOOM_SHADER);
+					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+					if (first_it)
+					{
+						first_it = false;
+					}
+					horizontal = !horizontal;
+					m_screen_component->SetHorizontal(horizontal);
+
+				}
+
+				m_shader_service->UnbindShaderProgram();
+				m_framebuffer_service->UnbindFramebuffer();
+				m_runtime_service->RefreshBuffers();
+
+				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
+				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+				m_shader_service->UnbindShaderProgram();
+			}
+			else
+			{
+				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
+				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0));
+				m_shader_service->UnbindShaderProgram();
 			}
 
-			m_shader_service->UnbindShaderProgram();
-			m_framebuffer_service->UnbindFramebuffer();
-			m_runtime_service->RefreshBuffers();
-
-			m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
-			Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-			m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0), m_framebuffer_service->GetTextureId(!horizontal));
-			m_shader_service->UnbindShaderProgram();
+			
 		}
 	}
 	

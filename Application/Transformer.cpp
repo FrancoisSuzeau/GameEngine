@@ -26,8 +26,16 @@ namespace Component
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
-				shader_service->setInt(shader_name, "bloom", 1);
-				shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
+				if (state_service->getConfigs()->GetBloom())
+				{
+					shader_service->setInt(shader_name, "bloom", 1);
+					shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
+				}
+				else
+				{
+					shader_service->setInt(shader_name, "bloom", 0);
+					shader_service->setInt(shader_name, "horizontal", false);
+				}
 
 				state_service.reset();
 			}

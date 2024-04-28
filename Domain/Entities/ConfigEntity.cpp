@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true)
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false)
 	{
 		
 	}
@@ -63,5 +63,27 @@ namespace Services {
 	{
 		return m_render_grid;
 	}
+
+	int ConfigEntity::GetBloomStrength() const
+	{
+		return m_bloom_strength;
+	}
+
+	void ConfigEntity::SetBloomStrength(int const new_val)
+	{
+		m_bloom_strength = new_val;
+	}
+
+	bool ConfigEntity::GetBloom() const
+	{
+		return m_active_bloom;
+	}
+
+	void ConfigEntity::SetBloom(bool const bloom)
+	{
+		m_active_bloom = bloom;
+	}
+
+
 
 }

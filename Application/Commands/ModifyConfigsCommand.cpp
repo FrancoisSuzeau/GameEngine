@@ -8,8 +8,8 @@ namespace Commands
 
 {
 
-	ModifyConfigsCommand::ModifyConfigsCommand(std::string const filename, Enums::ConfigsModifier configs_modifier) : m_grid_scaling_ratio(0), m_grid_scaling_trigger(0.f),
-		m_filename(filename), m_configs_modifier(configs_modifier), m_render_grid(false)
+	ModifyConfigsCommand::ModifyConfigsCommand(std::string const value, Enums::ConfigsModifier configs_modifier) : m_int_value(0), m_float_value(0.f),
+		m_string_value(value), m_configs_modifier(configs_modifier), m_bool_value(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -22,8 +22,8 @@ namespace Commands
 		}
 	}
 
-	ModifyConfigsCommand::ModifyConfigsCommand(bool const render_grid, Enums::ConfigsModifier configs_modifier) : m_grid_scaling_ratio(0), m_grid_scaling_trigger(0.f),
-		m_filename(""), m_configs_modifier(configs_modifier), m_render_grid(render_grid)
+	ModifyConfigsCommand::ModifyConfigsCommand(bool const value, Enums::ConfigsModifier configs_modifier) : m_int_value(0), m_float_value(0.f),
+		m_string_value(""), m_configs_modifier(configs_modifier), m_bool_value(value)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -36,8 +36,8 @@ namespace Commands
 		}
 	}
 
-	ModifyConfigsCommand::ModifyConfigsCommand(float const grid_scaling_trigger, Enums::ConfigsModifier configs_modifier) : m_filename(""), m_grid_scaling_ratio(0),
-		m_grid_scaling_trigger(grid_scaling_trigger), m_configs_modifier(configs_modifier), m_render_grid(false)
+	ModifyConfigsCommand::ModifyConfigsCommand(float const value, Enums::ConfigsModifier configs_modifier) : m_string_value(""), m_int_value(0),
+		m_float_value(value), m_configs_modifier(configs_modifier), m_bool_value(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -50,8 +50,8 @@ namespace Commands
 		}
 	}
 
-	ModifyConfigsCommand::ModifyConfigsCommand(int const grid_scaling_ratio, Enums::ConfigsModifier configs_modifier) : m_filename(""), m_grid_scaling_trigger(0.f),
-		m_grid_scaling_ratio(grid_scaling_ratio), m_configs_modifier(configs_modifier), m_render_grid(false)
+	ModifyConfigsCommand::ModifyConfigsCommand(int const value, Enums::ConfigsModifier configs_modifier) : m_string_value(""), m_float_value(0.f),
+		m_int_value(value), m_configs_modifier(configs_modifier), m_bool_value(false)
 	{
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
 		if (!m_state_service)
@@ -85,16 +85,22 @@ namespace Commands
 			switch (m_configs_modifier)
 			{
 			case Enums::ConfigsModifier::ADDFILE:
-				m_configs->AddCreatedScene(m_filename);
+				m_configs->AddCreatedScene(m_string_value);
 				break;
 			case Enums::ConfigsModifier::CHANGERATIO:
-				m_configs->SetGridSpacingRatio(m_grid_scaling_ratio);
+				m_configs->SetGridSpacingRatio(m_int_value);
 				break;
 			case Enums::ConfigsModifier::CHANGETRIGGER:
-				m_configs->SetGridScalingTrigger(m_grid_scaling_trigger);
+				m_configs->SetGridScalingTrigger(m_float_value);
 				break;
 			case Enums::ConfigsModifier::RENDERGRID:
-				m_configs->SetRenderGrid(m_render_grid);
+				m_configs->SetRenderGrid(m_bool_value);
+				break;
+			case Enums::ConfigsModifier::BLOOMSTRENGTH:
+				m_configs->SetBloomStrength(m_int_value);
+				break;
+			case Enums::ConfigsModifier::BLOOM:
+				m_configs->SetBloom(m_bool_value);
 				break;
 			default:
 				break;
