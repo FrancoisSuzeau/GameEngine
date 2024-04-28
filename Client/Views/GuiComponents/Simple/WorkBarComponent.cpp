@@ -111,14 +111,20 @@ namespace Views
 	{
 		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug())
 		{
-			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 350), true, window_flags2))
+			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 450), true, window_flags2))
 			{
-				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
-				ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
-				ImGui::Text("Bloom back buffer");
-				ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				std::string text = m_state_service->getConfigs()->GetBloom() ? "Bloom back buffer" : "Bloom back buffer (none)";
+				
+				ImGui::Text(text.c_str());
+				if (m_state_service->getConfigs()->GetBloom())
+				{
+					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+					ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+					ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				}
+				ImGui::Text("Depth back buffer (none)");
 				ImGui::EndChild();
 			}
 		}

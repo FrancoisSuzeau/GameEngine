@@ -148,7 +148,7 @@ namespace Views
 		if (m_state_service && m_state_service->getConfigs())
 		{
 			ImGui::Text("Back buffer debug : ");
-			if (ImGui::Checkbox("Acivate debug", &activate_debug))
+			if (ImGui::Checkbox("Activate debug", &activate_debug))
 			{
 				m_state_service->setActualize(true);
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(activate_debug, Enums::ConfigsModifier::RENDERDEBUG));
