@@ -66,11 +66,7 @@ namespace Services
     {
         glDepthFunc(func);
     }
-    void OpenGLService::clearScreen()
-    {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
+
     void OpenGLService::enable(GLenum const cap)
     {
         glEnable(cap);
@@ -78,6 +74,16 @@ namespace Services
     void OpenGLService::blend(GLenum const s_factor, GLenum const d_factor)
     {
         glBlendFunc(s_factor, d_factor);
+    }
+
+    void OpenGLService::clearColor()
+    {
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    }
+
+    void OpenGLService::clearBuffer()
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
 }

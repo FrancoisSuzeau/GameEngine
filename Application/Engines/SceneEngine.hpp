@@ -26,7 +26,7 @@ namespace Engines
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void RenderScreen(unsigned int const screen_texture);
+		void RenderScreen();
 		void UpdateAll(SDL_Event event);
 		
 	private:
@@ -40,6 +40,7 @@ namespace Engines
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::unique_ptr<Renderers::ScreenRenderer> m_screen_renderer;
 		std::shared_ptr<Component::TexturedComponent> m_screen_component;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		
 	};
 }

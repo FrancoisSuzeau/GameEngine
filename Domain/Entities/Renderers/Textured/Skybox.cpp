@@ -33,6 +33,7 @@ namespace Renderers {
             glBindVertexArray(m_vao);
             if (glIsVertexArray(m_vao) == GL_TRUE)
             {
+                glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
                 if (glIsTexture(texture_id) == GL_TRUE)
                 {

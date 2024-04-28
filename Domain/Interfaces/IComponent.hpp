@@ -20,6 +20,8 @@ namespace Component {
 
 		virtual void Clean() = 0;
 
+		virtual bool GetHorizontal() { return false; }
+		virtual void SetHorizontal(bool const new_val) { }
 		virtual glm::vec4 GetBackgroundColor() const { return glm::vec4(); }
 		virtual void SetBackgroundColor(glm::vec4 new_bacground_color) {}
 

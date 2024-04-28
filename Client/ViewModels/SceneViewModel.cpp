@@ -194,8 +194,8 @@ namespace ViewModels
 			case Enums::RendererType::GRID:
 				if (m_state_service->getGridRenderer() && m_state_service->getConfigs()->GetRenderGrid())
 				{
-					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
-					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
+					m_shader_service->BindShaderProgram(Constants::GRID_SHADER);
+					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::GRID_SHADER);
 					m_state_service->getGridRenderer()->Draw();
 					m_shader_service->UnbindShaderProgram();
 				}
@@ -204,8 +204,8 @@ namespace ViewModels
 			case Enums::RendererType::SUBBGRID:
 				if (m_state_service->getGridRenderer() && m_state_service->getConfigs()->GetRenderGrid())
 				{
-					m_shader_service->BindShaderProgram(Constants::UNTEXTURED_SHADER);
-					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::UNTEXTURED_SHADER);
+					m_shader_service->BindShaderProgram(Constants::GRID_SHADER);
+					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::GRID_SHADER);
 					m_state_service->getGridRenderer()->Draw();
 					m_shader_service->UnbindShaderProgram();
 				}

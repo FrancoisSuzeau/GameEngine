@@ -25,6 +25,9 @@ namespace Component
 				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
+				shader_service->setTexture(shader_name, "texture1", 1);
+				shader_service->setInt(shader_name, "bloom", 1);
+				shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
 
 				state_service.reset();
 			}

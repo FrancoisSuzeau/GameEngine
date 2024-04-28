@@ -71,7 +71,22 @@ namespace Services
 	{
 		if (m_opengl_service)
 		{
-			m_opengl_service->clearScreen();
+			m_opengl_service->clearColor();
+			m_opengl_service->clearBuffer();
+		}
+	}
+	void RunTimeService::RefreshColor()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->clearColor();
+		}
+	}
+	void RunTimeService::RefreshBuffers()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->clearBuffer();
 		}
 	}
 	void RunTimeService::EnableBlendCapture()

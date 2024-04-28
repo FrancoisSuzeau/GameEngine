@@ -43,6 +43,11 @@ namespace Engines
 		{
 			m_screen_component->Clean();
 		}
+
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -55,6 +60,7 @@ namespace Engines
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
 			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			
 			if (m_shader_service)
 			{
@@ -62,6 +68,8 @@ namespace Engines
 				m_shader_service->AddShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::HOVER_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::BLOOM_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::GRID_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -95,6 +103,10 @@ namespace Engines
 			else
 			{
 				m_runtime_service->RenderingInFill();
+			}
+			if (!m_framebuffer_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 		
@@ -148,13 +160,37 @@ namespace Engines
 		}
 	}
 
-	void SceneEngine::RenderScreen(unsigned int const screen_texture)
+	void SceneEngine::RenderScreen()
 	{
-		if (m_screen_renderer && m_shader_service && m_screen_component)
+		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service)
 		{
+			
+			bool horizontal = true;
+			bool first_it = true;
+			m_screen_component->SetHorizontal(horizontal);
+			m_shader_service->BindShaderProgram(Constants::BLOOM_SHADER);
+			for (size_t i = 0; i < 10; i++)
+			{
+				m_framebuffer_service->BindFramebuffer(horizontal);
+
+				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::BLOOM_SHADER);
+				m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+				if (first_it)
+				{
+					first_it = false;
+				}
+				horizontal = !horizontal;
+				m_screen_component->SetHorizontal(horizontal);
+
+			}
+
+			m_shader_service->UnbindShaderProgram();
+			m_framebuffer_service->UnbindFramebuffer();
+			m_runtime_service->RefreshBuffers();
+
 			m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 			Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-			m_screen_renderer->Draw(screen_texture);
+			m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0), m_framebuffer_service->GetTextureId(!horizontal));
 			m_shader_service->UnbindShaderProgram();
 		}
 	}

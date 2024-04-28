@@ -16,11 +16,22 @@ namespace Component {
 		m_hovered = false;
 		m_selected = false;
 		m_angle = 0.f;
+		m_horizontal = true;
 	}
 
 	void TexturedComponent::Clean()
 	{
 		this->DestroyTexture();
+	}
+
+	bool TexturedComponent::GetHorizontal()
+	{
+		return m_horizontal;
+	}
+
+	void TexturedComponent::SetHorizontal(bool const new_val)
+	{
+		m_horizontal = new_val;
 	}
 	
 	unsigned int TexturedComponent::GetTextureId() const
