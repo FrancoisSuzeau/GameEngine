@@ -46,6 +46,7 @@
     <ClCompile Include="Services\StateService.cpp" />
     <ClCompile Include="Builders\ViewModelBuilder.cpp" />
     <ClCompile Include="Services\ShaderService.cpp" />
+    <ClCompile Include="Transformer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ActualizeCommand.hpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Services\StateService.hpp" />
     <ClInclude Include="Builders\ViewModelBuilder.hpp" />
     <ClInclude Include="Services\ShaderService.hpp" />
+    <ClInclude Include="Transformer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.vcxproj">

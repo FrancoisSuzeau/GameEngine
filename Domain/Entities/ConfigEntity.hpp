@@ -29,6 +29,12 @@ namespace Services {
 		int GetGridSpacingRatio() const;
 		void SetRenderGrid(bool const render_grid);
 		bool GetRenderGrid() const;
+		int GetBloomStrength() const;
+		void SetBloomStrength(int const new_val);
+		bool GetBloom() const;
+		void SetBloom(bool const bloom);
+		void SetRenderDebug(bool const debug);
+		bool GetRenderDebug() const;
 
 		
 	private:
@@ -37,7 +43,9 @@ namespace Services {
 		float m_grid_scaling_trigger;
 		int m_grid_spacing_ratio;
 		bool m_render_grid;
-
+		int m_bloom_strength;
+		bool m_active_bloom;
+		bool m_render_debug;
 
 	};
 }

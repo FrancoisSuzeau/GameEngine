@@ -33,6 +33,22 @@ namespace Engines
 		{
 			m_runtime_service.reset();
 		}
+
+		if (m_screen_renderer)
+		{
+			m_screen_renderer->Clean();
+			m_screen_renderer.reset();
+		}
+		if (m_screen_component)
+		{
+			m_screen_component->Clean();
+			m_screen_component.reset();
+		}
+
+		if (m_framebuffer_service)
+		{
+			m_framebuffer_service.reset();
+		}
 	}
 	void SceneEngine::Construct()
 	{
@@ -45,6 +61,7 @@ namespace Engines
 			m_mouse_input_service = container->GetReference<Services::MouseInputService>();
 			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
 			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			
 			if (m_shader_service)
 			{
@@ -52,6 +69,8 @@ namespace Engines
 				m_shader_service->AddShader(Constants::SKYBOX_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::UNTEXTURED_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::HOVER_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::BLOOM_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::GRID_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -86,8 +105,19 @@ namespace Engines
 			{
 				m_runtime_service->RenderingInFill();
 			}
+			if (!m_framebuffer_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 		
+		m_screen_renderer = std::make_unique<Renderers::ScreenRenderer>();
+		if (m_screen_renderer)
+		{
+			m_screen_renderer->Construct();
+		}
+
+		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, 0);
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
@@ -98,11 +128,11 @@ namespace Engines
 			if (view_model && m_runtime_service)
 			{
 				view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
-				m_runtime_service->RenderingInLine(2.f);
-				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInLine(1.f);
 				view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 				view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
+				m_runtime_service->RenderingInLine(2.f);
+				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
 				m_runtime_service->RenderingInLine(4.f);
@@ -122,19 +152,58 @@ namespace Engines
 			view_model->ManageScene();
 			view_model.reset();
 		}
+
+		if (m_screen_component)
+		{
+			Component::Transformer::ReinitModelMat(m_screen_component);
+			Component::Transformer::Resize(m_screen_component);
+			Component::Transformer::Move(m_screen_component);
+		}
 	}
 
-	void SceneEngine::RenderFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	void SceneEngine::RenderScreen()
 	{
-		if (view_model_builder)
+		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service && m_state_service && m_state_service->getConfigs())
 		{
-			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model)
+			
+			if (m_state_service->getConfigs()->GetBloom())
 			{
-				//view_model->RenderSceneElements(Enums::RendererType::SQUARE_TEXTURED);
-				view_model.reset();
+				bool horizontal = true;
+				bool first_it = true;
+				m_screen_component->SetHorizontal(horizontal);
+				m_shader_service->BindShaderProgram(Constants::BLOOM_SHADER);
+				for (size_t i = 0; i < m_state_service->getConfigs()->GetBloomStrength(); i++)
+				{
+					m_framebuffer_service->BindFramebuffer(horizontal);
+
+					Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::BLOOM_SHADER);
+					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+					if (first_it)
+					{
+						first_it = false;
+					}
+					horizontal = !horizontal;
+					m_screen_component->SetHorizontal(horizontal);
+				}
+
+				m_shader_service->UnbindShaderProgram();
+				m_framebuffer_service->UnbindFramebuffer();
+				m_runtime_service->RefreshBuffers();
+
+				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
+				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0), m_framebuffer_service->GetTextureId(!horizontal));
+				m_shader_service->UnbindShaderProgram();
+			}
+			else
+			{
+				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
+				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0));
+				m_shader_service->UnbindShaderProgram();
 			}
 
+			
 		}
 	}
 	

@@ -32,6 +32,8 @@ namespace Services {
 		void LessDepth();
 		bool IsRenderingLine() const;
 		void RefreshScreen();
+		void RefreshColor();
+		void RefreshBuffers();
 		void EnableBlendCapture();
 		void SetMinusSrcAlpha();
 

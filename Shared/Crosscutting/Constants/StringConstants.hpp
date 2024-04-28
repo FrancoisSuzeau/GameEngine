@@ -37,12 +37,15 @@ namespace Constants {
 	std::string const UNTEXTURED_SHADER = "untextured";
 	std::string const HOVER_SHADER = "hover";
 	std::string const SCREEN_SHADER = "screen_shader";
+	std::string const BLOOM_SHADER = "bloom_shader";
+	std::string const GRID_SHADER = "grid";
 	std::string const SKYBOX_SHADER = "skybox";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_DRAGGABLE = "COMPONENT_DRAGGABLE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
 	std::string const DEFAULT_FILENAME = "default_scene";
 	std::string const SCENE_CONFIG_PANNEL = "scene pannel";
+	std::string const DEBUG_CONFIG_PANNEL = "debug pannel";
 	std::string const GRID_SPACING_SMALL = "Small";
 	std::string const GRID_SPACING_MEDIUM = "Medium";
 	std::string const GRID_SPACING_LARGE = "Large";

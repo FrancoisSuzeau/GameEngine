@@ -31,9 +31,11 @@ namespace Renderers {
 	public:
 		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
-		virtual void Draw() {};
-		virtual void Draw(unsigned int texture_id) {};
-		virtual void Actualize(int const grid_scaling_ratio) {};
+		virtual void Draw() {}
+		virtual void Draw(unsigned int texture_id) {}
+		virtual void Draw(unsigned int const texture_id, unsigned int const ping_pong_texture) {}
+		virtual void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) {}
+		virtual void Actualize(int const grid_scaling_ratio) {}
 		virtual void Clean()
 		{
 			CleanVbo();

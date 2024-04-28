@@ -1,10 +1,17 @@
 #version 460 core
 
 uniform vec4 background_color;
-out vec4 FragColor;
+layout (location = 0) out vec4 FragColor;
+layout (location = 1) out vec4 BrightColor;
 
 void main()
 {
     FragColor = background_color;
+    vec3 objectColor = vec3(background_color.x, background_color.y, background_color.z);
+    float brightness = dot(objectColor, vec3(0.2126, 0.7152, 0.0722));
+    if(brightness > 2.0)
+        BrightColor = vec4(objectColor, 1.0);
+    else
+        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
     
 }

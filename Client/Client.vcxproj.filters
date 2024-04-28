@@ -51,9 +51,6 @@
     <ClCompile Include="ViewModels\SceneViewModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Views\Transformer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Views\GuiComponents\Simple\EventViewerComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewModels\SceneViewModel.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\Transformer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\GuiComponents\Simple\EventViewerComponent.hpp">

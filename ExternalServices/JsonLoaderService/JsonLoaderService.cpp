@@ -136,7 +136,10 @@ namespace Services
 			{"create_scenes", config->GetCreatedScenes()}, 
 			{"grid_scaling_trigger", config->GetGridScalingTrigger()},
 			{"grid_spacing_ratio", config->GetGridSpacingRatio()},
-			{"render_grid", config->GetRenderGrid()}
+			{"render_grid", config->GetRenderGrid()},
+			{"bloom_strength", config->GetBloomStrength()},
+			{"activate_bloom", config->GetBloom()},
+			{"render_debug", config->GetRenderDebug()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -179,6 +182,9 @@ namespace Services
 			config->SetGridScalingTrigger(this->GetFloatNode(Enums::JsonType::Config, "grid_scaling_trigger"));
 			config->SetGridSpacingRatio(this->GetIntNode(Enums::JsonType::Config, "grid_spacing_ratio"));
 			config->SetRenderGrid(this->GetBoolNode(Enums::JsonType::Config, "render_grid"));
+			config->SetBloomStrength(this->GetIntNode(Enums::JsonType::Config, "bloom_strength"));
+			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
+			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
 		}
 		
 		return config;

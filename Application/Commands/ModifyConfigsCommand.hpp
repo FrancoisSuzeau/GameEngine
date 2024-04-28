@@ -18,19 +18,19 @@ namespace Commands {
 	{
 	public:
 		
-		ModifyConfigsCommand(std::string const filename, Enums::ConfigsModifier configs_modifier);
-		ModifyConfigsCommand(float const grid_scaling_trigger, Enums::ConfigsModifier configs_modifier);
-		ModifyConfigsCommand(int const grid_scaling_ratio, Enums::ConfigsModifier configs_modifier);
-		ModifyConfigsCommand(bool const render_grid, Enums::ConfigsModifier configs_modifier);
+		ModifyConfigsCommand(std::string const value, Enums::ConfigsModifier configs_modifier);
+		ModifyConfigsCommand(float const value, Enums::ConfigsModifier configs_modifier);
+		ModifyConfigsCommand(int const value, Enums::ConfigsModifier configs_modifier);
+		ModifyConfigsCommand(bool const value, Enums::ConfigsModifier configs_modifier);
 		~ModifyConfigsCommand();
 		void Execute() override;
 	private:
 
 		std::shared_ptr<Services::ConfigEntity> m_configs;
-		std::string const m_filename;
-		float m_grid_scaling_trigger;
-		int m_grid_scaling_ratio;
-		bool m_render_grid;
+		std::string const m_string_value;
+		float m_float_value;
+		int m_int_value;
+		bool m_bool_value;
 		Enums::ConfigsModifier m_configs_modifier;
 		std::shared_ptr<Services::StateService> m_state_service;
 

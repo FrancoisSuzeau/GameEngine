@@ -42,9 +42,13 @@ namespace Views
 					ImGui::PushID(0);
 					ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
 					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.f, 0.f, 0.f));
-					if (ImGui::Button("Scene"))
+					if (ImGui::Button("Global rendering"))
 					{
 						config_pannel = Constants::SCENE_CONFIG_PANNEL;
+					}
+					if (ImGui::Button("Debug options"))
+					{
+						config_pannel = Constants::DEBUG_CONFIG_PANNEL;
 					}
 					ImGui::PopStyleColor(2);
 					ImGui::PopID();

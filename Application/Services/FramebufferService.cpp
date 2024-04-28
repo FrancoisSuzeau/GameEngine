@@ -17,7 +17,6 @@ namespace Services
 		m_texture_fb = 0;
 		m_depth_fb = 0;
 		m_depth_id = 0;
-		m_texture_id = 0;
 		m_render_fb = 0;		
 		
 	}
@@ -33,11 +32,7 @@ namespace Services
 			glDeleteFramebuffers(1, &m_depth_fb);
 			m_depth_fb = 0;
 		}
-		if (m_texture_id != 0)
-		{
-			glDeleteTextures(1, &m_texture_id);
-			m_texture_id = 0;
-		}
+		glDeleteTextures(2, m_texture_ids);
 		if (m_depth_id != 0)
 		{
 			glDeleteTextures(1, &m_depth_id);
@@ -54,12 +49,19 @@ namespace Services
 			m_state_service.reset();
 		}
 
+		glDeleteFramebuffers(2, m_ping_pong_fb);
+		glDeleteTextures(2, m_ping_pong_textures);
+
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
 	}
-	unsigned int FramebufferService::GetTextureId() const
+	unsigned int FramebufferService::GetTextureId(int id) const
 	{
-		return m_texture_id;
+		return m_texture_ids[id];
+	}
+	unsigned int FramebufferService::GetTextureId(bool horizontal) const
+	{
+		return m_ping_pong_textures[horizontal];
 	}
 	void FramebufferService::BuildFrameBufferDepth()
 	{
@@ -116,11 +118,18 @@ namespace Services
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 		}
+
+		this->BuildPingPongFB();
 	}
 
 	void FramebufferService::BindFramebuffer()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_texture_fb);
+	}
+
+	void FramebufferService::BindFramebuffer(bool horizontal)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_ping_pong_fb[horizontal]);
 	}
 
 	void FramebufferService::UnbindFramebuffer()
@@ -139,12 +148,12 @@ namespace Services
 	}
 	void FramebufferService::BuildTextureFB()
 	{
-		glGenTextures(1, &m_texture_id);
-		if (m_texture_id != 0)
+		glGenTextures(2, m_texture_ids);
+		for (int i = 0; i < 2; i++)
 		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m_texture_id);
-			if (glIsTexture(m_texture_id) == GL_TRUE)
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_texture_ids[i]);
+			if (glIsTexture(m_texture_ids[i]) == GL_TRUE)
 			{
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
@@ -153,12 +162,39 @@ namespace Services
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture_id, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_texture_ids[i], 0);
 
-				glActiveTexture(GL_TEXTURE0);
+				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
-			
+		}
+	}
+	void FramebufferService::BuildPingPongFB()
+	{
+		glGenFramebuffers(2, m_ping_pong_fb);
+
+		glGenTextures(2, m_ping_pong_textures);
+
+		for (unsigned int i = 0; i < 2; i++)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, m_ping_pong_fb[i]);
+
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_ping_pong_textures[i]);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ping_pong_textures[i], 0);
+
+			this->CheckFramebufferStatus("Ping-pong");
+
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 	}
 	void FramebufferService::BuildRenderFB()
@@ -171,7 +207,12 @@ namespace Services
 			{
 				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_fb_width, m_fb_height);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_render_fb);
+
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+				// Tell OpenGL we need to draw to both attachments
+				unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+				glDrawBuffers(2, attachments);
 			}
 		}
 	}

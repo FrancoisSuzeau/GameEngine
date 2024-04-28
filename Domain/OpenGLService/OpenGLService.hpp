@@ -30,9 +30,10 @@ namespace Services
 		void setRenderingMode(GLenum const mode, float const line_width);
 		void bindProgram(GLuint const program_id);
 		void setDepth(GLenum const func);
-		void clearScreen();
 		void enable(GLenum const cap);
 		void blend(GLenum const s_factor, GLenum const d_factor);
+		void clearColor();
+		void clearBuffer();
 	};
 }
 
