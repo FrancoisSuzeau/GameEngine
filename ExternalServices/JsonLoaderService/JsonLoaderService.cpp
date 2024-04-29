@@ -139,7 +139,8 @@ namespace Services
 			{"render_grid", config->GetRenderGrid()},
 			{"bloom_strength", config->GetBloomStrength()},
 			{"activate_bloom", config->GetBloom()},
-			{"render_debug", config->GetRenderDebug()}
+			{"render_debug", config->GetRenderDebug()},
+			{"selected_skybox", config->GetSelectedSkybox()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -185,6 +186,7 @@ namespace Services
 			config->SetBloomStrength(this->GetIntNode(Enums::JsonType::Config, "bloom_strength"));
 			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
 			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
+			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
 		}
 		
 		return config;
@@ -209,6 +211,25 @@ namespace Services
 		
 		return Constants::NONE;
 
+	}
+
+	std::string JsonLoaderService::GetStringNode(Enums::JsonType json_type, std::string node_name)
+	{
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
+		{
+			std::string node = m_json_contents.at(json_type)->value(node_name, Constants::NONE);
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return Constants::NONE;
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+
+
+		return Constants::NONE;
 	}
 
 	glm::vec4 JsonLoaderService::GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name)

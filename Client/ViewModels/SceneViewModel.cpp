@@ -122,9 +122,10 @@ namespace ViewModels
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (m_loader_service)
+			if (m_loader_service && m_state_service && m_state_service->getConfigs())
 			{
-				m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, m_loader_service->LoadSkybox("resources/skybox/calm_lake")));
+				m_loader_service->LoadSkybox();
+				m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, 0));
 			}
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
@@ -216,7 +217,7 @@ namespace ViewModels
 					m_runtime_service->LequalDepth();
 					m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::SKYBOX_SHADER);
-					m_renderers.at(element)->Draw(m_components.at(element)->GetTextureId());
+					m_renderers.at(element)->Draw(m_state_service->getConfigs()->GetSelectedSkyboxId());
 					m_shader_service->UnbindShaderProgram();
 					m_runtime_service->LessDepth();
 				}

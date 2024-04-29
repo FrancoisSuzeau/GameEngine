@@ -45,7 +45,7 @@ namespace Services
 				int i = 0;
 				for (std::vector<std::string>::iterator it = m_skybox_files_name.begin(); it != m_skybox_files_name.end(); it++)
 				{
-					std::string const full_path = repository_path + "/" + it[0];
+					std::string const full_path = "resources/skybox/" + repository_path + "/" + it[0];
 					SDL_Surface* surface = this->LoadTexture(full_path);
 					if (surface != nullptr)
 					{

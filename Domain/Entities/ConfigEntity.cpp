@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false)
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), m_selected_skybox(std::make_pair("calm_lake", 0))
 	{
 		
 	}
@@ -92,6 +92,26 @@ namespace Services {
 	bool ConfigEntity::GetRenderDebug() const
 	{
 		return m_render_debug;
+	}
+
+	std::string ConfigEntity::GetSelectedSkybox() const
+	{
+		return m_selected_skybox.first;
+	}
+
+	unsigned int ConfigEntity::GetSelectedSkyboxId() const
+	{
+		return m_selected_skybox.second;
+	}
+
+	void ConfigEntity::SetSelectedSkybox(std::string const selected_skybox)
+	{
+		m_selected_skybox.first = selected_skybox;
+	}
+
+	void ConfigEntity::SetSelectedSkybox(unsigned int const selected_skybox)
+	{
+		m_selected_skybox.second = selected_skybox;
 	}
 
 

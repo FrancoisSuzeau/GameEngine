@@ -35,6 +35,10 @@ namespace Services {
 		void SetBloom(bool const bloom);
 		void SetRenderDebug(bool const debug);
 		bool GetRenderDebug() const;
+		std::string GetSelectedSkybox() const;
+		unsigned int GetSelectedSkyboxId() const;
+		void SetSelectedSkybox(std::string const selected_skybox);
+		void SetSelectedSkybox(unsigned int const selected_skybox);
 
 		
 	private:
@@ -46,6 +50,7 @@ namespace Services {
 		int m_bloom_strength;
 		bool m_active_bloom;
 		bool m_render_debug;
+		std::pair<std::string, unsigned int> m_selected_skybox;
 
 	};
 }

@@ -23,10 +23,16 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : Texture loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			m_shader_loader = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::ShaderLoaderService>();
+			m_shader_loader = container->GetReference<Services::ShaderLoaderService>();
 			if (!m_shader_loader)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_state_service = container->GetReference<StateService>();
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 	}
@@ -47,6 +53,11 @@ namespace Services
 		{
 			m_shader_loader.reset();
 		}
+
+		if (m_state_service)
+		{
+			m_state_service.reset();
+		}
 	}
 
 	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
@@ -63,14 +74,13 @@ namespace Services
 			m_json_loader_service->SaveConfigs(configs);
 		}
 	}
-	unsigned int LoaderService::LoadSkybox(std::string const path)
+	void LoaderService::LoadSkybox()
 	{
-		if (m_texture_loader_service)
+		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
-			return m_texture_loader_service->BuildSkyboxTexture(path);
+			unsigned int id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
+			m_state_service->getConfigs()->SetSelectedSkybox(id);
 		}
-
-		return 0;
 	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
 	{
