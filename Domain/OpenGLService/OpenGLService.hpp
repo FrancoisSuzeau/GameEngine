@@ -34,6 +34,9 @@ namespace Services
 		void blend(GLenum const s_factor, GLenum const d_factor);
 		void clearColor();
 		void clearBuffer();
+		void deleteTexture(unsigned int texture_id);
+		void deleteBuffer(unsigned int buffer_id);
+		void deleteRenderBuffer(unsigned int render_buffer_id);
 	};
 }
 

@@ -39,7 +39,7 @@ namespace Services
 
 	void LoaderService::DeInit()
 	{
-		if (m_json_loader_service)
+		/*if (m_json_loader_service)
 		{
 			m_json_loader_service.reset();
 		}
@@ -57,7 +57,7 @@ namespace Services
 		if (m_state_service)
 		{
 			m_state_service.reset();
-		}
+		}*/
 	}
 
 	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
@@ -78,8 +78,7 @@ namespace Services
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
-			unsigned int id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
-			m_state_service->getConfigs()->SetSelectedSkybox(id);
+			m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs());
 		}
 	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)

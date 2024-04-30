@@ -36,6 +36,9 @@ namespace Services {
 		void RefreshBuffers();
 		void EnableBlendCapture();
 		void SetMinusSrcAlpha();
+		void DeleteTexture(unsigned int texture_id);
+		void DeleteBuffer(unsigned int buffer_id);
+		void DeleteRenderBuffer(unsigned int render_buffer_id);
 
 	private:
 		std::shared_ptr<Services::OpenGLService> m_opengl_service;

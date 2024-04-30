@@ -31,6 +31,12 @@ namespace Services
 			}
 			
 			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
+			
+			m_runtime_service = container->GetReference<RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 		
 	}
@@ -45,6 +51,8 @@ namespace Services
 		{
 			m_scene_grid.reset();
 		}
+
+		
 		
 	}
 
@@ -321,9 +329,10 @@ namespace Services
 	}
 	void StateService::CleanConfig()
 	{
-		if (m_configs)
+		if (m_runtime_service && this->m_configs)
 		{
-			m_configs.reset();
+			m_runtime_service->DeleteTexture(this->m_configs->GetSelectedSkyboxId());
+			this->m_configs.reset();
 		}
 	}
 }

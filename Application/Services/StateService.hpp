@@ -23,6 +23,7 @@
 #include "Container/Container.hpp"
 #include "../Services/ImGUIServiceInitalizer.hpp"
 #include <ExternalServices.hpp>
+#include "RunTimeService.hpp"
 
 
 namespace Services {
@@ -123,6 +124,8 @@ namespace Services {
 		std::string m_pannel_view;
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
+		std::shared_ptr<RunTimeService> m_runtime_service;
+
 
 	};
 }

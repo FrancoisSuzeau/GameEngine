@@ -24,10 +24,10 @@ namespace Services
 
 	void RunTimeService::DeInit()
 	{
-		if (m_opengl_service)
+		/*if (m_opengl_service)
 		{
 			m_opengl_service.reset();
-		}
+		}*/
 	}
 	void RunTimeService::RenderingInLine(float const line_width)
 	{
@@ -101,6 +101,27 @@ namespace Services
 		if (m_opengl_service)
 		{
 			m_opengl_service->blend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+	}
+	void RunTimeService::DeleteTexture(unsigned int texture_id)
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->deleteTexture(texture_id);
+		}
+	}
+	void RunTimeService::DeleteBuffer(unsigned int buffer_id)
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->deleteBuffer(buffer_id);
+		}
+	}
+	void RunTimeService::DeleteRenderBuffer(unsigned int render_buffer_id)
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->deleteRenderBuffer(render_buffer_id);
 		}
 	}
 }

@@ -22,6 +22,7 @@ namespace Starting
         this->SetServiceBuilder<Services::GraphicInitializerService>();
         this->SetServiceBuilder<Services::AudioInitializerService>();
         this->SetServiceBuilder<Services::ImGUIServiceInitializer>();
+        this->SetServiceBuilder<Services::RunTimeService>();
         this->SetServiceBuilder<Services::JsonLoaderService>();
         this->SetServiceBuilder<Services::ShaderLoaderService>();
         this->SetServiceBuilder<Services::OpenGLService>();
@@ -33,7 +34,7 @@ namespace Starting
         this->SetServiceBuilder<Services::LoaderService>();
         this->SetServiceBuilder<Services::MouseInputService>();
         this->SetServiceBuilder<Services::KeyboardInputService>();
-        this->SetServiceBuilder<Services::RunTimeService>();
+        
     }
 
     void Application::SetAllEngine()
@@ -45,12 +46,6 @@ namespace Starting
 
     void Application::ShutAllService()
     {
-        this->DeleteReference<Services::GraphicInitializerService>();
-        this->DeleteReference<Services::AudioInitializerService>();
-        this->DeleteReference<Services::ImGUIServiceInitializer>();
-        this->DeleteReference<Services::JsonLoaderService>();
-        this->DeleteReference<Services::ShaderLoaderService>();
-        this->DeleteReference<Services::ShaderService>();
         this->DeleteReference<Services::FramebufferService>();
         this->DeleteReference<Services::TextureLoaderService>();
         this->DeleteReference<Services::CameraService>();
@@ -60,6 +55,13 @@ namespace Starting
         this->DeleteReference<Services::KeyboardInputService>();
         this->DeleteReference<Services::OpenGLService>();
         this->DeleteReference<Services::RunTimeService>();
+        this->DeleteReference<Services::JsonLoaderService>();
+        this->DeleteReference<Services::ShaderLoaderService>();
+        this->DeleteReference<Services::ShaderService>();
+        this->DeleteReference<Services::GraphicInitializerService>();
+        this->DeleteReference<Services::AudioInitializerService>();
+        this->DeleteReference<Services::ImGUIServiceInitializer>();
+        
     }
 
     void Application::ShutAllEngine()

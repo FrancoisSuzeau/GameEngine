@@ -8,11 +8,22 @@ namespace Services
 {
 	void FramebufferService::Init()
 	{
-		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
-		if (!m_state_service)
+		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
+		if (container)
 		{
-			SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_runtime_service = container->GetReference<RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Run time service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
+		
 
 		m_texture_fb = 0;
 		m_depth_fb = 0;
@@ -21,36 +32,28 @@ namespace Services
 		
 	}
 	void FramebufferService::DeInit()
-	{
-		if (m_texture_fb != 0)
-		{
-			glDeleteFramebuffers(1, &m_texture_fb);
-			m_texture_fb = 0;
-		}
-		if (m_depth_fb != 0)
-		{
-			glDeleteFramebuffers(1, &m_depth_fb);
-			m_depth_fb = 0;
-		}
-		glDeleteTextures(2, m_texture_ids);
-		if (m_depth_id != 0)
-		{
-			glDeleteTextures(1, &m_depth_id);
-			m_depth_id = 0;
-		}
-		if (m_render_fb != 0)
-		{
-			glDeleteRenderbuffers(1, &m_render_fb);
-			m_render_fb = 0;
-		}
-		
-		if (m_state_service)
+	{	
+		/*if (m_state_service)
 		{
 			m_state_service.reset();
-		}
+		}*/
 
-		glDeleteFramebuffers(2, m_ping_pong_fb);
-		glDeleteTextures(2, m_ping_pong_textures);
+		if (m_runtime_service)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				m_runtime_service->DeleteTexture(m_ping_pong_textures[i]);
+				m_runtime_service->DeleteTexture(m_texture_ids[i]);
+
+				m_runtime_service->DeleteBuffer(m_ping_pong_fb[i]);
+				
+			}
+			m_runtime_service->DeleteRenderBuffer(m_render_fb);
+			m_runtime_service->DeleteBuffer(m_depth_fb);
+			m_runtime_service->DeleteTexture(m_depth_id);
+			m_runtime_service->DeleteBuffer(m_texture_fb);
+			//m_runtime_service.reset();
+		}
 
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
