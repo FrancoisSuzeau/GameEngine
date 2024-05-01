@@ -217,7 +217,7 @@ namespace ViewModels
 					m_runtime_service->LequalDepth();
 					m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);
 					Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, Constants::SKYBOX_SHADER);
-					m_renderers.at(element)->Draw(m_state_service->getConfigs()->GetSelectedSkyboxId());
+					m_renderers.at(element)->Draw(m_state_service->getSelectedSkyboxTextureId());
 					m_shader_service->UnbindShaderProgram();
 					m_runtime_service->LessDepth();
 				}

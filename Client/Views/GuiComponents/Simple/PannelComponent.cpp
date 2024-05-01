@@ -157,6 +157,13 @@ namespace Views
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(active_skybox, Enums::ConfigsModifier::RENDERSKYBOX));
 			}
 
+			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
+			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
+			{
+				ImGui::Text(it[0].c_str());
+				ImGui::SameLine();
+			}
+
 		}
 	}
 	void PannelComponent::RenderDebugModifier()

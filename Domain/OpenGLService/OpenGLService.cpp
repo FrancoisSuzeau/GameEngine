@@ -88,7 +88,6 @@ namespace Services
 
     void OpenGLService::clearBuffer(GLbitfield const masks)
     {
-        std::cout << masks << std::endl;
         glClear(masks);
     }
 

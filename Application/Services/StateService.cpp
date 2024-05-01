@@ -53,7 +53,10 @@ namespace Services
 			m_scene_grid.reset();
 		}
 
-		
+		if (m_runtime_service)
+		{
+			m_runtime_service->DeleteTexture(m_texture_id);
+		}
 		
 	}
 
@@ -315,6 +318,16 @@ namespace Services
 	{
 		m_actualize = new_val;
 	}
+
+	void StateService::setSelectedSkyboxTextureId(unsigned int const texture_id)
+	{
+		m_texture_id = texture_id;
+	}
+
+	unsigned int StateService::getSelectedSkyboxTextureId() const
+	{
+		return m_texture_id;
+	}
 	
 	void StateService::CleanComponents()
 	{
@@ -330,11 +343,7 @@ namespace Services
 	}
 	void StateService::CleanConfig()
 	{
-		if (m_runtime_service && this->m_configs)
-		{
-			m_runtime_service->DeleteTexture(this->m_configs->GetSelectedSkyboxId());
-			this->m_configs.reset();
-		}
+		this->m_configs.reset();
 	}
 }
 

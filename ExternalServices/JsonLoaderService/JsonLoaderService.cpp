@@ -108,6 +108,8 @@ namespace Services
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Exception found when parsing [{}] file", __FILE__, __FUNCTION__, filename + Constants::JSONEXT);
 				SQ_EXTSERVICE_DEBUG("{}", e.what());
 			}
+
+			flux_in.close();
 		}
 
 		return nullptr;

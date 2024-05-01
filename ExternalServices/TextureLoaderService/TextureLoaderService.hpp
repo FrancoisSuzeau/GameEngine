@@ -27,13 +27,15 @@ namespace Services {
 
 		~TextureLoaderService();
 
-		void BuildSkyboxTexture(std::shared_ptr<ConfigEntity> config);
+		unsigned int BuildSkyboxTexture(std::string const skybox_path);
 		unsigned int BuildTexture(std::string const path);
 
 	private:
 
 		SDL_Surface* LoadTexture(std::string path);
 		SDL_Surface* PixelInverter(SDL_Surface* src_surface);
+		void FindFileExt(std::string path);
+		std::string m_file_ext;
 		std::vector<std::string> m_skybox_files_name;
 
 	};

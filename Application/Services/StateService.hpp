@@ -92,6 +92,9 @@ namespace Services {
 
 		bool getActualize() const;
 		void setActualize(bool const new_val);
+
+		void setSelectedSkyboxTextureId(unsigned int const texture_id);
+		unsigned int getSelectedSkyboxTextureId() const;
 		
 		
 
@@ -125,6 +128,8 @@ namespace Services {
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 		std::shared_ptr<RunTimeService> m_runtime_service;
+		std::map<std::string, unsigned int> m_available_skybox;
+		unsigned int m_texture_id;
 
 
 	};

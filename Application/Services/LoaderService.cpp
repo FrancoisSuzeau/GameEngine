@@ -60,14 +60,19 @@ namespace Services
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
-			m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs());
+			unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
+			m_state_service->setSelectedSkyboxTextureId(texture_id);
 		}
 	}
 	void LoaderService::LoadSkyboxS()
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
-
+			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
+			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
+			{
+				
+			}
 		}
 	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
