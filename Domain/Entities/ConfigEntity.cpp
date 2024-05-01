@@ -6,9 +6,10 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false)
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), 
+		m_selected_skybox("calm_lake", 0), m_render_skybox(true)
 	{
-		
+
 	}
 
 	ConfigEntity::~ConfigEntity()
@@ -92,6 +93,36 @@ namespace Services {
 	bool ConfigEntity::GetRenderDebug() const
 	{
 		return m_render_debug;
+	}
+
+	std::string ConfigEntity::GetSelectedSkybox() const
+	{
+		return m_selected_skybox;
+	}
+
+	void ConfigEntity::SetSelectedSkybox(std::string const selected_skybox)
+	{
+		m_selected_skybox = selected_skybox;
+	}
+
+	void ConfigEntity::SetAvailableSkybox(std::vector<std::string> available_skybox)
+	{
+		m_available_skybox = available_skybox;
+	}
+
+	std::vector<std::string> ConfigEntity::GetAvailableSkybox()
+	{
+		return m_available_skybox;
+	}
+
+	void ConfigEntity::SetRenderSkybox(bool const render_skybox)
+	{
+		m_render_skybox = render_skybox;
+	}
+
+	bool ConfigEntity::GetRenderSkybox() const
+	{
+		return m_render_skybox;
 	}
 
 

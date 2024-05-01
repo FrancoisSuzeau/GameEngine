@@ -34,16 +34,6 @@ namespace Services
 		}
 
 		m_shader_program_map.clear();
-
-		if (m_loader_service)
-		{
-			m_loader_service.reset();
-		}
-
-		if (m_opengl_service)
-		{
-			m_opengl_service.reset();
-		}
 	}
 
 	void ShaderService::AddShader(std::string shader_name, Enums::ShaderType shader_type)

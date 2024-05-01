@@ -53,6 +53,7 @@ namespace Services {
 
 
 		std::string GetStringNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		std::string GetStringNode(Enums::JsonType json_type, std::string node_name);
 		glm::vec4 GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		glm::vec3 GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);

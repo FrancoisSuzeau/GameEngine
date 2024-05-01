@@ -11,6 +11,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "ConfigEntity.hpp"
 
 #include "Logger.hpp"
 
@@ -26,13 +27,15 @@ namespace Services {
 
 		~TextureLoaderService();
 
-
-		unsigned int BuildSkyboxTexture(std::string const repository_path);
+		unsigned int BuildSkyboxTexture(std::string const skybox_path);
+		unsigned int BuildTexture(std::string const path);
 
 	private:
 
 		SDL_Surface* LoadTexture(std::string path);
-
+		SDL_Surface* PixelInverter(SDL_Surface* src_surface);
+		void FindFileExt(std::string path);
+		std::string m_file_ext;
 		std::vector<std::string> m_skybox_files_name;
 
 	};

@@ -47,15 +47,7 @@ namespace Services
 
 	void MouseInputService::DeInit()
 	{
-		if (m_state_service)
-		{
-			m_state_service.reset();
-		}
-
-		if (m_camera_service)
-		{
-			m_camera_service.reset();
-		}
+		
 	}
 	void MouseInputService::Update(SDL_Event event)
 	{

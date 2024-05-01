@@ -10,6 +10,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include "StateService.hpp"
+#include "RunTimeService.hpp"
 
 namespace Services {
 
@@ -22,6 +23,7 @@ namespace Services {
 
 		unsigned int GetTextureId(int id) const;
 		unsigned int GetTextureId(bool horizontal) const;
+		unsigned int GetDephtTextureId() const;
 
 		void BuildFrameBufferDepth();
 		void BuildFrameBufferTexture();
@@ -47,6 +49,7 @@ namespace Services {
 		void CheckFramebufferStatus(std::string const framebuffer_name);
 
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 
 	};
 }

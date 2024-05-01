@@ -26,13 +26,15 @@ namespace Commands {
 		void Execute() override;
 	private:
 
-		std::shared_ptr<Services::ConfigEntity> m_configs;
+		void GetServices();
 		std::string const m_string_value;
 		float m_float_value;
 		int m_int_value;
 		bool m_bool_value;
 		Enums::ConfigsModifier m_configs_modifier;
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
+		std::shared_ptr < Services::RunTimeService> m_runtime_service;
 
 	};
 }

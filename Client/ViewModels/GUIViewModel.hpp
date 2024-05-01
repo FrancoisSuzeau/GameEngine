@@ -31,6 +31,7 @@ namespace ViewModels
 	private:
 		std::vector<std::unique_ptr<Views::IView>> m_simple_components;
 		std::vector<std::unique_ptr<Views::IView>> m_menu_components;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
 	};
 }
 

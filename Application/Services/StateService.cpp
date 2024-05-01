@@ -31,6 +31,12 @@ namespace Services
 			}
 			
 			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
+			
+			m_runtime_service = container->GetReference<RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 		
 	}
@@ -43,7 +49,13 @@ namespace Services
 		this->CleanConfig();
 		if (m_scene_grid)
 		{
+			m_scene_grid->Clean();
 			m_scene_grid.reset();
+		}
+
+		if (m_runtime_service)
+		{
+			m_runtime_service->DeleteTexture(m_texture_id);
 		}
 		
 	}
@@ -306,6 +318,33 @@ namespace Services
 	{
 		m_actualize = new_val;
 	}
+
+	void StateService::setSelectedSkyboxTextureId(unsigned int const texture_id)
+	{
+		m_texture_id = texture_id;
+	}
+
+	unsigned int StateService::getSelectedSkyboxTextureId() const
+	{
+		return m_texture_id;
+	}
+
+	std::map<std::string, unsigned int> StateService::getAvailableSkybox() const
+	{
+		return m_available_skybox;
+	}
+
+	void StateService::addAvailableSkybox(std::string map_id, unsigned int texture_id)
+	{
+		if (m_available_skybox.contains(map_id))
+		{
+			m_available_skybox[map_id] = texture_id;
+		}
+		else
+		{
+			m_available_skybox.insert_or_assign(map_id, texture_id);
+		}
+	}
 	
 	void StateService::CleanComponents()
 	{
@@ -321,10 +360,7 @@ namespace Services
 	}
 	void StateService::CleanConfig()
 	{
-		if (m_configs)
-		{
-			m_configs.reset();
-		}
+		this->m_configs.reset();
 	}
 }
 

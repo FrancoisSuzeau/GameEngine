@@ -8,6 +8,10 @@ namespace Engines
 {
 	SceneEngine::~SceneEngine()
 	{
+		if (m_runtime_service)
+		{
+			m_runtime_service.reset();
+		}
 		if (m_camera_service)
 		{
 			m_camera_service.reset();
@@ -27,11 +31,6 @@ namespace Engines
 		if (m_keyboad_input_service)
 		{
 			m_keyboad_input_service.reset();
-		}
-
-		if (m_runtime_service)
-		{
-			m_runtime_service.reset();
 		}
 
 		if (m_screen_renderer)
@@ -188,7 +187,6 @@ namespace Engines
 
 				m_shader_service->UnbindShaderProgram();
 				m_framebuffer_service->UnbindFramebuffer();
-				m_runtime_service->RefreshBuffers();
 
 				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);

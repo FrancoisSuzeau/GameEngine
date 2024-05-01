@@ -76,15 +76,45 @@ namespace Services
         glBlendFunc(s_factor, d_factor);
     }
 
-    void OpenGLService::clearColor()
+    void OpenGLService::clearColor(glm::vec2 const colors)
     {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(colors.x, colors.x, colors.x, colors.y);
     }
 
-    void OpenGLService::clearBuffer()
+    void OpenGLService::disable(GLenum const cap)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(cap);
     }
+
+    void OpenGLService::clearBuffer(GLbitfield const masks)
+    {
+        glClear(masks);
+    }
+
+    void OpenGLService::deleteTexture(unsigned int texture_id)
+    {
+        if (texture_id != 0)
+        {
+            glDeleteTextures(1, &texture_id);
+        }
+    }
+
+    void OpenGLService::deleteBuffer(unsigned int buffer_id)
+    {
+        if (buffer_id != 0)
+        {
+            glDeleteFramebuffers(1, &buffer_id);
+        }
+    }
+
+    void OpenGLService::deleteRenderBuffer(unsigned int render_buffer_id)
+    {
+        if (render_buffer_id != 0)
+        {
+            glDeleteRenderbuffers(1, &render_buffer_id);
+        }
+    }
+
 
 }
 
