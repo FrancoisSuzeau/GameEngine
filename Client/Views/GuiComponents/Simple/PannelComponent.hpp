@@ -39,6 +39,7 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderGridPannelModifier();
 		void RenderBloomPannelModifier();
+		void RenderSkyboxPannelModifier();
 		void RenderDebugModifier();
 		void RenderButtons();
 		int item_current;
@@ -48,6 +49,7 @@ namespace Views
 		float trigger;
 		int bloom_strength;
 		bool activate_debug;
+		bool active_skybox;
 	};
 }
 

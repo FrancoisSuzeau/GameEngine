@@ -20,7 +20,7 @@ namespace Views
 		}
 	}
 	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0),
-		activate_debug(false)
+		activate_debug(false), active_skybox(false)
 	{
 		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -34,6 +34,7 @@ namespace Views
 			activate_bloom = m_state_service->getConfigs()->GetBloom();
 			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
+			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
@@ -68,6 +69,8 @@ namespace Views
 						this->RenderGridPannelModifier();
 						ImGui::Separator();
 						this->RenderBloomPannelModifier();
+						ImGui::Separator();
+						this->RenderSkyboxPannelModifier();
 					}
 
 					if (config_pannel == Constants::DEBUG_CONFIG_PANNEL)
@@ -141,6 +144,19 @@ namespace Views
 				}
 				m_state_service->setActualize(true);
 			}
+		}
+	}
+	void PannelComponent::RenderSkyboxPannelModifier()
+	{
+		if (m_state_service && m_state_service->getConfigs())
+		{
+			ImGui::Text("Skybox rendering : ");
+			if (ImGui::Checkbox("Activate skybox", &active_skybox))
+			{
+				m_state_service->setActualize(true);
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(active_skybox, Enums::ConfigsModifier::RENDERSKYBOX));
+			}
+
 		}
 	}
 	void PannelComponent::RenderDebugModifier()

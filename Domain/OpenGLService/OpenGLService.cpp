@@ -76,14 +76,20 @@ namespace Services
         glBlendFunc(s_factor, d_factor);
     }
 
-    void OpenGLService::clearColor()
+    void OpenGLService::clearColor(glm::vec2 const colors)
     {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(colors.x, colors.x, colors.x, colors.y);
     }
 
-    void OpenGLService::clearBuffer()
+    void OpenGLService::disable(GLenum const cap)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(cap);
+    }
+
+    void OpenGLService::clearBuffer(GLbitfield const masks)
+    {
+        std::cout << masks << std::endl;
+        glClear(masks);
     }
 
     void OpenGLService::deleteTexture(unsigned int texture_id)

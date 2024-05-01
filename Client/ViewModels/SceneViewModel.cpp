@@ -212,7 +212,7 @@ namespace ViewModels
 				}
 				break;
 			case Enums::RendererType::SKYBOX:
-				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX))
+				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX) && m_state_service->getConfigs()->GetRenderSkybox())
 				{
 					m_runtime_service->LequalDepth();
 					m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);

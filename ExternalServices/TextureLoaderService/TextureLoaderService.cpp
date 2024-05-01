@@ -67,6 +67,7 @@ namespace Services
 				}
 
 				config->SetSelectedSkybox(texture_id);
+				config->SetAvailableSkybox(config->GetSelectedSkybox(), texture_id);
 			}
 		}
 	}

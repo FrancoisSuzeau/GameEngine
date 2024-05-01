@@ -30,7 +30,6 @@ namespace Services
 		SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
 		SQ_APP_DEBUG("All graphics services SUCCESSFULLY initialized");
 		SQ_APP_INFO("OpenGL v{}.{} ready", major_version, minor_version);
-		glEnable(GL_DEPTH_TEST);
 	}
 
 

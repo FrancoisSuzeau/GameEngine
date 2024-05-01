@@ -6,7 +6,8 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), m_selected_skybox(std::make_pair("calm_lake", 0))
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), 
+		m_selected_skybox(std::make_pair("calm_lake", 0)), m_render_skybox(true)
 	{
 
 	}
@@ -112,6 +113,47 @@ namespace Services {
 	void ConfigEntity::SetSelectedSkybox(unsigned int const selected_skybox)
 	{
 		m_selected_skybox.second = selected_skybox;
+	}
+
+	void ConfigEntity::SetAvailableSkybox(std::vector<std::string> available_skybox)
+	{
+		for (std::vector<std::string>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
+		{
+			this->SetAvailableSkybox(it[0], 0);
+		}
+	}
+
+	void ConfigEntity::SetAvailableSkybox(std::string const map_id, unsigned int const texture_id)
+	{
+		if (m_available_skybox.contains(map_id))
+		{
+			m_available_skybox[map_id] = texture_id;
+		}
+		else
+		{
+			m_available_skybox.insert_or_assign(map_id, texture_id);
+		}
+	}
+
+	std::vector<std::string> ConfigEntity::GetAvailableSkybox()
+	{
+		std::vector<std::string> to_return = std::vector<std::string>();
+		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox.begin(); it != m_available_skybox.end(); it++)
+		{
+			to_return.push_back(it->first);
+		}
+
+		return to_return;
+	}
+
+	void ConfigEntity::SetRenderSkybox(bool const render_skybox)
+	{
+		m_render_skybox = render_skybox;
+	}
+
+	bool ConfigEntity::GetRenderSkybox() const
+	{
+		return m_render_skybox;
 	}
 
 

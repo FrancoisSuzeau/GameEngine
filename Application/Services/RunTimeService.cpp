@@ -24,10 +24,7 @@ namespace Services
 
 	void RunTimeService::DeInit()
 	{
-		/*if (m_opengl_service)
-		{
-			m_opengl_service.reset();
-		}*/
+		
 	}
 	void RunTimeService::RenderingInLine(float const line_width)
 	{
@@ -71,22 +68,22 @@ namespace Services
 	{
 		if (m_opengl_service)
 		{
-			m_opengl_service->clearColor();
-			m_opengl_service->clearBuffer();
+			m_opengl_service->clearColor(glm::vec2(0.1f, 1.f));
+			m_opengl_service->clearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 	}
-	void RunTimeService::RefreshColor()
+	void RunTimeService::RefreshColor(glm::vec2 const colors)
 	{
 		if (m_opengl_service)
 		{
-			m_opengl_service->clearColor();
+			m_opengl_service->clearColor(colors);
 		}
 	}
-	void RunTimeService::RefreshBuffers()
+	void RunTimeService::RefreshBuffers(GLbitfield const masks)
 	{
 		if (m_opengl_service)
 		{
-			m_opengl_service->clearBuffer();
+			m_opengl_service->clearBuffer(masks);
 		}
 	}
 	void RunTimeService::EnableBlendCapture()
@@ -94,6 +91,20 @@ namespace Services
 		if (m_opengl_service)
 		{
 			m_opengl_service->enable(GL_BLEND);
+		}
+	}
+	void RunTimeService::EnableDepthTest()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->enable(GL_DEPTH_TEST);
+		}
+	}
+	void RunTimeService::DisableDepthTest()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->disable(GL_DEPTH_TEST);
 		}
 	}
 	void RunTimeService::SetMinusSrcAlpha()

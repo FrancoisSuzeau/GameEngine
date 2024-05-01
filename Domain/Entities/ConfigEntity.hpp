@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <map>
 
 
 namespace Services {
@@ -40,6 +41,11 @@ namespace Services {
 		unsigned int GetSelectedSkyboxId() const;
 		void SetSelectedSkybox(std::string const selected_skybox);
 		void SetSelectedSkybox(unsigned int const selected_skybox);
+		void SetAvailableSkybox(std::vector<std::string> available_skybox);
+		void SetAvailableSkybox(std::string const map_id, unsigned int const texture_id);
+		std::vector<std::string> GetAvailableSkybox();
+		void SetRenderSkybox(bool const render_skybox);
+		bool GetRenderSkybox() const;
 
 		
 	private:
@@ -52,6 +58,8 @@ namespace Services {
 		bool m_active_bloom;
 		bool m_render_debug;
 		std::pair<std::string, unsigned int> m_selected_skybox;
+		std::map<std::string, unsigned int> m_available_skybox;
+		bool m_render_skybox;
 
 	};
 }

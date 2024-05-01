@@ -49,6 +49,7 @@ namespace Services
 		this->CleanConfig();
 		if (m_scene_grid)
 		{
+			m_scene_grid->Clean();
 			m_scene_grid.reset();
 		}
 

@@ -140,7 +140,9 @@ namespace Services
 			{"bloom_strength", config->GetBloomStrength()},
 			{"activate_bloom", config->GetBloom()},
 			{"render_debug", config->GetRenderDebug()},
-			{"selected_skybox", config->GetSelectedSkybox()}
+			{"selected_skybox", config->GetSelectedSkybox()},
+			{"available_skybox", config->GetAvailableSkybox()},
+			{"render_skybox", config->GetRenderSkybox()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -187,6 +189,8 @@ namespace Services
 			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
 			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
 			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
+			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
+			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
 		}
 		
 		return config;

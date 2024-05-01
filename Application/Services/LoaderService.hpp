@@ -28,6 +28,7 @@ namespace Services {
 		void SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
 		void LoadSkybox();
+		void LoadSkyboxS();
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);

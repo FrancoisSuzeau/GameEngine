@@ -33,11 +33,6 @@ namespace Services
 	}
 	void FramebufferService::DeInit()
 	{	
-		/*if (m_state_service)
-		{
-			m_state_service.reset();
-		}*/
-
 		if (m_runtime_service)
 		{
 			for (int i = 0; i < 2; i++)
@@ -52,7 +47,6 @@ namespace Services
 			m_runtime_service->DeleteBuffer(m_depth_fb);
 			m_runtime_service->DeleteTexture(m_depth_id);
 			m_runtime_service->DeleteBuffer(m_texture_fb);
-			//m_runtime_service.reset();
 		}
 
 		SQ_APP_DEBUG("Framebuffer service terminated");

@@ -105,6 +105,9 @@ namespace Commands
 			case Enums::ConfigsModifier::RENDERDEBUG:
 				m_configs->SetRenderDebug(m_bool_value);
 				break;
+			case::Enums::ConfigsModifier::RENDERSKYBOX:
+				m_configs->SetRenderSkybox(m_bool_value);
+				break;
 			default:
 				break;
 			}
