@@ -328,6 +328,23 @@ namespace Services
 	{
 		return m_texture_id;
 	}
+
+	std::map<std::string, unsigned int> StateService::getAvailableSkybox() const
+	{
+		return m_available_skybox;
+	}
+
+	void StateService::addAvailableSkybox(std::string map_id, unsigned int texture_id)
+	{
+		if (m_available_skybox.contains(map_id))
+		{
+			m_available_skybox[map_id] = texture_id;
+		}
+		else
+		{
+			m_available_skybox.insert_or_assign(map_id, texture_id);
+		}
+	}
 	
 	void StateService::CleanComponents()
 	{

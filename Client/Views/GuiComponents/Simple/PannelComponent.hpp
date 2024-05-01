@@ -42,6 +42,7 @@ namespace Views
 		void RenderSkyboxPannelModifier();
 		void RenderDebugModifier();
 		void RenderButtons();
+		void OnClose();
 		int item_current;
 		int previous_item_current;
 		bool render_grid;
@@ -50,6 +51,8 @@ namespace Views
 		int bloom_strength;
 		bool activate_debug;
 		bool active_skybox;
+		bool show;
+		std::string selected_skybox;
 	};
 }
 

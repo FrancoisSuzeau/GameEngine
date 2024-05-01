@@ -95,6 +95,8 @@ namespace Services {
 
 		void setSelectedSkyboxTextureId(unsigned int const texture_id);
 		unsigned int getSelectedSkyboxTextureId() const;
+		std::map<std::string, unsigned int> getAvailableSkybox() const;
+		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
 		
 		
 

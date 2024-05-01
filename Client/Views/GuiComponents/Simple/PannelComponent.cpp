@@ -20,7 +20,7 @@ namespace Views
 		}
 	}
 	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0),
-		activate_debug(false), active_skybox(false)
+		activate_debug(false), active_skybox(false), selected_skybox(""), show(false)
 	{
 		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -35,6 +35,7 @@ namespace Views
 			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
+			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
@@ -52,7 +53,7 @@ namespace Views
 		if (m_state_service && m_parent_view_model)
 		{
 			std::string config_pannel = m_state_service->getConfigPannel();
-			bool show = config_pannel != Constants::NONE;
+			show = config_pannel != Constants::NONE;
 			ImGui::SetNextWindowPos(ImVec2((float)((m_state_service->getWidth() / 2.f) - (w_width / 2.f)), (float)((m_state_service->getHeight() / 2.f) - (w_height / 2.f))));
 			ImGui::SetNextWindowSize(ImVec2((float)w_width, (float)w_height));
 
@@ -84,7 +85,8 @@ namespace Views
 			}
 			else
 			{
-				m_state_service->setActualize(false);
+				this->OnClose();
+
 			}
 
 			m_state_service->setConfigPannel(show ? config_pannel : Constants::NONE);
@@ -157,13 +159,41 @@ namespace Views
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(active_skybox, Enums::ConfigsModifier::RENDERSKYBOX));
 			}
 
-			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
-			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
+			std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
+			
+			for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
 			{
-				ImGui::Text(it[0].c_str());
-				ImGui::SameLine();
+				if (it->first == selected_skybox)
+				{
+					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+					ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+					ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
+					ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
+				}
+				else
+				{
+					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+					ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
+					ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+					if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
+					{
+						selected_skybox = it->first;
+						m_state_service->setActualize(true);
+						m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(selected_skybox, Enums::ConfigsModifier::CHANGESKYBOX));
+					}
+				}
+				ImGui::SameLine(120);
+				
 			}
-
+			ImGui::Text(" ");
+			for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
+			{
+				ImGui::Text(it->first.c_str());
+				ImGui::SameLine(120);
+			}
+			ImGui::Text(" ");
 		}
 	}
 	void PannelComponent::RenderDebugModifier()
@@ -204,6 +234,7 @@ namespace Views
 				}
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
 				m_parent_view_model->OnCommand();
+				m_state_service->setActualize(false);
 			}
 			ImGui::SameLine();
 		}
@@ -214,5 +245,27 @@ namespace Views
 
 		}
 		style.FrameRounding = frame_rounding_save;
+	}
+	void PannelComponent::OnClose()
+	{
+		if (!show && m_state_service && m_state_service->getActualize() && m_parent_view_model)
+		{
+			m_parent_view_model->DeleteCommmands();
+			m_state_service->setActualize(false);
+			render_grid = m_state_service->getConfigs()->GetRenderGrid();
+			activate_bloom = m_state_service->getConfigs()->GetBloom();
+			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
+			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
+			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
+			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
+			std::vector<int> values = { 4, 8, 12 };
+			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
+			if (it != values.end())
+			{
+				item_current = (int)std::distance(values.begin(), it);
+			}
+			trigger = m_state_service->getConfigs()->GetGridScalingTrigger();
+			previous_item_current = item_current;
+		}
 	}
 }

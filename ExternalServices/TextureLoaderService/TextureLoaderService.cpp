@@ -184,14 +184,17 @@ namespace Services
 		m_file_ext = Constants::NONE;
 		if (flux_in.is_open())
 		{
+			SQ_EXTSERVICE_DEBUG("Extension jpg for {} found", path);
 			m_file_ext = ".jpg";
 			flux_in.close();
 		}
 		else
 		{
+			
 			flux_in = std::ifstream(path + ".png");
 			if (flux_in.is_open())
 			{
+				SQ_EXTSERVICE_DEBUG("Extension png for {} found", path);
 				m_file_ext = ".png";
 				flux_in.close();
 			}

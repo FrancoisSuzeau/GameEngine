@@ -71,7 +71,8 @@ namespace Services
 			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
 			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
 			{
-				
+				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + it[0] + "/back");
+				m_state_service->addAvailableSkybox(it[0], texture_id);
 			}
 		}
 	}

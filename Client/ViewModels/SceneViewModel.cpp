@@ -255,7 +255,6 @@ namespace ViewModels
 			float relative_dist = glm::length(cam_pos - m_components.at(Enums::RendererType::GRID)->GetPosition());
 			if (std::abs(relative_dist - m_current_relative_distance_from_cam) >= m_state_service->getConfigs()->GetGridScalingTrigger())
 			{
-				std::cout << m_camera_service->GetPos().y << std::endl;
 				glm::vec3 actual_size = m_components.at(Enums::RendererType::GRID)->GetSize();
 				glm::vec3 actual_size2 = m_components.at(Enums::RendererType::SUBBGRID)->GetSize();
 				glm::vec3 actual_size3 = m_components.at(Enums::RendererType::SUBGRID2)->GetSize();

@@ -25,6 +25,8 @@ namespace Commands
 		{
 			m_state_service.reset();
 		}
+
+		
 	}
 
 	void ActualizeCommand::Execute()
