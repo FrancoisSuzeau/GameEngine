@@ -23,6 +23,7 @@ namespace Services {
 
 		unsigned int GetTextureId(int id) const;
 		unsigned int GetTextureId(bool horizontal) const;
+		unsigned int GetDephtTextureId() const;
 
 		void BuildFrameBufferDepth();
 		void BuildFrameBufferTexture();

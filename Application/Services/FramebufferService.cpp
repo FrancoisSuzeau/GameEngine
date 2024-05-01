@@ -60,6 +60,10 @@ namespace Services
 	{
 		return m_ping_pong_textures[horizontal];
 	}
+	unsigned int FramebufferService::GetDephtTextureId() const
+	{
+		return m_depth_id;
+	}
 	void FramebufferService::BuildFrameBufferDepth()
 	{
 		glGenTextures(1, &m_depth_id);
