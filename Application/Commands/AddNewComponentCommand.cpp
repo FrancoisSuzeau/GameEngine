@@ -53,6 +53,10 @@ namespace Commands
 				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
 				SQ_APP_TRACE("New square added");
 				break;
+			case Enums::RendererType::CUBE_TEXTURED:
+				//this->MakeNewComponent(std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, "container"));
+				SQ_APP_TRACE("New textured cube added");
+				break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
 				SQ_APP_TRACE("This component type cannot be added to the scene");

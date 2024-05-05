@@ -7,9 +7,9 @@
 namespace Services
 {
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
-		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_matrix(glm::mat4(1.f)),
+		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_perspective_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
-		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false)
+		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false), m_far_plane(100.f), m_near_plane(0.1f)
 	{
 	}
 
@@ -30,7 +30,8 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : Graphic service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
 			
-			m_projection_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
+			m_projection_perspective_matrix = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, m_near_plane, m_far_plane);
+			m_projection_ortho_matrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, m_near_plane, m_far_plane);
 			
 			m_runtime_service = container->GetReference<RunTimeService>();
 			if (!m_runtime_service)
@@ -274,9 +275,14 @@ namespace Services
 	}
 	
 	
-	glm::mat4 StateService::GetProjectionMatrix() const
+	glm::mat4 StateService::GetPerspectiveProjectionMatrix() const
 	{
-		return m_projection_matrix;
+		return m_projection_perspective_matrix;
+	}
+
+	glm::mat4 StateService::GetOrthoProjectionMatrix() const
+	{
+		return m_projection_ortho_matrix;
 	}
 
 	void StateService::setConfigPannel(std::string const new_val)
@@ -354,6 +360,16 @@ namespace Services
 	Enums::FramebufferType StateService::getPass() const
 	{
 		return m_fb_type;
+	}
+
+	float StateService::getFarPlane() const
+	{
+		return m_far_plane;
+	}
+
+	float StateService::getNearPlane() const
+	{
+		return m_near_plane;
 	}
 	
 	void StateService::CleanComponents()

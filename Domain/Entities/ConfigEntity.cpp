@@ -7,7 +7,7 @@
 namespace Services {
 
 	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), 
-		m_selected_skybox("calm_lake", 0), m_render_skybox(true)
+		m_selected_skybox("calm_lake", 0), m_render_skybox(true), m_active_depth(false)
 	{
 
 	}
@@ -123,6 +123,16 @@ namespace Services {
 	bool ConfigEntity::GetRenderSkybox() const
 	{
 		return m_render_skybox;
+	}
+
+	bool ConfigEntity::GetDepth() const
+	{
+		return m_active_depth;
+	}
+
+	void ConfigEntity::SetDepth(bool const depth)
+	{
+		m_active_depth = depth;
 	}
 
 

@@ -79,7 +79,8 @@ namespace Services {
 		void addComponent(std::shared_ptr<Component::IComponent> new_component);
 		void deleteComponent();
 
-		glm::mat4 GetProjectionMatrix() const;
+		glm::mat4 GetPerspectiveProjectionMatrix() const;
+		glm::mat4 GetOrthoProjectionMatrix() const;
 
 		void setConfigPannel(std::string const new_val);
 		std::string getConfigPannel() const;
@@ -100,6 +101,8 @@ namespace Services {
 
 		void setPass(Enums::FramebufferType fb_type);
 		Enums::FramebufferType getPass() const;
+		float getFarPlane() const;
+		float getNearPlane() const;
 		
 		
 
@@ -121,8 +124,11 @@ namespace Services {
 		bool m_show_context_menu;
 		bool m_popup_hovered;
 		bool m_actualize;
+		float m_near_plane;
+		float m_far_plane;
 		glm::vec4 m_previous_selected_component_color;
-		glm::mat4 m_projection_matrix;
+		glm::mat4 m_projection_perspective_matrix;
+		glm::mat4 m_projection_ortho_matrix;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;

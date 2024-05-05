@@ -145,7 +145,8 @@ namespace Services
 			{"render_debug", config->GetRenderDebug()},
 			{"selected_skybox", config->GetSelectedSkybox()},
 			{"available_skybox", config->GetAvailableSkybox()},
-			{"render_skybox", config->GetRenderSkybox()}
+			{"render_skybox", config->GetRenderSkybox()},
+			{"activate_depth", config->GetDepth()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -197,6 +198,7 @@ namespace Services
 			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
 			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
+			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));
 		}
 		
 		return config;

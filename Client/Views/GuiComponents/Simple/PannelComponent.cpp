@@ -36,6 +36,7 @@ namespace Views
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
 			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
+			activate_shadow = m_state_service->getConfigs()->GetDepth();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
@@ -72,6 +73,8 @@ namespace Views
 						this->RenderBloomPannelModifier();
 						ImGui::Separator();
 						this->RenderSkyboxPannelModifier();
+						ImGui::Separator();
+						this->RenderShadowPannelModifier();
 					}
 
 					if (config_pannel == Constants::DEBUG_CONFIG_PANNEL)
@@ -145,6 +148,19 @@ namespace Views
 					activate_bloom = false;
 				}
 				m_state_service->setActualize(true);
+			}
+		}
+	}
+	void PannelComponent::RenderShadowPannelModifier()
+	{
+		if (m_state_service && m_state_service->getConfigs())
+		{
+			ImGui::Text("Render Shadow : ");
+			if (ImGui::Checkbox("Activate shadow effect", &activate_shadow))
+			{
+				m_state_service->setActualize(true);
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(activate_shadow, Enums::ConfigsModifier::SHADOW));
+
 			}
 		}
 	}
@@ -258,6 +274,7 @@ namespace Views
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
 			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
+			activate_shadow = m_state_service->getConfigs()->GetDepth();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())

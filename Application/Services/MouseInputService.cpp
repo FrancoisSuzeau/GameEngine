@@ -19,7 +19,7 @@ namespace Services
 			}
 			else
 			{
-				m_proj_mat = m_state_service->GetProjectionMatrix();
+				m_proj_mat = m_state_service->GetPerspectiveProjectionMatrix();
 
 			}
 
@@ -133,7 +133,7 @@ namespace Services
 	{
 		if (m_state_service)
 		{
-			glm::mat4 inverted_proj_mat = glm::inverse(m_state_service->GetProjectionMatrix());
+			glm::mat4 inverted_proj_mat = glm::inverse(m_state_service->GetPerspectiveProjectionMatrix());
 			glm::vec4 eye_coords = inverted_proj_mat * clip_coords;
 
 			return glm::vec4(eye_coords.x, eye_coords.y, -1.f, 0.f);

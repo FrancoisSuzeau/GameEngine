@@ -136,25 +136,18 @@ namespace Engines
 					}
 				}
 				
-				glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
-				glViewport(0, 0, m_state_service->getWidth(), m_state_service->getHeight());
-				m_framebuffer_service->BindFramebuffer(Enums::FramebufferType::DEPTHBUFFER);
-				m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
-				m_framebuffer_service->UnbindFramebuffer();
+				m_runtime_service->RefreshScreen();
+
+				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetDepth())
+				{
+					m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
+
+					this->PassToFrameBuffer(view_model_builder);
+				}
 
 				m_state_service->setPass(Enums::FramebufferType::COLORBUFFER);
-				glViewport(0, 0, m_state_service->getWidth(), m_state_service->getHeight());
-				m_framebuffer_service->BindFramebuffer(Enums::FramebufferType::COLORBUFFER);
-				this->InitFrame();
-
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
-
-				m_framebuffer_service->UnbindFramebuffer();
+				
+				this->PassToFrameBuffer(view_model_builder);
 
 				m_scene_engine->RenderScreen();
 
@@ -195,19 +188,6 @@ namespace Engines
 		}
 	}
 
-	void MainEngine::SendToFrameBuffer(Enums::FramebufferType fb_type)
-	{
-		switch (fb_type)
-		{
-		case Enums::COLORBUFFER:
-			break;
-		case Enums::DEPTHBUFFER:
-			break;
-		default:
-			break;
-		}
-	}
-
 	void MainEngine::FpsCalculation(Enums::EngineEnum ee)
 	{
 		switch (ee)
@@ -229,6 +209,29 @@ namespace Engines
 		default:
 			break;
 		}
+	}
+	void MainEngine::PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		Enums::FramebufferType fb_type = m_state_service->getPass();
+
+		m_framebuffer_service->BindFramebuffer(fb_type);
+
+		switch (fb_type)
+		{
+		case Enums::COLORBUFFER:
+			this->InitFrame();
+			break;
+		case Enums::DEPTHBUFFER:
+			m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
+			break;
+		default:
+			break;
+		}
+		
+		m_scene_engine->RefreshScene(view_model_builder);
+		m_scene_engine->RenderScene(view_model_builder);
+
+		m_framebuffer_service->UnbindFramebuffer();
 	}
 }
 

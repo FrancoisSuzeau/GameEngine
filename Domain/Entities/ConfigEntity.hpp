@@ -43,6 +43,8 @@ namespace Services {
 		std::vector<std::string> GetAvailableSkybox();
 		void SetRenderSkybox(bool const render_skybox);
 		bool GetRenderSkybox() const;
+		bool GetDepth() const;
+		void SetDepth(bool const depth);
 
 		
 	private:
@@ -57,6 +59,7 @@ namespace Services {
 		std::string m_selected_skybox;
 		std::vector<std::string> m_available_skybox;
 		bool m_render_skybox;
+		bool m_active_depth;
 
 	};
 }

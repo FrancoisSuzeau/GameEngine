@@ -43,8 +43,9 @@ namespace Engines {
 
 		void InitFrame() override;
 		void EndFrame() override;
-		void SendToFrameBuffer (Enums::FramebufferType fb_type);
 		void FpsCalculation(Enums::EngineEnum ee);
+
+		void PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
