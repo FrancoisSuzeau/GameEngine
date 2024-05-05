@@ -345,6 +345,16 @@ namespace Services
 			m_available_skybox.insert_or_assign(map_id, texture_id);
 		}
 	}
+
+	void StateService::setPass(Enums::FramebufferType fb_type)
+	{
+		m_fb_type = fb_type;
+	}
+
+	Enums::FramebufferType StateService::getPass() const
+	{
+		return m_fb_type;
+	}
 	
 	void StateService::CleanComponents()
 	{

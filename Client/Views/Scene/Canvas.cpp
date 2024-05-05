@@ -26,6 +26,12 @@ namespace Views
 			{
 				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_state_service = container->GetReference<Services::StateService>();
+			if (!m_runtime_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -35,16 +41,6 @@ namespace Views
 		{
 			m_draggable_component->Clean();
 			m_draggable_component.reset();
-		}
-
-		if (m_shader_service)
-		{
-			m_shader_service.reset();
-		}
-
-		if (m_runtime_service)
-		{
-			m_runtime_service.reset();
 		}
 
 		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
@@ -82,8 +78,8 @@ namespace Views
 
 				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
 				{
-					std::string shader_name = Constants::UNTEXTURED_SHADER;
-					if (m_runtime_service && m_runtime_service->IsRenderingLine())
+					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::UNTEXTURED_SHADER;
+					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
 					{
 						shader_name = Constants::HOVER_SHADER;
 					}
@@ -99,7 +95,29 @@ namespace Views
 				}
 			}
 			break;
+			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
+
+				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
+				{
+					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SHADER;
+					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
+					{
+						shader_name = Constants::HOVER_SHADER;
+					}
+					if (m_shader_service)
+					{
+						m_shader_service->BindShaderProgram(shader_name);
+						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+						m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+						m_shader_service->UnbindShaderProgram();
+					}
+
+					component.reset();
+				}
+			}
 				break;
 			default:
 				break;
@@ -133,6 +151,7 @@ namespace Views
 	{
 		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_unique<Renderers::Triangle>());
 		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_unique<Renderers::Square>());
+		m_renderers.insert_or_assign(Enums::RendererType::CUBE_TEXTURED, std::make_unique<Renderers::CubeTextured>());
 		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)

@@ -15,6 +15,7 @@ namespace Enums {
 	enum ConfigsModifier {ADDFILE, CHANGETRIGGER, CHANGERATIO, RENDERGRID, BLOOMSTRENGTH, BLOOM, RENDERDEBUG, RENDERSKYBOX, CHANGESKYBOX};
 	enum JsonType {Scene, Config};
 	enum ScallingWay {Up = 1, Bottom = -1, EMPTY = 0};
+	enum FramebufferType {COLORBUFFER, DEPTHBUFFER};
 }
 
 #endif

@@ -43,6 +43,7 @@ namespace Engines {
 
 		void InitFrame() override;
 		void EndFrame() override;
+		void SendToFrameBuffer (Enums::FramebufferType fb_type);
 		void FpsCalculation(Enums::EngineEnum ee);
 
 		std::shared_ptr<Services::StateService> m_state_service;

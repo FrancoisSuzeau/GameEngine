@@ -1,13 +1,16 @@
 #version 460 core
-
-uniform vec4 background_color;
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
+in vec2 TexCoords;
+
+uniform sampler2D texture0;
+
 void main()
-{
-    FragColor = background_color;
-    vec3 objectColor = vec3(background_color.x, background_color.y, background_color.z);
+{    
+
+    vec3 objectColor = texture(texture0, TexCoords).rgb;
+    FragColor = vec4(objectColor, 1.f);
     float brightness = dot(objectColor, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 2.0)
         BrightColor = vec4(objectColor, 1.0);

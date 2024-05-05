@@ -136,16 +136,25 @@ namespace Engines
 					}
 				}
 				
-				m_framebuffer_service->BindFramebuffer();
+				glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
+				glViewport(0, 0, m_state_service->getWidth(), m_state_service->getHeight());
+				m_framebuffer_service->BindFramebuffer(Enums::FramebufferType::DEPTHBUFFER);
+				m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
+				m_scene_engine->RefreshScene(view_model_builder);
+				m_scene_engine->RenderScene(view_model_builder);
+				m_framebuffer_service->UnbindFramebuffer();
+
+				m_state_service->setPass(Enums::FramebufferType::COLORBUFFER);
+				glViewport(0, 0, m_state_service->getWidth(), m_state_service->getHeight());
+				m_framebuffer_service->BindFramebuffer(Enums::FramebufferType::COLORBUFFER);
 				this->InitFrame();
 
 				m_scene_engine->RefreshScene(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();
-				m_runtime_service->RefreshColor(glm::vec2(1.f, 1.f));
-				m_runtime_service->RefreshBuffers(GL_COLOR_BUFFER_BIT);
-				m_runtime_service->DisableDepthTest();
 
 				m_scene_engine->RenderScreen();
 
@@ -183,6 +192,19 @@ namespace Engines
 		{
 			m_gui_engine->EndFrame();
 			SDL_GL_SwapWindow(m_window.get());
+		}
+	}
+
+	void MainEngine::SendToFrameBuffer(Enums::FramebufferType fb_type)
+	{
+		switch (fb_type)
+		{
+		case Enums::COLORBUFFER:
+			break;
+		case Enums::DEPTHBUFFER:
+			break;
+		default:
+			break;
 		}
 	}
 

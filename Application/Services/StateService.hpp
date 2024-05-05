@@ -97,6 +97,9 @@ namespace Services {
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
 		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
+
+		void setPass(Enums::FramebufferType fb_type);
+		Enums::FramebufferType getPass() const;
 		
 		
 
@@ -132,6 +135,7 @@ namespace Services {
 		std::shared_ptr<RunTimeService> m_runtime_service;
 		std::map<std::string, unsigned int> m_available_skybox;
 		unsigned int m_texture_id;
+		Enums::FramebufferType m_fb_type;
 
 
 	};

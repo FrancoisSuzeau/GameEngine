@@ -27,7 +27,8 @@ namespace Enums {
 	{RendererType::SKYBOX, "skybox"},
 	{RendererType::SQUARE, "square"},
 	{RendererType::SQUARE_TEXTURED, "square_textured"},
-	{RendererType::TRIANGLE, "triangle"}
+	{RendererType::TRIANGLE, "triangle"},
+	{RendererType::CUBE_TEXTURED, "cube_textured"}
 		})
 }
 

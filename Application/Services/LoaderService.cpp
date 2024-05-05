@@ -76,6 +76,22 @@ namespace Services
 			}
 		}
 	}
+	void LoaderService::LoadSceneComponentTextures()
+	{
+		if (m_texture_loader_service && m_state_service)
+		{
+			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->getComponents();
+
+			for (std::vector < std::shared_ptr<Component::IComponent> >::iterator it = components.begin(); it != components.end(); it++)
+			{
+				if (it[0])
+				{
+					unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/" + it[0]->GetTextureName());
+					it[0]->SetTextureId(texture_id);
+				}
+			}
+		}
+	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
 	{
 		if (m_json_loader_service)

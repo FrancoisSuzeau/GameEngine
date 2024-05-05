@@ -70,6 +70,8 @@ namespace Engines
 				m_shader_service->AddShader(Constants::HOVER_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::BLOOM_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::GRID_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::DEPTH_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -116,7 +118,7 @@ namespace Engines
 			m_screen_renderer->Construct();
 		}
 
-		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, 0);
+		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, "");
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
@@ -124,9 +126,28 @@ namespace Engines
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (view_model && m_runtime_service)
+			if (m_state_service->getPass() == Enums::FramebufferType::COLORBUFFER)
 			{
-				view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
+				if (view_model && m_runtime_service)
+				{
+					view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
+					m_runtime_service->RenderingInLine(1.f);
+					view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
+					view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
+					m_runtime_service->RenderingInLine(2.f);
+					view_model->RenderSceneElements(Enums::RendererType::GRID);
+					m_runtime_service->RenderingInFill();
+					view_model->RenderComponents();
+					m_runtime_service->RenderingInLine(4.f);
+					view_model->RenderComponents();
+					m_runtime_service->RenderingInFill();
+
+					view_model.reset();
+				}
+			}
+
+			if (m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER)
+			{
 				m_runtime_service->RenderingInLine(1.f);
 				view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 				view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
@@ -134,11 +155,7 @@ namespace Engines
 				view_model->RenderSceneElements(Enums::RendererType::GRID);
 				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
-				m_runtime_service->RenderingInLine(4.f);
-				view_model->RenderComponents();
 				m_runtime_service->RenderingInFill();
-
-				view_model.reset();
 			}
 		}
 	}

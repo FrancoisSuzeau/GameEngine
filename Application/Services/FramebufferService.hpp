@@ -14,6 +14,7 @@
 
 namespace Services {
 
+
 	class FramebufferService : public IService
 	{
 
@@ -25,10 +26,11 @@ namespace Services {
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
-		void BuildFrameBufferDepth();
+		//void BuildFrameBufferCube();
+		void BuildFrameBufferDepthMap();
 		void BuildFrameBufferTexture();
 
-		void BindFramebuffer();
+		void BindFramebuffer(Enums::FramebufferType fb_type);
 		void BindFramebuffer(bool horizontal);
 		void UnbindFramebuffer();
 
@@ -38,8 +40,10 @@ namespace Services {
 		unsigned int m_ping_pong_fb[2] = { 0, 0 };
 		unsigned int m_ping_pong_textures[2] = { 0, 0 };
 		unsigned int m_render_fb;
-		unsigned int m_depth_fb;
-		unsigned int m_depth_id = 0;
+	/*	unsigned int m_cube_fb;
+		unsigned int m_cube_id = 0;*/
+		unsigned int m_depth_map_fb = 0;
+		unsigned int m_depth_map_texture_id;
 		int m_fb_width;
 		int m_fb_height;
 		void SetFrameBufferDim();

@@ -10,6 +10,7 @@
 #include "Textured/ScreenRenderer.hpp"
 #include "Untextured/Grid.hpp"
 #include "Textured/Skybox.hpp"
+#include "Textured/CubeTextured.hpp"
 
 
 #endif

@@ -26,6 +26,10 @@ namespace Component
 				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
+				shader_service->setFloat(shader_name, "near", 1.0f);
+				shader_service->setFloat(shader_name, "far", 7.5f);
+				glm::mat4 projection_ortho = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.f, 7.5f);
+				shader_service->setMat4(shader_name, "projection_ortho", projection_ortho);
 				if (state_service->getConfigs()->GetBloom())
 				{
 					shader_service->setInt(shader_name, "bloom", 1);
@@ -87,9 +91,18 @@ namespace Component
 				{
 					shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(camera_service->GetCameraView())));
 				}
-				else
+				if(shader_name != Constants::DEPTH_SHADER && shader_name != Constants::SKYBOX_SHADER)
 				{
 					shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
+					/*glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+					glm::mat4 view = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+					shader_service->setMat4(shader_name, "view", view);*/
+				}
+				if (shader_name == Constants::DEPTH_SHADER)
+				{
+					glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+					glm::mat4 view = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+					shader_service->setMat4(shader_name, "view", view);
 				}
 
 				camera_service.reset();
