@@ -5,7 +5,9 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "Builders/Builders.hpp"
+#include "Builders/EngineBuilder.hpp"
+#include "Builders/ServiceBuilder.hpp"
+#include "Builders/ViewModelBuilder.hpp"
 #include "IocModule.hpp"
 #include "Services/Services.hpp"
 #include "ExternalServices.hpp"

@@ -51,7 +51,6 @@
   <ItemGroup>
     <ClInclude Include="Commands\ActualizeCommand.hpp" />
     <ClInclude Include="Commands\AddNewComponentCommand.hpp" />
-    <ClInclude Include="Builders\Builders.hpp" />
     <ClInclude Include="Commands\SaveSceneCommand.hpp" />
     <ClInclude Include="Commands\SaveConfigCommand.hpp" />
     <ClInclude Include="Commands\LoadSceneCommand.hpp" />

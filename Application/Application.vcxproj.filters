@@ -146,9 +146,6 @@
     <ClInclude Include="Engines\Engines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Builders\Builders.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Commands\Commands.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
