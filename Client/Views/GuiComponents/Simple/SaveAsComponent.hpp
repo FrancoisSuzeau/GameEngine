@@ -24,7 +24,9 @@
 
 #include <iostream>
 #include <list>
-#include "Commands/Commands.hpp"
+#include "Commands/SaveSceneCommand.hpp"
+#include "Commands/ModifyConfigsCommand.hpp"
+#include "Commands/LoadSceneCommand.hpp"
 
 namespace Views
 {

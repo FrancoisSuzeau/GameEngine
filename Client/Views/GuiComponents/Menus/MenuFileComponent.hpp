@@ -19,10 +19,14 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
-#include "Commands/Commands.hpp"
 #include "Services/Services.hpp"
 #include "Container/Container.hpp"
 #include <functional>
+
+#include "Commands/LoadSceneCommand.hpp"
+#include "Commands/SaveSceneCommand.hpp"
+#include "Commands/SaveConfigCommand.hpp"
+#include "Commands/ExitCommand.hpp"
 
 
 #include <iostream>

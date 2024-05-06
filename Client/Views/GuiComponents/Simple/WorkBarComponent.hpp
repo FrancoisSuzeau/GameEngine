@@ -19,13 +19,17 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
-#include "IRenderer.hpp"
 #include "Services/StateService.hpp"
 #include "Container/Container.hpp"
+#include "Services/FramebufferService.hpp"
+#include "IComponent.hpp"
+#include "IViewModel.hpp"
 
 #include <iostream>
 #include <list>
-#include "Commands/Commands.hpp"
+#include "Commands/AddNewComponentCommand.hpp"
+#include "Commands/CopyComponentCommand.hpp"
+#include "Commands/DeleteComponent.hpp"
 
 namespace Views
 {

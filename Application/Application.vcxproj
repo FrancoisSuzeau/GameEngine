@@ -62,7 +62,6 @@
     <ClInclude Include="Services\MouseInputService.hpp" />
     <ClInclude Include="Services\LoaderService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
-    <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
     <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />

@@ -7,7 +7,6 @@
 
 #include "IViewModel.hpp"
 #include "Container/Container.hpp"
-#include "Commands/Commands.hpp"
 #include "SceneViewModel.hpp"
 #include "IView.hpp"
 #include <iostream>

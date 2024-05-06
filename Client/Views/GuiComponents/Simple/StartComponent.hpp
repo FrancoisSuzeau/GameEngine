@@ -21,10 +21,12 @@
 #include "IView.hpp"
 #include "Services/StateService.hpp"
 #include "Container/Container.hpp"
+#include "IViewModel.hpp"
 
 #include <iostream>
 #include <list>
-#include "Commands/Commands.hpp"
+#include "Commands/LoadSceneCommand.hpp"
+#include "Commands/ExitCommand.hpp"
 
 namespace Views
 {

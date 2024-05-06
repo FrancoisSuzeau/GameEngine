@@ -24,7 +24,9 @@
 
 #include <iostream>
 #include <list>
-#include "Commands/Commands.hpp"
+
+#include "Commands/ModifyConfigsCommand.hpp"
+#include "Commands/ActualizeCommand.hpp"
 
 namespace Views
 {
