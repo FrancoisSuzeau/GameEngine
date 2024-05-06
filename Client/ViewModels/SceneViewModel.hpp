@@ -25,6 +25,8 @@
 
 #include "Commands/ActualizeCommand.hpp"
 
+#include "Renderers/Textured/Skybox.hpp"
+
 #include <iostream>
 #include <map>
 

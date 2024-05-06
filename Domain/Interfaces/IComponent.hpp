@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
-#include "../Entities/Renderers/Renderers.hpp"
+#include "IRenderer.hpp"
 
 namespace Component {
 

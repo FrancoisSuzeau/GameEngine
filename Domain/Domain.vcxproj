@@ -22,7 +22,6 @@
     <ClInclude Include="Entities\Components\ComponentBase.hpp" />
     <ClInclude Include="Entities\Components\TexturedComponent.hpp" />
     <ClInclude Include="Entities\ConfigEntity.hpp" />
-    <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />

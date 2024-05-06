@@ -7,7 +7,16 @@
 
 #include "IView.hpp"
 #include "Services/ShaderService.hpp"
-#include "Renderers/Renderers.hpp"
+#include "Services/RunTimeService.hpp"
+#include "Services/StateService.hpp"
+#include "IViewModel.hpp"
+
+#include "Renderers/Untextured/Square.hpp"
+#include "Renderers/Untextured/Triangle.hpp"
+#include "Renderers/Textured/CubeTextured.hpp"
+
+#include "IComponent.hpp"
+
 #include "Draggable.hpp"
 #include "Transformer.hpp"
 #include <map>

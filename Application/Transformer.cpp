@@ -95,12 +95,6 @@ namespace Component
 					shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
 					
 				}
-				/*if (shader_name == Constants::DEPTH_SHADER)
-				{
-					glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
-					glm::mat4 view = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-					shader_service->setMat4(shader_name, "view", view);
-				}*/
 
 				camera_service.reset();
 			}
