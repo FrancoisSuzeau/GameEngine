@@ -17,6 +17,9 @@
 
 #include "IComponent.hpp"
 
+#include "Components/ComponentBase.hpp"
+#include "Components/TexturedComponent.hpp"
+
 #include "../Views/Scene/Canvas.hpp"
 #include <functional>
 

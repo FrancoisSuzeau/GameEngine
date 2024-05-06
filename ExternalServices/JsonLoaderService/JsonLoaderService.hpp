@@ -14,7 +14,10 @@
 #include <nlohmann/json.hpp>
 
 #include "IService.hpp"
-#include "Components/Components.hpp"
+
+#include "Components/ComponentBase.hpp"
+#include "Components/TexturedComponent.hpp"
+
 #include <string>
 #include <iostream>
 #include "ConfigEntity.hpp"

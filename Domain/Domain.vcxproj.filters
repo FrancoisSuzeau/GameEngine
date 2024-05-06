@@ -69,9 +69,6 @@
     <ClInclude Include="Entities\Components\ComponentBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Components\Components.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
