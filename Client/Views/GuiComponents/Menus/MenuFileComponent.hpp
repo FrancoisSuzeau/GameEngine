@@ -19,8 +19,10 @@
 #include "imgui_impl_opengl3.h"
 
 #include "IView.hpp"
-#include "Services/Services.hpp"
+#include "Services/StateService.hpp"
 #include "Container/Container.hpp"
+#include "IViewModel.hpp"
+
 #include <functional>
 
 #include "Commands/LoadSceneCommand.hpp"

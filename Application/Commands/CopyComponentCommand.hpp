@@ -8,7 +8,10 @@
 #include "ICommand.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "../Services/Services.hpp"
+#include "../Services/StateService.hpp"
+#include "IComponent.hpp"
+#include "../Services/CameraService.hpp"
+
 
 #include <memory>
 

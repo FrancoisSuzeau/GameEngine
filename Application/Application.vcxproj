@@ -74,7 +74,6 @@
     <ClInclude Include="Builders\EngineBuilder.hpp" />
     <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Application.hpp" />
-    <ClInclude Include="Services\Services.hpp" />
     <ClInclude Include="Services\StateService.hpp" />
     <ClInclude Include="Builders\ViewModelBuilder.hpp" />
     <ClInclude Include="Services\ShaderService.hpp" />

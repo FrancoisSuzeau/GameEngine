@@ -14,7 +14,10 @@
 #include "SceneEngine.hpp"
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "../Services/Services.hpp"
+
+#include "../Services/StateService.hpp"
+#include "../Services/FramebufferService.hpp"
+#include "../Services/RunTimeService.hpp"
 #include "../Builders/ViewModelBuilder.hpp"
 
 #include "Constants/StringConstants.hpp"

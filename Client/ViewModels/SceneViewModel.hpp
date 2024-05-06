@@ -9,6 +9,14 @@
 #include "Container/Container.hpp"
 #include "Transformer.hpp"
 #include "Services/ShaderService.hpp"
+#include "Services/StateService.hpp"
+#include "Services/LoaderService.hpp"
+#include "Services/FramebufferService.hpp"
+#include "Services/RunTimeService.hpp"
+#include "Services/CameraService.hpp"
+
+#include "IComponent.hpp"
+
 #include "../Views/Scene/Canvas.hpp"
 #include <functional>
 

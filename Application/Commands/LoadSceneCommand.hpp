@@ -9,7 +9,8 @@
 #include "IRenderer.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "../Services/Services.hpp"
+#include "../Services/StateService.hpp"
+#include "../Services/LoaderService.hpp"
 
 #include <memory>
 #include <vector>

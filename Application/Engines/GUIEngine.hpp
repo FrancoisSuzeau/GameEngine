@@ -22,7 +22,9 @@
 
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
-#include "../Services/Services.hpp"
+#include "../Services/ImGUIServiceInitalizer.hpp"
+#include "../Services/StateService.hpp"
+#include "../Services/LoaderService.hpp"
 
 #include "../Builders/ViewModelBuilder.hpp"
 
