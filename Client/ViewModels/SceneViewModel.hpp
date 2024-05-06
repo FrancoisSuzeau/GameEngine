@@ -6,12 +6,13 @@
 #define SCENEVIEWMODEL_H
 
 #include "IViewModel.hpp"
-#include "../Views/Views.hpp"
 #include "Container/Container.hpp"
 #include "Transformer.hpp"
 #include "Services/ShaderService.hpp"
-
+#include "../Views/Scene/Canvas.hpp"
 #include <functional>
+
+#include "Commands/ActualizeCommand.hpp"
 
 #include <iostream>
 #include <map>

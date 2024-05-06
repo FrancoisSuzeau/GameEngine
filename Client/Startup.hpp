@@ -6,7 +6,6 @@
 #define STARTUP_H
 
 #include "Application.hpp"
-#include "Views/Views.hpp"
 #include "ViewModels/GUIViewModel.hpp"
 #include "ViewModels/SceneViewModel.hpp"
 

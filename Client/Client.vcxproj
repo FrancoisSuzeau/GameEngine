@@ -200,7 +200,6 @@
     <ClInclude Include="Views\GuiComponents\Simple\StackToolsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
-    <ClInclude Include="Views\Views.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\WorkBarComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
