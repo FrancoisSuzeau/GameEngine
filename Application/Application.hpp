@@ -23,7 +23,11 @@
 #include "Services/RunTimeService.hpp"
 
 #include "ExternalServices.hpp"
-#include "Engines/Engines.hpp"
+
+#include "Engines/SceneEngine.hpp"
+#include "Engines/GUIEngine.hpp"
+#include "Engines/MainEngine.hpp"
+
 #include "Logger.hpp"
 
 #include <cassert>

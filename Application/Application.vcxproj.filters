@@ -140,9 +140,6 @@
     <ClInclude Include="Services\ShaderService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engines\Engines.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Services\FramebufferService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

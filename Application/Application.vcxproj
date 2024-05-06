@@ -63,7 +63,6 @@
     <ClInclude Include="Services\LoaderService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
-    <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
