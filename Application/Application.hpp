@@ -22,7 +22,9 @@
 #include "Services/KeyboardInputService.hpp"
 #include "Services/RunTimeService.hpp"
 
-#include "ExternalServices.hpp"
+#include "JsonLoaderService/JsonLoaderService.hpp"
+#include "ShaderLoaderService/ShaderLoaderService.hpp"
+#include "TextureLoaderService/TextureLoaderService.hpp"
 
 #include "Engines/SceneEngine.hpp"
 #include "Engines/GUIEngine.hpp"

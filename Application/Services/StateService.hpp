@@ -18,9 +18,11 @@
 
 #include "IService.hpp"
 #include "Renderers/Untextured/Grid.hpp"
-#include <ExternalServices.hpp>
 #include "RunTimeService.hpp"
 
+#include "IComponent.hpp"
+#include "ConfigEntity.hpp"
+#include "Enums/EngineEnum.hpp"
 
 namespace Services {
 

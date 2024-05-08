@@ -9,7 +9,9 @@
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "../Services/StateService.hpp"
-#include "IComponent.hpp"
+
+#include "Components/ComponentBase.hpp"
+
 #include "../Services/CameraService.hpp"
 
 

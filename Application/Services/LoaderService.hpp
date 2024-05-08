@@ -8,7 +8,11 @@
 #include "IService.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "ExternalServices.hpp"
+
+#include "TextureLoaderService/TextureLoaderService.hpp"
+#include "JsonLoaderService/JsonLoaderService.hpp"
+#include "ShaderLoaderService/ShaderLoaderService.hpp"
+
 #include "StateService.hpp"
 #include "ConfigEntity.hpp"
 

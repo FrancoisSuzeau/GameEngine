@@ -10,7 +10,9 @@
 #include "Container/Container.hpp"
 #include "../Services/StateService.hpp"
 #include "../Services/CameraService.hpp"
-#include "IComponent.hpp"
+
+#include "Components/ComponentBase.hpp"
+#include "Components/TexturedComponent.hpp"
 
 #include <memory>
 
