@@ -6,7 +6,7 @@
 #include "TexturedComponent.hpp"
 
 namespace Component {
-	TexturedComponent::TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, unsigned int texure_id) : m_texture_id(texure_id)
+	TexturedComponent::TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, std::string texture_name) : m_texture_id(0), m_texture_name(texture_name)
 	{
 		m_type = type;
 
@@ -32,6 +32,21 @@ namespace Component {
 	void TexturedComponent::SetHorizontal(bool const new_val)
 	{
 		m_horizontal = new_val;
+	}
+
+	std::string TexturedComponent::GetTextureName() const
+	{
+		return m_texture_name;
+	}
+
+	void TexturedComponent::SetTextureId(unsigned int texture_id)
+	{
+		m_texture_id = texture_id;
+	}
+
+	void TexturedComponent::SetTextureName(std::string const new_name)
+	{
+		m_texture_name = new_name;
 	}
 	
 	unsigned int TexturedComponent::GetTextureId() const

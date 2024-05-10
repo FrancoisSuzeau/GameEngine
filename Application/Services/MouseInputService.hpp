@@ -6,7 +6,8 @@
 #define MOUSEINPUTSERVICE_H
 
 #include "IService.hpp"
-#include "Services.hpp"
+#include "StateService.hpp"
+#include "CameraService.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 

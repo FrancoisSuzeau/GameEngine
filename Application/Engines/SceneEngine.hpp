@@ -12,8 +12,19 @@
 
 #include "IEngine.hpp"
 #include "Constants/StringConstants.hpp"
-#include "Renderers/Renderers.hpp"
-#include "../Services/Services.hpp"
+
+
+#include "../Services/ShaderService.hpp"
+#include "../Services/CameraService.hpp"
+#include "../Services/StateService.hpp"
+#include "../Services/MouseInputService.hpp"
+#include "../Services/KeyboardInputService.hpp"
+#include "../Services/RunTimeService.hpp"
+#include "../Services/FramebufferService.hpp"
+
+#include "Renderers/Textured/ScreenRenderer.hpp"
+#include "Components/TexturedComponent.hpp"
+
 #include "../Transformer.hpp"
 
 namespace Engines

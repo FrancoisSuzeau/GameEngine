@@ -20,10 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Components\ComponentBase.hpp" />
-    <ClInclude Include="Entities\Components\Components.hpp" />
     <ClInclude Include="Entities\Components\TexturedComponent.hpp" />
     <ClInclude Include="Entities\ConfigEntity.hpp" />
-    <ClInclude Include="Entities\Renderers\Renderers.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
@@ -39,6 +37,7 @@
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
+    <ClInclude Include="Entities\Renderers\Textured\CubeTextured.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Components\ComponentBase.cpp" />
@@ -50,6 +49,7 @@
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp" />
+    <ClCompile Include="Entities\Renderers\Textured\CubeTextured.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

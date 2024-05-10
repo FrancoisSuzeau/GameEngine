@@ -6,10 +6,13 @@
 #define TRANSFORMER_H
 
 #include "IComponent.hpp"
-#include "Services/Services.hpp"
+
+#include "Services/ShaderService.hpp"
+#include "Services/StateService.hpp"
+#include "Services/CameraService.hpp"
+
 #include "Container/Container.hpp"
 #include "Constants/NumberConstants.hpp"
-#include "Renderers/Renderers.hpp"
 
 namespace Component
 {

@@ -89,9 +89,6 @@
     <ClInclude Include="Views\GuiComponents\Simple\AppAboutComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Views\Views.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Views\GuiComponents\Simple\AppStyleEditorComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

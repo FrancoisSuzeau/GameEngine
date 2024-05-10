@@ -6,15 +6,29 @@
 #define GUIVIEWMODEL_H
 
 #include "IViewModel.hpp"
-#include "../Views/Views.hpp"
 #include "Container/Container.hpp"
-#include "Commands/Commands.hpp"
 #include "SceneViewModel.hpp"
-
+#include "IView.hpp"
 #include <iostream>
 #include "ConfigEntity.hpp"
 #include <list>
 #include <map>
+
+#include "../Views/GuiComponents/Simple/MetricsComponent.hpp"
+#include "../Views/GuiComponents/Simple/StackToolsComponent.hpp"
+#include "../Views/GuiComponents/Simple/AppAboutComponent.hpp"
+#include "../Views/GuiComponents/Simple/AppStyleEditorComponent.hpp"
+#include "../Views/GuiComponents/Menus/MenuFileComponent.hpp"
+#include "../Views/GuiComponents/Menus/MenuToolsComponent.hpp"
+#include "../Views/GuiComponents/Menus/MenuEditComponent.hpp"
+#include "../Views/GuiComponents/Menus/MenuSettingsComponent.hpp"
+#include "../Views/GuiComponents/Simple/EventViewerComponent.hpp"
+#include "../Views/GuiComponents/Simple/SaveAsComponent.hpp"
+#include "../Views/GuiComponents/Simple/ConfirmComponent.hpp"
+#include "../Views/GuiComponents/Simple/StartComponent.hpp"
+#include "../Views/GuiComponents/Simple/WorkBarComponent.hpp"
+#include "../Views/GuiComponents/Simple/PannelComponent.hpp"
+
 
 namespace ViewModels
 {
@@ -31,7 +45,6 @@ namespace ViewModels
 	private:
 		std::vector<std::unique_ptr<Views::IView>> m_simple_components;
 		std::vector<std::unique_ptr<Views::IView>> m_menu_components;
-		std::shared_ptr<Services::LoaderService> m_loader_service;
 	};
 }
 

@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
-#include "../Entities/Renderers/Renderers.hpp"
+#include "IRenderer.hpp"
 
 namespace Component {
 
@@ -26,6 +26,9 @@ namespace Component {
 		virtual void SetBackgroundColor(glm::vec4 new_bacground_color) {}
 
 		virtual unsigned int GetTextureId() const { return 0; };
+		virtual std::string GetTextureName() const { return ""; }
+		virtual void SetTextureId(unsigned int texture_id) {}
+		virtual void SetTextureName(std::string const new_name) {}
 		
 
 		virtual Enums::RendererType GetType() const

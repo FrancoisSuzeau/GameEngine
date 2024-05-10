@@ -9,6 +9,9 @@
 #include "Container/Container.hpp"
 #include "Constants/NumberConstants.hpp"
 #include "Services/MouseInputService.hpp"
+#include "Services/KeyboardInputService.hpp"
+#include "Services/StateService.hpp"
+#include "Services/CameraService.hpp"
 
 namespace Views
 {

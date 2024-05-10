@@ -24,7 +24,10 @@
 
 #include <iostream>
 #include <list>
-#include "Commands/Commands.hpp"
+
+#include "Commands/ModifyConfigsCommand.hpp"
+#include "Commands/ActualizeCommand.hpp"
+#include "Commands/SaveConfigCommand.hpp"
 
 namespace Views
 {
@@ -39,6 +42,7 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		void RenderGridPannelModifier();
 		void RenderBloomPannelModifier();
+		void RenderShadowPannelModifier();
 		void RenderSkyboxPannelModifier();
 		void RenderDebugModifier();
 		void RenderButtons();
@@ -51,6 +55,7 @@ namespace Views
 		int bloom_strength;
 		bool activate_debug;
 		bool active_skybox;
+		bool activate_shadow;
 		bool show;
 		std::string selected_skybox;
 	};

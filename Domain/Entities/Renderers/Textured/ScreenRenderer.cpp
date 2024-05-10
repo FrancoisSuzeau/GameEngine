@@ -39,7 +39,7 @@ namespace Renderers {
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
                 
-                glDrawArrays(GL_TRIANGLES, 0, 6);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, 0);
@@ -68,7 +68,7 @@ namespace Renderers {
 		glBindVertexArray(m_vao);
 		if (glIsVertexArray(m_vao) == GL_TRUE)
 		{
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		}
 
 		glActiveTexture(GL_TEXTURE0);
@@ -88,7 +88,7 @@ namespace Renderers {
 				glBindTexture(GL_TEXTURE_2D, texture_id);
 				if (glIsTexture(texture_id) == GL_TRUE)
 				{
-					glDrawArrays(GL_TRIANGLES, 0, 6);
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, 0);
@@ -148,12 +148,18 @@ namespace Renderers {
 	void ScreenRenderer::Load()
 	{
 
-		m_vertices = { -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,   1.0f, 1.0f, -1.0f,
-						-1.0f, -1.0f, -1.0f,   -1.0f, 1.0f, -1.0f,   1.0f, 1.0f, -1.0f
+		m_vertices = { 
+			-1.0f,  1.0f, 0.0f,
+			-1.0f, -1.0f, 0.0f,
+			1.0f, 1.0f, 0.0f,
+			1.0f, -1.0f, 0.0f
 		};
 
-		m_texture_coord = { 0.0f, 0.0f,   1.0f, 0.0f,   1.0f, 1.0f,
-							  0.0f, 0.0f,   0.0f, 1.0f,   1.0f, 1.0f
+		m_texture_coord = { 
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 1.0f,
+			1.0f, 0.0f
 		};
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);

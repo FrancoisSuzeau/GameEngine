@@ -51,7 +51,6 @@
   <ItemGroup>
     <ClInclude Include="Commands\ActualizeCommand.hpp" />
     <ClInclude Include="Commands\AddNewComponentCommand.hpp" />
-    <ClInclude Include="Builders\Builders.hpp" />
     <ClInclude Include="Commands\SaveSceneCommand.hpp" />
     <ClInclude Include="Commands\SaveConfigCommand.hpp" />
     <ClInclude Include="Commands\LoadSceneCommand.hpp" />
@@ -63,9 +62,7 @@
     <ClInclude Include="Services\MouseInputService.hpp" />
     <ClInclude Include="Services\LoaderService.hpp" />
     <ClInclude Include="Services\CameraService.hpp" />
-    <ClInclude Include="Commands\Commands.hpp" />
     <ClInclude Include="Commands\ExitCommand.hpp" />
-    <ClInclude Include="Engines\Engines.hpp" />
     <ClInclude Include="Engines\MainEngine.hpp" />
     <ClInclude Include="Engines\GUIEngine.hpp" />
     <ClInclude Include="Engines\SceneEngine.hpp" />
@@ -76,7 +73,6 @@
     <ClInclude Include="Builders\EngineBuilder.hpp" />
     <ClInclude Include="Builders\ServiceBuilder.hpp" />
     <ClInclude Include="Application.hpp" />
-    <ClInclude Include="Services\Services.hpp" />
     <ClInclude Include="Services\StateService.hpp" />
     <ClInclude Include="Builders\ViewModelBuilder.hpp" />
     <ClInclude Include="Services\ShaderService.hpp" />
@@ -182,7 +178,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\OpenGLService;$(SolutionDir)ExternalServices;$(SolutionDir)ExternalServices\ShaderLoaderService;$(SolutionDir)ExternalServices\JsonLoaderService;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\OpenGLService;$(SolutionDir)ExternalServices;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)ImGUI;$(SolutionDir)Includes;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\IoC;$(SolutionDir)Domain\Interfaces;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

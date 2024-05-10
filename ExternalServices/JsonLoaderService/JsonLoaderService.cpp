@@ -124,7 +124,8 @@ namespace Services
 				{"type", it[0]->GetType()},
 				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
 				{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
-				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}}
+				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
+				{"texture_name", it[0]->GetTextureName()}
 			};
 			renderers_json_format.push_back(renderer_json_format);
 		}
@@ -144,7 +145,9 @@ namespace Services
 			{"render_debug", config->GetRenderDebug()},
 			{"selected_skybox", config->GetSelectedSkybox()},
 			{"available_skybox", config->GetAvailableSkybox()},
-			{"render_skybox", config->GetRenderSkybox()}
+			{"render_skybox", config->GetRenderSkybox()},
+			{"activate_depth", config->GetDepth()},
+			{"available_textures", config->GetAvailableTextures()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -160,13 +163,16 @@ namespace Services
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
 				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
+				std::string texture_name = this->GetStringNode(std::make_unique<json>(*it), "texture_name");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 					renderers.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
 					break;
+				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
+					renderers.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name));
 					break;
 				default:
 					break;
@@ -193,6 +199,8 @@ namespace Services
 			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
 			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
+			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));
+			config->SetAvailableTextures(this->GetStringVectorNode(Enums::JsonType::Config, "available_textures"));
 		}
 		
 		return config;

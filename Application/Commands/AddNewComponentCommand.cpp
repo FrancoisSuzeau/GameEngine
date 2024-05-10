@@ -22,6 +22,12 @@ namespace Commands
 			{
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_loader_service = container->GetReference<Services::LoaderService>();
+			if (!m_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -36,6 +42,11 @@ namespace Commands
 		{
 			m_camera_service.reset();
 		}
+
+		if (m_loader_service)
+		{
+			m_loader_service.reset();
+		}
 	}
 
 	void AddNewComponentCommmand::Execute()
@@ -46,12 +57,20 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
 				SQ_APP_TRACE("New square added");
+				break;
+			case Enums::RendererType::CUBE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, "container");
+				m_loader_service->LoadTexture(component, component->GetTextureName());
+				this->AddComponentToScene(component);
+				SQ_APP_TRACE("New textured cube added");
+			}
 				break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
@@ -65,13 +84,14 @@ namespace Commands
 		}
 
 	}
-	void AddNewComponentCommmand::MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make)
+	void AddNewComponentCommmand::AddComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make)
 	{
-		if (m_state_service)
+		if (m_state_service && new_component_to_make)
 		{
 			new_component_to_make->SetSelected(true);
 			m_state_service->addComponent(new_component_to_make);
 			m_state_service->setSelectedComponent();
+			
 			new_component_to_make.reset();
 		}
 	}

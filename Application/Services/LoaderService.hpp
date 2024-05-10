@@ -8,7 +8,11 @@
 #include "IService.hpp"
 #include "Logger.hpp"
 #include "Container/Container.hpp"
-#include "ExternalServices.hpp"
+
+#include "TextureLoaderService/TextureLoaderService.hpp"
+#include "JsonLoaderService/JsonLoaderService.hpp"
+#include "ShaderLoaderService/ShaderLoaderService.hpp"
+
 #include "StateService.hpp"
 #include "ConfigEntity.hpp"
 
@@ -29,6 +33,9 @@ namespace Services {
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
 		void LoadSkybox();
 		void LoadSkyboxS();
+		void LoadAvailableTextures();
+		void LoadSceneComponentsTextures();
+		void LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name);
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);

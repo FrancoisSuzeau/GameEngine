@@ -14,12 +14,14 @@
 #include "SceneEngine.hpp"
 #include "Enums/EngineEnum.hpp"
 #include "Container/Container.hpp"
-#include "../Services/Services.hpp"
+
+#include "../Services/StateService.hpp"
+#include "../Services/FramebufferService.hpp"
+#include "../Services/RunTimeService.hpp"
 #include "../Builders/ViewModelBuilder.hpp"
 
 #include "Constants/StringConstants.hpp"
 
-#include "ExternalServices.hpp"
 
 namespace Engines {
 
@@ -44,6 +46,8 @@ namespace Engines {
 		void InitFrame() override;
 		void EndFrame() override;
 		void FpsCalculation(Enums::EngineEnum ee);
+
+		void PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;

@@ -76,6 +76,72 @@ namespace Services
 			}
 		}
 	}
+	void LoaderService::LoadAvailableTextures()
+	{
+		if (m_state_service && m_texture_loader_service && m_state_service->getConfigs())
+		{
+			std::vector<std::string> available_textures = m_state_service->getConfigs()->GetAvailableTextures();
+			for (std::vector<std::string>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+			{
+				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + it[0]);
+				m_state_service->addAvailableTextures(it[0], texture_id);
+			}
+		}
+	}
+	void LoaderService::LoadSceneComponentsTextures()
+	{
+		if (m_texture_loader_service && m_state_service)
+		{
+			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->getComponents();
+
+			for (std::vector < std::shared_ptr<Component::IComponent> >::iterator it = components.begin(); it != components.end(); it++)
+			{
+				if (it[0])
+				{
+					switch (it[0]->GetType())
+					{
+					case Enums::RendererType::CUBE_TEXTURED:
+					case Enums::RendererType::SQUARE_TEXTURED:
+					{
+						std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
+						this->LoadTexture(component, component->GetTextureName());
+					}
+						break;
+					case Enums::RendererType::TRIANGLE:
+					case Enums::RendererType::SQUARE:
+					case Enums::RendererType::GRID:
+					case Enums::RendererType::SKYBOX:
+					case Enums::RendererType::SUBBGRID:
+					case Enums::RendererType::SUBGRID2:
+					case Enums::RendererType::NONE:
+					default:
+						break;
+					}
+					
+					
+				}
+			}
+		}
+	}
+	void LoaderService::LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name)
+	{
+		if (m_texture_loader_service && component && m_state_service)
+		{
+			unsigned int texture_id = 0;
+			std::map<std::string, unsigned int> available_texures = m_state_service->GetAvailableTextures();
+			if (!available_texures.contains(texture_name))
+			{
+				texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + texture_name);
+				m_state_service->addAvailableTextures(texture_name, texture_id);
+			}
+			else
+			{
+				texture_id = available_texures.at(texture_name);
+			}
+
+			component->SetTextureId(texture_id);
+		}
+	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
 	{
 		if (m_json_loader_service)

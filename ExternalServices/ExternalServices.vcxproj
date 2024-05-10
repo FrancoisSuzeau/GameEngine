@@ -141,7 +141,6 @@
     <ClCompile Include="TextureLoaderService\TextureLoaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ExternalServices.hpp" />
     <ClInclude Include="JsonLoaderService\JsonLoaderService.hpp" />
     <ClInclude Include="ShaderLoaderService\ShaderLoaderService.hpp" />
     <ClInclude Include="TextureLoaderService\TextureLoaderService.hpp" />

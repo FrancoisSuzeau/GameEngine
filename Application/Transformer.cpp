@@ -23,9 +23,12 @@ namespace Component
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", component->GetModelMat());
 				PutViewMapIntoShader(shader_service, shader_name);
-				shader_service->setMat4(shader_name, "projection", state_service->GetProjectionMatrix());
+				shader_service->setMat4(shader_name, "projection", state_service->GetPerspectiveProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
+				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
+				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
+				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());
 				if (state_service->getConfigs()->GetBloom())
 				{
 					shader_service->setInt(shader_name, "bloom", 1);
@@ -90,6 +93,7 @@ namespace Component
 				else
 				{
 					shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
+					
 				}
 
 				camera_service.reset();

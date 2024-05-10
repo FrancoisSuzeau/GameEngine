@@ -8,7 +8,6 @@
 #include <iostream>
 #include "Container/Container.hpp"
 #include "GraphicInitializerService.hpp"
-#include "CameraService.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -18,13 +17,12 @@
 #include <algorithm>
 
 #include "IService.hpp"
-#include "IRenderer.hpp"
-#include "IEngine.hpp"
-#include "Container/Container.hpp"
-#include "../Services/ImGUIServiceInitalizer.hpp"
-#include <ExternalServices.hpp>
+#include "Renderers/Untextured/Grid.hpp"
 #include "RunTimeService.hpp"
 
+#include "IComponent.hpp"
+#include "ConfigEntity.hpp"
+#include "Enums/EngineEnum.hpp"
 
 namespace Services {
 
@@ -79,7 +77,8 @@ namespace Services {
 		void addComponent(std::shared_ptr<Component::IComponent> new_component);
 		void deleteComponent();
 
-		glm::mat4 GetProjectionMatrix() const;
+		glm::mat4 GetPerspectiveProjectionMatrix() const;
+		glm::mat4 GetOrthoProjectionMatrix() const;
 
 		void setConfigPannel(std::string const new_val);
 		std::string getConfigPannel() const;
@@ -97,7 +96,14 @@ namespace Services {
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
 		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
+		void addAvailableTextures(std::string map_id, unsigned int texture_id);
+
+		void setPass(Enums::FramebufferType fb_type);
+		Enums::FramebufferType getPass() const;
+		float getFarPlane() const;
+		float getNearPlane() const;
 		
+		std::map<std::string, unsigned int> GetAvailableTextures() const;
 		
 
 	private:
@@ -118,8 +124,11 @@ namespace Services {
 		bool m_show_context_menu;
 		bool m_popup_hovered;
 		bool m_actualize;
+		float m_near_plane;
+		float m_far_plane;
 		glm::vec4 m_previous_selected_component_color;
-		glm::mat4 m_projection_matrix;
+		glm::mat4 m_projection_perspective_matrix;
+		glm::mat4 m_projection_ortho_matrix;
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
@@ -131,7 +140,9 @@ namespace Services {
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 		std::shared_ptr<RunTimeService> m_runtime_service;
 		std::map<std::string, unsigned int> m_available_skybox;
+		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
+		Enums::FramebufferType m_fb_type;
 
 
 	};

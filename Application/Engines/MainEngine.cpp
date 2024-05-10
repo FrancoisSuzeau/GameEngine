@@ -63,13 +63,14 @@ namespace Engines
 			}
 			else
 			{
-				m_gui_engine->LoadConfigs();
+				m_gui_engine->LoadConfigAndRessources();
 			}
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Scene engine is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{
@@ -136,16 +137,20 @@ namespace Engines
 					}
 				}
 				
-				m_framebuffer_service->BindFramebuffer();
-				this->InitFrame();
+				m_runtime_service->RefreshScreen();
 
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
+				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetDepth())
+				{
+					m_runtime_service->EnableDepthTest();
+					m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
 
-				m_framebuffer_service->UnbindFramebuffer();
-				m_runtime_service->RefreshColor(glm::vec2(1.f, 1.f));
-				m_runtime_service->RefreshBuffers(GL_COLOR_BUFFER_BIT);
+					this->PassToFrameBuffer(view_model_builder);
+				}
+
 				m_runtime_service->DisableDepthTest();
+				m_state_service->setPass(Enums::FramebufferType::COLORBUFFER);
+				
+				this->PassToFrameBuffer(view_model_builder);
 
 				m_scene_engine->RenderScreen();
 
@@ -207,6 +212,29 @@ namespace Engines
 		default:
 			break;
 		}
+	}
+	void MainEngine::PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		Enums::FramebufferType fb_type = m_state_service->getPass();
+
+		m_framebuffer_service->BindFramebuffer(fb_type);
+
+		switch (fb_type)
+		{
+		case Enums::COLORBUFFER:
+			this->InitFrame();
+			break;
+		case Enums::DEPTHBUFFER:
+			m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
+			break;
+		default:
+			break;
+		}
+		
+		m_scene_engine->RefreshScene(view_model_builder);
+		m_scene_engine->RenderScene(view_model_builder);
+
+		m_framebuffer_service->UnbindFramebuffer();
 	}
 }
 

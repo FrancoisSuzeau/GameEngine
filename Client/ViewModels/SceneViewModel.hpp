@@ -6,12 +6,26 @@
 #define SCENEVIEWMODEL_H
 
 #include "IViewModel.hpp"
-#include "../Views/Views.hpp"
 #include "Container/Container.hpp"
 #include "Transformer.hpp"
 #include "Services/ShaderService.hpp"
+#include "Services/StateService.hpp"
+#include "Services/LoaderService.hpp"
+#include "Services/FramebufferService.hpp"
+#include "Services/RunTimeService.hpp"
+#include "Services/CameraService.hpp"
 
+#include "IComponent.hpp"
+
+#include "Components/ComponentBase.hpp"
+#include "Components/TexturedComponent.hpp"
+
+#include "../Views/Scene/Canvas.hpp"
 #include <functional>
+
+#include "Commands/ActualizeCommand.hpp"
+
+#include "Renderers/Textured/Skybox.hpp"
 
 #include <iostream>
 #include <map>

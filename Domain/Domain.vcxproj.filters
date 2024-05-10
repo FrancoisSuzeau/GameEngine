@@ -45,9 +45,6 @@
     <ClInclude Include="Interfaces\IRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Renderers\Renderers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,10 +66,10 @@
     <ClInclude Include="Entities\Components\ComponentBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Components\Components.hpp">
+    <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp">
+    <ClInclude Include="Entities\Renderers\Textured\CubeTextured.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Textured\CubeTextured.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

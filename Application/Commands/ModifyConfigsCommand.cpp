@@ -86,6 +86,9 @@ namespace Commands
 				m_runtime_service->DeleteTexture(m_state_service->getSelectedSkyboxTextureId());
 				m_loader_service->LoadSkybox();
 				break;
+			case::Enums::ConfigsModifier::SHADOW:
+				m_state_service->getConfigs()->SetDepth(m_bool_value);
+				break;
 			default:
 				break;
 			}
