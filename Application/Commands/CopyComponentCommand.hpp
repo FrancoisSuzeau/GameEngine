@@ -11,6 +11,7 @@
 #include "../Services/StateService.hpp"
 
 #include "Components/ComponentBase.hpp"
+#include "Components/TexturedComponent.hpp"
 
 #include "../Services/CameraService.hpp"
 

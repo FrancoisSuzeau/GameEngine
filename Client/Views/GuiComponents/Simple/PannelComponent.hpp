@@ -27,6 +27,7 @@
 
 #include "Commands/ModifyConfigsCommand.hpp"
 #include "Commands/ActualizeCommand.hpp"
+#include "Commands/SaveConfigCommand.hpp"
 
 namespace Views
 {

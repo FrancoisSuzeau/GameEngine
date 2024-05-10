@@ -249,6 +249,7 @@ namespace Views
 					previous_item_current = item_current;
 				}
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
+				m_parent_view_model->AddCommand(std::make_unique<Commands::SaveConfigCommand>());
 				m_parent_view_model->OnCommand();
 				m_state_service->setActualize(false);
 			}

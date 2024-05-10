@@ -50,11 +50,13 @@ namespace Commands
 			switch (m_renderer_to_copy->GetType())
 			{
 			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::SQUARE:
 				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;
-			case Enums::RendererType::SQUARE:
-				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
+			case Enums::RendererType::CUBE_TEXTURED:
+			case Enums::RendererType::SQUARE_TEXTURED:
+				this->MakeNewComponent(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SKYBOX:

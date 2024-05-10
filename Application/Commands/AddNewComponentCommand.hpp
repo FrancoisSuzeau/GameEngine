@@ -10,6 +10,7 @@
 #include "Container/Container.hpp"
 #include "../Services/StateService.hpp"
 #include "../Services/CameraService.hpp"
+#include "../Services/LoaderService.hpp"
 
 #include "Components/ComponentBase.hpp"
 #include "Components/TexturedComponent.hpp"
@@ -27,8 +28,9 @@ namespace Commands {
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
 		Enums::RendererType const m_component_type;
-		void MakeNewComponent(std::shared_ptr<Component::IComponent> new_component_to_make);
+		void AddComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make);
 	};
 }
 
