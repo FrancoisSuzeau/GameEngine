@@ -63,13 +63,14 @@ namespace Engines
 			}
 			else
 			{
-				m_gui_engine->LoadConfigs();
+				m_gui_engine->LoadConfigAndRessources();
 			}
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Scene engine is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (m_framebuffer_service)
 			{

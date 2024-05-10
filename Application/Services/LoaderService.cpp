@@ -39,7 +39,7 @@ namespace Services
 
 	void LoaderService::DeInit()
 	{
-		m_already_loaded_texture.clear();
+		
 	}
 
 	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
@@ -76,6 +76,18 @@ namespace Services
 			}
 		}
 	}
+	void LoaderService::LoadAvailableTextures()
+	{
+		if (m_state_service && m_texture_loader_service && m_state_service->getConfigs())
+		{
+			std::vector<std::string> available_textures = m_state_service->getConfigs()->GetAvailableTextures();
+			for (std::vector<std::string>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+			{
+				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + it[0]);
+				m_state_service->addAvailableTextures(it[0], texture_id);
+			}
+		}
+	}
 	void LoaderService::LoadSceneComponentsTextures()
 	{
 		if (m_texture_loader_service && m_state_service)
@@ -92,7 +104,7 @@ namespace Services
 					case Enums::RendererType::SQUARE_TEXTURED:
 					{
 						std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
-						this->LoadTexture(component);
+						this->LoadTexture(component, component->GetTextureName());
 					}
 						break;
 					case Enums::RendererType::TRIANGLE:
@@ -111,20 +123,20 @@ namespace Services
 			}
 		}
 	}
-	void LoaderService::LoadTexture(std::shared_ptr<Component::TexturedComponent> component)
+	void LoaderService::LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name)
 	{
-		if (m_texture_loader_service && component)
+		if (m_texture_loader_service && component && m_state_service)
 		{
-			std::string texture_name = component->GetTextureName();
 			unsigned int texture_id = 0;
-			if (!m_already_loaded_texture.contains(texture_name))
+			std::map<std::string, unsigned int> available_texures = m_state_service->GetAvailableTextures();
+			if (!available_texures.contains(texture_name))
 			{
-				texture_id = m_texture_loader_service->BuildTexture("resources/" + texture_name);
-				m_already_loaded_texture.insert_or_assign(texture_name, texture_id);
+				texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + texture_name);
+				m_state_service->addAvailableTextures(texture_name, texture_id);
 			}
 			else
 			{
-				texture_id = m_already_loaded_texture.at(texture_name);
+				texture_id = available_texures.at(texture_name);
 			}
 
 			component->SetTextureId(texture_id);

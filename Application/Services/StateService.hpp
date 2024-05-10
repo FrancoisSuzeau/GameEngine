@@ -96,12 +96,14 @@ namespace Services {
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
 		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
+		void addAvailableTextures(std::string map_id, unsigned int texture_id);
 
 		void setPass(Enums::FramebufferType fb_type);
 		Enums::FramebufferType getPass() const;
 		float getFarPlane() const;
 		float getNearPlane() const;
 		
+		std::map<std::string, unsigned int> GetAvailableTextures() const;
 		
 
 	private:
@@ -138,6 +140,7 @@ namespace Services {
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 		std::shared_ptr<RunTimeService> m_runtime_service;
 		std::map<std::string, unsigned int> m_available_skybox;
+		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
 		Enums::FramebufferType m_fb_type;
 

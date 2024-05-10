@@ -110,6 +110,16 @@ namespace Services {
 		m_available_skybox = available_skybox;
 	}
 
+	void ConfigEntity::SetAvailableTextures(std::vector<std::string> available_texure)
+	{
+		m_available_textures = available_texure;
+	}
+
+	std::vector<std::string> ConfigEntity::GetAvailableTextures()
+	{
+		return m_available_textures;
+	}
+
 	std::vector<std::string> ConfigEntity::GetAvailableSkybox()
 	{
 		return m_available_skybox;

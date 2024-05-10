@@ -25,6 +25,7 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : ImGUI service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
 		}
 	}
 
@@ -73,17 +74,19 @@ namespace Engines
 		}
 	}
 
-	void GUIEngine::LoadConfigs()
+	void GUIEngine::LoadConfigAndRessources()
 	{
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
 		if (container)
 		{
 			std::shared_ptr<Services::StateService> state_service = container->GetReference<Services::StateService>();
-			std::shared_ptr<Services::LoaderService> json_services = container->GetReference<Services::LoaderService>();
-			if (state_service && json_services)
+			std::shared_ptr<Services::LoaderService> loader_service = container->GetReference<Services::LoaderService>();
+			if (state_service && loader_service)
 			{
-				state_service->setConfigs(json_services->LoadConfigs());
-				json_services.reset();
+				state_service->setConfigs(loader_service->LoadConfigs());
+				loader_service->LoadSkyboxS();
+				loader_service->LoadAvailableTextures();
+				loader_service.reset();
 				state_service.reset();
 			}
 			else

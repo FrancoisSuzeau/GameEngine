@@ -50,6 +50,12 @@ namespace Views
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_loader_service = container->GetReference<Services::LoaderService>();
+			if (!m_loader_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
@@ -214,19 +220,62 @@ namespace Views
 
 	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
-		if (m_state_service && selected_renderer)
+		if (m_state_service && selected_renderer && m_loader_service)
 		{
-			glm::vec4 color = selected_renderer->GetBackgroundColor();
-			glm::vec4 ref_color = m_state_service->getRefColor();
+			switch (selected_renderer->GetType())
+			{
+			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::SQUARE:
+			{
+				glm::vec4 color = selected_renderer->GetBackgroundColor();
+				glm::vec4 ref_color = m_state_service->getRefColor();
 
-			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
-				| ImGuiColorEditFlags_AlphaBar
-				| ImGuiColorEditFlags_PickerHueWheel
-				| ImGuiColorEditFlags_NoInputs;
-			ImGui::BulletText("Background color : ");
-			ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
+				ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
+					| ImGuiColorEditFlags_AlphaBar
+					| ImGuiColorEditFlags_PickerHueWheel
+					| ImGuiColorEditFlags_NoInputs;
+				ImGui::BulletText("Background color : ");
+				ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
 
-			selected_renderer->SetBackgroundColor(color);
+				selected_renderer->SetBackgroundColor(color);
+			}
+			break;
+			case Enums::RendererType::CUBE_TEXTURED:
+			case Enums::RendererType::SQUARE_TEXTURED:
+			{
+				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
+				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+				{
+					if (it->second == selected_renderer->GetTextureId())
+					{
+						ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
+						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
+					}
+					else
+					{
+						ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
+						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
+						{
+
+							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);
+							selected_renderer->SetTextureName(it->first);
+						}
+					}
+					ImGui::SameLine(120);
+
+				}
+			}
+				break;
+			default:
+				break;
+			}
+			
 		}
 	}
 

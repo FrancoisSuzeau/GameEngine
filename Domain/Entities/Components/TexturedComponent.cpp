@@ -43,6 +43,11 @@ namespace Component {
 	{
 		m_texture_id = texture_id;
 	}
+
+	void TexturedComponent::SetTextureName(std::string const new_name)
+	{
+		m_texture_name = new_name;
+	}
 	
 	unsigned int TexturedComponent::GetTextureId() const
 	{

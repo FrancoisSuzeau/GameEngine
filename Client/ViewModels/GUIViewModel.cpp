@@ -45,20 +45,6 @@ namespace ViewModels
 		m_simple_components.push_back(std::make_unique<Views::StartComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::WorkBarComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::PannelComponent>(shared_from_this()));
-
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
-		{
-			m_loader_service = container->GetReference<Services::LoaderService>();
-			if (!m_loader_service)
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			else
-			{
-				m_loader_service->LoadSkyboxS();
-			}
-		}
 	}
 
 	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)

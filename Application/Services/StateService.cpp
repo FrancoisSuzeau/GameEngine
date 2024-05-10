@@ -59,6 +59,22 @@ namespace Services
 			m_runtime_service->DeleteTexture(m_texture_id);
 		}
 		
+		for (std::map<std::string, unsigned int>::iterator it = m_available_textures.begin(); it != m_available_textures.end(); it++)
+		{
+			if (m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(it->second);
+			}
+		}
+		m_available_textures.clear();
+		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox.begin(); it != m_available_skybox.end(); it++)
+		{
+			if (m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(it->second);
+			}
+		}
+		m_available_skybox.clear();
 	}
 
 	bool StateService::getExit() const
@@ -344,11 +360,32 @@ namespace Services
 	{
 		if (m_available_skybox.contains(map_id))
 		{
+			if (m_available_skybox.at(map_id) != 0 && m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(m_available_skybox.at(map_id));
+			}
 			m_available_skybox[map_id] = texture_id;
+
 		}
 		else
 		{
 			m_available_skybox.insert_or_assign(map_id, texture_id);
+		}
+	}
+
+	void StateService::addAvailableTextures(std::string map_id, unsigned int texture_id)
+	{
+		if (m_available_textures.contains(map_id))
+		{
+			if (m_available_textures.at(map_id) != 0 && m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(m_available_textures.at(map_id));
+			}
+			m_available_textures[map_id] = texture_id;
+		}
+		else
+		{
+			m_available_textures.insert_or_assign(map_id, texture_id);
 		}
 	}
 
@@ -370,6 +407,11 @@ namespace Services
 	float StateService::getNearPlane() const
 	{
 		return m_near_plane;
+	}
+
+	std::map<std::string, unsigned int> StateService::GetAvailableTextures() const
+	{
+		return m_available_textures;
 	}
 	
 	void StateService::CleanComponents()

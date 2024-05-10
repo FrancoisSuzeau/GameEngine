@@ -20,6 +20,7 @@ namespace Component
 		void SetHorizontal(bool const new_val) override;
 		std::string GetTextureName() const override;
 		void SetTextureId(unsigned int texture_id) override;
+		void SetTextureName(std::string const new_name) override;
 
 	private:
 		unsigned int m_texture_id;

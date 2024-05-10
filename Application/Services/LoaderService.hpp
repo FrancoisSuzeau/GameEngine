@@ -33,8 +33,9 @@ namespace Services {
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
 		void LoadSkybox();
 		void LoadSkyboxS();
+		void LoadAvailableTextures();
 		void LoadSceneComponentsTextures();
-		void LoadTexture(std::shared_ptr<Component::TexturedComponent> component);
+		void LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name);
 		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);
@@ -44,7 +45,6 @@ namespace Services {
 		std::shared_ptr<TextureLoaderService> m_texture_loader_service;
 		std::shared_ptr<ShaderLoaderService> m_shader_loader;
 		std::shared_ptr<StateService> m_state_service;
-		std::map<std::string, unsigned int> m_already_loaded_texture;
 	};
 }
 

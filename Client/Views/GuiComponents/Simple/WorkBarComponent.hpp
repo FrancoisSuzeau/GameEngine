@@ -22,6 +22,7 @@
 #include "Services/StateService.hpp"
 #include "Container/Container.hpp"
 #include "Services/FramebufferService.hpp"
+#include "Services/LoaderService.hpp"
 #include "IComponent.hpp"
 #include "IViewModel.hpp"
 
@@ -30,6 +31,8 @@
 #include "Commands/AddNewComponentCommand.hpp"
 #include "Commands/CopyComponentCommand.hpp"
 #include "Commands/DeleteComponent.hpp"
+
+#include <map>
 
 namespace Views
 {
@@ -43,6 +46,7 @@ namespace Views
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);

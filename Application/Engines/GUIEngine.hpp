@@ -23,6 +23,7 @@
 #include "IEngine.hpp"
 #include "Container/Container.hpp"
 #include "../Services/ImGUIServiceInitalizer.hpp"
+
 #include "../Services/StateService.hpp"
 #include "../Services/LoaderService.hpp"
 
@@ -45,7 +46,7 @@ namespace Engines {
 
 		void RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void LoadConfigs();
+		void LoadConfigAndRessources();
 
 	private:
 		ImGuiIO m_io;

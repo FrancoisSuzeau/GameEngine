@@ -28,6 +28,7 @@ namespace Component {
 		virtual unsigned int GetTextureId() const { return 0; };
 		virtual std::string GetTextureName() const { return ""; }
 		virtual void SetTextureId(unsigned int texture_id) {}
+		virtual void SetTextureName(std::string const new_name) {}
 		
 
 		virtual Enums::RendererType GetType() const

@@ -67,7 +67,7 @@ namespace Commands
 			case Enums::RendererType::CUBE_TEXTURED:
 			{
 				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, "container");
-				m_loader_service->LoadTexture(component);
+				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->AddComponentToScene(component);
 				SQ_APP_TRACE("New textured cube added");
 			}
