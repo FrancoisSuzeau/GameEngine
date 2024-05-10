@@ -26,8 +26,6 @@ namespace Services
 		
 
 		m_texture_fb = 0;
-		/*m_cube_fb = 0;
-		m_cube_id = 0;*/
 		m_render_fb = 0;		
 		m_depth_map_fb = 0;
 		m_depth_map_texture_id = 0;
@@ -46,8 +44,6 @@ namespace Services
 				
 			}
 			m_runtime_service->DeleteRenderBuffer(m_render_fb);
-	/*		m_runtime_service->DeleteBuffer(m_cube_fb);
-			m_runtime_service->DeleteTexture(m_cube_id);*/
 			m_runtime_service->DeleteBuffer(m_texture_fb);
 			m_runtime_service->DeleteBuffer(m_depth_map_fb);
 			m_runtime_service->DeleteTexture(m_depth_map_texture_id);
@@ -68,35 +64,7 @@ namespace Services
 	{
 		return m_depth_map_texture_id;
 	}
-	/*void FramebufferService::BuildFrameBufferCube()
-	{
-		glGenTextures(1, &m_cube_id);
-
-		if (m_cube_id != 0)
-		{
-			glBindTexture(GL_TEXTURE_CUBE_MAP, m_cube_id);
-
-			if (glIsTexture(m_cube_id) == GL_TRUE)
-			{
-				for (unsigned int i = 0; i < 6; ++i)
-				{
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, m_fb_width, m_fb_width, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-				}
-				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-				glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_cube_id, 0);
-
-				glDrawBuffer(GL_NONE);
-				glReadBuffer(GL_NONE);
-
-				glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-			}
-		}
-	}*/
+	
 	void FramebufferService::BuildFrameBufferDepthMap()
 	{
 		glGenTextures(1, &m_depth_map_texture_id);
@@ -126,17 +94,6 @@ namespace Services
 	void FramebufferService::BuildFrameBufferTexture()
 	{
 		this->SetFrameBufferDim();
-		/*glGenFramebuffers(1, &m_cube_fb);
-		if (m_cube_fb != 0)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_cube_fb);
-			if (glIsFramebuffer(m_cube_fb) == GL_TRUE)
-			{
-				this->BuildFrameBufferCube();
-				this->CheckFramebufferStatus("Cube");
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
-		}*/
 
 		glGenFramebuffers(1, &m_depth_map_fb);
 		if (m_depth_map_fb != 0)

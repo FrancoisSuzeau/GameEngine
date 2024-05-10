@@ -26,7 +26,6 @@ namespace Services {
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
-		//void BuildFrameBufferCube();
 		void BuildFrameBufferDepthMap();
 		void BuildFrameBufferTexture();
 
@@ -40,8 +39,7 @@ namespace Services {
 		unsigned int m_ping_pong_fb[2] = { 0, 0 };
 		unsigned int m_ping_pong_textures[2] = { 0, 0 };
 		unsigned int m_render_fb;
-	/*	unsigned int m_cube_fb;
-		unsigned int m_cube_id = 0;*/
+
 		unsigned int m_depth_map_fb = 0;
 		unsigned int m_depth_map_texture_id;
 		int m_fb_width;

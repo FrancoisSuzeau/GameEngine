@@ -141,11 +141,13 @@ namespace Engines
 
 				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetDepth())
 				{
+					m_runtime_service->EnableDepthTest();
 					m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
 
 					this->PassToFrameBuffer(view_model_builder);
 				}
 
+				m_runtime_service->DisableDepthTest();
 				m_state_service->setPass(Enums::FramebufferType::COLORBUFFER);
 				
 				this->PassToFrameBuffer(view_model_builder);
