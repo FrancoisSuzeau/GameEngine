@@ -32,7 +32,8 @@ namespace Enums {
 	{RendererType::SQUARE_TEXTURED, "square_textured"},
 	{RendererType::TRIANGLE, "triangle"},
 	{RendererType::CUBE_TEXTURED, "cube_textured"},
-	{RendererType::CUBE, "cube"}
+	{RendererType::CUBE, "cube"},
+	{RendererType::TRIANGLE_TEXTURED, "triangle_textured"}
 		})
 }
 

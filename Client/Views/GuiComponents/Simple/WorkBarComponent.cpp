@@ -93,7 +93,7 @@ namespace Views
 
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
-			const char* items[] = { "Triangle", "Square", "Cube", "Cube textured"};
+			const char* items[] = { "Triangle", "Square", "Cube", "Cube textured", "Square textured", "Triangle textured"};
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
@@ -240,6 +240,7 @@ namespace Views
 			{
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
+			case Enums::RendererType::TRIANGLE_TEXTURED:
 			{
 				ImGui::Text(" ");
 				ImGui::Separator();
