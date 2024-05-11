@@ -156,6 +156,7 @@ namespace Views
 		m_renderers.insert_or_assign(Enums::RendererType::CUBE, std::make_unique<Renderers::Cube>());
 		m_renderers.insert_or_assign(Enums::RendererType::CUBE_TEXTURED, std::make_unique<Renderers::CubeTextured>());
 		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE_TEXTURED, std::make_unique<Renderers::TriangleTextured>());
+		m_renderers.insert_or_assign(Enums::RendererType::SQUARE_TEXTURED, std::make_unique<Renderers::SquareTextured>());
 		
 		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{

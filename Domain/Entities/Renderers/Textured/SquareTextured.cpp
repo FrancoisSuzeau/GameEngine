@@ -1,32 +1,32 @@
 /******************************************************************************************************************************************/
-// File : ScreenRenderer.cpp
-// Purpose : Implementing the ScreenRenderer renderer
+// File : SquareTextured.cpp
+// Purpose : Implementing the SquareTextured renderer
 /******************************************************************************************************************************************/
-#include "ScreenRenderer.hpp"
+#include "SquareTextured.hpp"
 
 namespace Renderers {
-	ScreenRenderer::ScreenRenderer()
+	SquareTextured::SquareTextured()
 	{
 		m_vbo = 0;
 		m_vao = 0;
 		m_bytes_textcoord_size = 0;
 		m_bytes_vertices_size = 0;
 	}
-	ScreenRenderer::~ScreenRenderer()
+	SquareTextured::~SquareTextured()
 	{
 	}
-	void ScreenRenderer::Construct()
+	void SquareTextured::Construct()
 	{
 		this->Load();
 		this->Attach();
 	}
-	void ScreenRenderer::Clean()
+	void SquareTextured::Clean()
 	{
 		base::Clean();
 		m_texture_coord.clear();
 		
 	}
-	void ScreenRenderer::Draw(unsigned int const texture_id, unsigned int const ping_pong_texture)
+	void SquareTextured::Draw(unsigned int const texture_id, unsigned int const ping_pong_texture)
 	{
 		if (m_vao != 0)
 		{
@@ -58,7 +58,7 @@ namespace Renderers {
 		}
 	}
 
-	void ScreenRenderer::Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture)
+	void SquareTextured::Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture)
 	{
 		if (texture_id == 0 && ping_pong_texture == 0)
 		{
@@ -95,7 +95,7 @@ namespace Renderers {
 		glBindVertexArray(0);
 	}
 
-	void ScreenRenderer::Draw(unsigned int texture_id)
+	void SquareTextured::Draw(unsigned int texture_id)
 	{
 		if (m_vao != 0)
 		{
@@ -123,7 +123,7 @@ namespace Renderers {
 		}
 	}
 
-	void ScreenRenderer::Attach()
+	void SquareTextured::Attach()
 	{
 		if (m_vbo == 0)
 		{
@@ -170,7 +170,7 @@ namespace Renderers {
 
 		}
 	}
-	void ScreenRenderer::Load()
+	void SquareTextured::Load()
 	{
 
 		m_vertices = { 

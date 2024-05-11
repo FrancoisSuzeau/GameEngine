@@ -112,7 +112,7 @@ namespace Engines
 			}
 		}
 		
-		m_screen_renderer = std::make_unique<Renderers::ScreenRenderer>();
+		m_screen_renderer = std::make_unique<Renderers::SquareTextured>();
 		if (m_screen_renderer)
 		{
 			m_screen_renderer->Construct();

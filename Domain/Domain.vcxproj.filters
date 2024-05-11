@@ -51,7 +51,7 @@
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp">
+    <ClInclude Include="Entities\Renderers\Textured\SquareTextured.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp">
@@ -89,7 +89,7 @@
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp">
+    <ClCompile Include="Entities\Renderers\Textured\SquareTextured.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp">
