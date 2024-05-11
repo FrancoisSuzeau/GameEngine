@@ -36,6 +36,7 @@
     <ClInclude Include="OpenGLService\OpenGLService.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Cube.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\CubeTextured.hpp" />
   </ItemGroup>
@@ -48,6 +49,7 @@
     <ClCompile Include="OpenGLService\OpenGLService.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Cube.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\CubeTextured.cpp" />
   </ItemGroup>

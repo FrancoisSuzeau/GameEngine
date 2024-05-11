@@ -93,7 +93,7 @@ namespace Views
 
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
-			const char* items[] = { "Triangle", "Square", "Cube textured"};
+			const char* items[] = { "Triangle", "Square", "Cube", "Cube textured"};
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
@@ -226,6 +226,7 @@ namespace Views
 			{
 			case Enums::RendererType::TRIANGLE:
 			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::CUBE:
 			{
 				glm::vec4 color = selected_renderer->GetBackgroundColor();
 				glm::vec4 ref_color = m_state_service->getRefColor();

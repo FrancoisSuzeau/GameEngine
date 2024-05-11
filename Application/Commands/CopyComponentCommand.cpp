@@ -51,6 +51,7 @@ namespace Commands
 			{
 			case Enums::RendererType::TRIANGLE:
 			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::CUBE:
 				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;

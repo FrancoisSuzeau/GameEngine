@@ -1,21 +1,21 @@
 /******************************************************************************************************************************************/
-// File : Triangle.hpp
-// Purpose : An interface for the triangle renderer
+// File : Cube.hpp
+// Purpose : An interface for the Cube renderer
 /******************************************************************************************************************************************/
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef CUBE_H
+#define CUBE_H
 
 #include "../../../Interfaces/IRenderer.hpp"
 
 namespace Renderers {
 
-	
 
-	class Triangle : public IRenderer
+
+	class Cube : public IRenderer
 	{
 	public:
-		Triangle() ;
-		~Triangle();
+		Cube();
+		~Cube();
 
 		void Construct() override;
 		void Draw() override;
@@ -26,8 +26,8 @@ namespace Renderers {
 		void Load();
 
 		typedef IRenderer base;
-		
-		
+
+
 	};
 }
 

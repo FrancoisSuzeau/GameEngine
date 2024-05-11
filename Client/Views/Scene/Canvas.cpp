@@ -73,6 +73,7 @@ namespace Views
 			{
 			case Enums::RendererType::SQUARE:
 			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::CUBE:
 			{
 				std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
@@ -151,7 +152,9 @@ namespace Views
 	{
 		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE, std::make_unique<Renderers::Triangle>());
 		m_renderers.insert_or_assign(Enums::RendererType::SQUARE, std::make_unique<Renderers::Square>());
+		m_renderers.insert_or_assign(Enums::RendererType::CUBE, std::make_unique<Renderers::Cube>());
 		m_renderers.insert_or_assign(Enums::RendererType::CUBE_TEXTURED, std::make_unique<Renderers::CubeTextured>());
+		
 		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{
 			if (it->second)

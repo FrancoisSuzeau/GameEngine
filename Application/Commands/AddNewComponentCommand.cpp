@@ -57,11 +57,15 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
+			case Enums::RendererType::CUBE:
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				SQ_APP_TRACE("New cube added");
+				break;
 			case Enums::RendererType::SQUARE:
-				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New square added");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
