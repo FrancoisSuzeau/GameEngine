@@ -32,13 +32,20 @@ namespace Renderers {
             glBindVertexArray(m_vao);
             if (glIsVertexArray(m_vao) == GL_TRUE)
             {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, texture_id);
-                if (glIsTexture(texture_id) == GL_TRUE)
+                if (texture_id != 0)
+                {
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, texture_id);
+                    if (glIsTexture(texture_id) == GL_TRUE)
+                    {
+                        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+                        glBindTexture(GL_TEXTURE_2D, 0);
+                    }
+                }
+                else
                 {
                     glDrawArrays(GL_TRIANGLES, 0, 36);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
                 }
 
                 glBindVertexArray(0);

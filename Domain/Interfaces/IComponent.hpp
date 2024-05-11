@@ -22,14 +22,14 @@ namespace Component {
 
 		virtual bool GetHorizontal() { return false; }
 		virtual void SetHorizontal(bool const new_val) { }
-		virtual glm::vec4 GetBackgroundColor() const { return glm::vec4(); }
-		virtual void SetBackgroundColor(glm::vec4 new_bacground_color) {}
 
 		virtual unsigned int GetTextureId() const { return 0; };
 		virtual std::string GetTextureName() const { return ""; }
 		virtual void SetTextureId(unsigned int texture_id) {}
 		virtual void SetTextureName(std::string const new_name) {}
 		
+		virtual bool GetMixeTextureColor() const { return true; }
+		virtual void SetMixeTextureColor(const bool new_val) {}
 
 		virtual Enums::RendererType GetType() const
 		{
@@ -104,6 +104,15 @@ namespace Component {
 			return m_angle;
 		}
 
+		virtual glm::vec4 GetBackgroundColor() const 
+		{
+			return m_back_ground_color;
+		}
+		virtual void SetBackgroundColor(glm::vec4 new_bacground_color)
+		{
+			m_back_ground_color = new_bacground_color;
+		}
+
 	protected:
 		Enums::RendererType m_type;
 
@@ -113,6 +122,7 @@ namespace Component {
 		bool m_hovered;
 		bool m_selected;
 		float m_angle;
+		glm::vec4 m_back_ground_color;
 
 		
 

@@ -59,7 +59,7 @@ namespace Views
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
-		tabs_size.push_back(ImVec2(0, 300));
+		tabs_size.push_back(ImVec2(0, 450));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -222,28 +222,28 @@ namespace Views
 	{
 		if (m_state_service && selected_renderer && m_loader_service)
 		{
+			glm::vec4 color = selected_renderer->GetBackgroundColor();
+			glm::vec4 ref_color = m_state_service->getRefColor();
+
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
+				| ImGuiColorEditFlags_AlphaBar
+				| ImGuiColorEditFlags_PickerHueWheel
+				| ImGuiColorEditFlags_NoInputs;
+			ImGui::BulletText("Background color : ");
+			ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
+
+			selected_renderer->SetBackgroundColor(color);
+
+			
+
 			switch (selected_renderer->GetType())
 			{
-			case Enums::RendererType::TRIANGLE:
-			case Enums::RendererType::SQUARE:
-			case Enums::RendererType::CUBE:
-			{
-				glm::vec4 color = selected_renderer->GetBackgroundColor();
-				glm::vec4 ref_color = m_state_service->getRefColor();
-
-				ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
-					| ImGuiColorEditFlags_AlphaBar
-					| ImGuiColorEditFlags_PickerHueWheel
-					| ImGuiColorEditFlags_NoInputs;
-				ImGui::BulletText("Background color : ");
-				ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
-
-				selected_renderer->SetBackgroundColor(color);
-			}
-			break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
 			{
+				ImGui::Text(" ");
+				ImGui::Separator();
+
 				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
 				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 				{
@@ -265,11 +265,19 @@ namespace Views
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);
+							selected_renderer->SetMixeTextureColor(false);
 							selected_renderer->SetTextureName(it->first);
 						}
 					}
 					ImGui::SameLine(120);
 
+				}
+
+				ImGui::Text(" ");
+				bool mixe_texture = selected_renderer->GetMixeTextureColor();
+				if (ImGui::Checkbox("Mixe texture and color :", &mixe_texture))
+				{
+					selected_renderer->SetMixeTextureColor(mixe_texture);
 				}
 			}
 				break;

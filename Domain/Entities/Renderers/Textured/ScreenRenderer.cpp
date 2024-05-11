@@ -33,46 +33,64 @@ namespace Renderers {
 			glBindVertexArray(m_vao);
 			if (glIsVertexArray(m_vao) == GL_TRUE)
 			{
-				glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, texture_id);
+				if (texture_id != 0 && ping_pong_texture != 0)
+				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, texture_id);
 
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
-                
-				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+					glActiveTexture(GL_TEXTURE1);
+					glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
 
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, 0);
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glBindVertexArray(0);
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE1);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBindVertexArray(0);
+				}
+				else
+				{
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+				}
 			}
 		}
 	}
 
 	void ScreenRenderer::Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture)
 	{
-		if (first_it)
+		if (texture_id == 0 && ping_pong_texture == 0)
 		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture_id);
-			
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			}
 		}
 		else
 		{
+			if (first_it)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, texture_id);
+
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
+			}
+
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			}
+
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
-		}
-
-		glBindVertexArray(m_vao);
-		if (glIsVertexArray(m_vao) == GL_TRUE)
-		{
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		}
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 		glBindVertexArray(0);
 	}
@@ -84,14 +102,21 @@ namespace Renderers {
 			glBindVertexArray(m_vao);
 			if (glIsVertexArray(m_vao) == GL_TRUE)
 			{
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, texture_id);
-				if (glIsTexture(texture_id) == GL_TRUE)
+				if (texture_id != 0)
+				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, texture_id);
+					if (glIsTexture(texture_id) == GL_TRUE)
+					{
+						glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+						glActiveTexture(GL_TEXTURE0);
+						glBindTexture(GL_TEXTURE_2D, 0);
+					}
+				}
+				else
 				{
 					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-					glActiveTexture(GL_TEXTURE0);
-					glBindTexture(GL_TEXTURE_2D, 0);
 				}
 				glBindVertexArray(0);
 			}
