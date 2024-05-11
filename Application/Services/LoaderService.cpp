@@ -132,7 +132,10 @@ namespace Services
 			if (!available_texures.contains(texture_name))
 			{
 				texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + texture_name);
-				m_state_service->addAvailableTextures(texture_name, texture_id);
+				if (texture_id != 0)
+				{
+					m_state_service->addAvailableTextures(texture_name, texture_id);
+				}
 			}
 			else
 			{

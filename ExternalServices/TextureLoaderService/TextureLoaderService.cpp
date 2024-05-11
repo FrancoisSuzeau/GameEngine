@@ -84,9 +84,10 @@ namespace Services
 				if (surface != nullptr)
 				{
 					SDL_Surface* img_invert = this->PixelInverter(surface);
-					SDL_FreeSurface(surface);
+					
 					if (img_invert)
 					{
+						SDL_FreeSurface(surface);
 						GLenum intern_format(0);
 						GLenum format(0);
 
@@ -123,6 +124,11 @@ namespace Services
 
 						SDL_FreeSurface(img_invert);
 					}
+				}
+				else
+				{
+					glDeleteTextures(1, &texture_id);
+					texture_id = 0;
 				}
 			}
 		}
