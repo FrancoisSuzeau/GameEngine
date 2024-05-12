@@ -93,7 +93,7 @@ namespace Views
 
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
-			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured"};
+			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
@@ -202,6 +202,7 @@ namespace Views
 		{	
 			glm::vec3 size = selected_renderer->GetSize();
 			glm::vec3 position = selected_renderer->GetPosition();
+			float global_size = selected_renderer->GetSize().x;
 
 			ImGui::BulletText("Position : ");
 			ImGui::SliderFloat("X - Axis", &position.x, -5.0f, 5.0f, "%.3f");
@@ -209,11 +210,16 @@ namespace Views
 			ImGui::SliderFloat("Z - Axis", &position.z, -5.0f, 5.0f, "%.3f");
 
 			ImGui::BulletText("Size : ");
-			ImGui::SliderFloat("Width", &size.x, 0.0f, 5.0f, "%.3f");
-			ImGui::SliderFloat("Height", &size.y, 0.0f, 5.0f, "%.3f");
-			ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "%.3f");
+			if (ImGui::SliderFloat("Width", &size.x, 0.0f, 5.0f, "%.3f") || ImGui::SliderFloat("Height", &size.y, 0.0f, 5.0f, "%.3f") || ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "%.3f"))
+			{
+				selected_renderer->SetSize(size);
+			}
+			if (ImGui::SliderFloat("Global", &global_size, 0.0f, 5.0f, "%.3f"))
+			{
+				selected_renderer->SetSize(global_size);
+			}
 
-			selected_renderer->SetSize(size);
+			
 			selected_renderer->SetPosition(position);
 		}
 	}
@@ -241,6 +247,7 @@ namespace Views
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
 			case Enums::RendererType::TRIANGLE_TEXTURED:
+			case Enums::RendererType::SPHERE_TEXTURED:
 			{
 				ImGui::Text(" ");
 				ImGui::Separator();

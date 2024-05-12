@@ -67,6 +67,11 @@ namespace Component {
 			m_size = new_val;
 		}
 
+		virtual void SetSize(float const new_val)
+		{
+			m_size = glm::vec3(new_val);
+		}
+
 		virtual void SetHovered(bool const new_val)
 		{
 			m_hovered = new_val;

@@ -18,6 +18,7 @@
 #include "Renderers/Untextured/Sphere.hpp"
 #include "Renderers/Textured/TriangleTextured.hpp"
 #include "Renderers/Textured/SquareTextured.hpp"
+#include "Renderers/Textured/SphereTextured.hpp"
 
 #include "IComponent.hpp"
 

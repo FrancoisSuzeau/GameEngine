@@ -97,6 +97,14 @@ namespace Commands
 				SQ_APP_TRACE("New textured triangle added");
 			}
 			break;
+			case Enums::RendererType::SPHERE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false);
+				m_loader_service->LoadTexture(component, component->GetTextureName());
+				this->AddComponentToScene(component);
+				SQ_APP_TRACE("New textured sphere added");
+			}
+			break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
 				SQ_APP_TRACE("This component type cannot be added to the scene");

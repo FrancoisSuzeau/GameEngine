@@ -81,6 +81,9 @@
     <ClInclude Include="Entities\Renderers\Textured\TriangleTextured.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Renderers\Textured\SphereTextured.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGLService\OpenGLService.cpp">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Textured\TriangleTextured.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Textured\SphereTextured.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

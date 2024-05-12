@@ -27,11 +27,12 @@ namespace Enums {
 		SPHERE = 3, 
 		CUBE_TEXTURED = 4, 
 		SQUARE_TEXTURED = 5, 
-		TRIANGLE_TEXTURED = 6, 
-		GRID = 7, 
-		SKYBOX = 8, 
-		SUBBGRID = 9, 
-		SUBGRID2 = 10  };
+		TRIANGLE_TEXTURED = 6,
+		SPHERE_TEXTURED = 7,
+		GRID = 8, 
+		SKYBOX = 9, 
+		SUBBGRID = 10, 
+		SUBGRID2 = 11  };
 }
 
 namespace Renderers {

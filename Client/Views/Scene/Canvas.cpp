@@ -122,6 +122,29 @@ namespace Views
 				}
 			}
 				break;
+			case Enums::RendererType::SPHERE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
+
+				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
+				{
+					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SPHERE_SHADER;
+					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
+					{
+						shader_name = Constants::HOVER_SHADER;
+					}
+					if (m_shader_service)
+					{
+						m_shader_service->BindShaderProgram(shader_name);
+						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+						m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+						m_shader_service->UnbindShaderProgram();
+					}
+
+					component.reset();
+				}
+			}
+			break;
 			default:
 				break;
 			}
@@ -159,6 +182,7 @@ namespace Views
 		m_renderers.insert_or_assign(Enums::RendererType::TRIANGLE_TEXTURED, std::make_unique<Renderers::TriangleTextured>());
 		m_renderers.insert_or_assign(Enums::RendererType::SQUARE_TEXTURED, std::make_unique<Renderers::SquareTextured>());
 		m_renderers.insert_or_assign(Enums::RendererType::SPHERE, std::make_unique<Renderers::Sphere>(1.f, 70, 70));
+		m_renderers.insert_or_assign(Enums::RendererType::SPHERE_TEXTURED, std::make_unique<Renderers::SphereTextured>(1.f, 70, 70));
 		
 		for (std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>>::iterator it = m_renderers.begin(); it != m_renderers.end(); it++)
 		{

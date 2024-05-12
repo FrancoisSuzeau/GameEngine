@@ -112,6 +112,7 @@ namespace Services
 					case Enums::RendererType::CUBE_TEXTURED:
 					case Enums::RendererType::SQUARE_TEXTURED:
 					case Enums::RendererType::TRIANGLE_TEXTURED:
+					case Enums::RendererType::SPHERE_TEXTURED:
 					{
 						std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
 						this->LoadTexture(component, component->GetTextureName());

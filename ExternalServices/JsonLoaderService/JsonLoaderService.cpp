@@ -177,6 +177,7 @@ namespace Services
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
+				case Enums::RendererType::SPHERE_TEXTURED:
 					renderers.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe));
 					break;
 				default:

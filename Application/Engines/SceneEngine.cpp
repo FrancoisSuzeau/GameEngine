@@ -72,6 +72,7 @@ namespace Engines
 				m_shader_service->AddShader(Constants::GRID_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::DEPTH_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
 			}
 			else
 			{
