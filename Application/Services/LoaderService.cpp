@@ -120,6 +120,8 @@ namespace Services
 					case Enums::RendererType::TRIANGLE:
 					case Enums::RendererType::SQUARE:
 					case Enums::RendererType::GRID:
+					case Enums::RendererType::CUBE:
+					case Enums::RendererType::SPHERE:
 					case Enums::RendererType::SKYBOX:
 					case Enums::RendererType::SUBBGRID:
 					case Enums::RendererType::SUBGRID2:

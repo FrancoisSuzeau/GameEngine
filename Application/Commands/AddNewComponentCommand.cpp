@@ -60,6 +60,10 @@ namespace Commands
 				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
+			case Enums::RendererType::SPHERE:
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				SQ_APP_TRACE("New sphere added");
+				break;
 
 			case Enums::RendererType::CUBE:
 				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));

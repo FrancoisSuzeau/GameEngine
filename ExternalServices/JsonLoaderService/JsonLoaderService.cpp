@@ -171,6 +171,7 @@ namespace Services
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
+				case Enums::RendererType::SPHERE:
 					renderers.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:

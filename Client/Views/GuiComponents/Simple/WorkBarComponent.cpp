@@ -93,7 +93,7 @@ namespace Views
 
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
-			const char* items[] = { "Triangle", "Square", "Cube", "Cube textured", "Square textured", "Triangle textured"};
+			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured"};
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
