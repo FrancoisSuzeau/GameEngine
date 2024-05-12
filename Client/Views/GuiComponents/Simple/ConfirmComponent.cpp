@@ -43,9 +43,10 @@ namespace Views
 
 				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoScrollbar
 					| ImGuiWindowFlags_NoResize
-					| ImGuiWindowFlags_NoCollapse;
+					| ImGuiWindowFlags_NoCollapse
+					| ImGuiWindowFlags_NoTitleBar;
 
-				if (ImGui::Begin(" ", &show_confirm, window_flags))
+				if (ImGui::Begin("Confirm", &show_confirm, window_flags))
 				{
 					ImGui::Text(m_state_service->getConfirmMessage().c_str());
 					ImGuiStyle& style = ImGui::GetStyle();

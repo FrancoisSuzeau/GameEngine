@@ -27,6 +27,7 @@ namespace ViewModels {
 
 		virtual void RenderComponents(Enums::ComponentType view_type) {}
 		virtual void RenderComponents() {}
+		virtual void RenderLoadComponent(int index) {}
 		virtual void ManageScene() {}
 		virtual void RenderSceneElements(Enums::RendererType element) {}
 		virtual void AddCommand(std::unique_ptr<Commands::ICommand> command)

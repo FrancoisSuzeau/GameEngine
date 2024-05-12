@@ -28,6 +28,12 @@ namespace ViewModels
 		}
 		m_simple_components.clear();
 		m_menu_components.clear();
+
+		if (m_loader_component)
+		{
+			m_loader_component->Clean();
+			m_loader_component.reset();
+		}
 	}
 	void GuiViewModel::Construct()
 	{
@@ -45,6 +51,8 @@ namespace ViewModels
 		m_simple_components.push_back(std::make_unique<Views::StartComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::WorkBarComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::PannelComponent>(shared_from_this()));
+
+		m_loader_component = std::make_unique<Views::LoaderComponent>(shared_from_this());
 	}
 
 	void GuiViewModel::RenderComponents(Enums::ComponentType component_type)
@@ -72,6 +80,14 @@ namespace ViewModels
 		case Enums::CANVAS:
 		default:
 			break;
+		}
+	}
+
+	void GuiViewModel::RenderLoadComponent(int const index)
+	{
+		if (m_loader_component)
+		{
+			m_loader_component->Render(index);
 		}
 	}
 

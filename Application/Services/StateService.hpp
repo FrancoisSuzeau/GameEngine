@@ -63,6 +63,7 @@ namespace Services {
 		void setShowContextMenu(bool const new_val);
 		bool getShowContextMenu() const;
 		std::shared_ptr<Component::IComponent> getSelectedComponent() const;
+		int GetTotalRessources() const;
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
@@ -93,6 +94,8 @@ namespace Services {
 		void setActualize(bool const new_val);
 
 		void setSelectedSkyboxTextureId(unsigned int const texture_id);
+		void SetSqueamishTextureId(unsigned int const texture_id);
+		unsigned int GetSqueamishTextureId() const;
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
 		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
@@ -143,7 +146,7 @@ namespace Services {
 		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
 		Enums::FramebufferType m_fb_type;
-
+		unsigned int sq_texture_id;
 
 	};
 }

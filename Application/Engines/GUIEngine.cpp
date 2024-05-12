@@ -26,6 +26,17 @@ namespace Engines
 				SQ_APP_ERROR("Class {} in function {} : ImGUI service initializer is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
+			m_state_service = container->GetReference<Services::StateService>();
+			m_loader_service = container->GetReference<Services::LoaderService>();
+			if(!m_state_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			if (!m_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
 		}
 	}
 
@@ -74,25 +85,39 @@ namespace Engines
 		}
 	}
 
-	void GUIEngine::LoadConfigAndRessources()
+	void GUIEngine::RenderLoader(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, int const index)
 	{
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
+		if (view_model_builder)
 		{
-			std::shared_ptr<Services::StateService> state_service = container->GetReference<Services::StateService>();
-			std::shared_ptr<Services::LoaderService> loader_service = container->GetReference<Services::LoaderService>();
-			if (state_service && loader_service)
+			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::GUIVIEWMODEL);
+
+			if (view_model)
 			{
-				state_service->setConfigs(loader_service->LoadConfigs());
-				loader_service->LoadSkyboxS();
-				loader_service->LoadAvailableTextures();
-				loader_service.reset();
-				state_service.reset();
+				view_model->RenderLoadComponent(index);
 			}
-			else
-			{
-				SQ_APP_ERROR("Class {} in function {} : State service or json service is not referenced yet", __FILE__, __FUNCTION__);
-			}
+		}
+	}
+
+	void GUIEngine::LoadAvailableSkybox(int const index) const
+	{
+		if (m_state_service && m_loader_service)
+		{
+			m_loader_service->LoadSkyboxS(index);
+		}
+	}
+	void GUIEngine::LoadAvailableTextures(int const index) const
+	{
+		if (m_state_service && m_loader_service)
+		{
+			m_loader_service->LoadAvailableTextures(index);
+		}
+	}
+	void GUIEngine::LoadConfigs()
+	{
+		if (m_state_service && m_loader_service)
+		{
+			m_state_service->setConfigs(m_loader_service->LoadConfigs());
+			m_loader_service->LoadSqueamishTexture();
 		}
 	}
 }

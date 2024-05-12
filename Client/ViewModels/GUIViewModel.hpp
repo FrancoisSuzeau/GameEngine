@@ -28,6 +28,7 @@
 #include "../Views/GuiComponents/Simple/StartComponent.hpp"
 #include "../Views/GuiComponents/Simple/WorkBarComponent.hpp"
 #include "../Views/GuiComponents/Simple/PannelComponent.hpp"
+#include "../Views/GuiComponents/Simple/LoaderComponent.hpp"
 
 
 namespace ViewModels
@@ -40,11 +41,13 @@ namespace ViewModels
 		void Construct() override;
 		
 		void RenderComponents(Enums::ComponentType component_type) override;
+		void RenderLoadComponent(int const index) override;
 
  
 	private:
 		std::vector<std::unique_ptr<Views::IView>> m_simple_components;
 		std::vector<std::unique_ptr<Views::IView>> m_menu_components;
+		std::unique_ptr<Views::IView> m_loader_component;
 	};
 }
 

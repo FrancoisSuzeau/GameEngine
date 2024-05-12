@@ -63,7 +63,7 @@ namespace Engines
 			}
 			else
 			{
-				m_gui_engine->LoadConfigAndRessources();
+				m_gui_engine->LoadConfigs();
 			}
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
@@ -95,7 +95,7 @@ namespace Engines
 	void MainEngine::StartScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-		if (m_state_service && m_gui_engine && m_scene_engine)
+		if (m_state_service && m_gui_engine && view_model_builder)
 		{
 			
 			while (!m_state_service->getContinued() && !m_state_service->getExit())
@@ -119,10 +119,74 @@ namespace Engines
 		}
 	}
 
+	void MainEngine::LoadScreen(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		SDL_Event event;
+		if (m_state_service && m_gui_engine && view_model_builder)
+		{
+			const int total_count_skybox = (const int) m_state_service->getConfigs()->GetAvailableSkybox().size();
+			const int total_count_textures = (const int) m_state_service->getConfigs()->GetAvailableTextures().size();
+			int progress = 0;
+
+			for(int i = 0; i <= total_count_skybox; i++)
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				if (i < total_count_skybox)
+				{
+					m_gui_engine->LoadAvailableSkybox(i);
+				}
+				m_gui_engine->RenderLoader(view_model_builder, progress);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+
+				progress++;
+			}
+
+			progress--;
+
+			for (int i = 0; i <= total_count_textures; i++)
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				if (i < total_count_textures)
+				{
+					m_gui_engine->LoadAvailableTextures(i);
+				}
+				m_gui_engine->RenderLoader(view_model_builder, progress);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+
+				progress++;
+			}
+
+			SDL_Delay(1000);
+			
+		}
+	}
+
 	void MainEngine::MainLoop(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
 		SDL_Event event;
-		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service)
+		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service && view_model_builder)
 		{
 			while (!m_state_service->getExit() && m_state_service->getContinued())
 			{
