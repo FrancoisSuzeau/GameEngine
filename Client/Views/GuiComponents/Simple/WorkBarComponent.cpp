@@ -254,7 +254,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(50, 50), uv_max, uv_min, tint_col, border_col);
 					}
 					else
 					{
@@ -262,7 +262,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(50, 50), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);
@@ -270,7 +270,7 @@ namespace Views
 							selected_renderer->SetTextureName(it->first);
 						}
 					}
-					ImGui::SameLine(120);
+					ImGui::SameLine();
 
 				}
 

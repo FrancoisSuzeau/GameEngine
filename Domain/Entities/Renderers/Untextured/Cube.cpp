@@ -10,8 +10,9 @@ namespace Renderers {
 	{
 		m_vbo = 0;
 		m_vao = 0;
-		m_bytes_vertices_size = 0;
-		m_bytes_indices_size = 0;
+        m_ebo = 0;
+        m_bytes_vertices_size = 0;
+        m_bytes_indices_size = 0;
 	}
 
 	Cube::~Cube()
@@ -31,7 +32,7 @@ namespace Renderers {
             glBindVertexArray(m_vao);
             if (glIsVertexArray(m_vao) == GL_TRUE)
             {
-                glDrawArrays(GL_TRIANGLES, 0, 36);
+                glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
 
                 glBindVertexArray(0);
             }
@@ -48,6 +49,11 @@ namespace Renderers {
         if (m_vbo == 0)
         {
             glGenBuffers(1, &m_vbo);
+        }
+
+        if (m_ebo == 0)
+        {
+            glGenBuffers(1, &m_ebo);
         }
 
         if (m_vao == 0)
@@ -69,6 +75,17 @@ namespace Renderers {
             }
         }
 
+        if (m_ebo != 0)
+        {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+            if (glIsBuffer(m_ebo) == GL_TRUE)
+            {
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, 0, GL_STATIC_DRAW);
+                glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_bytes_indices_size, m_indices.data());
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            }
+        }
+
         if (m_vao != 0)
         {
             glBindVertexArray(m_vao);
@@ -80,8 +97,20 @@ namespace Renderers {
                     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
                     if (glIsBuffer(m_vbo) == GL_TRUE)
                     {
-                        glEnableVertexAttribArray(0);
-                        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+                        if (m_ebo != 0)
+                        {
+                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+                            if (glIsBuffer(m_ebo) == GL_TRUE)
+                            {
+                                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+                                glEnableVertexAttribArray(0);
+
+                                glBindVertexArray(0);
+                                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+                            }
+                        }
                     }
                 }
 
@@ -137,6 +166,13 @@ namespace Renderers {
         };
 
         m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+
+        for (int i = 0; i < m_vertices.size(); ++i)
+        {
+            m_indices.push_back(i);
+        }
+
+        m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
 
 }
