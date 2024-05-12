@@ -46,10 +46,15 @@ namespace Engines {
 
 		void RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
-		void LoadConfigAndRessources();
+		void RenderLoader(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, int const index);
+		void LoadAvailableSkybox(int const index) const;
+		void LoadAvailableTextures(int const index) const;
+		void LoadConfigs();
 
 	private:
 		ImGuiIO m_io;
+		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
 		
 		
 	};

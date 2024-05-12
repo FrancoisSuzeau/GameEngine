@@ -19,6 +19,7 @@ namespace Views {
 	public:
 		virtual ~IView() {};
 		virtual void Render() {};
+		virtual void Render(int const index) {};
 		virtual void Render(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};

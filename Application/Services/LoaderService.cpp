@@ -67,33 +67,28 @@ namespace Services
 			}
 		}
 	}
-	void LoaderService::LoadSkyboxS()
+	void LoaderService::LoadSkyboxS(int const index)
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
 			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
-			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
+
+			unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + available_skybox_name.at(index) + "/back");
+			if (texture_id != 0)
 			{
-				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + it[0] + "/back");
-				if (texture_id != 0)
-				{
-					m_state_service->addAvailableSkybox(it[0], texture_id);
-				}
+				m_state_service->addAvailableSkybox(available_skybox_name.at(index), texture_id);
 			}
 		}
 	}
-	void LoaderService::LoadAvailableTextures()
+	void LoaderService::LoadAvailableTextures(int const index)
 	{
 		if (m_state_service && m_texture_loader_service && m_state_service->getConfigs())
 		{
 			std::vector<std::string> available_textures = m_state_service->getConfigs()->GetAvailableTextures();
-			for (std::vector<std::string>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+			unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + available_textures.at(index));
+			if (texture_id != 0)
 			{
-				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + it[0]);
-				if (texture_id != 0)
-				{
-					m_state_service->addAvailableTextures(it[0], texture_id);
-				}
+				m_state_service->addAvailableTextures(available_textures.at(index), texture_id);
 			}
 		}
 	}
@@ -156,6 +151,18 @@ namespace Services
 			}
 
 			component->SetTextureId(texture_id);
+		}
+	}
+	void LoaderService::LoadSqueamishTexture()
+	{
+		if (m_state_service && m_texture_loader_service)
+		{
+			unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/unicorn");
+			if (texture_id != 0)
+			{
+				m_state_service->SetSqueamishTextureId(texture_id);
+				m_state_service->addAvailableTextures("unicorn", texture_id);
+			}
 		}
 	}
 	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)

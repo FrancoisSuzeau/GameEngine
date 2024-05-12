@@ -81,6 +81,7 @@ namespace Starting
         }
         else
         {
+            main_engine->LoadScreen(m_view_model_builder);
             main_engine->StartScreen(m_view_model_builder);
             main_engine->MainLoop(m_view_model_builder);
         }

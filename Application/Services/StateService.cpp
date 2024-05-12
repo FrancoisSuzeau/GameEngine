@@ -57,6 +57,7 @@ namespace Services
 		if (m_runtime_service)
 		{
 			m_runtime_service->DeleteTexture(m_texture_id);
+			m_runtime_service->DeleteTexture(sq_texture_id);
 		}
 		
 		for (std::map<std::string, unsigned int>::iterator it = m_available_textures.begin(); it != m_available_textures.end(); it++)
@@ -215,6 +216,11 @@ namespace Services
 		return m_selected_component;
 	}
 
+	int StateService::GetTotalRessources() const
+	{
+		return (int)this->m_configs->GetAvailableSkybox().size() + (int)m_configs->GetAvailableTextures().size();
+	}
+
 	std::string StateService::getFileName() const
 	{
 		return m_current_filename;
@@ -344,6 +350,16 @@ namespace Services
 	void StateService::setSelectedSkyboxTextureId(unsigned int const texture_id)
 	{
 		m_texture_id = texture_id;
+	}
+
+	void StateService::SetSqueamishTextureId(unsigned int const texture_id)
+	{
+		sq_texture_id = texture_id;
+	}
+
+	unsigned int StateService::GetSqueamishTextureId() const
+	{
+		return sq_texture_id;
 	}
 
 	unsigned int StateService::getSelectedSkyboxTextureId() const
