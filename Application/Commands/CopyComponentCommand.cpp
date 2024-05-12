@@ -51,11 +51,15 @@ namespace Commands
 			{
 			case Enums::RendererType::TRIANGLE:
 			case Enums::RendererType::SQUARE:
+			case Enums::RendererType::CUBE:
+			case Enums::RendererType::SPHERE:
 				this->MakeNewComponent(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
+			case Enums::RendererType::TRIANGLE_TEXTURED:
+			case Enums::RendererType::SPHERE_TEXTURED:
 				this->MakeNewComponent(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_renderer_to_copy)));
 				SQ_APP_TRACE("Component copied !");
 				break;

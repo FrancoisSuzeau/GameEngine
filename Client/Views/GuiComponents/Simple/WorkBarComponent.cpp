@@ -59,7 +59,7 @@ namespace Views
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
-		tabs_size.push_back(ImVec2(0, 300));
+		tabs_size.push_back(ImVec2(0, 700));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -93,7 +93,7 @@ namespace Views
 
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
 		{
-			const char* items[] = { "Triangle", "Square", "Cube textured"};
+			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
 			ImGui::Text("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
@@ -202,6 +202,7 @@ namespace Views
 		{	
 			glm::vec3 size = selected_renderer->GetSize();
 			glm::vec3 position = selected_renderer->GetPosition();
+			float global_size = selected_renderer->GetSize().x;
 
 			ImGui::BulletText("Position : ");
 			ImGui::SliderFloat("X - Axis", &position.x, -5.0f, 5.0f, "%.3f");
@@ -209,11 +210,16 @@ namespace Views
 			ImGui::SliderFloat("Z - Axis", &position.z, -5.0f, 5.0f, "%.3f");
 
 			ImGui::BulletText("Size : ");
-			ImGui::SliderFloat("Width", &size.x, 0.0f, 5.0f, "%.3f");
-			ImGui::SliderFloat("Height", &size.y, 0.0f, 5.0f, "%.3f");
-			ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "%.3f");
+			if (ImGui::SliderFloat("Width", &size.x, 0.0f, 5.0f, "%.3f") || ImGui::SliderFloat("Height", &size.y, 0.0f, 5.0f, "%.3f") || ImGui::SliderFloat("Depth", &size.z, 0.0f, 5.0f, "%.3f"))
+			{
+				selected_renderer->SetSize(size);
+			}
+			if (ImGui::SliderFloat("Global", &global_size, 0.0f, 5.0f, "%.3f"))
+			{
+				selected_renderer->SetSize(global_size);
+			}
 
-			selected_renderer->SetSize(size);
+			
 			selected_renderer->SetPosition(position);
 		}
 	}
@@ -222,27 +228,32 @@ namespace Views
 	{
 		if (m_state_service && selected_renderer && m_loader_service)
 		{
+			glm::vec4 color = selected_renderer->GetBackgroundColor();
+			glm::vec4 ref_color = m_state_service->getRefColor();
+
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
+				| ImGuiColorEditFlags_AlphaBar
+				| ImGuiColorEditFlags_PickerHueWheel
+				| ImGuiColorEditFlags_NoInputs;
+			ImGui::BulletText("Background color : ");
+			ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
+
+			selected_renderer->SetBackgroundColor(color);
+
+			
+
 			switch (selected_renderer->GetType())
 			{
-			case Enums::RendererType::TRIANGLE:
-			case Enums::RendererType::SQUARE:
-			{
-				glm::vec4 color = selected_renderer->GetBackgroundColor();
-				glm::vec4 ref_color = m_state_service->getRefColor();
-
-				ImGuiColorEditFlags flags = ImGuiColorEditFlags_AlphaPreviewHalf
-					| ImGuiColorEditFlags_AlphaBar
-					| ImGuiColorEditFlags_PickerHueWheel
-					| ImGuiColorEditFlags_NoInputs;
-				ImGui::BulletText("Background color : ");
-				ImGui::ColorPicker4("New Color##4", (float*)&color, flags, (float*)&ref_color);
-
-				selected_renderer->SetBackgroundColor(color);
-			}
-			break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
+			case Enums::RendererType::TRIANGLE_TEXTURED:
+			case Enums::RendererType::SPHERE_TEXTURED:
 			{
+				ImGui::Text(" ");
+				ImGui::Separator();
+
+				float image_size = 50;
+				int place_taken = 0;
 				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
 				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 				{
@@ -252,7 +263,8 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
+						place_taken += (int)image_size;
 					}
 					else
 					{
@@ -260,15 +272,34 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);
+							selected_renderer->SetMixeTextureColor(false);
 							selected_renderer->SetTextureName(it->first);
 						}
+						place_taken += (int)image_size;
 					}
-					ImGui::SameLine(120);
 
+					if (place_taken < 300)
+					{
+						ImGui::SameLine();
+					}
+					else
+					{
+						ImGui::Text(" ");
+						place_taken = 0;
+					}
+					
+
+				}
+
+				ImGui::Text(" ");
+				bool mixe_texture = selected_renderer->GetMixeTextureColor();
+				if (ImGui::Checkbox("Mixe texture and color :", &mixe_texture))
+				{
+					selected_renderer->SetMixeTextureColor(mixe_texture);
 				}
 			}
 				break;

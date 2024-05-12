@@ -57,21 +57,54 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type ,glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
+			case Enums::RendererType::SPHERE:
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				SQ_APP_TRACE("New sphere added");
+				break;
+
+			case Enums::RendererType::CUBE:
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				SQ_APP_TRACE("New cube added");
+				break;
 			case Enums::RendererType::SQUARE:
-				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(1.f)));
+				this->AddComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New square added");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			{
-				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, "container");
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->AddComponentToScene(component);
 				SQ_APP_TRACE("New textured cube added");
 			}
 				break;
+			case Enums::RendererType::SQUARE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false);
+				m_loader_service->LoadTexture(component, component->GetTextureName());
+				this->AddComponentToScene(component);
+				SQ_APP_TRACE("New textured square added");
+			}
+			break;
+			case Enums::RendererType::TRIANGLE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false);
+				m_loader_service->LoadTexture(component, component->GetTextureName());
+				this->AddComponentToScene(component);
+				SQ_APP_TRACE("New textured triangle added");
+			}
+			break;
+			case Enums::RendererType::SPHERE_TEXTURED:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false);
+				m_loader_service->LoadTexture(component, component->GetTextureName());
+				this->AddComponentToScene(component);
+				SQ_APP_TRACE("New textured sphere added");
+			}
+			break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
 				SQ_APP_TRACE("This component type cannot be added to the scene");

@@ -36,6 +36,7 @@ namespace Constants {
 	std::string const SCENEVIEWMODEL = "SCENE";
 	std::string const UNTEXTURED_SHADER = "untextured";
 	std::string const TEXTURED_SHADER = "textured";
+	std::string const TEXTURED_SPHERE_SHADER = "sphere_textured";
 	std::string const HOVER_SHADER = "hover";
 	std::string const SCREEN_SHADER = "screen_shader";
 	std::string const BLOOM_SHADER = "bloom_shader";

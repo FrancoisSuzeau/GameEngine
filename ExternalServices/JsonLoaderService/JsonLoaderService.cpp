@@ -125,7 +125,8 @@ namespace Services
 				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
 				{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
 				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
-				{"texture_name", it[0]->GetTextureName()}
+				{"texture_name", it[0]->GetTextureName()},
+				{"mixe_texture_color", it[0]->GetMixeTextureColor()}
 			};
 			renderers_json_format.push_back(renderer_json_format);
 		}
@@ -164,15 +165,20 @@ namespace Services
 				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
 				std::string texture_name = this->GetStringNode(std::make_unique<json>(*it), "texture_name");
+				bool mixe = this->GetBoolNode(std::make_unique<json>(*it), "mixe_texture_color");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
+				case Enums::RendererType::CUBE:
+				case Enums::RendererType::SPHERE:
 					renderers.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
-					renderers.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name));
+				case Enums::RendererType::TRIANGLE_TEXTURED:
+				case Enums::RendererType::SPHERE_TEXTURED:
+					renderers.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe));
 					break;
 				default:
 					break;
@@ -354,6 +360,26 @@ namespace Services
 			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
 			return node;
 		}
+		return false;
+	}
+
+	bool JsonLoaderService::GetBoolNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		if (json_content)
+		{
+			json node = json_content->at(node_name);
+			json_content.reset();
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return false;
+
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+
 		return false;
 	}
 

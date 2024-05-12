@@ -14,6 +14,11 @@
 #include "Renderers/Untextured/Square.hpp"
 #include "Renderers/Untextured/Triangle.hpp"
 #include "Renderers/Textured/CubeTextured.hpp"
+#include "Renderers/Untextured/Cube.hpp"
+#include "Renderers/Untextured/Sphere.hpp"
+#include "Renderers/Textured/TriangleTextured.hpp"
+#include "Renderers/Textured/SquareTextured.hpp"
+#include "Renderers/Textured/SphereTextured.hpp"
 
 #include "IComponent.hpp"
 

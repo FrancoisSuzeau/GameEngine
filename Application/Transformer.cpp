@@ -20,6 +20,7 @@ namespace Component
 			if (component && shader_service && state_service)
 			{
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
+				shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", component->GetModelMat());
 				PutViewMapIntoShader(shader_service, shader_name);

@@ -7,7 +7,7 @@
 
 namespace Component
 {
-	ComponentBase::ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color) : m_back_ground_color(color)
+	ComponentBase::ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color) 
 	{
 		m_type = type;
 
@@ -17,19 +17,11 @@ namespace Component
 		m_hovered = false;
 		m_selected = false;
 		m_angle = 0.f;
+		m_back_ground_color = color;
 	}
 
 	void ComponentBase::Clean()
 	{
 
-	}
-
-	glm::vec4 ComponentBase::GetBackgroundColor() const
-	{
-		return m_back_ground_color;
-	}
-	void ComponentBase::SetBackgroundColor(glm::vec4 new_bacground_color)
-	{
-		m_back_ground_color = new_bacground_color;
 	}
 }

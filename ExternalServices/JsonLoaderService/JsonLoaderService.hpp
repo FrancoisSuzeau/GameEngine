@@ -31,7 +31,11 @@ namespace Enums {
 	{RendererType::SQUARE, "square"},
 	{RendererType::SQUARE_TEXTURED, "square_textured"},
 	{RendererType::TRIANGLE, "triangle"},
-	{RendererType::CUBE_TEXTURED, "cube_textured"}
+	{RendererType::CUBE_TEXTURED, "cube_textured"},
+	{RendererType::CUBE, "cube"},
+	{RendererType::TRIANGLE_TEXTURED, "triangle_textured"},
+	{RendererType::SPHERE, "sphere"},
+	{RendererType::SPHERE_TEXTURED, "sphere_textured"}
 		})
 }
 
@@ -64,6 +68,7 @@ namespace Services {
 		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
 		int GetIntNode(Enums::JsonType json_type, std::string node_name);
 		bool GetBoolNode(Enums::JsonType json_type, std::string node_name);
+		bool GetBoolNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 
 		bool m_file_exist;
 		

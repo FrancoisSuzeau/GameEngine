@@ -61,7 +61,10 @@ namespace Services
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
 			unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
-			m_state_service->setSelectedSkyboxTextureId(texture_id);
+			if (texture_id != 0)
+			{
+				m_state_service->setSelectedSkyboxTextureId(texture_id);
+			}
 		}
 	}
 	void LoaderService::LoadSkyboxS()
@@ -72,7 +75,10 @@ namespace Services
 			for (std::vector<std::string>::iterator it = available_skybox_name.begin(); it != available_skybox_name.end(); it++)
 			{
 				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + it[0] + "/back");
-				m_state_service->addAvailableSkybox(it[0], texture_id);
+				if (texture_id != 0)
+				{
+					m_state_service->addAvailableSkybox(it[0], texture_id);
+				}
 			}
 		}
 	}
@@ -84,7 +90,10 @@ namespace Services
 			for (std::vector<std::string>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 			{
 				unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + it[0]);
-				m_state_service->addAvailableTextures(it[0], texture_id);
+				if (texture_id != 0)
+				{
+					m_state_service->addAvailableTextures(it[0], texture_id);
+				}
 			}
 		}
 	}
@@ -102,6 +111,8 @@ namespace Services
 					{
 					case Enums::RendererType::CUBE_TEXTURED:
 					case Enums::RendererType::SQUARE_TEXTURED:
+					case Enums::RendererType::TRIANGLE_TEXTURED:
+					case Enums::RendererType::SPHERE_TEXTURED:
 					{
 						std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
 						this->LoadTexture(component, component->GetTextureName());
@@ -110,6 +121,8 @@ namespace Services
 					case Enums::RendererType::TRIANGLE:
 					case Enums::RendererType::SQUARE:
 					case Enums::RendererType::GRID:
+					case Enums::RendererType::CUBE:
+					case Enums::RendererType::SPHERE:
 					case Enums::RendererType::SKYBOX:
 					case Enums::RendererType::SUBBGRID:
 					case Enums::RendererType::SUBGRID2:
@@ -132,7 +145,10 @@ namespace Services
 			if (!available_texures.contains(texture_name))
 			{
 				texture_id = m_texture_loader_service->BuildTexture("resources/CptTextures/" + texture_name);
-				m_state_service->addAvailableTextures(texture_name, texture_id);
+				if (texture_id != 0)
+				{
+					m_state_service->addAvailableTextures(texture_name, texture_id);
+				}
 			}
 			else
 			{

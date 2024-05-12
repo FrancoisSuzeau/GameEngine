@@ -72,6 +72,7 @@ namespace Engines
 				m_shader_service->AddShader(Constants::GRID_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::DEPTH_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -112,13 +113,13 @@ namespace Engines
 			}
 		}
 		
-		m_screen_renderer = std::make_unique<Renderers::ScreenRenderer>();
+		m_screen_renderer = std::make_unique<Renderers::SquareTextured>();
 		if (m_screen_renderer)
 		{
 			m_screen_renderer->Construct();
 		}
 
-		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, "");
+		m_screen_component = std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::SQUARE_TEXTURED, "", false);
 	}
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)

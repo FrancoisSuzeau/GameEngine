@@ -132,14 +132,14 @@ namespace Renderers {
 		m_vertices.push_back(1.0f);
 		m_vertices.push_back(0.f);
 
-		m_indices.push_back(0);
-		m_indices.push_back(1);
-		m_indices.push_back(3);
-		m_indices.push_back(1);
-		m_indices.push_back(2);
-		m_indices.push_back(3);
-
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+
+		m_indices = 
+		{
+			0, 1, 3,
+			1, 2, 3
+		};
+
 		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
 

@@ -22,7 +22,7 @@
     <ClInclude Include="Entities\Components\ComponentBase.hpp" />
     <ClInclude Include="Entities\Components\TexturedComponent.hpp" />
     <ClInclude Include="Entities\ConfigEntity.hpp" />
-    <ClInclude Include="Entities\Renderers\Textured\ScreenRenderer.hpp" />
+    <ClInclude Include="Entities\Renderers\Textured\SquareTextured.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
@@ -36,20 +36,28 @@
     <ClInclude Include="OpenGLService\OpenGLService.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Cube.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Sphere.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\Skybox.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\CubeTextured.hpp" />
+    <ClInclude Include="Entities\Renderers\Textured\TriangleTextured.hpp" />
+    <ClInclude Include="Entities\Renderers\Textured\SphereTextured.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Components\ComponentBase.cpp" />
     <ClCompile Include="Entities\Components\TexturedComponent.cpp" />
     <ClCompile Include="Entities\ConfigEntity.cpp" />
-    <ClCompile Include="Entities\Renderers\Textured\ScreenRenderer.cpp" />
+    <ClCompile Include="Entities\Renderers\Textured\SquareTextured.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
     <ClCompile Include="OpenGLService\OpenGLService.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Cube.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Sphere.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\Skybox.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\CubeTextured.cpp" />
+    <ClCompile Include="Entities\Renderers\Textured\TriangleTextured.cpp" />
+    <ClCompile Include="Entities\Renderers\Textured\SphereTextured.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

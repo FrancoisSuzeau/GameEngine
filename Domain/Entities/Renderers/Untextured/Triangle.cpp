@@ -43,21 +43,6 @@ namespace Renderers {
 		base::Clean();
 	}
 
-	glm::vec3 Triangle::GetVertex1() const
-	{
-		return glm::vec3(m_vertices.at(0), m_vertices.at(1), m_vertices.at(2));
-	}
-
-	glm::vec3 Triangle::GetVertex2() const
-	{
-		return glm::vec3(m_vertices.at(3), m_vertices.at(4), m_vertices.at(5));
-	}
-
-	glm::vec3 Triangle::GetVertex3() const
-	{
-		return glm::vec3(m_vertices.at(6), m_vertices.at(7), m_vertices.at(8));
-	}
-
 	void Triangle::Attach()
 	{
 		/************************************************* VBO management ********************************************************/
@@ -134,22 +119,21 @@ namespace Renderers {
 	void Triangle::Load()
 	{
 		
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(0.f);
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(0.f);
-		m_vertices.push_back(0.f);
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(0.f);
+		m_vertices =
+		{
+			-1.0f, -1.0f, 0.f,
+			1.0f, -1.0f, 0.f,
+			0.f, 1.0f, 0.f
+		};
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
 
-		for (int i = 0; i < m_vertices.size(); ++i)
+		m_indices = 
 		{
-			m_indices.push_back(i);
-		}
+			0, 
+			1,
+			2 
+		};
 
 		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
