@@ -59,7 +59,7 @@ namespace Views
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
-		tabs_size.push_back(ImVec2(0, 450));
+		tabs_size.push_back(ImVec2(0, 700));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -252,6 +252,8 @@ namespace Views
 				ImGui::Text(" ");
 				ImGui::Separator();
 
+				float image_size = 50;
+				int place_taken = 0;
 				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
 				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 				{
@@ -261,7 +263,8 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(50, 50), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
+						place_taken += (int)image_size;
 					}
 					else
 					{
@@ -269,15 +272,26 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(50, 50), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);
 							selected_renderer->SetMixeTextureColor(false);
 							selected_renderer->SetTextureName(it->first);
 						}
+						place_taken += (int)image_size;
 					}
-					ImGui::SameLine();
+
+					if (place_taken < 300)
+					{
+						ImGui::SameLine();
+					}
+					else
+					{
+						ImGui::Text(" ");
+						place_taken = 0;
+					}
+					
 
 				}
 
