@@ -128,10 +128,12 @@ namespace Renderers {
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
 
-		for (int i = 0; i < m_vertices.size(); ++i)
+		m_indices = 
 		{
-			m_indices.push_back(i);
-		}
+			0, 
+			1,
+			2 
+		};
 
 		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 	}
