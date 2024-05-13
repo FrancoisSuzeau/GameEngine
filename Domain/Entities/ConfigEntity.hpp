@@ -37,8 +37,6 @@ namespace Services {
 		void SetBloom(bool const bloom);
 		void SetRenderDebug(bool const debug);
 		bool GetRenderDebug() const;
-		std::string GetSelectedSkybox() const;
-		void SetSelectedSkybox(std::string const selected_skybox);
 		void SetAvailableSkybox(std::vector<std::string> available_skybox);
 		void SetAvailableTextures(std::vector<std::string> available_texure);
 		std::vector<std::string> GetAvailableTextures();
@@ -60,7 +58,6 @@ namespace Services {
 		int m_bloom_strength;
 		bool m_active_bloom;
 		bool m_render_debug;
-		std::string m_selected_skybox;
 		std::vector<std::string> m_available_skybox;
 		std::vector<std::string> m_available_textures;
 		bool m_render_skybox;

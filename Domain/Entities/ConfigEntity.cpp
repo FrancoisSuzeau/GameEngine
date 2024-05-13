@@ -7,7 +7,7 @@
 namespace Services {
 
 	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(4), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(20), m_active_bloom(true), m_render_debug(false), 
-		m_selected_skybox(""), m_render_skybox(false), m_active_depth(true)
+		 m_render_skybox(false), m_active_depth(true)
 	{
 		m_available_skybox =
 		{
@@ -128,16 +128,6 @@ namespace Services {
 		return m_render_debug;
 	}
 
-	std::string ConfigEntity::GetSelectedSkybox() const
-	{
-		return m_selected_skybox;
-	}
-
-	void ConfigEntity::SetSelectedSkybox(std::string const selected_skybox)
-	{
-		m_selected_skybox = selected_skybox;
-	}
-
 	void ConfigEntity::SetAvailableSkybox(std::vector<std::string> available_skybox)
 	{
 		m_available_skybox = available_skybox;
@@ -186,7 +176,6 @@ namespace Services {
 		m_bloom_strength = 20;
 		m_active_bloom = true;
 		m_render_debug = false;
-		m_selected_skybox = "";
 		m_render_skybox = false;
 		m_active_depth = true;
 	}

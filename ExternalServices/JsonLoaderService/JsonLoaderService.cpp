@@ -131,7 +131,7 @@ namespace Services
 			};
 			renderers_json_format.push_back(renderer_json_format);
 		}
-		json j(renderers_json_format);
+		json j = { {"components", renderers_json_format} };
 		return std::make_unique<json>(j);
 	}
 
@@ -145,7 +145,6 @@ namespace Services
 			{"bloom_strength", config->GetBloomStrength()},
 			{"activate_bloom", config->GetBloom()},
 			{"render_debug", config->GetRenderDebug()},
-			{"selected_skybox", config->GetSelectedSkybox()},
 			{"available_skybox", config->GetAvailableSkybox()},
 			{"render_skybox", config->GetRenderSkybox()},
 			{"activate_depth", config->GetDepth()},
@@ -157,9 +156,11 @@ namespace Services
 	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
 	{
 		std::vector<std::shared_ptr<Component::IComponent>> renderers;
+		
 		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene) && m_file_exist)
 		{
-			for (json::iterator it = m_json_contents.at(Enums::JsonType::Scene)->begin(); it != m_json_contents.at(Enums::JsonType::Scene)->end(); ++it)
+			json json_components = m_json_contents.at(Enums::JsonType::Scene)->at("components");
+			for (json::iterator it = json_components.begin(); it != json_components.end(); ++it)
 			{
 				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
@@ -203,7 +204,6 @@ namespace Services
 			config->SetBloomStrength(this->GetIntNode(Enums::JsonType::Config, "bloom_strength"));
 			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
 			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
-			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
 			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
 			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));

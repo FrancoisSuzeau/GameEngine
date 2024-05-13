@@ -60,11 +60,11 @@ namespace Services
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
-			unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
-			if (texture_id != 0)
+			//unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
+			/*if (texture_id != 0)
 			{
 				m_state_service->setSelectedSkyboxTextureId(texture_id);
-			}
+			}*/
 		}
 	}
 	void LoaderService::LoadSkyboxS(int const index)

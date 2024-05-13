@@ -20,7 +20,7 @@ namespace Views
 		}
 	}
 	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0),
-		activate_debug(false), active_skybox(false), selected_skybox(""), show(false)
+		activate_debug(false), active_skybox(false), show(false)
 	{
 		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -35,7 +35,6 @@ namespace Views
 			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
-			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
 			activate_shadow = m_state_service->getConfigs()->GetDepth();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
@@ -177,32 +176,32 @@ namespace Views
 
 			std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
 			
-			for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
-			{
-				if (it->first == selected_skybox)
-				{
-					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
-					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-					ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-					ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-					ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
-				}
-				else
-				{
-					ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
-					ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-					ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
-					ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-					if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
-					{
-						selected_skybox = it->first;
-						m_state_service->setActualize(true);
-						m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(selected_skybox, Enums::ConfigsModifier::CHANGESKYBOX));
-					}
-				}
-				ImGui::SameLine(120);
-				
-			}
+			//for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
+			//{
+			//	if (it->first == selected_skybox)
+			//	{
+			//		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+			//		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+			//		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+			//		ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
+			//		ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
+			//	}
+			//	else
+			//	{
+			//		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+			//		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+			//		ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
+			//		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+			//		if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
+			//		{
+			//			/*selected_skybox = it->first;
+			//			m_state_service->setActualize(true);
+			//			m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(selected_skybox, Enums::ConfigsModifier::CHANGESKYBOX));*/
+			//		}
+			//	}
+			//	ImGui::SameLine(120);
+			//	
+			//}
 			ImGui::Text(" ");
 			for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
 			{
@@ -281,7 +280,6 @@ namespace Views
 			bloom_strength = m_state_service->getConfigs()->GetBloomStrength();
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
-			selected_skybox = m_state_service->getConfigs()->GetSelectedSkybox();
 			activate_shadow = m_state_service->getConfigs()->GetDepth();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());

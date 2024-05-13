@@ -87,11 +87,6 @@ namespace Commands
 			case::Enums::ConfigsModifier::RENDERSKYBOX:
 				m_state_service->getConfigs()->SetRenderSkybox(m_bool_value);
 				break;
-			case::Enums::ConfigsModifier::CHANGESKYBOX:
-				m_state_service->getConfigs()->SetSelectedSkybox(m_string_value);
-				m_runtime_service->DeleteTexture(m_state_service->getSelectedSkyboxTextureId());
-				m_loader_service->LoadSkybox();
-				break;
 			case::Enums::ConfigsModifier::SHADOW:
 				m_state_service->getConfigs()->SetDepth(m_bool_value);
 				break;
