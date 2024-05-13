@@ -57,7 +57,7 @@ namespace Views
 						{
 
 							m_parent_view_model->AddCommand(std::make_unique<Commands::SaveSceneCommand>(filename));
-							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(filename, Enums::ConfigsModifier::ADDFILE));
+							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>((std::string)filename, Enums::ConfigsModifier::ADDFILE));
 							m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(filename));
 							show_save_as = false;
 							show_confirm = true;

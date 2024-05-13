@@ -28,7 +28,6 @@ namespace Component
 	private:
 		unsigned int m_texture_id;
 		std::string m_texture_name;
-		void DestroyTexture();
 		bool m_horizontal;
 		bool m_mixe_texture_and_color;
 
