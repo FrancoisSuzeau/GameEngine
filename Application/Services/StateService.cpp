@@ -9,7 +9,8 @@ namespace Services
 	StateService::StateService() : m_show_metrics(false), m_show_tools(false), m_exit(false), m_height(0), m_width(0), m_show_app_info(false),
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_perspective_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
-		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false), m_far_plane(100.f), m_near_plane(0.1f)
+		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false), m_far_plane(100.f), m_near_plane(0.1f),
+		sq_texture_id(0), m_texture_id(0), m_projection_ortho_matrix(glm::mat4()), m_fb_type(Enums::FramebufferType::COLORBUFFER)
 	{
 	}
 

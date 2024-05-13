@@ -23,7 +23,7 @@ namespace Component {
 
 	void TexturedComponent::Clean()
 	{
-		this->DestroyTexture();
+		m_texture_id = 0;
 	}
 
 	bool TexturedComponent::GetHorizontal()
@@ -64,14 +64,5 @@ namespace Component {
 	unsigned int TexturedComponent::GetTextureId() const
 	{
 		return m_texture_id;
-	}
-
-	void TexturedComponent::DestroyTexture()
-	{
-		if (m_texture_id != 0)
-		{
-			glDeleteTextures(1, &m_texture_id);
-			m_texture_id = 0;
-		}
 	}
 }
