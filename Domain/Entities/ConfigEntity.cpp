@@ -6,8 +6,8 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), 
-		m_selected_skybox("calm_lake", 0), m_render_skybox(true), m_active_depth(false)
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(4), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(20), m_active_bloom(true), m_render_debug(false), 
+		m_selected_skybox("calm_lake", 0), m_render_skybox(false), m_active_depth(true)
 	{
 
 	}
