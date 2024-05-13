@@ -48,6 +48,8 @@ namespace Services {
 		bool GetDepth() const;
 		void SetDepth(bool const depth);
 
+		void SetToDefault();
+
 		
 	private:
 		

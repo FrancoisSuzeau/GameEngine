@@ -90,6 +90,7 @@ namespace Services
 		m_file_exist = false;
 		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ReadFile(Constants::CONFIGFILE));
 		return this->ConvertToConfigEntity();
+		
 	}
 
 	std::unique_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string const filename)

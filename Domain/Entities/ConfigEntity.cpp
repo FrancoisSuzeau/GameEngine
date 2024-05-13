@@ -7,9 +7,42 @@
 namespace Services {
 
 	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(4), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(20), m_active_bloom(true), m_render_debug(false), 
-		m_selected_skybox("calm_lake", 0), m_render_skybox(false), m_active_depth(true)
+		m_selected_skybox(""), m_render_skybox(false), m_active_depth(true)
 	{
+		m_available_skybox =
+		{
+			"calm_lake",
+			"space"
+		};
 
+		m_available_textures =
+		{
+			"container",
+			"brique",
+			"wall",
+			"earth",
+			"calisto",
+			"cloud",
+			"enceladus",
+			"europa",
+			"ganymede",
+			"io",
+			"jupiter",
+			"mars",
+			"mercury",
+			"mimas",
+			"moon",
+			"neptune",
+			"saturn",
+			"ring1",
+			"sun",
+			"titan1",
+			"titan2",
+			"uranus",
+			"ring2",
+			"venus1",
+			"venus2"
+		};
 	}
 
 	ConfigEntity::~ConfigEntity()
@@ -143,6 +176,19 @@ namespace Services {
 	void ConfigEntity::SetDepth(bool const depth)
 	{
 		m_active_depth = depth;
+	}
+
+	void ConfigEntity::SetToDefault()
+	{
+		m_grid_spacing_ratio = 4;
+		m_grid_scaling_trigger = 5.f;
+		m_render_grid = true;
+		m_bloom_strength = 20;
+		m_active_bloom = true;
+		m_render_debug = false;
+		m_selected_skybox = "";
+		m_render_skybox = false;
+		m_active_depth = true;
 	}
 
 
