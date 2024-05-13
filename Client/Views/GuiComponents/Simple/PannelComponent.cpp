@@ -257,9 +257,16 @@ namespace Views
 		}
 		ImGui::SetCursorPosY(w_height - 45.f);
 
-		if (ImGui::Button("Reset to default", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)))
+		if (ImGui::Button("Reset to default", ImVec2((float)(w_width / 2.f) - 15.f, 30.f)) && m_state_service)
 		{
-
+			m_state_service->setActualize(true);
+			m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(Enums::ConfigsModifier::DEFAULT));
+			m_parent_view_model->AddCommand(std::make_unique<Commands::ActualizeCommand>());
+			m_parent_view_model->AddCommand(std::make_unique<Commands::SaveConfigCommand>());
+			m_parent_view_model->OnCommand();
+			m_state_service->setActualize(true);
+			show = false;
+			this->OnClose();
 		}
 		style.FrameRounding = frame_rounding_save;
 	}

@@ -24,6 +24,7 @@ namespace Commands {
 		ModifyConfigsCommand(float const value, Enums::ConfigsModifier configs_modifier);
 		ModifyConfigsCommand(int const value, Enums::ConfigsModifier configs_modifier);
 		ModifyConfigsCommand(bool const value, Enums::ConfigsModifier configs_modifier);
+		ModifyConfigsCommand(Enums::ConfigsModifier configs_modifier);
 		~ModifyConfigsCommand();
 		void Execute() override;
 	private:
