@@ -21,6 +21,7 @@
 #include <string>
 #include <iostream>
 #include "ConfigEntity.hpp"
+#include "SceneEntity.hpp"
 #include "Enums/EngineEnum.hpp"
 
 namespace Enums {
@@ -46,17 +47,17 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components);
+		void SaveScene(std::string const filename, std::shared_ptr<Services::SceneEntity> scene);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> config);
-		std::vector<std::shared_ptr<Component::IComponent>> GetScene(std::string const filename);
+		std::shared_ptr<Services::SceneEntity> GetScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> GetConfigs();
 	private:
 		std::map<Enums::JsonType, std::unique_ptr<nlohmann::json>> m_json_contents;
 		void SaveFile(std::string const filename, Enums::JsonType json_type);
 		std::unique_ptr<nlohmann::json> ReadFile(std::string const filename);
-		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components);
+		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<Services::SceneEntity> scene);
 		std::unique_ptr<nlohmann::json> ConvertToJsonFormat(std::shared_ptr<ConfigEntity> map_config);
-		std::vector<std::shared_ptr<Component::IComponent>> ConvertToRenderers();
+		std::shared_ptr<Services::SceneEntity> ConvertToScene();
 		std::shared_ptr<ConfigEntity> ConvertToConfigEntity();
 
 

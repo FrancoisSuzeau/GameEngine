@@ -46,7 +46,7 @@ namespace Commands
 	{
 		if (m_loader_service && m_state_service)
 		{
-			m_state_service->setComponents(m_loader_service->LoadScene(m_state_service->getFileName()));
+			m_state_service->SetScene(m_loader_service->LoadScene(m_state_service->getFileName()));
 			m_loader_service->LoadSceneComponentsTextures();
 			m_state_service.reset();
 			m_loader_service.reset();

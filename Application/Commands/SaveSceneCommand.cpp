@@ -65,7 +65,7 @@ namespace Commands
 	{
 		if (m_loader_service && m_state_service)
 		{
-			m_loader_service->SaveScene(m_state_service->getComponents(), m_state_service->getFileName());
+			m_loader_service->SaveScene(m_state_service->GetScene(), m_state_service->getFileName());
 			m_state_service.reset();
 			m_loader_service.reset();
 		}

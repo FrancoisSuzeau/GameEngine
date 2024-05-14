@@ -42,11 +42,11 @@ namespace Services
 		
 	}
 
-	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
+	void LoaderService::SaveScene(std::shared_ptr<Services::SceneEntity> scene, std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveScene(filename, components);
+			m_json_loader_service->SaveScene(filename, scene);
 		}
 	}
 	void LoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> configs)
@@ -94,9 +94,9 @@ namespace Services
 	}
 	void LoaderService::LoadSceneComponentsTextures()
 	{
-		if (m_texture_loader_service && m_state_service)
+		if (m_texture_loader_service && m_state_service && m_state_service->GetScene())
 		{
-			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->getComponents();
+			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->GetScene()->GetSceneComponents();
 
 			for (std::vector < std::shared_ptr<Component::IComponent> >::iterator it = components.begin(); it != components.end(); it++)
 			{
@@ -165,14 +165,14 @@ namespace Services
 			}
 		}
 	}
-	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
+	std::shared_ptr<Services::SceneEntity> LoaderService::LoadScene(std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
 			return m_json_loader_service->GetScene(filename);
 		}
 
-		return std::vector<std::shared_ptr<Component::IComponent>>();
+		return std::make_shared<Services::SceneEntity>();
 	}
 	std::shared_ptr<ConfigEntity> LoaderService::LoadConfigs()
 	{
@@ -180,7 +180,7 @@ namespace Services
 		{
 			return m_json_loader_service->GetConfigs();
 		}
-		return nullptr;
+		return std::make_shared<ConfigEntity>();
 	}
 
 	GLuint LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)

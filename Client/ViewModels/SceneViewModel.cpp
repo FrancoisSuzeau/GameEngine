@@ -153,20 +153,19 @@ namespace ViewModels
 
 	void SceneViewModel::RenderComponents()
 	{
-		if (m_state_service)
+		if (m_state_service && m_state_service->GetScene())
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
 			if (m_canvas)
 			{
-				m_canvas->Render(components);
+				m_canvas->Render(m_state_service->GetScene()->GetSceneComponents());
 			}
 		}
 	}
 	void SceneViewModel::ManageScene()
 	{
-		if (m_state_service)
+		if (m_state_service && m_state_service->GetScene())
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
 			if (m_canvas)
 			{
 				m_canvas->DragComponents(components);
