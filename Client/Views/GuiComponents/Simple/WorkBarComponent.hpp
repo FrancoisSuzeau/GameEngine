@@ -57,6 +57,7 @@ namespace Views
 		int item_current;
 		int current_tab;
 		std::vector<ImVec2> tabs_size;
+		std::string m_selected_skybox;
 	};
 }
 

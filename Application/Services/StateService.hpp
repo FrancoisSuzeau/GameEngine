@@ -94,12 +94,13 @@ namespace Services {
 		bool getActualize() const;
 		void setActualize(bool const new_val);
 
-		void setSelectedSkyboxTextureId(unsigned int const texture_id);
+		void SetSelectedSkyboxTextureId();
 		void SetSqueamishTextureId(unsigned int const texture_id);
 		unsigned int GetSqueamishTextureId() const;
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
-		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
+		void AddAvailableSkyboxChoice(std::string map_id, unsigned int texture_id);
+		void AddSkyboxCubeTex(std::string map_id, unsigned int texture_id);
 		void addAvailableTextures(std::string map_id, unsigned int texture_id);
 
 		void setPass(Enums::FramebufferType fb_type);
@@ -143,7 +144,8 @@ namespace Services {
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 		std::shared_ptr<RunTimeService> m_runtime_service;
-		std::map<std::string, unsigned int> m_available_skybox;
+		std::map<std::string, unsigned int> m_available_skybox_choices;
+		std::map<std::string, unsigned int> m_skybox_cube_texture;
 		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
 		Enums::FramebufferType m_fb_type;

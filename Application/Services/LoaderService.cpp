@@ -56,27 +56,29 @@ namespace Services
 			m_json_loader_service->SaveConfigs(configs);
 		}
 	}
-	void LoaderService::LoadSkybox()
-	{
-		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
-		{
-			//unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
-			/*if (texture_id != 0)
-			{
-				m_state_service->setSelectedSkyboxTextureId(texture_id);
-			}*/
-		}
-	}
-	void LoaderService::LoadSkyboxS(int const index)
+
+	void LoaderService::LoadAvailableSkyboxChoices(int const index)
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
 			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
 
-			unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + available_skybox_name.at(index) + "/back");
-			if (texture_id != 0)
+			unsigned int texture_choice_id = m_texture_loader_service->BuildTexture("resources/skybox/" + available_skybox_name.at(index) + "/back");
+			if (texture_choice_id != 0)
 			{
-				m_state_service->addAvailableSkybox(available_skybox_name.at(index), texture_id);
+				m_state_service->AddAvailableSkyboxChoice(available_skybox_name.at(index), texture_choice_id);
+			}
+		}
+	}
+	void LoaderService::LoadAvailableSkyboxCubeTexture(int const index)
+	{
+		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
+		{
+			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
+			unsigned int texture_cube_id = m_texture_loader_service->BuildSkyboxTexture(available_skybox_name.at(index));
+			if (texture_cube_id != 0)
+			{
+				m_state_service->AddSkyboxCubeTex(available_skybox_name.at(index), texture_cube_id);
 			}
 		}
 	}

@@ -32,8 +32,8 @@ namespace Services {
 		void DeInit() override;
 		void SaveScene(std::shared_ptr<Services::SceneEntity> scene, std::string const filename);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
-		void LoadSkybox();
-		void LoadSkyboxS(int const index);
+		void LoadAvailableSkyboxChoices(int const index);
+		void LoadAvailableSkyboxCubeTexture(int const index);
 		void LoadAvailableTextures(int const index);
 		void LoadSceneComponentsTextures();
 		void LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name);

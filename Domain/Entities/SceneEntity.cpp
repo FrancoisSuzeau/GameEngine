@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	SceneEntity::SceneEntity()
+	SceneEntity::SceneEntity() : m_selected_skybox("")
 	{
 
 	}
@@ -51,6 +51,16 @@ namespace Services {
 	{
 		auto to_remove = std::remove_if(m_components.begin(), m_components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
 		m_components.erase(to_remove, m_components.end());
+	}
+
+	std::string const SceneEntity::GetSelectedSkybox()
+	{
+		return m_selected_skybox;
+	}
+
+	void SceneEntity::SetSelectedSkybox(std::string const selected_skybox)
+	{
+		m_selected_skybox = selected_skybox;
 	}
 
 

@@ -173,42 +173,6 @@ namespace Views
 				m_state_service->setActualize(true);
 				m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(active_skybox, Enums::ConfigsModifier::RENDERSKYBOX));
 			}
-
-			std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
-			
-			//for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
-			//{
-			//	if (it->first == selected_skybox)
-			//	{
-			//		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
-			//		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-			//		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-			//		ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-			//		ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, tint_col, border_col);
-			//	}
-			//	else
-			//	{
-			//		ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
-			//		ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
-			//		ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
-			//		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-			//		if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(100, 100), uv_max, uv_min, 2, bg_col, tint_col))
-			//		{
-			//			/*selected_skybox = it->first;
-			//			m_state_service->setActualize(true);
-			//			m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(selected_skybox, Enums::ConfigsModifier::CHANGESKYBOX));*/
-			//		}
-			//	}
-			//	ImGui::SameLine(120);
-			//	
-			//}
-			ImGui::Text(" ");
-			for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
-			{
-				ImGui::Text(it->first.c_str());
-				ImGui::SameLine(120);
-			}
-			ImGui::Text(" ");
 		}
 	}
 	void PannelComponent::RenderDebugModifier()

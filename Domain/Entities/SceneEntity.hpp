@@ -28,10 +28,14 @@ namespace Services {
 		void AddComponent(std::shared_ptr<Component::IComponent> const new_component);
 		void DeleteComponents();
 		void DeleteComponent();
+
+		std::string const GetSelectedSkybox();
+		void SetSelectedSkybox(std::string const selected_skybox);
 		
 	private:
 
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
+		std::string m_selected_skybox;
 	};
 }
 

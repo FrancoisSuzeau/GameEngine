@@ -119,6 +119,7 @@ namespace Services
 	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<Services::SceneEntity> scene)
 	{
 		std::vector<json> renderers_json_format;
+		std::string selected_skybox;
 		if (scene)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = scene->GetSceneComponents();
@@ -134,8 +135,13 @@ namespace Services
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
+			selected_skybox = scene->GetSelectedSkybox();
 		}
-		json j = { {"components", renderers_json_format} };
+		json j = 
+		{ 
+			{"components", renderers_json_format},
+			{"selected_skybox", selected_skybox}
+		};
 		return std::make_unique<json>(j);
 	}
 
@@ -195,6 +201,7 @@ namespace Services
 		}
 
 		scene->SetSceneComponents(components);
+		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
 		return scene;
 	}
 

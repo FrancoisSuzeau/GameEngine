@@ -69,14 +69,23 @@ namespace Services
 			}
 		}
 		m_available_textures.clear();
-		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox.begin(); it != m_available_skybox.end(); it++)
+		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox_choices.begin(); it != m_available_skybox_choices.end(); it++)
 		{
 			if (m_runtime_service)
 			{
 				m_runtime_service->DeleteTexture(it->second);
 			}
 		}
-		m_available_skybox.clear();
+		m_available_skybox_choices.clear();
+
+		for (std::map<std::string, unsigned int>::iterator it = m_skybox_cube_texture.begin(); it != m_skybox_cube_texture.end(); it++)
+		{
+			if (m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(it->second);
+			}
+		}
+		m_skybox_cube_texture.clear();
 	}
 
 	bool StateService::getExit() const
@@ -219,7 +228,12 @@ namespace Services
 
 	int StateService::GetTotalRessources() const
 	{
-		return (int)this->m_configs->GetAvailableSkybox().size() + (int)m_configs->GetAvailableTextures().size();
+		if (m_configs)
+		{
+			return (int)(this->m_configs->GetAvailableSkybox().size() * 2) + (int)m_configs->GetAvailableTextures().size();
+		}
+
+		return 0;
 	}
 
 	std::string StateService::getFileName() const
@@ -353,9 +367,12 @@ namespace Services
 		m_actualize = new_val;
 	}
 
-	void StateService::setSelectedSkyboxTextureId(unsigned int const texture_id)
+	void StateService::SetSelectedSkyboxTextureId()
 	{
-		m_texture_id = texture_id;
+		if (m_scene && m_skybox_cube_texture.contains(m_scene->GetSelectedSkybox()))
+		{
+			m_texture_id = m_skybox_cube_texture.at(m_scene->GetSelectedSkybox());
+		}
 	}
 
 	void StateService::SetSqueamishTextureId(unsigned int const texture_id)
@@ -375,23 +392,40 @@ namespace Services
 
 	std::map<std::string, unsigned int> StateService::getAvailableSkybox() const
 	{
-		return m_available_skybox;
+		return m_available_skybox_choices;
 	}
 
-	void StateService::addAvailableSkybox(std::string map_id, unsigned int texture_id)
+	void StateService::AddAvailableSkyboxChoice(std::string map_id, unsigned int texture_id)
 	{
-		if (m_available_skybox.contains(map_id))
+		if (m_available_skybox_choices.contains(map_id))
 		{
-			if (m_available_skybox.at(map_id) != 0 && m_runtime_service)
+			if (m_available_skybox_choices.at(map_id) != 0 && m_runtime_service)
 			{
-				m_runtime_service->DeleteTexture(m_available_skybox.at(map_id));
+				m_runtime_service->DeleteTexture(m_available_skybox_choices.at(map_id));
 			}
-			m_available_skybox[map_id] = texture_id;
+			m_available_skybox_choices[map_id] = texture_id;
 
 		}
 		else
 		{
-			m_available_skybox.insert_or_assign(map_id, texture_id);
+			m_available_skybox_choices.insert_or_assign(map_id, texture_id);
+		}
+	}
+
+	void StateService::AddSkyboxCubeTex(std::string map_id, unsigned int texture_id)
+	{
+		if (m_skybox_cube_texture.contains(map_id))
+		{
+			if (m_skybox_cube_texture.at(map_id) != 0 && m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(m_skybox_cube_texture.at(map_id));
+			}
+			m_skybox_cube_texture[map_id] = texture_id;
+
+		}
+		else
+		{
+			m_skybox_cube_texture.insert_or_assign(map_id, texture_id);
 		}
 	}
 
@@ -442,15 +476,6 @@ namespace Services
 		{
 			this->m_scene->DeleteComponents();
 		}
-		/*for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
-		{
-			if (it[0])
-			{
-				it[0]->Clean();
-				it[0].reset();
-			}
-		}
-		m_components.clear();*/
 	}
 	void StateService::CleanConfig()
 	{

@@ -57,6 +57,7 @@ namespace Views
 		bool active_skybox;
 		bool activate_shadow;
 		bool show;
+		
 	};
 }
 
