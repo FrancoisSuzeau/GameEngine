@@ -1,5 +1,5 @@
 /******************************************************************************************************************************************/
-// File : AddNewComponentCommmand.hpp
+// File : ModifySceneCommand.hpp
 // Purpose : A save scene command
 /******************************************************************************************************************************************/
 #ifndef ADDNEWCPTCOMMAND_H
@@ -19,18 +19,27 @@
 
 namespace Commands {
 
-	class AddNewComponentCommmand : public ICommand
+	class ModifySceneCommand : public ICommand
 	{
 	public:
-		AddNewComponentCommmand(Enums::RendererType component_type);
-		~AddNewComponentCommmand();
+		ModifySceneCommand(Enums::SceneModifier const scene_modifier, Enums::RendererType component_type);
+		ModifySceneCommand(Enums::SceneModifier const scene_modifier);
+		ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const skybox_name);
+		ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::shared_ptr<Component::IComponent> component_to_copy);
+		~ModifySceneCommand();
 		void Execute() override;
 	private:
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		Enums::RendererType const m_component_type;
-		void AddComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make);
+		Enums::SceneModifier const m_scene_modifier;
+		std::string const m_skybox_name;
+		std::shared_ptr<Component::IComponent> m_component_to_copy;
+		void PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make);
+		void AddComponentToScene();
+		void CopyComponent();
+		void GetServices();
 	};
 }
 

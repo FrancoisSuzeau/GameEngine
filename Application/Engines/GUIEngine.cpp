@@ -98,13 +98,22 @@ namespace Engines
 		}
 	}
 
-	void GUIEngine::LoadAvailableSkybox(int const index) const
+	void GUIEngine::LoadAvailableSkyboxChoices(int const index) const
 	{
 		if (m_state_service && m_loader_service)
 		{
-			m_loader_service->LoadSkyboxS(index);
+			m_loader_service->LoadAvailableSkyboxChoices(index);
 		}
 	}
+
+	void GUIEngine::LoadSkyboxCube(int const index) const
+	{
+		if (m_state_service && m_loader_service)
+		{
+			m_loader_service->LoadAvailableSkyboxCubeTexture(index);
+		}
+	}
+
 	void GUIEngine::LoadAvailableTextures(int const index) const
 	{
 		if (m_state_service && m_loader_service)

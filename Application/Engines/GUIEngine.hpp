@@ -47,7 +47,8 @@ namespace Engines {
 		void RenderGuiComponents(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderMainMenuBar(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderLoader(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, int const index);
-		void LoadAvailableSkybox(int const index) const;
+		void LoadAvailableSkyboxChoices(int const index) const;
+		void LoadSkyboxCube(int const index) const;
 		void LoadAvailableTextures(int const index) const;
 		void LoadConfigs();
 

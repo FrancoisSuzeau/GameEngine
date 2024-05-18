@@ -28,9 +28,8 @@
 
 #include <iostream>
 #include <list>
-#include "Commands/AddNewComponentCommand.hpp"
-#include "Commands/CopyComponentCommand.hpp"
-#include "Commands/DeleteComponent.hpp"
+#include "Commands/ModifySceneCommand.hpp"
+
 
 #include <map>
 
@@ -57,6 +56,7 @@ namespace Views
 		int item_current;
 		int current_tab;
 		std::vector<ImVec2> tabs_size;
+		std::string m_selected_skybox;
 	};
 }
 

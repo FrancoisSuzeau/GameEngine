@@ -20,6 +20,12 @@ namespace Commands
 		this->GetServices();
 	}
 
+	ModifyConfigsCommand::ModifyConfigsCommand(Enums::ConfigsModifier configs_modifier) : m_int_value(0), m_float_value(0.f),
+		m_string_value(""), m_configs_modifier(configs_modifier), m_bool_value(false)
+	{
+		this->GetServices();
+	}
+
 	ModifyConfigsCommand::ModifyConfigsCommand(float const value, Enums::ConfigsModifier configs_modifier) : m_string_value(""), m_int_value(0),
 		m_float_value(value), m_configs_modifier(configs_modifier), m_bool_value(false)
 	{
@@ -81,13 +87,11 @@ namespace Commands
 			case::Enums::ConfigsModifier::RENDERSKYBOX:
 				m_state_service->getConfigs()->SetRenderSkybox(m_bool_value);
 				break;
-			case::Enums::ConfigsModifier::CHANGESKYBOX:
-				m_state_service->getConfigs()->SetSelectedSkybox(m_string_value);
-				m_runtime_service->DeleteTexture(m_state_service->getSelectedSkyboxTextureId());
-				m_loader_service->LoadSkybox();
-				break;
 			case::Enums::ConfigsModifier::SHADOW:
 				m_state_service->getConfigs()->SetDepth(m_bool_value);
+				break;
+			case::Enums::ConfigsModifier::DEFAULT:
+				m_state_service->getConfigs()->SetToDefault();
 				break;
 			default:
 				break;

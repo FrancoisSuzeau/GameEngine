@@ -42,11 +42,11 @@ namespace Services
 		
 	}
 
-	void LoaderService::SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename)
+	void LoaderService::SaveScene(std::shared_ptr<Services::SceneEntity> scene, std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
-			m_json_loader_service->SaveScene(filename, components);
+			m_json_loader_service->SaveScene(filename, scene);
 		}
 	}
 	void LoaderService::SaveConfigs(std::shared_ptr<ConfigEntity> configs)
@@ -56,27 +56,29 @@ namespace Services
 			m_json_loader_service->SaveConfigs(configs);
 		}
 	}
-	void LoaderService::LoadSkybox()
-	{
-		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
-		{
-			unsigned int texture_id = m_texture_loader_service->BuildSkyboxTexture(m_state_service->getConfigs()->GetSelectedSkybox());
-			if (texture_id != 0)
-			{
-				m_state_service->setSelectedSkyboxTextureId(texture_id);
-			}
-		}
-	}
-	void LoaderService::LoadSkyboxS(int const index)
+
+	void LoaderService::LoadAvailableSkyboxChoices(int const index)
 	{
 		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
 		{
 			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
 
-			unsigned int texture_id = m_texture_loader_service->BuildTexture("resources/skybox/" + available_skybox_name.at(index) + "/back");
-			if (texture_id != 0)
+			unsigned int texture_choice_id = m_texture_loader_service->BuildTexture("resources/skybox/" + available_skybox_name.at(index) + "/back");
+			if (texture_choice_id != 0)
 			{
-				m_state_service->addAvailableSkybox(available_skybox_name.at(index), texture_id);
+				m_state_service->AddAvailableSkyboxChoice(available_skybox_name.at(index), texture_choice_id);
+			}
+		}
+	}
+	void LoaderService::LoadAvailableSkyboxCubeTexture(int const index)
+	{
+		if (m_texture_loader_service && m_state_service && m_state_service->getConfigs())
+		{
+			std::vector < std::string > available_skybox_name = m_state_service->getConfigs()->GetAvailableSkybox();
+			unsigned int texture_cube_id = m_texture_loader_service->BuildSkyboxTexture(available_skybox_name.at(index));
+			if (texture_cube_id != 0)
+			{
+				m_state_service->AddSkyboxCubeTex(available_skybox_name.at(index), texture_cube_id);
 			}
 		}
 	}
@@ -94,9 +96,9 @@ namespace Services
 	}
 	void LoaderService::LoadSceneComponentsTextures()
 	{
-		if (m_texture_loader_service && m_state_service)
+		if (m_texture_loader_service && m_state_service && m_state_service->GetScene())
 		{
-			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->getComponents();
+			std::vector < std::shared_ptr<Component::IComponent> > components = m_state_service->GetScene()->GetSceneComponents();
 
 			for (std::vector < std::shared_ptr<Component::IComponent> >::iterator it = components.begin(); it != components.end(); it++)
 			{
@@ -165,14 +167,14 @@ namespace Services
 			}
 		}
 	}
-	std::vector<std::shared_ptr<Component::IComponent>> LoaderService::LoadScene(std::string const filename)
+	std::shared_ptr<Services::SceneEntity> LoaderService::LoadScene(std::string const filename)
 	{
 		if (m_json_loader_service)
 		{
 			return m_json_loader_service->GetScene(filename);
 		}
 
-		return std::vector<std::shared_ptr<Component::IComponent>>();
+		return std::make_shared<Services::SceneEntity>();
 	}
 	std::shared_ptr<ConfigEntity> LoaderService::LoadConfigs()
 	{
@@ -180,7 +182,7 @@ namespace Services
 		{
 			return m_json_loader_service->GetConfigs();
 		}
-		return nullptr;
+		return std::make_shared<ConfigEntity>();
 	}
 
 	GLuint LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)

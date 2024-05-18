@@ -20,13 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\ActualizeCommand.cpp" />
-    <ClCompile Include="Commands\AddNewComponentCommand.cpp" />
     <ClCompile Include="Commands\SaveSceneCommand.cpp" />
     <ClCompile Include="Commands\SaveConfigCommand.cpp" />
     <ClCompile Include="Commands\LoadSceneCommand.cpp" />
     <ClCompile Include="Commands\ModifyConfigsCommand.cpp" />
-    <ClCompile Include="Commands\DeleteComponent.cpp" />
-    <ClCompile Include="Commands\CopyComponentCommand.cpp" />
+    <ClCompile Include="Commands\ModifySceneCommand.cpp" />
     <ClCompile Include="Services\RunTimeService.cpp" />
     <ClCompile Include="Services\KeyboardInputService.cpp" />
     <ClCompile Include="Services\MouseInputService.cpp" />
@@ -50,13 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\ActualizeCommand.hpp" />
-    <ClInclude Include="Commands\AddNewComponentCommand.hpp" />
     <ClInclude Include="Commands\SaveSceneCommand.hpp" />
     <ClInclude Include="Commands\SaveConfigCommand.hpp" />
     <ClInclude Include="Commands\LoadSceneCommand.hpp" />
     <ClInclude Include="Commands\ModifyConfigsCommand.hpp" />
-    <ClInclude Include="Commands\DeleteComponent.hpp" />
-    <ClInclude Include="Commands\CopyComponentCommand.hpp" />
+    <ClInclude Include="Commands\ModifySceneCommand.hpp" />
     <ClInclude Include="Services\RunTimeService.hpp" />
     <ClInclude Include="Services\KeyboardInputService.hpp" />
     <ClInclude Include="Services\MouseInputService.hpp" />

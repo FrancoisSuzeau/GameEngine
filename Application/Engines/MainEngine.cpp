@@ -141,7 +141,7 @@ namespace Engines
 
 				if (i < total_count_skybox)
 				{
-					m_gui_engine->LoadAvailableSkybox(i);
+					m_gui_engine->LoadAvailableSkyboxChoices(i);
 				}
 				m_gui_engine->RenderLoader(view_model_builder, progress);
 
@@ -168,6 +168,32 @@ namespace Engines
 				if (i < total_count_textures)
 				{
 					m_gui_engine->LoadAvailableTextures(i);
+				}
+				m_gui_engine->RenderLoader(view_model_builder, progress);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+
+				progress++;
+			}
+
+			progress--;
+
+			for (int i = 0; i <= total_count_skybox; i++)
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				if (i < total_count_skybox)
+				{
+					m_gui_engine->LoadSkyboxCube(i);
 				}
 				m_gui_engine->RenderLoader(view_model_builder, progress);
 

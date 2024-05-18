@@ -42,6 +42,7 @@
     <ClInclude Include="Entities\Renderers\Textured\CubeTextured.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\TriangleTextured.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\SphereTextured.hpp" />
+    <ClInclude Include="Entities\SceneEntity.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Components\ComponentBase.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="Entities\Renderers\Textured\CubeTextured.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\TriangleTextured.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\SphereTextured.cpp" />
+    <ClCompile Include="Entities\SceneEntity.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

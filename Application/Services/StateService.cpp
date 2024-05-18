@@ -46,7 +46,7 @@ namespace Services
 	void StateService::DeInit()
 	{
 
-		this->CleanComponents();
+		this->CleanScene();
 		m_selected_component = nullptr;
 		this->CleanConfig();
 		if (m_scene_grid)
@@ -69,14 +69,23 @@ namespace Services
 			}
 		}
 		m_available_textures.clear();
-		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox.begin(); it != m_available_skybox.end(); it++)
+		for (std::map<std::string, unsigned int>::iterator it = m_available_skybox_choices.begin(); it != m_available_skybox_choices.end(); it++)
 		{
 			if (m_runtime_service)
 			{
 				m_runtime_service->DeleteTexture(it->second);
 			}
 		}
-		m_available_skybox.clear();
+		m_available_skybox_choices.clear();
+
+		for (std::map<std::string, unsigned int>::iterator it = m_skybox_cube_texture.begin(); it != m_skybox_cube_texture.end(); it++)
+		{
+			if (m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(it->second);
+			}
+		}
+		m_skybox_cube_texture.clear();
 	}
 
 	bool StateService::getExit() const
@@ -219,7 +228,12 @@ namespace Services
 
 	int StateService::GetTotalRessources() const
 	{
-		return (int)this->m_configs->GetAvailableSkybox().size() + (int)m_configs->GetAvailableTextures().size();
+		if (m_configs)
+		{
+			return (int)(this->m_configs->GetAvailableSkybox().size() * 2) + (int)m_configs->GetAvailableTextures().size();
+		}
+
+		return 0;
 	}
 
 	std::string StateService::getFileName() const
@@ -232,34 +246,37 @@ namespace Services
 		return m_configs;
 	}
 
+	std::shared_ptr<Services::SceneEntity> StateService::GetScene() const
+	{
+		return m_scene;
+	}
+
+	void StateService::SetScene(std::shared_ptr<Services::SceneEntity> scene)
+	{
+		m_scene = scene;
+	}
+
 	void StateService::setConfigs(std::shared_ptr<Services::ConfigEntity> configs)
 	{
 		this->CleanConfig();
 		m_configs = configs;
 	}
 
-	std::vector<std::shared_ptr<Component::IComponent>> StateService::getComponents() const
-	{
-		return m_components;
-	}
-
-	void StateService::setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components)
-	{
-		this->CleanComponents();
-
-		m_components = components;
-	}
-
 	void StateService::setSelectedComponent()
 	{
 		this->unSelectComponent();
-		auto result = std::find_if(m_components.begin(), m_components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
-		
-		if (result != m_components.end())
+		if (m_scene)
 		{
-			m_selected_component = *result;
-			m_previous_selected_component_color = m_selected_component->GetBackgroundColor();
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_scene->GetSceneComponents();
+			auto result = std::find_if(components.begin(), components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
+
+			if (result != components.end())
+			{
+				m_selected_component = *result;
+				m_previous_selected_component_color = m_selected_component->GetBackgroundColor();
+			}
 		}
+		
 	}
 
 	void StateService::unSelectComponent()
@@ -284,17 +301,19 @@ namespace Services
 
 	void StateService::addComponent(std::shared_ptr<Component::IComponent> new_component)
 	{
-		if (new_component)
+		if (new_component && m_scene)
 		{
-			m_components.push_back(new_component);
+			m_scene->AddComponent(new_component);
 		}
 	}
 
 	void StateService::deleteComponent()
 	{
 		this->unSelectComponent();
-		auto to_remove = std::remove_if(m_components.begin(), m_components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetSelected() == true; });
-		m_components.erase(to_remove, m_components.end());
+		if (m_scene)
+		{
+			m_scene->DeleteComponent();
+		}
 	}
 	
 	
@@ -348,9 +367,12 @@ namespace Services
 		m_actualize = new_val;
 	}
 
-	void StateService::setSelectedSkyboxTextureId(unsigned int const texture_id)
+	void StateService::SetSelectedSkyboxTextureId()
 	{
-		m_texture_id = texture_id;
+		if (m_scene && m_skybox_cube_texture.contains(m_scene->GetSelectedSkybox()))
+		{
+			m_texture_id = m_skybox_cube_texture.at(m_scene->GetSelectedSkybox());
+		}
 	}
 
 	void StateService::SetSqueamishTextureId(unsigned int const texture_id)
@@ -370,23 +392,40 @@ namespace Services
 
 	std::map<std::string, unsigned int> StateService::getAvailableSkybox() const
 	{
-		return m_available_skybox;
+		return m_available_skybox_choices;
 	}
 
-	void StateService::addAvailableSkybox(std::string map_id, unsigned int texture_id)
+	void StateService::AddAvailableSkyboxChoice(std::string map_id, unsigned int texture_id)
 	{
-		if (m_available_skybox.contains(map_id))
+		if (m_available_skybox_choices.contains(map_id))
 		{
-			if (m_available_skybox.at(map_id) != 0 && m_runtime_service)
+			if (m_available_skybox_choices.at(map_id) != 0 && m_runtime_service)
 			{
-				m_runtime_service->DeleteTexture(m_available_skybox.at(map_id));
+				m_runtime_service->DeleteTexture(m_available_skybox_choices.at(map_id));
 			}
-			m_available_skybox[map_id] = texture_id;
+			m_available_skybox_choices[map_id] = texture_id;
 
 		}
 		else
 		{
-			m_available_skybox.insert_or_assign(map_id, texture_id);
+			m_available_skybox_choices.insert_or_assign(map_id, texture_id);
+		}
+	}
+
+	void StateService::AddSkyboxCubeTex(std::string map_id, unsigned int texture_id)
+	{
+		if (m_skybox_cube_texture.contains(map_id))
+		{
+			if (m_skybox_cube_texture.at(map_id) != 0 && m_runtime_service)
+			{
+				m_runtime_service->DeleteTexture(m_skybox_cube_texture.at(map_id));
+			}
+			m_skybox_cube_texture[map_id] = texture_id;
+
+		}
+		else
+		{
+			m_skybox_cube_texture.insert_or_assign(map_id, texture_id);
 		}
 	}
 
@@ -431,21 +470,19 @@ namespace Services
 		return m_available_textures;
 	}
 	
-	void StateService::CleanComponents()
+	void StateService::CleanScene()
 	{
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
+		if (this->m_scene)
 		{
-			if (it[0])
-			{
-				it[0]->Clean();
-				it[0].reset();
-			}
+			this->m_scene->DeleteComponents();
 		}
-		m_components.clear();
 	}
 	void StateService::CleanConfig()
 	{
-		this->m_configs.reset();
+		if (this->m_configs)
+		{
+			this->m_configs.reset();
+		}
 	}
 }
 

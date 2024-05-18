@@ -15,11 +15,6 @@ namespace ViewModels
 			m_canvas.reset();
 		}
 
-		if (m_loader_service)
-		{
-			m_loader_service.reset();
-		}
-
 		if (m_shader_service)
 		{
 			m_shader_service.reset();
@@ -98,12 +93,6 @@ namespace ViewModels
 				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			m_loader_service = container->GetReference<Services::LoaderService>();
-			if (!m_loader_service)
-			{
-				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
-			}
-
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
 			if (!m_framebuffer_service)
 			{
@@ -122,11 +111,7 @@ namespace ViewModels
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (m_loader_service)
-			{
-				m_loader_service->LoadSkybox();
-				m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, "", false));
-			}
+			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, "", false));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBGRID2, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBGRID2, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
@@ -153,20 +138,19 @@ namespace ViewModels
 
 	void SceneViewModel::RenderComponents()
 	{
-		if (m_state_service)
+		if (m_state_service && m_state_service->GetScene())
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
 			if (m_canvas)
 			{
-				m_canvas->Render(components);
+				m_canvas->Render(m_state_service->GetScene()->GetSceneComponents());
 			}
 		}
 	}
 	void SceneViewModel::ManageScene()
 	{
-		if (m_state_service)
+		if (m_state_service && m_state_service->GetScene())
 		{
-			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->getComponents();
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
 			if (m_canvas)
 			{
 				m_canvas->DragComponents(components);
@@ -214,7 +198,7 @@ namespace ViewModels
 				}
 				break;
 			case Enums::RendererType::SKYBOX:
-				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX) && m_state_service->getConfigs()->GetRenderSkybox())
+				if (m_renderers.contains(Enums::RendererType::SKYBOX) && m_renderers.at(Enums::RendererType::SKYBOX) && m_state_service->getConfigs()->GetRenderSkybox() && m_state_service->getSelectedSkyboxTextureId() != 0)
 				{
 					m_runtime_service->LequalDepth();
 					m_shader_service->BindShaderProgram(Constants::SKYBOX_SHADER);

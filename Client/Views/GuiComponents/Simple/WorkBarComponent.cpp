@@ -29,7 +29,7 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0)
+	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox("")
 	{
 		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -91,7 +91,7 @@ namespace Views
 	{
 		bool show_confirm = m_state_service->getShowConfirm();
 
-		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 150), true, window_flags2))
+		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 250), true, window_flags2))
 		{
 			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
 			ImGui::Text("Add new :");
@@ -100,11 +100,54 @@ namespace Views
 
 				if (m_parent_view_model)
 				{	
-					m_parent_view_model->AddCommand(std::make_unique<Commands::AddNewComponentCommmand>(static_cast<Enums::RendererType>(item_current)));
+					m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::ADDCOMPONENT, static_cast<Enums::RendererType>(item_current)));
 					m_state_service->setConfirmMessage("You are about to add a new component. Are you sure ?");
 					show_confirm = true;
 				}
 				item_current = -1;
+			}
+
+			ImGui::Separator();
+
+			if (m_state_service->GetScene())
+			{
+				ImGui::Text("Change skybox :");
+				int img_size = 50;
+				std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
+				m_selected_skybox = m_state_service->GetScene()->GetSelectedSkybox();
+				for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
+				{
+					if (it->first == m_selected_skybox)
+					{
+						ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
+						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, tint_col, border_col);
+					}
+					else
+					{
+						ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
+						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
+						{
+							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::CHANGESKYBOX, it->first));
+							m_state_service->setConfirmMessage("You are about to change the skybox. Are you sure ?");
+							show_confirm = true;
+						}
+					}
+					ImGui::SameLine((float)img_size + 20.f);
+
+				}
+				ImGui::Text(" ");
+				for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
+				{
+					ImGui::Text(it->first.c_str());
+					ImGui::SameLine((float)img_size + 20.f);
+				}
+				ImGui::Text(" ");
 			}
 
 			ImGui::EndChild();
@@ -325,7 +368,7 @@ namespace Views
 			{
 				if (m_parent_view_model)
 				{
-					m_parent_view_model->AddCommand(std::make_unique<Commands::DeleteComponent>());
+					m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::DELETECOMPONENT));
 					m_state_service->setConfirmMessage("You are about to delete a component. Are you sure ?");
 					show_confirm = true;
 				}
@@ -339,7 +382,7 @@ namespace Views
 			{
 				if (m_parent_view_model)
 				{
-					m_parent_view_model->AddCommand(std::make_unique<Commands::CopyComponentCommand>(selected_renderer));
+					m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::COPYCOMPONENT, selected_renderer));
 					m_state_service->setConfirmMessage("You are about to copy a component. Are you sure ?");
 					show_confirm = true;
 				}

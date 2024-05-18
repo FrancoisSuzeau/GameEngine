@@ -15,6 +15,7 @@
 
 #include "StateService.hpp"
 #include "ConfigEntity.hpp"
+#include "SceneEntity.hpp"
 
 #include <iostream>
 #include <map>
@@ -29,15 +30,15 @@ namespace Services {
 	public:
 		void Init() override;
 		void DeInit() override;
-		void SaveScene(std::vector<std::shared_ptr<Component::IComponent>> const components, std::string const filename);
+		void SaveScene(std::shared_ptr<Services::SceneEntity> scene, std::string const filename);
 		void SaveConfigs(std::shared_ptr<ConfigEntity> configs);
-		void LoadSkybox();
-		void LoadSkyboxS(int const index);
+		void LoadAvailableSkyboxChoices(int const index);
+		void LoadAvailableSkyboxCubeTexture(int const index);
 		void LoadAvailableTextures(int const index);
 		void LoadSceneComponentsTextures();
 		void LoadTexture(std::shared_ptr<Component::TexturedComponent> component, std::string texture_name);
 		void LoadSqueamishTexture();
-		std::vector<std::shared_ptr<Component::IComponent>> LoadScene(std::string const filename);
+		std::shared_ptr<Services::SceneEntity> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 

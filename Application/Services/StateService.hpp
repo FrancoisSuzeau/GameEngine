@@ -22,6 +22,7 @@
 
 #include "IComponent.hpp"
 #include "ConfigEntity.hpp"
+#include "SceneEntity.hpp"
 #include "Enums/EngineEnum.hpp"
 
 namespace Services {
@@ -67,9 +68,9 @@ namespace Services {
 
 		std::string getFileName() const;
 		std::shared_ptr<Services::ConfigEntity> getConfigs() const;
+		std::shared_ptr<Services::SceneEntity> GetScene() const;
+		void SetScene(std::shared_ptr<Services::SceneEntity> scene);
 		void setConfigs(std::shared_ptr<Services::ConfigEntity> configs);
-		std::vector<std::shared_ptr<Component::IComponent>> getComponents() const;
-		void setComponents(std::vector<std::shared_ptr<Component::IComponent>> const components);
 		void setSelectedComponent();
 		void unSelectComponent();
 		void setPopupHovered(bool const new_val);
@@ -93,12 +94,13 @@ namespace Services {
 		bool getActualize() const;
 		void setActualize(bool const new_val);
 
-		void setSelectedSkyboxTextureId(unsigned int const texture_id);
+		void SetSelectedSkyboxTextureId();
 		void SetSqueamishTextureId(unsigned int const texture_id);
 		unsigned int GetSqueamishTextureId() const;
 		unsigned int getSelectedSkyboxTextureId() const;
 		std::map<std::string, unsigned int> getAvailableSkybox() const;
-		void addAvailableSkybox(std::string map_id, unsigned int texture_id);
+		void AddAvailableSkyboxChoice(std::string map_id, unsigned int texture_id);
+		void AddSkyboxCubeTex(std::string map_id, unsigned int texture_id);
 		void addAvailableTextures(std::string map_id, unsigned int texture_id);
 
 		void setPass(Enums::FramebufferType fb_type);
@@ -111,7 +113,7 @@ namespace Services {
 
 	private:
 
-		void CleanComponents();
+		void CleanScene();
 		void CleanConfig();
 		int m_width;
 		int m_height;
@@ -135,14 +137,15 @@ namespace Services {
 		std::string m_current_filename;
 		bool m_continued;
 		std::shared_ptr<Services::ConfigEntity> m_configs;
-		std::vector<std::shared_ptr<Component::IComponent>> m_components;
+		std::shared_ptr<Services::SceneEntity> m_scene;
 		std::string  m_confirm_message;
 		std::shared_ptr<Component::IComponent> m_selected_component;
 		std::string m_pannel_view;
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
 		std::shared_ptr<RunTimeService> m_runtime_service;
-		std::map<std::string, unsigned int> m_available_skybox;
+		std::map<std::string, unsigned int> m_available_skybox_choices;
+		std::map<std::string, unsigned int> m_skybox_cube_texture;
 		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
 		Enums::FramebufferType m_fb_type;

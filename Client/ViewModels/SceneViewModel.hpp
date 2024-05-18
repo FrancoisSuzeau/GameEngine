@@ -10,7 +10,6 @@
 #include "Transformer.hpp"
 #include "Services/ShaderService.hpp"
 #include "Services/StateService.hpp"
-#include "Services/LoaderService.hpp"
 #include "Services/FramebufferService.hpp"
 #include "Services/RunTimeService.hpp"
 #include "Services/CameraService.hpp"
@@ -50,7 +49,6 @@ namespace ViewModels
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::ShaderService> m_shader_service;
-		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;

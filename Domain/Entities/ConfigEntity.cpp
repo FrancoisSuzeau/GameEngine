@@ -6,10 +6,43 @@
 
 namespace Services {
 
-	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(2), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(0), m_active_bloom(false), m_render_debug(false), 
-		m_selected_skybox("calm_lake", 0), m_render_skybox(true), m_active_depth(false)
+	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(4), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(20), m_active_bloom(true), m_render_debug(false), 
+		 m_render_skybox(false), m_active_depth(true)
 	{
+		m_available_skybox =
+		{
+			"calm_lake",
+			"space"
+		};
 
+		m_available_textures =
+		{
+			"container",
+			"brique",
+			"wall",
+			"earth",
+			"calisto",
+			"cloud",
+			"enceladus",
+			"europa",
+			"ganymede",
+			"io",
+			"jupiter",
+			"mars",
+			"mercury",
+			"mimas",
+			"moon",
+			"neptune",
+			"saturn",
+			"ring1",
+			"sun",
+			"titan1",
+			"titan2",
+			"uranus",
+			"ring2",
+			"venus1",
+			"venus2"
+		};
 	}
 
 	ConfigEntity::~ConfigEntity()
@@ -95,16 +128,6 @@ namespace Services {
 		return m_render_debug;
 	}
 
-	std::string ConfigEntity::GetSelectedSkybox() const
-	{
-		return m_selected_skybox;
-	}
-
-	void ConfigEntity::SetSelectedSkybox(std::string const selected_skybox)
-	{
-		m_selected_skybox = selected_skybox;
-	}
-
 	void ConfigEntity::SetAvailableSkybox(std::vector<std::string> available_skybox)
 	{
 		m_available_skybox = available_skybox;
@@ -143,6 +166,18 @@ namespace Services {
 	void ConfigEntity::SetDepth(bool const depth)
 	{
 		m_active_depth = depth;
+	}
+
+	void ConfigEntity::SetToDefault()
+	{
+		m_grid_spacing_ratio = 4;
+		m_grid_scaling_trigger = 5.f;
+		m_render_grid = true;
+		m_bloom_strength = 20;
+		m_active_bloom = true;
+		m_render_debug = false;
+		m_render_skybox = false;
+		m_active_depth = true;
 	}
 
 

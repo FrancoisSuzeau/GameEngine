@@ -27,7 +27,7 @@ namespace Services
 		m_json_contents.clear();
 	}
 
-	void JsonLoaderService::SaveScene(std::string const filename, std::vector<std::shared_ptr<Component::IComponent>> components)
+	void JsonLoaderService::SaveScene(std::string const filename, std::shared_ptr<Services::SceneEntity> scene)
 	{
 		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene))
 		{
@@ -35,7 +35,7 @@ namespace Services
 			m_json_contents.erase(Enums::JsonType::Scene);
 		}
 		
-		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ConvertToJsonFormat(components));
+		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ConvertToJsonFormat(scene));
 		this->SaveFile(filename, Enums::JsonType::Scene);
 	}
 
@@ -65,7 +65,7 @@ namespace Services
 		
 	}
 
-	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::GetScene(std::string const filename)
+	std::shared_ptr<Services::SceneEntity> JsonLoaderService::GetScene(std::string const filename)
 	{
 		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene))
 		{
@@ -76,7 +76,7 @@ namespace Services
 		m_file_exist = false;
 		m_json_contents.insert_or_assign(Enums::JsonType::Scene, this->ReadFile(filename));
 
-		return this->ConvertToRenderers();
+		return this->ConvertToScene();
 	}
 
 	std::shared_ptr<ConfigEntity> JsonLoaderService::GetConfigs()
@@ -90,6 +90,7 @@ namespace Services
 		m_file_exist = false;
 		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ReadFile(Constants::CONFIGFILE));
 		return this->ConvertToConfigEntity();
+		
 	}
 
 	std::unique_ptr<nlohmann::json> JsonLoaderService::ReadFile(std::string const filename)
@@ -115,22 +116,32 @@ namespace Services
 		return nullptr;
 	}
 
-	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::vector<std::shared_ptr<Component::IComponent>> components)
+	std::unique_ptr<json> JsonLoaderService::ConvertToJsonFormat(std::shared_ptr<Services::SceneEntity> scene)
 	{
 		std::vector<json> renderers_json_format;
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
+		std::string selected_skybox;
+		if (scene)
 		{
-			json renderer_json_format = {
-				{"type", it[0]->GetType()},
-				{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
-				{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
-				{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
-				{"texture_name", it[0]->GetTextureName()},
-				{"mixe_texture_color", it[0]->GetMixeTextureColor()}
-			};
-			renderers_json_format.push_back(renderer_json_format);
+			std::vector<std::shared_ptr<Component::IComponent>> components = scene->GetSceneComponents();
+			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
+			{
+				json renderer_json_format = {
+					{"type", it[0]->GetType()},
+					{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
+					{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
+					{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
+					{"texture_name", it[0]->GetTextureName()},
+					{"mixe_texture_color", it[0]->GetMixeTextureColor()}
+				};
+				renderers_json_format.push_back(renderer_json_format);
+			}
+			selected_skybox = scene->GetSelectedSkybox();
 		}
-		json j(renderers_json_format);
+		json j = 
+		{ 
+			{"components", renderers_json_format},
+			{"selected_skybox", selected_skybox}
+		};
 		return std::make_unique<json>(j);
 	}
 
@@ -144,7 +155,6 @@ namespace Services
 			{"bloom_strength", config->GetBloomStrength()},
 			{"activate_bloom", config->GetBloom()},
 			{"render_debug", config->GetRenderDebug()},
-			{"selected_skybox", config->GetSelectedSkybox()},
 			{"available_skybox", config->GetAvailableSkybox()},
 			{"render_skybox", config->GetRenderSkybox()},
 			{"activate_depth", config->GetDepth()},
@@ -153,12 +163,16 @@ namespace Services
 		return std::make_unique<json>(json_config);
 	}
 
-	std::vector<std::shared_ptr<Component::IComponent>> JsonLoaderService::ConvertToRenderers()
+	std::shared_ptr<Services::SceneEntity> JsonLoaderService::ConvertToScene()
 	{
-		std::vector<std::shared_ptr<Component::IComponent>> renderers;
+		std::shared_ptr<Services::SceneEntity> scene = std::make_shared<Services::SceneEntity>();
+
+		std::vector<std::shared_ptr<Component::IComponent>> components;
+		
 		if (m_json_contents.contains(Enums::JsonType::Scene) && m_json_contents.at(Enums::JsonType::Scene) && m_file_exist)
 		{
-			for (json::iterator it = m_json_contents.at(Enums::JsonType::Scene)->begin(); it != m_json_contents.at(Enums::JsonType::Scene)->end(); ++it)
+			json json_components = m_json_contents.at(Enums::JsonType::Scene)->at("components");
+			for (json::iterator it = json_components.begin(); it != json_components.end(); ++it)
 			{
 				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
@@ -172,13 +186,13 @@ namespace Services
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
-					renderers.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
+					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
-					renderers.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe));
+					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe));
 					break;
 				default:
 					break;
@@ -186,8 +200,9 @@ namespace Services
 			}
 		}
 
-
-		return renderers;
+		scene->SetSceneComponents(components);
+		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
+		return scene;
 	}
 
 	std::shared_ptr<ConfigEntity> JsonLoaderService::ConvertToConfigEntity()
@@ -202,7 +217,6 @@ namespace Services
 			config->SetBloomStrength(this->GetIntNode(Enums::JsonType::Config, "bloom_strength"));
 			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
 			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
-			config->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Config, "selected_skybox"));
 			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
 			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));
