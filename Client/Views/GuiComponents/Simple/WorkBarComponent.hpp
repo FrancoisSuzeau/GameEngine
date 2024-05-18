@@ -28,9 +28,8 @@
 
 #include <iostream>
 #include <list>
-#include "Commands/AddNewComponentCommand.hpp"
-#include "Commands/CopyComponentCommand.hpp"
-#include "Commands/DeleteComponent.hpp"
+#include "Commands/ModifySceneCommand.hpp"
+
 
 #include <map>
 
