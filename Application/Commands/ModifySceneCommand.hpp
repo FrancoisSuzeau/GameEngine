@@ -24,6 +24,7 @@ namespace Commands {
 	public:
 		ModifySceneCommand(Enums::SceneModifier const scene_modifier, Enums::RendererType component_type);
 		ModifySceneCommand(Enums::SceneModifier const scene_modifier);
+		ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const skybox_name);
 		ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::shared_ptr<Component::IComponent> component_to_copy);
 		~ModifySceneCommand();
 		void Execute() override;
@@ -33,6 +34,7 @@ namespace Commands {
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		Enums::RendererType const m_component_type;
 		Enums::SceneModifier const m_scene_modifier;
+		std::string const m_skybox_name;
 		std::shared_ptr<Component::IComponent> m_component_to_copy;
 		void PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make);
 		void AddComponentToScene();

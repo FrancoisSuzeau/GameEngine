@@ -7,19 +7,25 @@
 namespace Commands
 {
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, Enums::RendererType component_type) : m_scene_modifier(scene_modifier), m_component_type(component_type),
-		m_component_to_copy(nullptr)
+		m_component_to_copy(nullptr), m_skybox_name(Constants::NONE)
 	{
 		this->GetServices();
 	}
 
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier) : m_scene_modifier(scene_modifier), m_component_type(Enums::RendererType::NONE),
-		m_component_to_copy(nullptr)
+		m_component_to_copy(nullptr), m_skybox_name(Constants::NONE)
+	{
+		this->GetServices();
+	}
+
+	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const skybox_name) : m_scene_modifier(scene_modifier), m_component_type(Enums::RendererType::NONE),
+		m_component_to_copy(nullptr), m_skybox_name(skybox_name)
 	{
 		this->GetServices();
 	}
 
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::shared_ptr<Component::IComponent> component_to_copy) : m_scene_modifier(scene_modifier), 
-		m_component_type(Enums::RendererType::NONE), m_component_to_copy(component_to_copy)
+		m_component_type(Enums::RendererType::NONE), m_component_to_copy(component_to_copy), m_skybox_name(Constants::NONE)
 	{
 		this->GetServices();
 	}
@@ -62,6 +68,11 @@ namespace Commands
 				break;
 			case Enums::SceneModifier::COPYCOMPONENT:
 				this->CopyComponent();
+				break;
+			case Enums::SceneModifier::CHANGESKYBOX:
+				m_state_service->GetScene()->SetSelectedSkybox(m_skybox_name);
+				m_state_service->SetSelectedSkyboxTextureId();
+				SQ_APP_TRACE("Skybox changed");
 				break;
 			default:
 				break;

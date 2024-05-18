@@ -133,8 +133,9 @@ namespace Views
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
-							m_state_service->GetScene()->SetSelectedSkybox(it->first);
-							m_state_service->SetSelectedSkyboxTextureId();
+							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::CHANGESKYBOX, it->first));
+							m_state_service->setConfirmMessage("You are about to change the skybox. Are you sure ?");
+							show_confirm = true;
 						}
 					}
 					ImGui::SameLine((float)img_size + 20.f);
