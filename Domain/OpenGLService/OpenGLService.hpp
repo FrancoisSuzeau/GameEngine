@@ -32,12 +32,14 @@ namespace Services
 		void setDepth(GLenum const func);
 		void enable(GLenum const cap);
 		void blend(GLenum const s_factor, GLenum const d_factor);
-		void clearColor(glm::vec2 const colors);
+		void clearColor(glm::vec4 const colors);
 		void disable(GLenum const cap);
 		void clearBuffer(GLbitfield const masks);
 		void deleteTexture(unsigned int texture_id);
 		void deleteBuffer(unsigned int buffer_id);
 		void deleteRenderBuffer(unsigned int render_buffer_id);
+		void writeStencilMask(GLuint const mask);
+		void stencilFunc(GLenum const func, int const ref, GLuint const mask);
 	};
 }
 

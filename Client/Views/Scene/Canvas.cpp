@@ -80,8 +80,8 @@ namespace Views
 
 				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
 				{
-					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::UNTEXTURED_SHADER;
-					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
+					std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::UNTEXTURED_SHADER;
+					if (m_runtime_service && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
 					{
 						shader_name = Constants::HOVER_SHADER;
 					}
@@ -105,8 +105,8 @@ namespace Views
 
 				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
 				{
-					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SHADER;
-					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
+					std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SHADER;
+					if (m_runtime_service && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
 					{
 						shader_name = Constants::HOVER_SHADER;
 					}
@@ -128,8 +128,8 @@ namespace Views
 
 				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
 				{
-					std::string shader_name = m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SPHERE_SHADER;
-					if (m_runtime_service && m_runtime_service->IsRenderingLine() && m_state_service->getPass() != Enums::FramebufferType::DEPTHBUFFER)
+					std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::TEXTURED_SPHERE_SHADER;
+					if (m_runtime_service && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
 					{
 						shader_name = Constants::HOVER_SHADER;
 					}
@@ -156,7 +156,14 @@ namespace Views
 		{
 			Component::Transformer::ReinitModelMat(it[0]);
 			Component::Transformer::Move(it[0]);
-			Component::Transformer::Resize(it[0]);
+			if (m_runtime_service && m_runtime_service->GetStencilPass() != Enums::StencilType::STENCILBUFFERREAD)
+			{
+				Component::Transformer::Resize(it[0]);
+			}
+			else
+			{
+				Component::Transformer::Resize(it[0], 0.01f);
+			}
 		}
 	}
 	void Canvas::DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components)

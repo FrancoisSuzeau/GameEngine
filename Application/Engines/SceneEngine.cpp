@@ -105,7 +105,7 @@ namespace Engines
 			}
 			else
 			{
-				m_runtime_service->RenderingInFill();
+				//m_runtime_service->RenderingInFill();
 			}
 			if (!m_framebuffer_service)
 			{
@@ -124,12 +124,14 @@ namespace Engines
 
 	void SceneEngine::RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		if (view_model_builder)
+		if (view_model_builder && m_runtime_service)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (m_state_service->getPass() == Enums::FramebufferType::COLORBUFFER)
+			Enums::StencilType stencil_pass = m_runtime_service->GetStencilPass();
+			Enums::FramebufferType buffer_pass = m_runtime_service->GetPass();
+			if (buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
 			{
-				if (view_model && m_runtime_service)
+				if (view_model)
 				{
 					view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
 					m_runtime_service->RenderingInLine(1.f);
@@ -138,20 +140,19 @@ namespace Engines
 					m_runtime_service->RenderingInLine(2.f);
 					view_model->RenderSceneElements(Enums::RendererType::GRID);
 					m_runtime_service->RenderingInFill();
-					view_model->RenderComponents();
-					m_runtime_service->RenderingInLine(4.f);
-					view_model->RenderComponents();
-					m_runtime_service->RenderingInFill();
 
 					view_model.reset();
 				}
 			}
 
-			if (m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER)
+			if (buffer_pass == Enums::FramebufferType::DEPTHBUFFER || 
+				(buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERWRITE) ||
+				(buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERREAD))
 			{
-				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
-				m_runtime_service->RenderingInFill();
+
+				view_model.reset();
+
 			}
 		}
 	}

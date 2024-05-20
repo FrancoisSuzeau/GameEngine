@@ -76,9 +76,9 @@ namespace Services
         glBlendFunc(s_factor, d_factor);
     }
 
-    void OpenGLService::clearColor(glm::vec2 const colors)
+    void OpenGLService::clearColor(glm::vec4 const colors)
     {
-        glClearColor(colors.x, colors.x, colors.x, colors.y);
+        glClearColor(colors.x, colors.y, colors.z, colors.a);
     }
 
     void OpenGLService::disable(GLenum const cap)
@@ -113,6 +113,16 @@ namespace Services
         {
             glDeleteRenderbuffers(1, &render_buffer_id);
         }
+    }
+
+    void OpenGLService::writeStencilMask(GLuint const mask)
+    {
+        glStencilMask(mask);
+    }
+
+    void OpenGLService::stencilFunc(GLenum const func, int const ref, GLuint const mask)
+    {
+        glStencilFunc(func, ref, mask);
     }
 
 

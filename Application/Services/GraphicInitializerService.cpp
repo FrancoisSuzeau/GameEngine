@@ -28,6 +28,11 @@ namespace Services
 
 		SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
 		SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
+
+		glEnable(GL_STENCIL_TEST);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 		SQ_APP_DEBUG("All graphics services SUCCESSFULLY initialized");
 		SQ_APP_INFO("OpenGL v{}.{} ready", major_version, minor_version);
 	}
@@ -72,7 +77,12 @@ namespace Services
 
 	void GraphicInitializerService::SetGLAttributes()
 	{
-		std::string error_message;
+		if (SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8) < 0)
+		{
+			SQ_APP_ERROR("Class {} in function {} : Cannot set Stencil buffer - SDL Error : {}", __FILE__, __FUNCTION__, Constants::Major_version, SDL_GetError());
+			init_succeded = false;
+			SDL_Quit();
+		}
 		if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, Constants::Major_version) < 0)
 		{
 			SQ_APP_ERROR("Class {} in function {} : Cannot set Open GL Major version to {} - SDL Error : {}", __FILE__, __FUNCTION__, Constants::Major_version, SDL_GetError());

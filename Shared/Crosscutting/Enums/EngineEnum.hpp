@@ -17,6 +17,7 @@ namespace Enums {
 	enum JsonType {Scene, Config};
 	enum ScallingWay {Up = 1, Bottom = -1, EMPTY = 0};
 	enum FramebufferType {COLORBUFFER, DEPTHBUFFER};
+	enum StencilType {STENCILBUFFERDISABLE, STENCILBUFFERWRITE, STENCILBUFFERREAD};
 
 }
 

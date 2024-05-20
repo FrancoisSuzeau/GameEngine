@@ -16,7 +16,7 @@ namespace Services {
 
 	}
 
-	std::vector<std::shared_ptr<Component::IComponent>> SceneEntity::GetSceneComponents() const
+	std::vector<std::shared_ptr<Component::IComponent>> SceneEntity::GetSceneComponents()
 	{
 		return m_components;
 	}

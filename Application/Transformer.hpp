@@ -22,6 +22,7 @@ namespace Component
 		static void PutIntoShader(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
 		static void Move(std::shared_ptr<Component::IComponent> component);
 		static void Resize(std::shared_ptr<Component::IComponent> component);
+		static void Resize(std::shared_ptr<Component::IComponent> component, float const offset);
 		static void Rotate(std::shared_ptr<Component::IComponent> component, glm::vec3 axis);
 		static void ReinitModelMat(std::shared_ptr<Component::IComponent> component);
 	private:

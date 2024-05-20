@@ -216,8 +216,8 @@ namespace Services
 			glBindRenderbuffer(GL_RENDERBUFFER, m_render_fb);
 			if (glIsRenderbuffer(m_render_fb) == GL_TRUE)
 			{
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_fb_width, m_fb_height);
-				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_render_fb);
+				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_fb_width, m_fb_height);
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_render_fb);
 
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 

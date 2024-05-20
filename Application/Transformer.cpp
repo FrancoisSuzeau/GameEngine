@@ -19,6 +19,7 @@ namespace Component
 			}
 			if (component && shader_service && state_service)
 			{
+				bool render_bloom = state_service->getConfigs()->GetBloom();
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
 				shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
@@ -28,9 +29,10 @@ namespace Component
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
 				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
+				shader_service->setFloat(shader_name, "alpha_strength", render_bloom ? 0.2f : 0.8f);
 				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
 				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());
-				if (state_service->getConfigs()->GetBloom())
+				if (render_bloom)
 				{
 					shader_service->setInt(shader_name, "bloom", 1);
 					shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
@@ -63,6 +65,16 @@ namespace Component
 		{
 			glm::mat4 model = component->GetModelMat();
 			model = glm::scale(model, component->GetSize());
+			component->SetModelMat(model);
+		}
+	}
+	void Transformer::Resize(std::shared_ptr<Component::IComponent> component, float const offset)
+	{
+		if (component)
+		{
+			glm::mat4 model = component->GetModelMat();
+			glm::vec3 const actual_size = component->GetSize();
+			model = glm::scale(model, glm::vec3(actual_size.x + offset, actual_size.y + offset, actual_size.z + offset));
 			component->SetModelMat(model);
 		}
 	}

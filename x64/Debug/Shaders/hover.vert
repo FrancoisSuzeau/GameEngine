@@ -1,9 +1,11 @@
-#version 460 core
+#version 450 core
 
 layout (location = 0) in vec3 obj_pos;
+
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
 
 void main()
 {
