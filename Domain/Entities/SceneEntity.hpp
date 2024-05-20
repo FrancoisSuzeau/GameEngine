@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <array>
 #include <map>
 #include "../Interfaces/IComponent.hpp"
 
@@ -23,7 +24,7 @@ namespace Services {
 		SceneEntity();
 		~SceneEntity();
 
-		std::vector<std::shared_ptr<Component::IComponent>> GetSceneComponents() const;
+		std::vector<std::shared_ptr<Component::IComponent>> GetSceneComponents();
 		void SetSceneComponents(std::vector<std::shared_ptr<Component::IComponent>> const components);
 		void AddComponent(std::shared_ptr<Component::IComponent> const new_component);
 		void DeleteComponents();

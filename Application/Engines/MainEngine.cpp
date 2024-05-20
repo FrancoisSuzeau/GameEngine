@@ -231,9 +231,9 @@ namespace Engines
 				{
 					m_runtime_service->EnableDepthTest();
 					m_runtime_service->SetPass(Enums::FramebufferType::DEPTHBUFFER);
+					m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
 
 					this->PassToFrameBuffer(view_model_builder);
-					m_runtime_service->DisableDepthTest();
 				}
 
 				
@@ -315,9 +315,8 @@ namespace Engines
 			case Enums::COLORBUFFER:
 				this->InitFrame();
 				//Draw grid and skybox
-				m_runtime_service->SetStencilPass(Enums::STENCILBUFFERDISABLE);
+				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
 				m_runtime_service->DisableWriteStencilBuffer();
-				m_runtime_service->EnableDepthTest();
 				m_scene_engine->RefreshScene(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
 				//Pass to stencil buffer for scene component

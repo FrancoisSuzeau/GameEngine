@@ -1,4 +1,4 @@
-#version 460 core
+#version 450 core
 
 uniform vec4 background_color;
 layout (location = 0) out vec4 FragColor;

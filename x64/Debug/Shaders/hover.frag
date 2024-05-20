@@ -6,10 +6,9 @@ layout (location = 1) out vec4 BrightColor;
 uniform bool render_line;
 uniform bool bloom;
 uniform float alpha_strength;
+
 void main()
 {
-    // for bloom effect
-    
     vec3 whiteColor = vec3(1.f);
     float alpha = 0.f;
     if(render_line)
