@@ -1,10 +1,11 @@
-#version 460 core
+#version 450 core
 
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
 uniform bool render_line;
 uniform bool bloom;
+uniform float alpha_strength;
 void main()
 {
     // for bloom effect
@@ -13,7 +14,7 @@ void main()
     float alpha = 0.f;
     if(render_line)
     {
-        alpha = 0.2f;
+        alpha = alpha_strength;
     }
     if(bloom)
     {

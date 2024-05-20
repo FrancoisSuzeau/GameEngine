@@ -105,7 +105,7 @@ namespace Engines
 			}
 			else
 			{
-				m_runtime_service->RenderingInFill();
+				//m_runtime_service->RenderingInFill();
 			}
 			if (!m_framebuffer_service)
 			{
@@ -127,7 +127,7 @@ namespace Engines
 		if (view_model_builder)
 		{
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
-			if (m_state_service->getPass() == Enums::FramebufferType::COLORBUFFER)
+			if (m_runtime_service->GetPass() == Enums::FramebufferType::COLORBUFFER && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERDISABLE)
 			{
 				if (view_model && m_runtime_service)
 				{
@@ -138,20 +138,19 @@ namespace Engines
 					m_runtime_service->RenderingInLine(2.f);
 					view_model->RenderSceneElements(Enums::RendererType::GRID);
 					m_runtime_service->RenderingInFill();
-					view_model->RenderComponents();
-					m_runtime_service->RenderingInLine(4.f);
-					view_model->RenderComponents();
-					m_runtime_service->RenderingInFill();
 
 					view_model.reset();
 				}
 			}
 
-			if (m_state_service->getPass() == Enums::FramebufferType::DEPTHBUFFER)
+			if (m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER || 
+				(m_runtime_service->GetPass() == Enums::FramebufferType::COLORBUFFER && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERWRITE) ||
+				(m_runtime_service->GetPass() == Enums::FramebufferType::COLORBUFFER && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD))
 			{
-				m_runtime_service->RenderingInFill();
 				view_model->RenderComponents();
-				m_runtime_service->RenderingInFill();
+
+				view_model.reset();
+
 			}
 		}
 	}

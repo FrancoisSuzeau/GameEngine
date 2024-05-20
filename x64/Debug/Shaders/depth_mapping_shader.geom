@@ -1,4 +1,4 @@
-#version 460 core
+#version 450 core
 // ============ In data ============
 layout (triangles) in;
 layout (triangle_strip, max_vertices=18) out;

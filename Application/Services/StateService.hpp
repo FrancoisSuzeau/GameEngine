@@ -103,8 +103,8 @@ namespace Services {
 		void AddSkyboxCubeTex(std::string map_id, unsigned int texture_id);
 		void addAvailableTextures(std::string map_id, unsigned int texture_id);
 
-		void setPass(Enums::FramebufferType fb_type);
-		Enums::FramebufferType getPass() const;
+		
+		
 		float getFarPlane() const;
 		float getNearPlane() const;
 		
@@ -148,7 +148,7 @@ namespace Services {
 		std::map<std::string, unsigned int> m_skybox_cube_texture;
 		std::map<std::string, unsigned int> m_available_textures;
 		unsigned int m_texture_id;
-		Enums::FramebufferType m_fb_type;
+		
 		unsigned int sq_texture_id;
 
 	};

@@ -203,8 +203,6 @@ namespace Engines
 
 				progress++;
 			}
-
-			SDL_Delay(1000);
 			
 		}
 	}
@@ -232,13 +230,14 @@ namespace Engines
 				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetDepth())
 				{
 					m_runtime_service->EnableDepthTest();
-					m_state_service->setPass(Enums::FramebufferType::DEPTHBUFFER);
+					m_runtime_service->SetPass(Enums::FramebufferType::DEPTHBUFFER);
 
 					this->PassToFrameBuffer(view_model_builder);
+					m_runtime_service->DisableDepthTest();
 				}
 
-				m_runtime_service->DisableDepthTest();
-				m_state_service->setPass(Enums::FramebufferType::COLORBUFFER);
+				
+				m_runtime_service->SetPass(Enums::FramebufferType::COLORBUFFER);
 				
 				this->PassToFrameBuffer(view_model_builder);
 
@@ -305,26 +304,46 @@ namespace Engines
 	}
 	void MainEngine::PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		Enums::FramebufferType fb_type = m_state_service->getPass();
-
-		m_framebuffer_service->BindFramebuffer(fb_type);
-
-		switch (fb_type)
+		if (m_runtime_service && m_framebuffer_service && m_scene_engine)
 		{
-		case Enums::COLORBUFFER:
-			this->InitFrame();
-			break;
-		case Enums::DEPTHBUFFER:
-			m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
-			break;
-		default:
-			break;
-		}
-		
-		m_scene_engine->RefreshScene(view_model_builder);
-		m_scene_engine->RenderScene(view_model_builder);
+			Enums::FramebufferType fb_type = m_runtime_service->GetPass();
 
-		m_framebuffer_service->UnbindFramebuffer();
+			m_framebuffer_service->BindFramebuffer(fb_type);
+
+			switch (fb_type)
+			{
+			case Enums::COLORBUFFER:
+				this->InitFrame();
+				//Draw grid and skybox
+				m_runtime_service->SetStencilPass(Enums::STENCILBUFFERDISABLE);
+				m_runtime_service->DisableWriteStencilBuffer();
+				m_runtime_service->EnableDepthTest();
+				m_scene_engine->RefreshScene(view_model_builder);
+				m_scene_engine->RenderScene(view_model_builder);
+				//Pass to stencil buffer for scene component
+				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERWRITE);
+				m_runtime_service->StencilFuncToWrite();
+				m_scene_engine->RefreshScene(view_model_builder);
+				m_scene_engine->RenderScene(view_model_builder);
+				//Read stencil buffer
+				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERREAD);
+				m_runtime_service->StencilFuncToRead();
+				m_runtime_service->DisableDepthTest();
+				m_scene_engine->RefreshScene(view_model_builder);
+				m_scene_engine->RenderScene(view_model_builder);
+				m_runtime_service->StencilFuncDisable();
+				break;
+			case Enums::DEPTHBUFFER:
+				m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
+				m_scene_engine->RefreshScene(view_model_builder);
+				m_scene_engine->RenderScene(view_model_builder);
+				break;
+			default:
+				break;
+			}
+
+			m_framebuffer_service->UnbindFramebuffer();
+		}
 	}
 }
 

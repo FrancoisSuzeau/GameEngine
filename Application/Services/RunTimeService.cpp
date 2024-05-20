@@ -6,7 +6,7 @@
 
 namespace Services
 {
-	RunTimeService::RunTimeService() : m_is_rendering_line(false)
+	RunTimeService::RunTimeService() : m_is_rendering_line(false), m_fb_type(Enums::FramebufferType::COLORBUFFER), m_stencil_type(Enums::StencilType::STENCILBUFFERWRITE)
 	{
 	}
 	void RunTimeService::Init()
@@ -66,13 +66,10 @@ namespace Services
 	}
 	void RunTimeService::RefreshScreen()
 	{
-		if (m_opengl_service)
-		{
-			m_opengl_service->clearColor(glm::vec2(0.1f, 1.f));
-			m_opengl_service->clearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		}
+		this->RefreshColor(glm::vec4(0.07f, 0.13f, 0.17f, 1.f));
+		this->RefreshBuffers(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
-	void RunTimeService::RefreshColor(glm::vec2 const colors)
+	void RunTimeService::RefreshColor(glm::vec4 const colors)
 	{
 		if (m_opengl_service)
 		{
@@ -134,6 +131,54 @@ namespace Services
 		{
 			m_opengl_service->deleteRenderBuffer(render_buffer_id);
 		}
+	}
+	void RunTimeService::DisableWriteStencilBuffer()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->writeStencilMask(0x00);
+		}
+	}
+	
+	void RunTimeService::StencilFuncToWrite()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->stencilFunc(GL_ALWAYS, 1, 0xFF);
+			m_opengl_service->writeStencilMask(0xFF);
+		}
+	}
+	void RunTimeService::StencilFuncToRead()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->stencilFunc(GL_NOTEQUAL, 1, 0xFF);
+			this->DisableWriteStencilBuffer();
+		}
+	}
+	void RunTimeService::StencilFuncDisable()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->writeStencilMask(0xFF);
+			m_opengl_service->stencilFunc(GL_ALWAYS, 0, 0xFF);
+		}
+	}
+	void RunTimeService::SetPass(Enums::FramebufferType fb_type)
+	{
+		m_fb_type = fb_type;
+	}
+	void RunTimeService::SetStencilPass(Enums::StencilType stencil_type)
+	{
+		m_stencil_type = stencil_type;
+	}
+	Enums::FramebufferType RunTimeService::GetPass() const
+	{
+		return m_fb_type;
+	}
+	Enums::StencilType RunTimeService::GetStencilPass() const
+	{
+		return m_stencil_type;
 	}
 }
 

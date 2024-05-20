@@ -10,7 +10,7 @@ namespace Services
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_perspective_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
 		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false), m_far_plane(100.f), m_near_plane(0.1f),
-		sq_texture_id(0), m_texture_id(0), m_projection_ortho_matrix(glm::mat4()), m_fb_type(Enums::FramebufferType::COLORBUFFER)
+		sq_texture_id(0), m_texture_id(0), m_projection_ortho_matrix(glm::mat4())
 	{
 	}
 
@@ -443,16 +443,6 @@ namespace Services
 		{
 			m_available_textures.insert_or_assign(map_id, texture_id);
 		}
-	}
-
-	void StateService::setPass(Enums::FramebufferType fb_type)
-	{
-		m_fb_type = fb_type;
-	}
-
-	Enums::FramebufferType StateService::getPass() const
-	{
-		return m_fb_type;
 	}
 
 	float StateService::getFarPlane() const
