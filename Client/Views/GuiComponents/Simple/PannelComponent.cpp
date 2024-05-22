@@ -20,7 +20,7 @@ namespace Views
 		}
 	}
 	PannelComponent::PannelComponent(std::shared_ptr<ViewModels::IViewModel> parent) : item_current(-1), render_grid(true), trigger(5.f), previous_item_current(0), activate_bloom(false), bloom_strength(0),
-		activate_debug(false), active_skybox(false), show(false)
+		activate_debug(false), active_skybox(false), show(false), activate_multisample(false), activate_shadow(false)
 	{
 		m_parent_view_model = parent;
 		m_state_service = IoC::Container::Container::GetInstanceContainer()->GetReference<Services::StateService>();
@@ -36,6 +36,7 @@ namespace Views
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
 			activate_shadow = m_state_service->getConfigs()->GetDepth();
+			activate_multisample = m_state_service->getConfigs()->GetMultiSample();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())
@@ -79,6 +80,11 @@ namespace Views
 					if (config_pannel == Constants::DEBUG_CONFIG_PANNEL)
 					{
 						this->RenderDebugModifier();
+					}
+
+					if (config_pannel == Constants::PERF_CONFIG_PANNEL)
+					{
+						this->RendererAntiAliasingModifier();
 					}
 
 					this->RenderButtons();
@@ -175,6 +181,17 @@ namespace Views
 			}
 		}
 	}
+	void PannelComponent::RendererAntiAliasingModifier()
+	{
+		std::string text = activate_multisample ? "Anti-aliasing On :" : "Anti-aliasing Off";
+		ImGui::Text(text.c_str());
+		if (ImGui::Checkbox("Activate anti-aliasing", &activate_multisample))
+		{
+			m_state_service->setActualize(true);
+			m_parent_view_model->AddCommand(std::make_unique<Commands::ModifyConfigsCommand>(activate_multisample, Enums::ConfigsModifier::ANTIALIASINGACIVE));
+
+		}
+	}
 	void PannelComponent::RenderDebugModifier()
 	{
 		if (m_state_service && m_state_service->getConfigs())
@@ -245,6 +262,7 @@ namespace Views
 			activate_debug = m_state_service->getConfigs()->GetRenderDebug();
 			active_skybox = m_state_service->getConfigs()->GetRenderSkybox();
 			activate_shadow = m_state_service->getConfigs()->GetDepth();
+			activate_multisample = m_state_service->getConfigs()->GetMultiSample();
 			std::vector<int> values = { 4, 8, 12 };
 			auto it = std::find(values.begin(), values.end(), m_state_service->getConfigs()->GetGridSpacingRatio());
 			if (it != values.end())

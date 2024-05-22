@@ -56,6 +56,12 @@ namespace Views
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
@@ -158,7 +164,7 @@ namespace Views
 
 	void WorkBarComponent::RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2)
 	{
-		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug())
+		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug() && m_runtime_service)
 		{
 			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 500), true, window_flags2))
 			{

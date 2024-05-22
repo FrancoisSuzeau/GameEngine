@@ -50,6 +50,10 @@ namespace Views
 					{
 						config_pannel = Constants::DEBUG_CONFIG_PANNEL;
 					}
+					if (ImGui::Button("Performance options"))
+					{
+						config_pannel = Constants::PERF_CONFIG_PANNEL;
+					}
 					ImGui::PopStyleColor(2);
 					ImGui::PopID();
 					ImGui::SameLine(); ImGui::TextDisabled("Open the config scene pannel");

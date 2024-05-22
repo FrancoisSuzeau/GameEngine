@@ -49,6 +49,7 @@ namespace Constants {
 	std::string const DEFAULT_FILENAME = "default_scene";
 	std::string const SCENE_CONFIG_PANNEL = "scene pannel";
 	std::string const DEBUG_CONFIG_PANNEL = "debug pannel";
+	std::string const PERF_CONFIG_PANNEL = "performance pannel";
 	std::string const GRID_SPACING_SMALL = "Small";
 	std::string const GRID_SPACING_MEDIUM = "Medium";
 	std::string const GRID_SPACING_LARGE = "Large";

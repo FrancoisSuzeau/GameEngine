@@ -7,7 +7,7 @@
 namespace Services {
 
 	ConfigEntity::ConfigEntity() : m_grid_spacing_ratio(4), m_grid_scaling_trigger(5.f), m_render_grid(true), m_bloom_strength(20), m_active_bloom(true), m_render_debug(false), 
-		 m_render_skybox(false), m_active_depth(true)
+		 m_render_skybox(false), m_active_depth(true), m_activate_multisample(false)
 	{
 		m_available_skybox =
 		{
@@ -166,6 +166,16 @@ namespace Services {
 	void ConfigEntity::SetDepth(bool const depth)
 	{
 		m_active_depth = depth;
+	}
+
+	void ConfigEntity::SetMutliSample(bool const multisample)
+	{
+		m_activate_multisample = multisample;
+	}
+
+	bool ConfigEntity::GetMultiSample() const
+	{
+		return m_activate_multisample;
 	}
 
 	void ConfigEntity::SetToDefault()

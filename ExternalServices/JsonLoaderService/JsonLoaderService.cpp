@@ -158,7 +158,8 @@ namespace Services
 			{"available_skybox", config->GetAvailableSkybox()},
 			{"render_skybox", config->GetRenderSkybox()},
 			{"activate_depth", config->GetDepth()},
-			{"available_textures", config->GetAvailableTextures()}
+			{"available_textures", config->GetAvailableTextures()},
+			{"activate_multisample", config->GetMultiSample()}
 		};
 		return std::make_unique<json>(json_config);
 	}
@@ -221,6 +222,7 @@ namespace Services
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
 			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));
 			config->SetAvailableTextures(this->GetStringVectorNode(Enums::JsonType::Config, "available_textures"));
+			config->SetMutliSample(this->GetBoolNode(Enums::JsonType::Config, "activate_multisample"));
 		}
 		
 		return config;

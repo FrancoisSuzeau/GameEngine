@@ -129,7 +129,8 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			Enums::StencilType stencil_pass = m_runtime_service->GetStencilPass();
 			Enums::FramebufferType buffer_pass = m_runtime_service->GetPass();
-			if (buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
+			if ((buffer_pass == Enums::FramebufferType::NORMALCOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE) ||
+				buffer_pass == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
 			{
 				if (view_model)
 				{
@@ -146,8 +147,10 @@ namespace Engines
 			}
 
 			if (buffer_pass == Enums::FramebufferType::DEPTHBUFFER || 
-				(buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERWRITE) ||
-				(buffer_pass == Enums::FramebufferType::COLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERREAD))
+				(buffer_pass == Enums::FramebufferType::NORMALCOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERWRITE) ||
+				(buffer_pass == Enums::FramebufferType::NORMALCOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERREAD) || 
+				(buffer_pass == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERWRITE) ||
+				(buffer_pass == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERREAD))
 			{
 				view_model->RenderComponents();
 
@@ -178,7 +181,6 @@ namespace Engines
 	{
 		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service && m_state_service && m_state_service->getConfigs())
 		{
-			
 			if (m_state_service->getConfigs()->GetBloom())
 			{
 				bool horizontal = true;
@@ -190,7 +192,7 @@ namespace Engines
 					m_framebuffer_service->BindFramebuffer(horizontal);
 
 					Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::BLOOM_SHADER);
-					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), m_framebuffer_service->GetTextureId(!horizontal));
+					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId( 1), m_framebuffer_service->GetTextureId(!horizontal));
 					if (first_it)
 					{
 						first_it = false;
@@ -211,7 +213,14 @@ namespace Engines
 			{
 				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0));
+				if (m_state_service->getConfigs()->GetMultiSample())
+				{
+					m_screen_renderer->Draw(m_framebuffer_service->GetTextureId());
+				}
+				else
+				{
+					m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0));
+				}
 				m_shader_service->UnbindShaderProgram();
 			}
 
