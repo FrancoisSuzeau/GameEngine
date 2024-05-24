@@ -22,33 +22,59 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 
-		unsigned int GetTextureId(int id) const;
+		unsigned int GetTextureId(Enums::FramebufferType type, int id) const;
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
-		void BuildFrameBufferDepthMap();
-		void BuildFrameBufferTexture();
+		void ClearFramebuffer();
 
-		void BindFramebuffer(Enums::FramebufferType fb_type);
+		
+		void BuildNormalFrameBuffer();
+		void BuildMultiSampleFrameBuffer();
+
+		void BindFramebuffer(Enums::FramebufferType type);
+		void BlitFramebuffer();
 		void BindFramebuffer(bool horizontal);
 		void UnbindFramebuffer();
 
 	private:
-		unsigned int m_texture_fb;
-		unsigned int m_texture_ids[2] = {0, 0};
-		unsigned int m_ping_pong_fb[2] = { 0, 0 };
-		unsigned int m_ping_pong_textures[2] = { 0, 0 };
-		unsigned int m_render_fb;
 
-		unsigned int m_depth_map_fb = 0;
+		void SetFrameBufferDim();
+
+		void BuildScreenTexture();
+		void BuildScreenFramebuffer();
+		void BuildBrighFramebuffer();
+		void BuildMultisampleColorTextures();
+
+		void BuildPingPongFramebuffers();
+		void BuildDepthMapFramebuffer();
+
+		void BuildNormalRenderFB();
+		void BuildMultiSampleRenderFB();
+
+		void CheckFramebufferStatus(std::string const framebuffer_name);
+
+		unsigned int m_color_texture_id;
+		unsigned int m_bright_texture_id;
+		unsigned int m_ping_pong_textures_ids[2] = { 0, 0 };
 		unsigned int m_depth_map_texture_id;
+		unsigned int m_color_multisample_texture_ids[2] = { 0, 0};
+
+		unsigned int m_color_texture_ids[2] = {0, 0};
+
+		unsigned int m_color_fb;
+		unsigned int m_bright_fb;
+		unsigned int m_color_multisample_fb;
+		unsigned int m_render_fb;
+		unsigned int m_ping_pong_fb[2] = { 0, 0 };
+		unsigned int m_depth_map_fb;
+
+		GLuint m_attachments[2] = {0, 0};
+
+		
+
 		int m_fb_width;
 		int m_fb_height;
-		void SetFrameBufferDim();
-		void BuildTextureFB();
-		void BuildPingPongFB();
-		void BuildRenderFB();
-		void CheckFramebufferStatus(std::string const framebuffer_name);
 
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;

@@ -45,21 +45,11 @@ namespace Commands
 		{
 			m_state_service.reset();
 		}
-
-		if (m_loader_service)
-		{
-			m_loader_service.reset();
-		}
-
-		if (m_runtime_service)
-		{
-			m_runtime_service.reset();
-		}
 	}
 
 	void ModifyConfigsCommand::Execute()
 	{
-		if (m_state_service && m_state_service->getConfigs() && m_loader_service && m_runtime_service)
+		if (m_state_service && m_state_service->getConfigs() && m_framebuffer_service)
 		{
 			switch (m_configs_modifier)
 			{
@@ -90,6 +80,11 @@ namespace Commands
 			case::Enums::ConfigsModifier::SHADOW:
 				m_state_service->getConfigs()->SetDepth(m_bool_value);
 				break;
+			case::Enums::ConfigsModifier::ANTIALIASINGACIVE:
+				m_framebuffer_service->ClearFramebuffer();
+				m_bool_value ? m_framebuffer_service->BuildMultiSampleFrameBuffer() : m_framebuffer_service->BuildNormalFrameBuffer();
+				m_state_service->getConfigs()->SetMutliSample(m_bool_value);
+				break;
 			case::Enums::ConfigsModifier::DEFAULT:
 				m_state_service->getConfigs()->SetToDefault();
 				break;
@@ -109,16 +104,10 @@ namespace Commands
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			m_loader_service = container->GetReference<Services::LoaderService>();
-			if (!m_loader_service)
+			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
+			if (!m_framebuffer_service)
 			{
-				SQ_APP_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
-			}
-
-			m_runtime_service = container->GetReference<Services::RunTimeService>();
-			if (!m_loader_service)
-			{
-				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 	}

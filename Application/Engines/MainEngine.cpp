@@ -56,15 +56,7 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__ , __FUNCTION__);
 			}
-			m_gui_engine = container->GetReference<GUIEngine>();
-			if (!m_gui_engine)
-			{
-				SQ_APP_ERROR("Class {} in function {} : GUI Engine is not referenced yet", __FILE__, __FUNCTION__);
-			}
-			else
-			{
-				m_gui_engine->LoadConfigs();
-			}
+			
 			m_scene_engine = container->GetReference<SceneEngine>();
 			if (!m_scene_engine)
 			{
@@ -72,11 +64,7 @@ namespace Engines
 			}
 
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
-			if (m_framebuffer_service)
-			{
-				m_framebuffer_service->BuildFrameBufferTexture();
-			}
-			else
+			if (!m_framebuffer_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
 			}
@@ -86,6 +74,20 @@ namespace Engines
 			{
 				SQ_APP_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
 
+			}
+
+			m_gui_engine = container->GetReference<GUIEngine>();
+			if (!m_gui_engine)
+			{
+				SQ_APP_ERROR("Class {} in function {} : GUI Engine is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				m_gui_engine->LoadConfigs();
+				if (m_state_service->getConfigs() && m_framebuffer_service)
+				{
+					m_state_service->getConfigs()->GetMultiSample() ? m_framebuffer_service->BuildMultiSampleFrameBuffer() : m_framebuffer_service->BuildNormalFrameBuffer();
+				}
 			}
 			
 		}
@@ -236,12 +238,17 @@ namespace Engines
 					this->PassToFrameBuffer(view_model_builder);
 				}
 
-				
-				m_runtime_service->SetPass(Enums::FramebufferType::COLORBUFFER);
+
+				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetMultiSample())
+				{
+					m_runtime_service->SetPass(Enums::FramebufferType::MULTISAMPLECOLORBUFFER);
+
+					this->PassToFrameBuffer(view_model_builder);
+				}
+
+				m_runtime_service->SetPass(Enums::FramebufferType::NORMALCOLORBUFFER);
 				
 				this->PassToFrameBuffer(view_model_builder);
-
-				m_scene_engine->RenderScreen();
 
 				m_gui_engine->RenderMainMenuBar(view_model_builder);
 				m_gui_engine->RenderGuiComponents(view_model_builder);
@@ -302,46 +309,75 @@ namespace Engines
 			break;
 		}
 	}
+	void MainEngine::RenderStencilBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
+	{
+		if (m_runtime_service && m_scene_engine)
+		{
+			this->InitFrame();
+			//Draw grid and skybox
+			m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
+			m_runtime_service->DisableWriteStencilBuffer();
+			m_scene_engine->RefreshScene(view_model_builder);
+			m_scene_engine->RenderScene(view_model_builder);
+			//Pass to stencil buffer for scene component
+			m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERWRITE);
+			m_runtime_service->StencilFuncToWrite();
+			m_scene_engine->RefreshScene(view_model_builder);
+			m_scene_engine->RenderScene(view_model_builder);
+			//Read stencil buffer
+			m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERREAD);
+			m_runtime_service->StencilFuncToRead();
+			m_runtime_service->DisableDepthTest();
+			m_scene_engine->RefreshScene(view_model_builder);
+			m_scene_engine->RenderScene(view_model_builder);
+			m_runtime_service->StencilFuncDisable();
+		}
+	}
 	void MainEngine::PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder)
 	{
-		if (m_runtime_service && m_framebuffer_service && m_scene_engine)
+		if (m_runtime_service && m_framebuffer_service && m_scene_engine && m_state_service && m_state_service->getConfigs())
 		{
 			Enums::FramebufferType fb_type = m_runtime_service->GetPass();
 
-			m_framebuffer_service->BindFramebuffer(fb_type);
-
-			switch (fb_type)
+			if (fb_type == Enums::FramebufferType::DEPTHBUFFER)
 			{
-			case Enums::COLORBUFFER:
-				this->InitFrame();
-				//Draw grid and skybox
-				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
-				m_runtime_service->DisableWriteStencilBuffer();
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
-				//Pass to stencil buffer for scene component
-				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERWRITE);
-				m_runtime_service->StencilFuncToWrite();
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
-				//Read stencil buffer
-				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERREAD);
-				m_runtime_service->StencilFuncToRead();
-				m_runtime_service->DisableDepthTest();
-				m_scene_engine->RefreshScene(view_model_builder);
-				m_scene_engine->RenderScene(view_model_builder);
-				m_runtime_service->StencilFuncDisable();
-				break;
-			case Enums::DEPTHBUFFER:
+				m_framebuffer_service->BindFramebuffer(fb_type);
+
 				m_runtime_service->RefreshBuffers(GL_DEPTH_BUFFER_BIT);
 				m_scene_engine->RefreshScene(view_model_builder);
 				m_scene_engine->RenderScene(view_model_builder);
-				break;
-			default:
-				break;
+
+				m_framebuffer_service->UnbindFramebuffer();
 			}
 
-			m_framebuffer_service->UnbindFramebuffer();
+			if (fb_type == Enums::FramebufferType::NORMALCOLORBUFFER && !m_state_service->getConfigs()->GetMultiSample())
+			{
+				m_framebuffer_service->BindFramebuffer(fb_type);
+
+				this->RenderStencilBuffer(view_model_builder);
+
+				m_framebuffer_service->UnbindFramebuffer();
+
+				m_scene_engine->RenderScreen();
+
+			}
+
+			if (fb_type == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && m_state_service->getConfigs()->GetMultiSample())
+			{
+				m_framebuffer_service->BindFramebuffer(fb_type);
+
+				this->RenderStencilBuffer(view_model_builder);
+
+				m_framebuffer_service->BlitFramebuffer();
+
+				m_framebuffer_service->UnbindFramebuffer();
+
+			}
+
+			if (fb_type == Enums::FramebufferType::NORMALCOLORBUFFER && m_state_service->getConfigs()->GetMultiSample())
+			{
+				m_scene_engine->RenderScreen();
+			}
 		}
 	}
 }

@@ -47,6 +47,7 @@ namespace Engines {
 		void InitFrame() override;
 		void EndFrame() override;
 		void FpsCalculation(Enums::EngineEnum ee);
+		void RenderStencilBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 
 		void PassToFrameBuffer(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 

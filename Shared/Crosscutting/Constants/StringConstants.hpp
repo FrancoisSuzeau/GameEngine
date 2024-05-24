@@ -39,7 +39,7 @@ namespace Constants {
 	std::string const TEXTURED_SPHERE_SHADER = "sphere_textured";
 	std::string const HOVER_SHADER = "hover";
 	std::string const SCREEN_SHADER = "screen_shader";
-	std::string const BLOOM_SHADER = "bloom_shader";
+	std::string const GAUSSIAN_BLUR_SHADER = "gaussian_blur";
 	std::string const DEPTH_SHADER = "depth_mapping_shader";
 	std::string const GRID_SHADER = "grid";
 	std::string const SKYBOX_SHADER = "skybox";
@@ -49,6 +49,7 @@ namespace Constants {
 	std::string const DEFAULT_FILENAME = "default_scene";
 	std::string const SCENE_CONFIG_PANNEL = "scene pannel";
 	std::string const DEBUG_CONFIG_PANNEL = "debug pannel";
+	std::string const PERF_CONFIG_PANNEL = "performance pannel";
 	std::string const GRID_SPACING_SMALL = "Small";
 	std::string const GRID_SPACING_MEDIUM = "Medium";
 	std::string const GRID_SPACING_LARGE = "Large";

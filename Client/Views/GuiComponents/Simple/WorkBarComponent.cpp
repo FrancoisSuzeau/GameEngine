@@ -56,6 +56,12 @@ namespace Views
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_runtime_service = container->GetReference<Services::RunTimeService>();
+			if (!m_runtime_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
@@ -158,7 +164,7 @@ namespace Views
 
 	void WorkBarComponent::RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2)
 	{
-		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug())
+		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug() && m_runtime_service)
 		{
 			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 500), true, window_flags2))
 			{
@@ -170,7 +176,9 @@ namespace Views
 				ImGui::Text(text_bloom_debug.c_str());
 				if (m_state_service->getConfigs()->GetBloom())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(
+						m_state_service->getConfigs()->GetMultiSample() ? Enums::FramebufferType::MULTISAMPLECOLORBUFFER : Enums::FramebufferType::NORMALCOLORBUFFER, 1), 
+						ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				std::string text_depth_debug = m_state_service->getConfigs()->GetDepth() ? "Depth back buffer" : "Depth back buffer (none)";
 				ImGui::Text(text_depth_debug.c_str());

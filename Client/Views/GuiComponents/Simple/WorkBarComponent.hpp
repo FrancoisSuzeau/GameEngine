@@ -46,6 +46,7 @@ namespace Views
 		std::shared_ptr < Services::StateService> m_state_service;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
+		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);

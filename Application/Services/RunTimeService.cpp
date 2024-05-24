@@ -6,7 +6,7 @@
 
 namespace Services
 {
-	RunTimeService::RunTimeService() : m_is_rendering_line(false), m_fb_type(Enums::FramebufferType::COLORBUFFER), m_stencil_type(Enums::StencilType::STENCILBUFFERWRITE)
+	RunTimeService::RunTimeService() : m_is_rendering_line(false), m_fb_type(Enums::FramebufferType::NORMALCOLORBUFFER), m_stencil_type(Enums::StencilType::STENCILBUFFERWRITE)
 	{
 	}
 	void RunTimeService::Init()

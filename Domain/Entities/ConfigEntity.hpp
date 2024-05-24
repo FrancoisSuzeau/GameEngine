@@ -45,6 +45,8 @@ namespace Services {
 		bool GetRenderSkybox() const;
 		bool GetDepth() const;
 		void SetDepth(bool const depth);
+		void SetMutliSample(bool const multisample);
+		bool GetMultiSample() const;
 
 		void SetToDefault();
 
@@ -62,6 +64,7 @@ namespace Services {
 		std::vector<std::string> m_available_textures;
 		bool m_render_skybox;
 		bool m_active_depth;
+		bool m_activate_multisample;
 
 	};
 }

@@ -9,8 +9,7 @@
 #include "Logger.hpp"
 #include "Container/Container.hpp"
 #include "../Services/StateService.hpp"
-#include "../Services/LoaderService.hpp"
-#include "../Services/RunTimeService.hpp"
+#include "../Services/FramebufferService.hpp"
 
 #include <memory>
 
@@ -36,8 +35,7 @@ namespace Commands {
 		bool m_bool_value;
 		Enums::ConfigsModifier m_configs_modifier;
 		std::shared_ptr<Services::StateService> m_state_service;
-		std::shared_ptr<Services::LoaderService> m_loader_service;
-		std::shared_ptr < Services::RunTimeService> m_runtime_service;
+		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 
 	};
 }

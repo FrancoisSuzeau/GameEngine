@@ -44,6 +44,7 @@ namespace Views
 		void RenderBloomPannelModifier();
 		void RenderShadowPannelModifier();
 		void RenderSkyboxPannelModifier();
+		void RendererAntiAliasingModifier();
 		void RenderDebugModifier();
 		void RenderButtons();
 		void OnClose();
@@ -56,6 +57,7 @@ namespace Views
 		bool activate_debug;
 		bool active_skybox;
 		bool activate_shadow;
+		bool activate_multisample;
 		bool show;
 		
 	};
