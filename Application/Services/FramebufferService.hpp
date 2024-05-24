@@ -22,8 +22,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 
-		unsigned int GetTextureId(int id) const;
-		unsigned int GetTextureId() const;
+		unsigned int GetTextureId(Enums::FramebufferType type, int id) const;
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
@@ -42,28 +41,35 @@ namespace Services {
 
 		void SetFrameBufferDim();
 
-		void BuildScreenTexture(Enums::FramebufferType type);
-		void BuildMultisampleColorTexture();
-		void BuildPingPongTexture();
-		void BuildDepthMapTexture();
+		void BuildScreenTexture();
+		void BuildScreenFramebuffer();
+		void BuildBrighFramebuffer();
+		void BuildMultisampleColorTextures();
+
+		void BuildPingPongFramebuffers();
+		void BuildDepthMapFramebuffer();
 
 		void BuildNormalRenderFB();
 		void BuildMultiSampleRenderFB();
 
 		void CheckFramebufferStatus(std::string const framebuffer_name);
 
-		unsigned int m_color_texture_ids[2] = {0, 0};
+		unsigned int m_color_texture_id;
+		unsigned int m_bright_texture_id;
 		unsigned int m_ping_pong_textures_ids[2] = { 0, 0 };
 		unsigned int m_depth_map_texture_id;
-		unsigned int m_color_multisample_texture;
+		unsigned int m_color_multisample_texture_ids[2] = { 0, 0};
 
-		unsigned int m_color_texture_id;
+		unsigned int m_color_texture_ids[2] = {0, 0};
 
 		unsigned int m_color_fb;
+		unsigned int m_bright_fb;
 		unsigned int m_color_multisample_fb;
 		unsigned int m_render_fb;
 		unsigned int m_ping_pong_fb[2] = { 0, 0 };
 		unsigned int m_depth_map_fb;
+
+		GLuint m_attachments[2] = {0, 0};
 
 		
 

@@ -26,11 +26,16 @@ namespace Services
 		
 
 		m_color_fb = 0;
+		m_bright_fb = 0;
 		m_render_fb = 0;		
 		m_depth_map_fb = 0;
 		m_depth_map_texture_id = 0;
 		m_color_multisample_fb = 0;
-		m_color_multisample_texture = 0;
+		m_color_texture_id = 0;
+		m_bright_texture_id = 0;
+
+		m_attachments[0] = GL_COLOR_ATTACHMENT0;
+		m_attachments[1] = GL_COLOR_ATTACHMENT1;
 		
 	}
 	void FramebufferService::DeInit()
@@ -39,15 +44,31 @@ namespace Services
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
 	}
-	unsigned int FramebufferService::GetTextureId(int id) const
+	unsigned int FramebufferService::GetTextureId(Enums::FramebufferType type, int id) const
 	{
-		return m_color_texture_ids[id];
+		if (type == Enums::FramebufferType::MULTISAMPLECOLORBUFFER)
+		{
+			switch (id)
+			{
+			case 0:
+				return m_color_texture_id;
+				break;
+			case 1:
+				return m_bright_texture_id;
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (type == Enums::FramebufferType::NORMALCOLORBUFFER)
+		{
+			return m_color_texture_ids[id];
+		}
 		
+		return 0;
 	}
-	unsigned int FramebufferService::GetTextureId() const
-	{
-		return m_color_texture_id;
-	}
+
 	unsigned int FramebufferService::GetTextureId(bool horizontal) const
 	{
 		return m_ping_pong_textures_ids[horizontal];
@@ -65,42 +86,57 @@ namespace Services
 			for (int i = 0; i < 2; i++)
 			{
 				m_runtime_service->DeleteTexture(m_ping_pong_textures_ids[i]);
+				m_runtime_service->DeleteTexture(m_color_multisample_texture_ids[i]);
 				m_runtime_service->DeleteTexture(m_color_texture_ids[i]);
 			}
-
-			m_runtime_service->DeleteTexture(m_color_multisample_texture);
 			m_runtime_service->DeleteTexture(m_color_texture_id);
+			m_runtime_service->DeleteTexture(m_bright_texture_id);
+			m_runtime_service->DeleteTexture(m_depth_map_texture_id);
 
 			m_runtime_service->DeleteRenderBuffer(m_render_fb);
+
 			m_runtime_service->DeleteBuffer(m_color_fb);
 			m_runtime_service->DeleteBuffer(m_depth_map_fb);
-			m_runtime_service->DeleteTexture(m_depth_map_texture_id);
+			m_runtime_service->DeleteBuffer(m_color_multisample_fb);
+			m_runtime_service->DeleteBuffer(m_bright_fb);
 		}
 	}
 	
-	void FramebufferService::BuildDepthMapTexture()
+	void FramebufferService::BuildDepthMapFramebuffer()
 	{
-		glGenTextures(1, &m_depth_map_texture_id);
-
-		if (m_depth_map_texture_id != 0)
+		glGenFramebuffers(1, &m_depth_map_fb);
+		if (m_depth_map_fb != 0)
 		{
-			glBindTexture(GL_TEXTURE_2D, m_depth_map_texture_id);
-
-			if (glIsTexture(m_depth_map_texture_id) == GL_TRUE)
+			glBindFramebuffer(GL_FRAMEBUFFER, m_depth_map_fb);
+			if (glIsFramebuffer(m_depth_map_fb) == GL_TRUE)
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-					m_fb_width, m_fb_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+				glGenTextures(1, &m_depth_map_texture_id);
 
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth_map_texture_id, 0);
+				if (m_depth_map_texture_id != 0)
+				{
+					glBindTexture(GL_TEXTURE_2D, m_depth_map_texture_id);
 
-				glDrawBuffer(GL_NONE);
-				glReadBuffer(GL_NONE);
+					if (glIsTexture(m_depth_map_texture_id) == GL_TRUE)
+					{
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+							m_fb_width, m_fb_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-				glBindTexture(GL_TEXTURE_2D, 0);
+						glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth_map_texture_id, 0);
+
+						glDrawBuffer(GL_NONE);
+						glReadBuffer(GL_NONE);
+
+						glBindTexture(GL_TEXTURE_2D, 0);
+					}
+				}
+
+				this->CheckFramebufferStatus("Depth");
+
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 		}
 	}
@@ -108,18 +144,7 @@ namespace Services
 	{
 		this->SetFrameBufferDim();
 
-		glGenFramebuffers(1, &m_depth_map_fb);
-		if (m_depth_map_fb != 0)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_depth_map_fb);
-			if (glIsFramebuffer(m_depth_map_fb) == GL_TRUE)
-			{
-				this->BuildDepthMapTexture();
-				this->CheckFramebufferStatus("Depth framebuffer");
-
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
-		}
+		this->BuildDepthMapFramebuffer();
 
 		glGenFramebuffers(1, &m_color_fb);
 		if (m_color_fb != 0)
@@ -127,32 +152,21 @@ namespace Services
 			glBindFramebuffer(GL_FRAMEBUFFER, m_color_fb);
 			if (glIsFramebuffer(m_color_fb) == GL_TRUE)
 			{
-				this->BuildScreenTexture(Enums::FramebufferType::NORMALCOLORBUFFER);
+				this->BuildScreenTexture();
 				this->BuildNormalRenderFB();
-				this->CheckFramebufferStatus("Normal Color framebuffer");
+				this->CheckFramebufferStatus("Screen");
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 		}
 
-		this->BuildPingPongTexture();
+		this->BuildPingPongFramebuffers();
 	}
 
 	void FramebufferService::BuildMultiSampleFrameBuffer()
 	{
 		this->SetFrameBufferDim();
 
-		glGenFramebuffers(1, &m_depth_map_fb);
-		if (m_depth_map_fb != 0)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_depth_map_fb);
-			if (glIsFramebuffer(m_depth_map_fb) == GL_TRUE)
-			{
-				this->BuildDepthMapTexture();
-				this->CheckFramebufferStatus("Depth framebuffer");
-
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
-		}
+		this->BuildDepthMapFramebuffer();
 
 		glGenFramebuffers(1, &m_color_multisample_fb);
 		if (m_color_multisample_fb != 0)
@@ -160,27 +174,21 @@ namespace Services
 			glBindFramebuffer(GL_FRAMEBUFFER, m_color_multisample_fb);
 			if (glIsFramebuffer(m_color_multisample_fb) == GL_TRUE)
 			{
-				this->BuildMultisampleColorTexture();
+				this->BuildMultisampleColorTextures();
 				this->BuildMultiSampleRenderFB();
-				this->CheckFramebufferStatus("Multisample frame buffer");
+				this->CheckFramebufferStatus("Multi-sample");
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 
 		}
 
-		glGenFramebuffers(1, &m_color_fb);
-		if (m_color_fb != 0)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_color_fb);
-			if (glIsFramebuffer(m_color_fb) == GL_TRUE)
-			{
-				this->BuildScreenTexture(Enums::FramebufferType::MULTISAMPLECOLORBUFFER);
-				this->CheckFramebufferStatus("Normal Color framebuffer");
+		this->BuildScreenFramebuffer();
 
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
-		}
+		this->BuildBrighFramebuffer();
+
+		this->BuildPingPongFramebuffers();
+
 
 	}
 
@@ -188,6 +196,9 @@ namespace Services
 	{
 		switch (fb_type)
 		{
+		case Enums::FramebufferType::BIGHTFRAMEBUFFER:
+			glBindFramebuffer(GL_FRAMEBUFFER, m_bright_fb);
+			break;
 		case Enums::FramebufferType::NORMALCOLORBUFFER:
 			glBindFramebuffer(GL_FRAMEBUFFER, m_color_fb);
 			break;
@@ -206,6 +217,14 @@ namespace Services
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_color_multisample_fb);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_color_fb);
+		glReadBuffer(m_attachments[0]);
+		glDrawBuffers(2, m_attachments);
+		glBlitFramebuffer(0, 0, m_fb_width, m_fb_height, 0, 0, m_fb_width, m_fb_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_color_multisample_fb);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_bright_fb);
+		glReadBuffer(m_attachments[1]);
+		glDrawBuffers(2, m_attachments);
 		glBlitFramebuffer(0, 0, m_fb_width, m_fb_height, 0, 0, m_fb_width, m_fb_height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	}
 
@@ -227,62 +246,100 @@ namespace Services
 			m_fb_height = m_state_service->getHeight();
 		}
 	}
-	void FramebufferService::BuildScreenTexture(Enums::FramebufferType type)
+	void FramebufferService::BuildScreenTexture()
 	{
-		switch (type)
+		glGenTextures(2, m_color_texture_ids);
+		for (int i = 0; i < 2; i++)
 		{
-		case Enums::NORMALCOLORBUFFER:
-			glGenTextures(2, m_color_texture_ids);
-			for (int i = 0; i < 2; i++)
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_color_texture_ids[i]);
+			if (glIsTexture(m_color_texture_ids[i]) == GL_TRUE)
 			{
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, m_color_texture_ids[i]);
-				if (glIsTexture(m_color_texture_ids[i]) == GL_TRUE)
-				{
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_color_texture_ids[i], 0);
-
-					glActiveTexture(GL_TEXTURE0 + i);
-					glBindTexture(GL_TEXTURE_2D, 0);
-				}
-			}
-			break;
-		case Enums::MULTISAMPLECOLORBUFFER:
-			glGenTextures(1, &m_color_texture_id);
-			glBindTexture(GL_TEXTURE_2D, m_color_texture_id);
-			if (glIsTexture(m_color_texture_id) == GL_TRUE)
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_color_texture_id, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_color_texture_ids[i], 0);
+
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
-			break;
-		case Enums::DEPTHBUFFER:
-		default:
-			break;
 		}
 	}
-	void FramebufferService::BuildMultisampleColorTexture()
+	void FramebufferService::BuildScreenFramebuffer()
 	{
-		glGenTextures(1, &m_color_multisample_texture);
-		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_color_multisample_texture);
-		if (glIsTexture(m_color_multisample_texture) == GL_TRUE)
+		glGenFramebuffers(1, &m_color_fb);
+		if (m_color_fb != 0)
 		{
-			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, m_fb_width, m_fb_height, GL_TRUE);
-			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+			glBindFramebuffer(GL_FRAMEBUFFER, m_color_fb);
+			if (glIsFramebuffer(m_color_fb) == GL_TRUE)
+			{
+				glGenTextures(1, &m_color_texture_id);
+				glBindTexture(GL_TEXTURE_2D, m_color_texture_id);
+				if (glIsTexture(m_color_texture_id) == GL_TRUE)
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, m_color_multisample_texture, 0);
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_color_texture_id, 0);
+				}
+
+				this->CheckFramebufferStatus("Screen");
+
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+		}
+		
+	}
+	void FramebufferService::BuildBrighFramebuffer()
+	{
+		glGenFramebuffers(1, &m_bright_fb);
+		if (m_bright_fb != 0)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, m_bright_fb);
+			if (glIsFramebuffer(m_bright_fb) == GL_TRUE)
+			{
+				glGenTextures(1, &m_bright_texture_id);
+				glBindTexture(GL_TEXTURE_2D, m_bright_texture_id);
+				if (glIsTexture(m_bright_texture_id) == GL_TRUE)
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_bright_texture_id, 0);
+				}
+
+				this->CheckFramebufferStatus("Bright");
+
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
 		}
 	}
-	void FramebufferService::BuildPingPongTexture()
+	void FramebufferService::BuildMultisampleColorTextures()
+	{
+		glGenTextures(2, m_color_multisample_texture_ids);
+		for (int i = 0; i < 2; i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_color_multisample_texture_ids[i]);
+			if (glIsTexture(m_color_multisample_texture_ids[i]) == GL_TRUE)
+			{
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, m_fb_width, m_fb_height, GL_TRUE);
+				glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D_MULTISAMPLE, m_color_multisample_texture_ids[i], 0);
+
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+		}
+	}
+	void FramebufferService::BuildPingPongFramebuffers()
 	{
 		glGenFramebuffers(2, m_ping_pong_fb);
 
@@ -291,23 +348,30 @@ namespace Services
 		for (unsigned int i = 0; i < 2; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, m_ping_pong_fb[i]);
+			if (glIsFramebuffer(m_ping_pong_fb[i]) == GL_TRUE)
+			{
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, m_ping_pong_textures_ids[i]);
 
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_ping_pong_textures_ids[i]);
+				if (glIsTexture(m_color_multisample_texture_ids[i]) == GL_TRUE)
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ping_pong_textures_ids[i], 0);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ping_pong_textures_ids[i], 0);
+					glActiveTexture(GL_TEXTURE0 + i);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+				
+				this->CheckFramebufferStatus("Ping-pong " + std::to_string(i));
 
-			this->CheckFramebufferStatus("Normal Ping-pong framebuffer");
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
 
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			
 		}
 	}
 	
@@ -344,9 +408,8 @@ namespace Services
 
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-				// Tell OpenGL we need to draw to both attachments
-				unsigned int attachments[1] = { GL_COLOR_ATTACHMENT0};
-				glDrawBuffers(1, attachments);
+				unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+				glDrawBuffers(2, attachments);
 			}
 		}
 	}

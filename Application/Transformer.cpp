@@ -17,7 +17,7 @@ namespace Component
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			if (component && shader_service && state_service)
+			if (component && shader_service && state_service && state_service->getConfigs())
 			{
 				bool render_bloom = state_service->getConfigs()->GetBloom();
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
@@ -29,18 +29,21 @@ namespace Component
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
 				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
-				shader_service->setFloat(shader_name, "alpha_strength", render_bloom ? 0.2f : 0.8f);
+				
 				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
 				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());
 				if (render_bloom)
 				{
 					shader_service->setInt(shader_name, "bloom", 1);
 					shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
+					shader_service->setFloat(shader_name, "alpha_strength", state_service->getConfigs()->GetMultiSample() ? 0.5f : 0.2f);
 				}
 				else
 				{
 					shader_service->setInt(shader_name, "bloom", 0);
 					shader_service->setInt(shader_name, "horizontal", false);
+					shader_service->setFloat(shader_name, "alpha_strength", 0.8f);
+
 				}
 
 				state_service.reset();

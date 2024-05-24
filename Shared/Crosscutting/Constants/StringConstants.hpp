@@ -39,7 +39,7 @@ namespace Constants {
 	std::string const TEXTURED_SPHERE_SHADER = "sphere_textured";
 	std::string const HOVER_SHADER = "hover";
 	std::string const SCREEN_SHADER = "screen_shader";
-	std::string const BLOOM_SHADER = "bloom_shader";
+	std::string const GAUSSIAN_BLUR_SHADER = "gaussian_blur";
 	std::string const DEPTH_SHADER = "depth_mapping_shader";
 	std::string const GRID_SHADER = "grid";
 	std::string const SKYBOX_SHADER = "skybox";
