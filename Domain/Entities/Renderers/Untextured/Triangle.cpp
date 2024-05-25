@@ -102,8 +102,11 @@ namespace Renderers {
 							glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 							if (glIsBuffer(m_ebo) == GL_TRUE)
 							{
-								glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+								glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 								glEnableVertexAttribArray(0);
+
+								glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+								glEnableVertexAttribArray(1);
 
 								glBindVertexArray(0);
 								glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -121,9 +124,10 @@ namespace Renderers {
 		
 		m_vertices =
 		{
-			-1.0f, -1.0f, 0.f,
-			1.0f, -1.0f, 0.f,
-			0.f, 1.0f, 0.f
+			// positions         // normals
+			-1.0f, -1.0f, 0.f,   0.0f, 0.0f, 1.0f,
+			 1.0f, -1.0f, 0.f,   0.0f, 0.0f, 1.0f,
+			 0.f,  1.0f, 0.f,   0.0f, 0.0f, 1.0f
 		};
 
 		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);

@@ -120,6 +120,7 @@ namespace Services
 	{
 		std::vector<json> renderers_json_format;
 		std::string selected_skybox;
+		float ambiant_occlusion;
 		if (scene)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = scene->GetSceneComponents();
@@ -131,16 +132,19 @@ namespace Services
 					{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
 					{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
 					{"texture_name", it[0]->GetTextureName()},
-					{"mixe_texture_color", it[0]->GetMixeTextureColor()}
+					{"mixe_texture_color", it[0]->GetMixeTextureColor()},
+					{"is_light_source", it[0]->GetIsALightSource()}
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
 			selected_skybox = scene->GetSelectedSkybox();
+			ambiant_occlusion = scene->GetAmbiantOcclusion();
 		}
 		json j = 
 		{ 
 			{"components", renderers_json_format},
-			{"selected_skybox", selected_skybox}
+			{"selected_skybox", selected_skybox},
+			{"ambiant_occlusion", ambiant_occlusion}
 		};
 		return std::make_unique<json>(j);
 	}
@@ -181,19 +185,20 @@ namespace Services
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
 				std::string texture_name = this->GetStringNode(std::make_unique<json>(*it), "texture_name");
 				bool mixe = this->GetBoolNode(std::make_unique<json>(*it), "mixe_texture_color");
+				bool is_light_source = this->GetBoolNode(std::make_unique<json>(*it), "is_light_source");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
-					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color));
+					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
-					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe));
+					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source));
 					break;
 				default:
 					break;
@@ -203,6 +208,7 @@ namespace Services
 
 		scene->SetSceneComponents(components);
 		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
+		scene->SetAmbiantOcclusion(this->GetFloatNode(Enums::JsonType::Scene, "ambiant_occlusion"));
 		return scene;
 	}
 

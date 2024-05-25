@@ -154,6 +154,16 @@ namespace Views
 					ImGui::SameLine((float)img_size + 20.f);
 				}
 				ImGui::Text(" ");
+
+				if (m_state_service->GeUniqueLightSource() != nullptr && m_state_service->GetScene())
+				{
+					ImGui::Separator();
+					float ambiant = m_state_service->GetScene()->GetAmbiantOcclusion();
+					if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.1f, 0.9f, "%.3f"))
+					{
+						m_state_service->GetScene()->SetAmbiantOcclusion(ambiant);
+					}
+				}
 			}
 
 			ImGui::EndChild();
@@ -346,14 +356,22 @@ namespace Views
 
 				ImGui::Text(" ");
 				bool mixe_texture = selected_renderer->GetMixeTextureColor();
-				if (ImGui::Checkbox("Mixe texture and color :", &mixe_texture))
+				if (ImGui::Checkbox("Mixe texture and color", &mixe_texture))
 				{
 					selected_renderer->SetMixeTextureColor(mixe_texture);
 				}
+
+				ImGui::SameLine();
 			}
 				break;
 			default:
 				break;
+			}
+
+			bool is_light_source = selected_renderer->GetIsALightSource();
+			if (ImGui::Checkbox("Is a light source", &is_light_source))
+			{
+				selected_renderer->SetIsALigthSource(is_light_source);
 			}
 			
 		}

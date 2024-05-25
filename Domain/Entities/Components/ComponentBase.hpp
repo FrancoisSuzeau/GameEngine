@@ -12,7 +12,7 @@ namespace Component
 	class ComponentBase : public IComponent
 	{
 	public:
-		ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color);
+		ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, bool const is_light_source);
 
 		
 		void Clean() override;

@@ -5,8 +5,23 @@ layout (location = 1) out vec4 BrightColor;
 uniform vec4 background_color;
 in vec3 TexCoords;
 uniform bool mixe_texture_color;
+uniform bool is_light_source;
+uniform bool there_is_light;
+uniform float ambiant_strength;
 
 uniform sampler2D texture0;
+
+vec4 GetMixedColor(vec4 object_texture)
+{
+    if(mixe_texture_color)
+    {
+        return vec4(mix(object_texture.rgb, background_color.rgb, background_color.a) * object_texture.a, 1.0);
+    }
+    else
+    {
+        return object_texture;
+    }
+}
 
 void main()
 {    
@@ -14,18 +29,37 @@ void main()
                                   (asin(TexCoords.y) / 3.1415926 + 0.5));
 
     vec4 objectTexture = texture(texture0, longitudeLatitude);
-    if(mixe_texture_color)
+
+    if(is_light_source)
     {
-        FragColor = vec4(mix(objectTexture.rgb, background_color.rgb, background_color.a) * objectTexture.a, 1.0);
+        FragColor = GetMixedColor(objectTexture);
+    
+        float brightness = dot(objectTexture.rgb, vec3(0.2126, 0.7152, 0.0722));
+        if(brightness > 0.f)
+        {
+            BrightColor = vec4(objectTexture.rgb, 1.0);
+        }
+            
+        else
+        {
+            BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
     }
     else
     {
-        FragColor = objectTexture;
+        if(there_is_light)
+        {
+            vec3 ambiant = ambiant_strength * vec3(1.f);
+            vec4 result = GetMixedColor(objectTexture);
+            vec3 final_result = ambiant * result.rgb;
+            FragColor = vec4(final_result, result.a);
+        }
+        else
+        {
+            FragColor = GetMixedColor(objectTexture);
+
+        }
+        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
     
-    float brightness = dot(objectTexture.rgb, vec3(0.2126, 0.7152, 0.0722));
-    if(brightness > 2.0)
-        BrightColor = vec4(objectTexture.rgb, 1.0);
-    else
-        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }

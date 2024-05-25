@@ -226,6 +226,24 @@ namespace Services
 		return m_selected_component;
 	}
 
+	std::shared_ptr<Component::IComponent> StateService::GeUniqueLightSource() const
+	{
+		std::shared_ptr<Component::IComponent> light_source = nullptr;
+
+		if (m_scene)
+		{
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_scene->GetSceneComponents();
+			auto result = std::find_if(components.begin(), components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetIsALightSource() == true; });
+
+			if (result != components.end())
+			{
+				light_source = *result;
+			}
+		}
+
+		return light_source;
+	}
+
 	int StateService::GetTotalRessources() const
 	{
 		if (m_configs)

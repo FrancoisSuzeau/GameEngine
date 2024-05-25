@@ -6,7 +6,7 @@
 #include "TexturedComponent.hpp"
 
 namespace Component {
-	TexturedComponent::TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, std::string texture_name, bool mixe) : m_texture_id(0), m_texture_name(texture_name), 
+	TexturedComponent::TexturedComponent(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, std::string const texture_name, bool const mixe, bool const is_light_source) : m_texture_id(0), m_texture_name(texture_name),
 		m_mixe_texture_and_color(mixe)
 	{
 		m_type = type;
@@ -19,6 +19,7 @@ namespace Component {
 		m_angle = 0.f;
 		m_horizontal = true;
 		m_back_ground_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		m_is_light_source = is_light_source;
 	}
 
 	void TexturedComponent::Clean()

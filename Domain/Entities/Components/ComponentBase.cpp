@@ -7,7 +7,7 @@
 
 namespace Component
 {
-	ComponentBase::ComponentBase(glm::vec3 position, glm::vec3 size, Enums::RendererType type, glm::vec4 color) 
+	ComponentBase::ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, bool const is_light_source)
 	{
 		m_type = type;
 
@@ -18,6 +18,7 @@ namespace Component
 		m_selected = false;
 		m_angle = 0.f;
 		m_back_ground_color = color;
+		m_is_light_source = is_light_source;
 	}
 
 	void ComponentBase::Clean()

@@ -17,18 +17,30 @@ namespace Component
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			if (component && shader_service && state_service && state_service->getConfigs())
+			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene())
 			{
 				bool render_bloom = state_service->getConfigs()->GetBloom();
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
 				shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", component->GetModelMat());
+				shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
+				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
+				if (unique_light_source != nullptr)
+				{
+					shader_service->setVec(shader_name, "light_pos", unique_light_source->GetPosition());
+
+					shader_service->setVec(shader_name, "light_color", glm::vec3(unique_light_source->GetBackgroundColor().x, unique_light_source->GetBackgroundColor().y, unique_light_source->GetBackgroundColor().z));
+				}
+				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
+				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
 				PutViewMapIntoShader(shader_service, shader_name);
 				shader_service->setMat4(shader_name, "projection", state_service->GetPerspectiveProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
 				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
+				shader_service->setFloat(shader_name, "ambiant_strength", state_service->GetScene()->GetAmbiantOcclusion());
+
 				
 				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
 				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());

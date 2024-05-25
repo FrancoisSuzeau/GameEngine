@@ -118,6 +118,15 @@ namespace Component {
 			m_back_ground_color = new_bacground_color;
 		}
 
+		virtual void SetIsALigthSource(bool const is_light_source) 
+		{
+			m_is_light_source = is_light_source; 
+		}
+		virtual bool GetIsALightSource() const 
+		{
+			return m_is_light_source; 
+		}
+
 	protected:
 		Enums::RendererType m_type;
 
@@ -128,6 +137,7 @@ namespace Component {
 		bool m_selected;
 		float m_angle;
 		glm::vec4 m_back_ground_color;
+		bool m_is_light_source;
 
 		
 

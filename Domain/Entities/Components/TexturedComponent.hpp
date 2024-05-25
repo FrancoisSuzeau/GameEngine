@@ -13,7 +13,7 @@ namespace Component
 	class TexturedComponent : public IComponent
 	{
 	public:
-		TexturedComponent(glm::vec3 position, glm::vec3 size, Enums::RendererType type, std::string texture_name, bool mixe);
+		TexturedComponent(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, std::string const texture_name, bool const mixe, bool const is_light_source);
 		unsigned int GetTextureId() const override;
 		void Clean() override;
 		bool GetHorizontal() override;
