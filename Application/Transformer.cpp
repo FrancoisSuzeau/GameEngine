@@ -17,7 +17,14 @@ namespace Component
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene())
+
+			std::shared_ptr<Services::CameraService> camera_service = container->GetReference<Services::CameraService>();
+			if (!camera_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service)
 			{
 				bool render_bloom = state_service->getConfigs()->GetBloom();
 				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
@@ -29,18 +36,18 @@ namespace Component
 				if (unique_light_source != nullptr)
 				{
 					shader_service->setVec(shader_name, "light_pos", unique_light_source->GetPosition());
-
 					shader_service->setVec(shader_name, "light_color", glm::vec3(unique_light_source->GetBackgroundColor().x, unique_light_source->GetBackgroundColor().y, unique_light_source->GetBackgroundColor().z));
 				}
 				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
 				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
-				PutViewMapIntoShader(shader_service, shader_name);
+				PutViewMapIntoShader(shader_service, shader_name, camera_service);
 				shader_service->setMat4(shader_name, "projection", state_service->GetPerspectiveProjectionMatrix());
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
 				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
 				shader_service->setFloat(shader_name, "ambiant_strength", state_service->GetScene()->GetAmbiantOcclusion());
 
+				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
 				
 				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
 				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());
@@ -59,6 +66,7 @@ namespace Component
 				}
 
 				state_service.reset();
+				camera_service.reset();
 			}
 			
 		}
@@ -106,26 +114,21 @@ namespace Component
 			component->SetModelMat(glm::mat4(1.f));
 		}
 	}
-	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name, std::shared_ptr<Services::CameraService> camera_service)
 	{
-		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
-		if (container)
+		if (camera_service)
 		{
-			std::shared_ptr<Services::CameraService> camera_service = container->GetReference<Services::CameraService>();
-			if (camera_service)
+			if (shader_name == Constants::SKYBOX_SHADER)
 			{
-				if (shader_name == Constants::SKYBOX_SHADER)
-				{
-					shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(camera_service->GetCameraView())));
-				}
-				else
-				{
-					shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
-					
-				}
-
-				camera_service.reset();
+				shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(camera_service->GetCameraView())));
 			}
+			else
+			{
+				shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
+
+			}
+
+			camera_service.reset();
 		}
 	}
 }

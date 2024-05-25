@@ -26,7 +26,7 @@ namespace Component
 		static void Rotate(std::shared_ptr<Component::IComponent> component, glm::vec3 axis);
 		static void ReinitModelMat(std::shared_ptr<Component::IComponent> component);
 	private:
-		static void PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
+		static void PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name, std::shared_ptr<Services::CameraService> camera_service);
 	
 	};
 }
