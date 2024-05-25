@@ -12,6 +12,7 @@ namespace Renderers {
         m_bytes_vertices_size = 0;
         m_bytes_indices_size = 0;
         m_bytes_textcoord_size = 0;
+        m_bytes_normals_size = 0;
     }
     TriangleTextured::~TriangleTextured()
     {
@@ -39,14 +40,14 @@ namespace Renderers {
                     glBindTexture(GL_TEXTURE_2D, texture_id);
                     if (glIsTexture(texture_id) == GL_TRUE)
                     {
-                        glDrawArrays(GL_TRIANGLES, 0, 3);
+                        glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
 
                         glBindTexture(GL_TEXTURE_2D, 0);
                     }
                 }
                 else
                 {
-                    glDrawArrays(GL_TRIANGLES, 0, 3);
+                    glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
                 }
 
                 glBindVertexArray(0);
@@ -66,6 +67,11 @@ namespace Renderers {
             glGenVertexArrays(1, &m_vao);
         }
 
+        if (m_ebo == 0)
+        {
+            glGenBuffers(1, &m_ebo);
+        }
+
         if (m_vbo != 0)
         {
             glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -83,6 +89,17 @@ namespace Renderers {
             }
         }
 
+        if (m_ebo != 0)
+        {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+            if (glIsBuffer(m_ebo) == GL_TRUE)
+            {
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, 0, GL_STATIC_DRAW);
+                glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_bytes_indices_size, m_indices.data());
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            }
+        }
+
         if (m_vao != 0)
         {
             glBindVertexArray(m_vao);
@@ -94,15 +111,26 @@ namespace Renderers {
                     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
                     if (glIsBuffer(m_vbo) == GL_TRUE)
                     {
-                        glEnableVertexAttribArray(0);
-                        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+                        if (m_ebo != 0)
+                        {
+                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+                            if (glIsBuffer(m_ebo) == GL_TRUE)
+                            {
+                                glEnableVertexAttribArray(0);
+                                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
-                        glEnableVertexAttribArray(1);
-                        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+                                glEnableVertexAttribArray(1);
+                                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
 
-                        glEnableVertexAttribArray(2);
-                        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size + m_bytes_normals_size));
-                        glBindBuffer(GL_ARRAY_BUFFER, 0);
+                                glEnableVertexAttribArray(2);
+                                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size + m_bytes_normals_size));
+
+                                glBindVertexArray(0);
+                                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+                            }
+                        }
 
                     }
                 }
@@ -134,6 +162,15 @@ namespace Renderers {
             1.0f, 0.0f,  // lower-right corner
             0.5f, 1.0f   // top-center corner
         };
+
+        m_indices =
+        {
+            0,
+            1,
+            2
+        };
+
+        m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
 
         m_bytes_textcoord_size = (unsigned int)(m_texture_coord.size() * sizeof(GLfloat));
         m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);

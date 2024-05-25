@@ -12,6 +12,7 @@ namespace Renderers {
         m_bytes_vertices_size = 0;
         m_bytes_indices_size = 0;
         m_bytes_textcoord_size = 0;
+        m_bytes_normals_size = 0;
     }
     CubeTextured::~CubeTextured()
     {

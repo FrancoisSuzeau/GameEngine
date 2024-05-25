@@ -13,6 +13,7 @@ namespace Renderers {
 		m_ebo = 0;
 		m_bytes_vertices_size = 0;
 		m_bytes_indices_size = 0;
+		m_bytes_normals_size = 0;
 	}
 
 	Square::~Square()

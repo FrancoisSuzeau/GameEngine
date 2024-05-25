@@ -9,7 +9,7 @@ namespace Renderers {
 	{
 		m_vbo = 0;
 		m_vao = 0;
-		m_bytes_textcoord_size = 0;
+		
 		m_bytes_vertices_size = 0;
 		m_bytes_textcoord_size = 0;
 	}
