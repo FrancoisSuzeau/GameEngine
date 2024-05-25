@@ -40,9 +40,7 @@ void main()
 
             vec3 norm = normalize(fs_in.Normal);
             vec3 light_dir = normalize(light_pos - fs_in.FragPos);
-
             float diff = max(dot(norm, light_dir), 0.f);
-
             vec3 diffuse = diff * light_color;
 
             vec3 result = (ambiant + diffuse) * background_color.rgb;

@@ -9,6 +9,17 @@ uniform bool is_light_source;
 uniform bool there_is_light;
 uniform float ambiant_strength;
 
+in VS_OUT 
+{
+    vec3 Normal;
+    vec3 FragPos;
+    vec3 TexCoords;
+
+} fs_in;
+
+uniform vec3 light_pos;
+uniform vec3 light_color;
+
 uniform sampler2D texture0;
 
 vec4 GetMixedColor(vec4 object_texture)
@@ -25,8 +36,8 @@ vec4 GetMixedColor(vec4 object_texture)
 
 void main()
 {    
-    vec2 longitudeLatitude = vec2((atan(TexCoords.x, TexCoords.z) / 3.1415926 + 1.0) * 0.5,
-                                  (asin(TexCoords.y) / 3.1415926 + 0.5));
+    vec2 longitudeLatitude = vec2((atan(fs_in.TexCoords.x, fs_in.TexCoords.z) / 3.1415926 + 1.0) * 0.5,
+                                  (asin(fs_in.TexCoords.y) / 3.1415926 + 0.5));
 
     vec4 objectTexture = texture(texture0, longitudeLatitude);
 
@@ -49,9 +60,15 @@ void main()
     {
         if(there_is_light)
         {
-            vec3 ambiant = ambiant_strength * vec3(1.f);
+            vec3 ambiant = ambiant_strength * light_color;
+
+            vec3 norm = normalize(fs_in.Normal);
+            vec3 light_dir = normalize(light_pos - fs_in.FragPos);
+            float diff = max(dot(norm, light_dir), 0.f);
+            vec3 diffuse = diff * light_color;
+
             vec4 result = GetMixedColor(objectTexture);
-            vec3 final_result = ambiant * result.rgb;
+            vec3 final_result = (ambiant + diffuse) * result.rgb;
             FragColor = vec4(final_result, result.a);
         }
         else
