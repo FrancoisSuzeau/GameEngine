@@ -44,29 +44,20 @@ namespace Services
 		SQ_APP_DEBUG("Framebuffer service terminated");
 
 	}
-	unsigned int FramebufferService::GetTextureId(Enums::FramebufferType type, int id) const
+	unsigned int FramebufferService::GetTextureId(int id) const
 	{
-		if (type == Enums::FramebufferType::MULTISAMPLECOLORBUFFER)
+		switch (id)
 		{
-			switch (id)
-			{
-			case 0:
-				return m_color_texture_id;
-				break;
-			case 1:
-				return m_bright_texture_id;
-				break;
-			default:
-				break;
-			}
+		case 0:
+			return m_color_texture_id;
+			break;
+		case 1:
+			return m_bright_texture_id;
+			break;
+		default:
+			return 0;
+			break;
 		}
-
-		if (type == Enums::FramebufferType::NORMALCOLORBUFFER)
-		{
-			return m_color_texture_ids[id];
-		}
-		
-		return 0;
 	}
 
 	unsigned int FramebufferService::GetTextureId(bool horizontal) const
@@ -87,7 +78,6 @@ namespace Services
 			{
 				m_runtime_service->DeleteTexture(m_ping_pong_textures_ids[i]);
 				m_runtime_service->DeleteTexture(m_color_multisample_texture_ids[i]);
-				m_runtime_service->DeleteTexture(m_color_texture_ids[i]);
 			}
 			m_runtime_service->DeleteTexture(m_color_texture_id);
 			m_runtime_service->DeleteTexture(m_bright_texture_id);
@@ -248,25 +238,40 @@ namespace Services
 	}
 	void FramebufferService::BuildScreenTexture()
 	{
-		glGenTextures(2, m_color_texture_ids);
-		for (int i = 0; i < 2; i++)
+		glGenTextures(1, &m_color_texture_id);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_color_texture_id);
+		if (glIsTexture(m_color_texture_id) == GL_TRUE)
 		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_color_texture_ids[i]);
-			if (glIsTexture(m_color_texture_ids[i]) == GL_TRUE)
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_color_texture_ids[i], 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_color_texture_id, 0);
 
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		glGenTextures(1, &m_bright_texture_id);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, m_bright_texture_id);
+		if (glIsTexture(m_bright_texture_id) == GL_TRUE)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_bright_texture_id, 0);
+
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 	}
 	void FramebufferService::BuildScreenFramebuffer()
@@ -353,11 +358,11 @@ namespace Services
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, m_ping_pong_textures_ids[i]);
 
-				if (glIsTexture(m_color_multisample_texture_ids[i]) == GL_TRUE)
+				if (glIsTexture(m_ping_pong_textures_ids[i]) == GL_TRUE)
 				{
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ping_pong_textures_ids[i], 0);
@@ -370,8 +375,6 @@ namespace Services
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
-
-			
 		}
 	}
 	
@@ -390,8 +393,8 @@ namespace Services
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 				// Tell OpenGL we need to draw to both attachments
-				unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
-				glDrawBuffers(2, attachments);
+				glDrawBuffers(2, m_attachments);
+
 			}
 		}
 	}
@@ -408,8 +411,8 @@ namespace Services
 
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-				unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
-				glDrawBuffers(2, attachments);
+				// Tell OpenGL we need to draw to both attachments
+				glDrawBuffers(2, m_attachments);
 			}
 		}
 	}
@@ -418,7 +421,37 @@ namespace Services
 		auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 		if (status != GL_FRAMEBUFFER_COMPLETE)
 		{
-			SQ_APP_CRITICAL("{} frame buffer is not complete || Status : {}", framebuffer_name, status);
+			switch (status)
+			{
+			case GL_FRAMEBUFFER_UNDEFINED:
+				SQ_APP_CRITICAL("{} framebuffer is undefined", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete attachement", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete missing attachement", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete draw buffer", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete read buffer", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_UNSUPPORTED:
+				SQ_APP_CRITICAL("{} framebuffer is unsupported", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete multi-sample", framebuffer_name);
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+				SQ_APP_CRITICAL("{} framebuffer have incomplete layer targets", framebuffer_name);
+				break;
+			default:
+				SQ_APP_CRITICAL("{} framebuffer error undetermined", framebuffer_name);
+				break;
+			}
+			
 		}
 		else
 		{

@@ -35,9 +35,9 @@ namespace Services
 		void clearColor(glm::vec4 const colors);
 		void disable(GLenum const cap);
 		void clearBuffer(GLbitfield const masks);
-		void deleteTexture(unsigned int texture_id);
-		void deleteBuffer(unsigned int buffer_id);
-		void deleteRenderBuffer(unsigned int render_buffer_id);
+		void deleteTexture(unsigned int &texture_id);
+		void deleteBuffer(unsigned int &buffer_id);
+		void deleteRenderBuffer(unsigned int &render_buffer_id);
 		void writeStencilMask(GLuint const mask);
 		void stencilFunc(GLenum const func, int const ref, GLuint const mask);
 	};

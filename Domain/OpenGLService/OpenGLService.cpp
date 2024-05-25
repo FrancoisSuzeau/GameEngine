@@ -91,27 +91,30 @@ namespace Services
         glClear(masks);
     }
 
-    void OpenGLService::deleteTexture(unsigned int texture_id)
+    void OpenGLService::deleteTexture(unsigned int &texture_id)
     {
         if (texture_id != 0)
         {
             glDeleteTextures(1, &texture_id);
+            texture_id = 0;
         }
     }
 
-    void OpenGLService::deleteBuffer(unsigned int buffer_id)
+    void OpenGLService::deleteBuffer(unsigned int &buffer_id)
     {
         if (buffer_id != 0)
         {
             glDeleteFramebuffers(1, &buffer_id);
+            buffer_id = 0;
         }
     }
 
-    void OpenGLService::deleteRenderBuffer(unsigned int render_buffer_id)
+    void OpenGLService::deleteRenderBuffer(unsigned int &render_buffer_id)
     {
         if (render_buffer_id != 0)
         {
             glDeleteRenderbuffers(1, &render_buffer_id);
+            render_buffer_id = 0;
         }
     }
 

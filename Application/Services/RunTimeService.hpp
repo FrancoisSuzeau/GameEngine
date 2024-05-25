@@ -39,9 +39,9 @@ namespace Services {
 		void EnableDepthTest();
 		void DisableDepthTest();
 		void SetMinusSrcAlpha();
-		void DeleteTexture(unsigned int texture_id);
-		void DeleteBuffer(unsigned int buffer_id);
-		void DeleteRenderBuffer(unsigned int render_buffer_id);
+		void DeleteTexture(unsigned int &texture_id);
+		void DeleteBuffer(unsigned int &buffer_id);
+		void DeleteRenderBuffer(unsigned int &render_buffer_id);
 		void DisableWriteStencilBuffer();
 		void StencilFuncToWrite();
 		void StencilFuncToRead();

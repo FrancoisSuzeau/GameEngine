@@ -176,9 +176,7 @@ namespace Views
 				ImGui::Text(text_bloom_debug.c_str());
 				if (m_state_service->getConfigs()->GetBloom())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(
-						m_state_service->getConfigs()->GetMultiSample() ? Enums::FramebufferType::MULTISAMPLECOLORBUFFER : Enums::FramebufferType::NORMALCOLORBUFFER, 1), 
-						ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				std::string text_depth_debug = m_state_service->getConfigs()->GetDepth() ? "Depth back buffer" : "Depth back buffer (none)";
 				ImGui::Text(text_depth_debug.c_str());
