@@ -22,7 +22,7 @@ namespace Services {
 		void Init() override;
 		void DeInit() override;
 
-		unsigned int GetTextureId(Enums::FramebufferType type, int id) const;
+		unsigned int GetTextureId(int id) const;
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
@@ -59,8 +59,6 @@ namespace Services {
 		unsigned int m_ping_pong_textures_ids[2] = { 0, 0 };
 		unsigned int m_depth_map_texture_id;
 		unsigned int m_color_multisample_texture_ids[2] = { 0, 0};
-
-		unsigned int m_color_texture_ids[2] = {0, 0};
 
 		unsigned int m_color_fb;
 		unsigned int m_bright_fb;

@@ -188,8 +188,7 @@ namespace Engines
 					m_framebuffer_service->BindFramebuffer(horizontal);
 
 					Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::GAUSSIAN_BLUR_SHADER);
-					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(
-						m_state_service->getConfigs()->GetMultiSample() ? Enums::FramebufferType::MULTISAMPLECOLORBUFFER : Enums::FramebufferType::NORMALCOLORBUFFER, 1), 
+					m_screen_renderer->Draw(first_it, m_framebuffer_service->GetTextureId(1), 
 						m_framebuffer_service->GetTextureId(!horizontal));
 					if (first_it)
 					{
@@ -204,8 +203,7 @@ namespace Engines
 
 				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(
-					m_state_service->getConfigs()->GetMultiSample() ? Enums::FramebufferType::MULTISAMPLECOLORBUFFER : Enums::FramebufferType::NORMALCOLORBUFFER, 0),
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0),
 					m_framebuffer_service->GetTextureId((bool)!horizontal));
 				m_shader_service->UnbindShaderProgram();
 			}
@@ -213,8 +211,7 @@ namespace Engines
 			{
 				m_shader_service->BindShaderProgram(Constants::SCREEN_SHADER);
 				Component::Transformer::PutIntoShader(m_screen_component, m_shader_service, Constants::SCREEN_SHADER);
-				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(
-					m_state_service->getConfigs()->GetMultiSample() ? Enums::FramebufferType::MULTISAMPLECOLORBUFFER : Enums::FramebufferType::NORMALCOLORBUFFER, 0));
+				m_screen_renderer->Draw(m_framebuffer_service->GetTextureId(0));
 				m_shader_service->UnbindShaderProgram();
 			}
 
