@@ -82,9 +82,10 @@ namespace Renderers {
 
 			if (glIsBuffer(m_vbo) == GL_TRUE)
 			{
-				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_textcoord_size, 0, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size + m_bytes_textcoord_size, 0, GL_STATIC_DRAW);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
-				glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_vertices_size, m_texture_coord.data());
+				glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_normals_size, m_normals.data());
+				glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, m_bytes_textcoord_size, m_texture_coord.data());
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 		}
@@ -123,6 +124,9 @@ namespace Renderers {
 
 								glEnableVertexAttribArray(1);
 								glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+
+								glEnableVertexAttribArray(2);
+								glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size + m_bytes_normals_size));
 
 								glBindVertexArray(0);
 								glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -164,11 +168,14 @@ namespace Renderers {
 				m_texture_coord.push_back(n1 * m_radius);
 				m_texture_coord.push_back(n2 * m_radius);
 				m_texture_coord.push_back(n3 * m_radius);
+
+				m_normals.push_back(n1);
+				m_normals.push_back(n2);
+				m_normals.push_back(n3);
 			}
 		}
 
-		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
-		m_bytes_textcoord_size = (unsigned int)(m_texture_coord.size() * sizeof(GLfloat));
+		
 
 		for (unsigned int i = 0; i < m_long_seg; i++)
 		{
@@ -190,6 +197,9 @@ namespace Renderers {
 		}
 
 		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
+		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+		m_bytes_textcoord_size = (unsigned int)(m_texture_coord.size() * sizeof(GLfloat));
+		m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
 	}
 
 }

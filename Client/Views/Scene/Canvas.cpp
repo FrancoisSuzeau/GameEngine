@@ -87,10 +87,14 @@ namespace Views
 					}
 					if (m_shader_service)
 					{
-						m_shader_service->BindShaderProgram(shader_name);
-						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-						m_renderers.at(component->GetType())->Draw();
-						m_shader_service->UnbindShaderProgram();
+						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
+						{
+							m_shader_service->BindShaderProgram(shader_name);
+							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+							m_renderers.at(component->GetType())->Draw();
+							m_shader_service->UnbindShaderProgram();
+						}
+						
 					}
 
 					component.reset();
@@ -112,10 +116,14 @@ namespace Views
 					}
 					if (m_shader_service)
 					{
-						m_shader_service->BindShaderProgram(shader_name);
-						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-						m_renderers.at(component->GetType())->Draw(component->GetTextureId());
-						m_shader_service->UnbindShaderProgram();
+						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
+						{
+							m_shader_service->BindShaderProgram(shader_name);
+							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+							m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+							m_shader_service->UnbindShaderProgram();
+						}
+						
 					}
 
 					component.reset();
@@ -135,10 +143,14 @@ namespace Views
 					}
 					if (m_shader_service)
 					{
-						m_shader_service->BindShaderProgram(shader_name);
-						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-						m_renderers.at(component->GetType())->Draw(component->GetTextureId());
-						m_shader_service->UnbindShaderProgram();
+						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
+						{
+							m_shader_service->BindShaderProgram(shader_name);
+							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+							m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+							m_shader_service->UnbindShaderProgram();
+						}
+						
 					}
 
 					component.reset();

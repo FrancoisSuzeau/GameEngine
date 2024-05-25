@@ -1,7 +1,7 @@
 #version 450 core
 
 layout (location = 0) in vec3 obj_pos;
-layout (location = 2) in vec3 obj_normals;
+layout (location = 1) in vec3 obj_normals;
 
 uniform mat4 model;
 uniform mat4 view;

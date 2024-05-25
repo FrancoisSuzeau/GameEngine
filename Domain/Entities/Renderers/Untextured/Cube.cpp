@@ -120,44 +120,43 @@ namespace Renderers {
 	}
 	void Cube::Load()
 	{
-        m_vertices = {
-            // positions          
-            -1.0f,  1.0f, -1.0f,
+        m_vertices = {    
+            -1.0f,  1.0f, -1.0f, //Front face
             -1.0f, -1.0f, -1.0f,
              1.0f, -1.0f, -1.0f,
              1.0f, -1.0f, -1.0f,
              1.0f,  1.0f, -1.0f,
             -1.0f,  1.0f, -1.0f,
 
-            -1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f, //Back face
             -1.0f, -1.0f, -1.0f,
             -1.0f,  1.0f, -1.0f,
             -1.0f,  1.0f, -1.0f,
             -1.0f,  1.0f,  1.0f,
             -1.0f, -1.0f,  1.0f,
 
-             1.0f, -1.0f, -1.0f,
+             1.0f, -1.0f, -1.0f, //Top face
              1.0f, -1.0f,  1.0f,
              1.0f,  1.0f,  1.0f,
              1.0f,  1.0f,  1.0f,
              1.0f,  1.0f, -1.0f,
              1.0f, -1.0f, -1.0f,
 
-            -1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f, //Bottom face
             -1.0f,  1.0f,  1.0f,
              1.0f,  1.0f,  1.0f,
              1.0f,  1.0f,  1.0f,
              1.0f, -1.0f,  1.0f,
             -1.0f, -1.0f,  1.0f,
 
-            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f, //Left face
              1.0f,  1.0f, -1.0f,
              1.0f,  1.0f,  1.0f,
              1.0f,  1.0f,  1.0f,
             -1.0f,  1.0f,  1.0f,
             -1.0f,  1.0f, -1.0f,
 
-            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f, //Right face
             -1.0f, -1.0f,  1.0f,
              1.0f, -1.0f, -1.0f,
              1.0f, -1.0f, -1.0f,
@@ -165,7 +164,39 @@ namespace Renderers {
              1.0f, -1.0f,  1.0f
         };
 
-        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+        m_normals = 
+        {
+            0.0f,  0.0f, -1.0f,  // Front face
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+
+            0.0f,  0.0f,  1.0f,  // Back face
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+
+            0.0f,  1.0f,  0.0f,  // Top face
+            0.0f,  1.0f,  0.0f,
+            0.0f,  1.0f,  0.0f,
+            0.0f,  1.0f,  0.0f,
+
+            0.0f, -1.0f,  0.0f,  // Bottom face
+            0.0f, -1.0f,  0.0f,
+            0.0f, -1.0f,  0.0f,
+            0.0f, -1.0f,  0.0f,
+
+            -1.0f,  0.0f,  0.0f,  // Left face
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+
+             1.0f,  0.0f,  0.0f,  // Right face
+             1.0f,  0.0f,  0.0f,
+             1.0f,  0.0f,  0.0f,
+             1.0f,  0.0f,  0.0f
+        };
+
 
         for (int i = 0; i < m_vertices.size(); ++i)
         {
@@ -173,6 +204,8 @@ namespace Renderers {
         }
 
         m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
+        m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
+        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
 	}
 
 }

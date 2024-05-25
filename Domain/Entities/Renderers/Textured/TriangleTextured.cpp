@@ -71,10 +71,11 @@ namespace Renderers {
             glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
             if (glIsBuffer(m_vbo) == GL_TRUE)
             {
-                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_textcoord_size, 0, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size + m_bytes_textcoord_size, 0, GL_STATIC_DRAW);
 
                 glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
-                glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_textcoord_size, m_texture_coord.data());
+                glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_normals_size, m_normals.data());
+                glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, m_bytes_textcoord_size, m_texture_coord.data());
 
 
                 glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -97,7 +98,10 @@ namespace Renderers {
                         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
                         glEnableVertexAttribArray(1);
-                        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+                        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+
+                        glEnableVertexAttribArray(2);
+                        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size + m_bytes_normals_size));
                         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
                     }
@@ -116,7 +120,13 @@ namespace Renderers {
             0.f, 1.0f, 0.f
         };
      
-        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+        m_normals =
+        {
+            0.0f, 0.0f, 1.0f,  // top right
+            0.0f, 0.0f, 1.0f,  // bottom right
+            0.0f, 0.0f, 1.0f,  // bottom left
+            0.0f, 0.0f, 1.0f   // top left
+        };
 
 
         m_texture_coord = {
@@ -126,5 +136,7 @@ namespace Renderers {
         };
 
         m_bytes_textcoord_size = (unsigned int)(m_texture_coord.size() * sizeof(GLfloat));
+        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+        m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
     }
 }
