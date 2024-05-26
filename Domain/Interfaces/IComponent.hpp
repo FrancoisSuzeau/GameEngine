@@ -127,6 +127,15 @@ namespace Component {
 			return m_is_light_source; 
 		}
 
+		virtual void SetAmbiantOcclusion(float const ambiant_occlusion)
+		{
+			m_ambiant_occlusion = ambiant_occlusion;
+		}
+		float GetAmbiantOcclusion() const
+		{
+			return m_ambiant_occlusion;
+		}
+
 	protected:
 		Enums::RendererType m_type;
 
@@ -138,6 +147,7 @@ namespace Component {
 		float m_angle;
 		glm::vec4 m_back_ground_color;
 		bool m_is_light_source;
+		float m_ambiant_occlusion;
 
 		
 

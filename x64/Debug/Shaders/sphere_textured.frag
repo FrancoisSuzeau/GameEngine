@@ -37,21 +37,43 @@ vec4 GetMixedColor(vec4 object_texture)
 
 void main()
 {    
+    //Calculate the spherical longiture | latitude position of the fragment
     vec2 longitudeLatitude = vec2((atan(fs_in.TexCoords.x, fs_in.TexCoords.z) / 3.1415926 + 1.0) * 0.5,
                                   (asin(fs_in.TexCoords.y) / 3.1415926 + 0.5));
 
+    //Extract texture to fragment
     vec4 objectTexture = texture(texture0, longitudeLatitude);
 
-    if(is_light_source)
+    if(there_is_light)
     {
-        FragColor = GetMixedColor(objectTexture);
-    
-        float brightness = dot(objectTexture.rgb, vec3(0.2126, 0.7152, 0.0722));
-        if(brightness > 0.f)
+        //Ambiant
+        vec3 ambiant = ambiant_strength * light_color;
+        
+        //Diffuse
+        vec3 norm = normalize(fs_in.Normal);
+        vec3 light_dir = normalize(light_pos - fs_in.FragPos);
+        float diff = max(dot(norm, light_dir), 0.f);
+        vec3 diffuse = diff * light_color;
+
+        //Specular
+        float specular_strength = 0.5;
+        vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
+        vec3 reflect_dir = reflect(-light_dir, norm);  
+        float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
+        vec3 specular = specular_strength * spec * light_color;  
+
+        //Pass to framebuffer color 0 (normal output)
+        vec4 result = GetMixedColor(objectTexture);
+        vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
+        FragColor = vec4(final_result, result.a);
+
+        //Pass to framebuffer color 1 (bright output)
+        float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+        float is_light_source_f = is_light_source ? 0.f : 1.f;
+        if(brightness > is_light_source_f)
         {
-            BrightColor = vec4(objectTexture.rgb, 1.0);
+            BrightColor = vec4(FragColor.rgb, 1.0);
         }
-            
         else
         {
             BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
@@ -59,35 +81,8 @@ void main()
     }
     else
     {
-        if(there_is_light)
-        {
-            //Ambiant
-            vec3 ambiant = ambiant_strength * light_color;
-            
-            //Diffuse
-            vec3 norm = normalize(fs_in.Normal);
-            vec3 light_dir = normalize(light_pos - fs_in.FragPos);
-            float diff = max(dot(norm, light_dir), 0.f);
-            vec3 diffuse = diff * light_color;
+        FragColor = GetMixedColor(objectTexture);
 
-            //Specular
-            float specular_strength = 0.5;
-            vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
-            vec3 reflect_dir = reflect(-light_dir, norm);  
-            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);
-            vec3 specular = specular_strength * spec * light_color;  
-
-            //Final step
-            vec4 result = GetMixedColor(objectTexture);
-            vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
-            FragColor = vec4(final_result, result.a);
-        }
-        else
-        {
-            FragColor = GetMixedColor(objectTexture);
-
-        }
-        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
     
 }

@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	SceneEntity::SceneEntity() : m_selected_skybox(""), m_ambiant_occlusion(0.1f)
+	SceneEntity::SceneEntity() : m_selected_skybox("")
 	{
 
 	}
@@ -62,17 +62,5 @@ namespace Services {
 	{
 		m_selected_skybox = selected_skybox;
 	}
-
-	void SceneEntity::SetAmbiantOcclusion(float const ambiant_occlusion)
-	{
-		m_ambiant_occlusion = ambiant_occlusion;
-	}
-
-	float SceneEntity::GetAmbiantOcclusion() const
-	{
-		return m_ambiant_occlusion;
-	}
-
-
 
 }

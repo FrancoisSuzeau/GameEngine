@@ -155,15 +155,7 @@ namespace Views
 				}
 				ImGui::Text(" ");
 
-				if (m_state_service->GeUniqueLightSource() != nullptr && m_state_service->GetScene())
-				{
-					ImGui::Separator();
-					float ambiant = m_state_service->GetScene()->GetAmbiantOcclusion();
-					if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.1f, 0.9f, "%.3f"))
-					{
-						m_state_service->GetScene()->SetAmbiantOcclusion(ambiant);
-					}
-				}
+				
 			}
 
 			ImGui::EndChild();
@@ -372,6 +364,16 @@ namespace Views
 			if (ImGui::Checkbox("Is a light source", &is_light_source))
 			{
 				selected_renderer->SetIsALigthSource(is_light_source);
+			}
+
+			if (m_state_service->GeUniqueLightSource() != nullptr)
+			{
+				ImGui::Separator();
+				float ambiant = selected_renderer->GetAmbiantOcclusion();
+				if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.f, 0.9f, "%.3f"))
+				{
+					selected_renderer->SetAmbiantOcclusion(ambiant);
+				}
 			}
 			
 		}

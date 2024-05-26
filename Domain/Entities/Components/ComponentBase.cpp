@@ -7,7 +7,7 @@
 
 namespace Component
 {
-	ComponentBase::ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, bool const is_light_source)
+	ComponentBase::ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, bool const is_light_source, float const ambiant_occlusion)
 	{
 		m_type = type;
 
@@ -19,6 +19,7 @@ namespace Component
 		m_angle = 0.f;
 		m_back_ground_color = color;
 		m_is_light_source = is_light_source;
+		m_ambiant_occlusion = ambiant_occlusion;
 	}
 
 	void ComponentBase::Clean()

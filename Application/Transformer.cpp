@@ -45,7 +45,7 @@ namespace Component
 				shader_service->setTexture(shader_name, "texture0", 0);
 				shader_service->setTexture(shader_name, "texture1", 1);
 				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
-				shader_service->setFloat(shader_name, "ambiant_strength", state_service->GetScene()->GetAmbiantOcclusion());
+				shader_service->setFloat(shader_name, "ambiant_strength", component->GetAmbiantOcclusion());
 
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
 				

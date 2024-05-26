@@ -32,14 +32,12 @@ namespace Services {
 
 		std::string const GetSelectedSkybox();
 		void SetSelectedSkybox(std::string const selected_skybox);
-		void SetAmbiantOcclusion(float const ambiant_occlusion);
-		float GetAmbiantOcclusion() const;
+		
 		
 	private:
 
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string m_selected_skybox;
-		float m_ambiant_occlusion;
 	};
 }
 

@@ -104,25 +104,25 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f), false));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New triangle added");
 				break;
 			case Enums::RendererType::SPHERE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f), false));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New sphere added");
 				break;
 
 			case Enums::RendererType::CUBE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f), false));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New cube added");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f), false));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
 				SQ_APP_TRACE("New square added");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			{
-				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false, false);
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->PostAddingComponentToScene(component);
 				SQ_APP_TRACE("New textured cube added");
@@ -130,7 +130,7 @@ namespace Commands
 			break;
 			case Enums::RendererType::SQUARE_TEXTURED:
 			{
-				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false, false);
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->PostAddingComponentToScene(component);
 				SQ_APP_TRACE("New textured square added");
@@ -138,7 +138,7 @@ namespace Commands
 			break;
 			case Enums::RendererType::TRIANGLE_TEXTURED:
 			{
-				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false, false);
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->PostAddingComponentToScene(component);
 				SQ_APP_TRACE("New textured triangle added");
@@ -146,7 +146,7 @@ namespace Commands
 			break;
 			case Enums::RendererType::SPHERE_TEXTURED:
 			{
-				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE, false, false);
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
 				this->PostAddingComponentToScene(component);
 				SQ_APP_TRACE("New textured sphere added");
