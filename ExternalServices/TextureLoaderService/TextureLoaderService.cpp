@@ -136,6 +136,32 @@ namespace Services
 		return texture_id;
 	}
 
+	glm::vec4 TextureLoaderService::GetTextureColor(unsigned int texture_id)
+	{
+		if (texture_id != 0)
+		{
+			glBindTexture(GL_TEXTURE_2D, texture_id);
+			if (glIsTexture(texture_id) == GL_TRUE)
+			{
+				unsigned char pixel[4];
+
+				glReadPixels(0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				float r = pixel[0] / 255.f;
+				float g = pixel[1] / 255.f;
+				float b = pixel[2] / 255.f;
+				float a = pixel[3] / 255.f;
+
+				return glm::vec4(r, g, b, a);
+			}
+		}
+
+		return glm::vec4(0.f);
+
+	}
+
 	SDL_Surface* TextureLoaderService::LoadTexture(std::string path)
 	{
 		SDL_Surface* surface = nullptr;

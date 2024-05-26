@@ -13,6 +13,10 @@
 #include <SDL2/SDL_image.h>
 #include "ConfigEntity.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Logger.hpp"
 
 namespace Services {
@@ -29,6 +33,7 @@ namespace Services {
 
 		unsigned int BuildSkyboxTexture(std::string const skybox_path);
 		unsigned int BuildTexture(std::string const path);
+		glm::vec4 GetTextureColor(unsigned int texture_id);
 
 	private:
 

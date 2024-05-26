@@ -133,7 +133,8 @@ namespace Services
 					{"texture_name", it[0]->GetTextureName()},
 					{"mixe_texture_color", it[0]->GetMixeTextureColor()},
 					{"is_light_source", it[0]->GetIsALightSource()},
-					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()}
+					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()},
+					{"specular_shininess", it[0]->GetSpecularShininess()}
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
@@ -186,19 +187,20 @@ namespace Services
 				bool mixe = this->GetBoolNode(std::make_unique<json>(*it), "mixe_texture_color");
 				bool is_light_source = this->GetBoolNode(std::make_unique<json>(*it), "is_light_source");
 				float ambiant_occlusion = this->GetFloatNode(std::make_unique<json>(*it), "ambiant_occlusion");
+				int specular_shininess = this->GetIntNode(std::make_unique<json>(*it), "specular_shininess");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
-					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion));
+					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, specular_shininess));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
-					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion));
+					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, specular_shininess));
 					break;
 				default:
 					break;
@@ -363,7 +365,26 @@ namespace Services
 			if (node == 0)
 			{
 				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return 2;
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return node;
+		}
+		return 2;
+	}
+
+	int JsonLoaderService::GetIntNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name)
+	{
+		if (json_content)
+		{
+			json node = json_content->at(node_name);
+			json_content.reset();
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0;
+
 			}
 
 			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);

@@ -58,6 +58,7 @@ namespace Views
 		int current_tab;
 		std::vector<ImVec2> tabs_size;
 		std::string m_selected_skybox;
+		int GetPowerIndex(int specular_shininess);
 	};
 }
 

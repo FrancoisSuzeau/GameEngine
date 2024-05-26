@@ -65,7 +65,7 @@ namespace Views
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
-		tabs_size.push_back(ImVec2(0, 700));
+		tabs_size.push_back(ImVec2(0, 800));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -190,6 +190,19 @@ namespace Views
 			}
 		}
 		
+	}
+
+	int WorkBarComponent::GetPowerIndex(int specular_shininess)
+	{
+		int exponent = 0;
+
+		while (specular_shininess > 1)
+		{
+			specular_shininess /= 2;
+			++exponent;
+		}
+
+		return exponent;
 	}
 
 	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
@@ -352,14 +365,14 @@ namespace Views
 				{
 					selected_renderer->SetMixeTextureColor(mixe_texture);
 				}
-
-				ImGui::SameLine();
 			}
 				break;
 			default:
 				break;
 			}
 
+			ImGui::Separator();
+			ImGui::BulletText("Light Effects : ");
 			bool is_light_source = selected_renderer->GetIsALightSource();
 			if (ImGui::Checkbox("Is a light source", &is_light_source))
 			{
@@ -368,11 +381,21 @@ namespace Views
 
 			if (m_state_service->GeUniqueLightSource() != nullptr)
 			{
-				ImGui::Separator();
-				float ambiant = selected_renderer->GetAmbiantOcclusion();
-				if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.f, 0.9f, "%.3f"))
+				if (!selected_renderer->GetIsALightSource())
 				{
-					selected_renderer->SetAmbiantOcclusion(ambiant);
+					float ambiant = selected_renderer->GetAmbiantOcclusion();
+					if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.f, 0.9f, "%.3f"))
+					{
+						selected_renderer->SetAmbiantOcclusion(ambiant);
+					}
+
+					int specular_shininess = selected_renderer->GetSpecularShininess();
+					int index = this->GetPowerIndex(specular_shininess);
+					if (ImGui::SliderInt("Specular Shininess", &index, 1, 8, std::to_string(specular_shininess).c_str()))
+					{
+						specular_shininess = std::pow(2, index);
+						selected_renderer->SetSpecularShininess(specular_shininess);
+					}
 				}
 			}
 			

@@ -32,12 +32,9 @@ namespace Component
 				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
 				shader_service->setMat4(shader_name, "model", component->GetModelMat());
 				shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
+				shader_service->setInt(shader_name, "specular_shininess", component->GetSpecularShininess());
 				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
-				if (unique_light_source != nullptr)
-				{
-					shader_service->setVec(shader_name, "light_pos", unique_light_source->GetPosition());
-					shader_service->setVec(shader_name, "light_color", glm::vec3(unique_light_source->GetBackgroundColor().x, unique_light_source->GetBackgroundColor().y, unique_light_source->GetBackgroundColor().z));
-				}
+				SetLightParameters(unique_light_source, component, shader_service, shader_name);
 				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
 				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
 				PutViewMapIntoShader(shader_service, shader_name, camera_service);
@@ -129,6 +126,20 @@ namespace Component
 			}
 
 			camera_service.reset();
+		}
+	}
+	void Transformer::SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	{
+		if (unique_light_source != nullptr && component && shader_service)
+		{
+			shader_service->setVec(shader_name, "light_source_position", unique_light_source->GetPosition());
+			shader_service->setVec(shader_name, "light_source_inner_color", glm::vec3(unique_light_source->GetBackgroundColor().r, unique_light_source->GetBackgroundColor().g, unique_light_source->GetBackgroundColor().b));
+			Enums::RendererType type = unique_light_source->GetType();
+			bool is_textured = type == Enums::RendererType::CUBE_TEXTURED ||
+				type == Enums::RendererType::SPHERE_TEXTURED ||
+				type == Enums::RendererType::SQUARE_TEXTURED ||
+				type == Enums::RendererType::TRIANGLE_TEXTURED;
+			shader_service->setInt(shader_name, "is_light_source_textured", is_textured);
 		}
 	}
 }

@@ -7,7 +7,7 @@
 
 namespace Component {
 	TexturedComponent::TexturedComponent(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, std::string const texture_name,
-		bool const mixe, bool const is_light_source, float const ambiant_occlusion) : m_texture_id(0), m_texture_name(texture_name),
+		bool const mixe, bool const is_light_source, float const ambiant_occlusion, int const specular_shininess) : m_texture_id(0), m_texture_name(texture_name),
 		m_mixe_texture_and_color(mixe)
 	{
 		m_type = type;
@@ -22,6 +22,7 @@ namespace Component {
 		m_back_ground_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
 		m_is_light_source = is_light_source;
 		m_ambiant_occlusion = ambiant_occlusion;
+		m_specular_shininess = specular_shininess;
 	}
 
 	void TexturedComponent::Clean()
@@ -62,6 +63,16 @@ namespace Component {
 	void TexturedComponent::SetMixeTextureColor(const bool new_val)
 	{
 		m_mixe_texture_and_color = new_val;
+	}
+
+	void TexturedComponent::SetTextureColor(glm::vec4 const texture_color)
+	{
+		m_texture_color = texture_color;
+	}
+
+	glm::vec4 TexturedComponent::GetTextureColor() const
+	{
+		return m_texture_color;
 	}
 	
 	unsigned int TexturedComponent::GetTextureId() const

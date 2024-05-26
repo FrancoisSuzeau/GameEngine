@@ -131,11 +131,24 @@ namespace Component {
 		{
 			m_ambiant_occlusion = ambiant_occlusion;
 		}
-		float GetAmbiantOcclusion() const
+		virtual float GetAmbiantOcclusion() const
 		{
 			return m_ambiant_occlusion;
 		}
 
+		virtual void SetSpecularShininess(int const specular_shininess)
+		{
+			m_specular_shininess = specular_shininess;
+		}
+
+		virtual int GetSpecularShininess() const
+		{
+			return m_specular_shininess;
+		}
+
+		virtual void SetTextureColor(glm::vec4 const texture_color) {}
+		virtual glm::vec4 GetTextureColor() const { return glm::vec4(0.f); }
+ 
 	protected:
 		Enums::RendererType m_type;
 
@@ -148,6 +161,8 @@ namespace Component {
 		glm::vec4 m_back_ground_color;
 		bool m_is_light_source;
 		float m_ambiant_occlusion;
+		int m_specular_shininess;
+		glm::vec4 m_texture_color;
 
 		
 

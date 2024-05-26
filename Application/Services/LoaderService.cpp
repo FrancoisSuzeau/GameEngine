@@ -153,6 +153,7 @@ namespace Services
 			}
 
 			component->SetTextureId(texture_id);
+			component->SetTextureColor(m_texture_loader_service->GetTextureColor(texture_id));
 		}
 	}
 	void LoaderService::LoadSqueamishTexture()
