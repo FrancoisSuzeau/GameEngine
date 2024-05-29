@@ -22,7 +22,7 @@
 #include "../Services/RunTimeService.hpp"
 #include "../Services/FramebufferService.hpp"
 
-#include "Renderers/Textured/SquareTextured.hpp"
+#include "Renderers/Textured/Screen.hpp"
 #include "Components/TexturedComponent.hpp"
 
 #include "../Transformer.hpp"
@@ -49,7 +49,7 @@ namespace Engines
 		std::shared_ptr<Services::MouseInputService> m_mouse_input_service;
 		std::shared_ptr<Services::KeyboardInputService> m_keyboad_input_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
-		std::unique_ptr<Renderers::SquareTextured> m_screen_renderer;
+		std::unique_ptr<Renderers::Screen> m_screen_renderer;
 		std::shared_ptr<Component::TexturedComponent> m_screen_component;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		

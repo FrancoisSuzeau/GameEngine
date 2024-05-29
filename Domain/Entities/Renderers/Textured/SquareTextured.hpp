@@ -20,8 +20,7 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
-		void Draw(unsigned int const texture_id, unsigned int const ping_pong_texture) override;
-		void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) override;
+		void Draw(unsigned int const texture_id, unsigned int const light_src_texture_id) override;
 		void Draw(unsigned int texture_id) override;
 
 	private:

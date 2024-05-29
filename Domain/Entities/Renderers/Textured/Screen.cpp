@@ -1,47 +1,102 @@
 /******************************************************************************************************************************************/
-// File : SquareTextured.cpp
-// Purpose : Implementing the SquareTextured renderer
+// File : Screen.cpp
+// Purpose : Implementing the Screen renderer
 /******************************************************************************************************************************************/
-#include "SquareTextured.hpp"
+#include "Screen.hpp"
 
 namespace Renderers {
-	SquareTextured::SquareTextured()
+	Screen::Screen()
 	{
 		m_vbo = 0;
 		m_vao = 0;
-		
+
 		m_bytes_vertices_size = 0;
 		m_bytes_textcoord_size = 0;
 	}
-	SquareTextured::~SquareTextured()
+	Screen::~Screen()
 	{
 	}
-	void SquareTextured::Construct()
+	void Screen::Construct()
 	{
 		this->Load();
 		this->Attach();
 	}
-	void SquareTextured::Clean()
+	void Screen::Clean()
 	{
 		base::Clean();
 		m_texture_coord.clear();
-		
+
 	}
-	void SquareTextured::Draw(unsigned int const texture_id, unsigned int const light_src_texture_id)
+	void Screen::Draw(unsigned int const texture_id, unsigned int const ping_pong_texture)
 	{
-		if (light_src_texture_id != 0)
+		if (m_vao != 0)
 		{
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, light_src_texture_id);
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				if (texture_id != 0 && ping_pong_texture != 0)
+				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, texture_id);
+
+					glActiveTexture(GL_TEXTURE1);
+					glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
+
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE1);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBindVertexArray(0);
+				}
+				else
+				{
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+				}
+			}
+		}
+	}
+
+	void Screen::Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture)
+	{
+		if (texture_id == 0 && ping_pong_texture == 0)
+		{
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			}
+		}
+		else
+		{
+			if (first_it)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, texture_id);
+
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
+			}
+
+			glBindVertexArray(m_vao);
+			if (glIsVertexArray(m_vao) == GL_TRUE)
+			{
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			}
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
-		this->Draw(texture_id);
-
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
 	}
 
-	void SquareTextured::Draw(unsigned int texture_id)
+	void Screen::Draw(unsigned int texture_id)
 	{
 		if (m_vao != 0)
 		{
@@ -69,7 +124,7 @@ namespace Renderers {
 		}
 	}
 
-	void SquareTextured::Attach()
+	void Screen::Attach()
 	{
 		if (m_vbo == 0)
 		{
@@ -120,10 +175,10 @@ namespace Renderers {
 
 		}
 	}
-	void SquareTextured::Load()
+	void Screen::Load()
 	{
 
-		m_vertices = { 
+		m_vertices = {
 			-1.0f,  1.0f, 0.0f,
 			-1.0f, -1.0f, 0.0f,
 			1.0f, 1.0f, 0.0f,
@@ -138,7 +193,7 @@ namespace Renderers {
 			0.0f, 0.0f, 1.0f   // top left
 		};
 
-		m_texture_coord = { 
+		m_texture_coord = {
 			0.0f, 1.0f,
 			0.0f, 0.0f,
 			1.0f, 1.0f,

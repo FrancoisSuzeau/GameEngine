@@ -9,16 +9,29 @@ uniform float ambiant_strength;
 uniform int specular_shininess;
 
 uniform vec3 light_source_position;
-uniform vec3 light_source_inner_color;
+uniform vec4 light_source_inner_color;
 uniform vec3 camera_pos;
 uniform bool is_light_source_textured;
+uniform bool light_src_mixe_texture_color;
 
-uniform sampler2D ligh_src_texture;
+uniform sampler2D light_src_texture;
 
 in VS_OUT {
     vec3 Normal;
     vec3 FragPos;
 } fs_in;
+
+vec4 GetMixedColor(vec4 object_texture, vec4 color, bool mixe)
+{
+    if(mixe)
+    {
+        return vec4(mix(object_texture.rgb, color.rgb, color.a) * object_texture.a, 1.0);
+    }
+    else
+    {
+        return object_texture;
+    }
+}
 
 void main()
 {
@@ -42,10 +55,11 @@ void main()
     {
         if(there_is_light)
         {
-            vec3 light_color = light_source_inner_color;
+            vec3 light_color = light_source_inner_color.rgb;
             if(is_light_source_textured)
             {
-                light_color = texture(ligh_src_texture, vec2(1.f)).rgb;
+                vec4 light_fragment = texture(light_src_texture, vec2(1.f));
+                light_color = GetMixedColor(light_fragment, light_source_inner_color, light_src_mixe_texture_color).rgb;
             }
 
             //Ambiant

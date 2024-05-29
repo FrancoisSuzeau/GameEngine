@@ -1,27 +1,28 @@
 /******************************************************************************************************************************************/
-// File : TriangleTextured.hpp
-// Purpose : An interface for the TriangleTextured renderer
+// File : Screen.hpp
+// Purpose : An interface for the Screen renderer
 /******************************************************************************************************************************************/
-#ifndef TRIANGLETEXTURED_H
-#define TRIANGLETEXTURED_H
+#ifndef SCREEN_H
+#define SCREEN_H
 
-#include "../../../Interfaces/IRenderer.hpp"
+#include "../Untextured/Square.hpp"
 
 namespace Renderers {
 
 
 
-	class TriangleTextured : public IRenderer
+	class Screen : public IRenderer
 	{
 	public:
 
-		TriangleTextured();
-		~TriangleTextured();
+		Screen();
+		~Screen();
 
 		void Construct() override;
 		void Clean() override;
-		void Draw(unsigned int const texture_id) override;
-		void Draw(unsigned int const texture_id, unsigned int const light_src_texture_id) override;
+		void Draw(unsigned int const texture_id, unsigned int const ping_pong_texture) override;
+		void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) override;
+		void Draw(unsigned int texture_id) override;
 
 	private:
 		void Attach();
@@ -29,8 +30,9 @@ namespace Renderers {
 
 		std::vector<GLfloat> m_texture_coord;
 		unsigned int m_bytes_textcoord_size;
-
 		typedef IRenderer base;
+
+
 
 	};
 }

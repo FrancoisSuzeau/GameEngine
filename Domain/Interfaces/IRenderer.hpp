@@ -45,8 +45,8 @@ namespace Renderers {
 		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
 		virtual void Draw() {}
-		virtual void Draw(unsigned int texture_id) {}
-		virtual void Draw(unsigned int const texture_id, unsigned int const ping_pong_texture) {}
+		virtual void Draw(unsigned int texture_0) {}
+		virtual void Draw(unsigned int const texture_0, unsigned int const texture_2) {}
 		virtual void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) {}
 		virtual void Actualize(int const grid_scaling_ratio) {}
 		virtual void Clean()

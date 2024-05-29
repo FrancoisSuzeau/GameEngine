@@ -133,14 +133,15 @@ namespace Component
 		if (unique_light_source != nullptr && component && shader_service)
 		{
 			shader_service->setVec(shader_name, "light_source_position", unique_light_source->GetPosition());
-			shader_service->setVec(shader_name, "light_source_inner_color", glm::vec3(unique_light_source->GetBackgroundColor().r, unique_light_source->GetBackgroundColor().g, unique_light_source->GetBackgroundColor().b));
+			shader_service->setVec(shader_name, "light_source_inner_color", unique_light_source->GetBackgroundColor());
 			Enums::RendererType type = unique_light_source->GetType();
 			bool is_textured = type == Enums::RendererType::CUBE_TEXTURED ||
 				type == Enums::RendererType::SPHERE_TEXTURED ||
 				type == Enums::RendererType::SQUARE_TEXTURED ||
 				type == Enums::RendererType::TRIANGLE_TEXTURED;
 			shader_service->setInt(shader_name, "is_light_source_textured", is_textured);
-			shader_service->setTexture(shader_name, "ligh_src_texture", 2);
+			shader_service->setInt(shader_name, "light_src_mixe_texture_color", unique_light_source->GetMixeTextureColor());
+			shader_service->setTexture(shader_name, "light_src_texture", 2);
 
 		}
 	}
