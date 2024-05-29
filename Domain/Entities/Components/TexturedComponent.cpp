@@ -64,16 +64,6 @@ namespace Component {
 	{
 		m_mixe_texture_and_color = new_val;
 	}
-
-	void TexturedComponent::SetTextureColor(glm::vec4 const texture_color)
-	{
-		m_texture_color = texture_color;
-	}
-
-	glm::vec4 TexturedComponent::GetTextureColor() const
-	{
-		return m_texture_color;
-	}
 	
 	unsigned int TexturedComponent::GetTextureId() const
 	{

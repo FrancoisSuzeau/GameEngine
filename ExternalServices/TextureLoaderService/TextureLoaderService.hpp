@@ -33,7 +33,6 @@ namespace Services {
 
 		unsigned int BuildSkyboxTexture(std::string const skybox_path);
 		unsigned int BuildTexture(std::string const path);
-		glm::vec4 GetTextureColor(unsigned int texture_id);
 
 	private:
 

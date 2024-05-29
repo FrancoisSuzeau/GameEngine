@@ -26,9 +26,6 @@ namespace Component
 		bool GetMixeTextureColor() const override;
 		void SetMixeTextureColor(const bool new_val) override;
 
-		void SetTextureColor(glm::vec4 const texture_color) override;
-		glm::vec4 GetTextureColor() const override;
-
 	private:
 		unsigned int m_texture_id;
 		std::string m_texture_name;

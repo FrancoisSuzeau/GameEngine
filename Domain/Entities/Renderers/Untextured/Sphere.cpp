@@ -39,6 +39,22 @@ namespace Renderers {
 		}
 	}
 
+	void Sphere::Draw(unsigned int const light_src_texture_id)
+	{
+		if (light_src_texture_id != 0)
+		{
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, light_src_texture_id);
+		}
+
+		this->Draw();
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+
+	}
+
 	void Sphere::Clean()
 	{
 		base::Clean();

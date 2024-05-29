@@ -145,9 +145,6 @@ namespace Component {
 		{
 			return m_specular_shininess;
 		}
-
-		virtual void SetTextureColor(glm::vec4 const texture_color) {}
-		virtual glm::vec4 GetTextureColor() const { return glm::vec4(0.f); }
  
 	protected:
 		Enums::RendererType m_type;
@@ -162,7 +159,6 @@ namespace Component {
 		bool m_is_light_source;
 		float m_ambiant_occlusion;
 		int m_specular_shininess;
-		glm::vec4 m_texture_color;
 
 		
 

@@ -140,6 +140,8 @@ namespace Component
 				type == Enums::RendererType::SQUARE_TEXTURED ||
 				type == Enums::RendererType::TRIANGLE_TEXTURED;
 			shader_service->setInt(shader_name, "is_light_source_textured", is_textured);
+			shader_service->setTexture(shader_name, "ligh_src_texture", 2);
+
 		}
 	}
 }

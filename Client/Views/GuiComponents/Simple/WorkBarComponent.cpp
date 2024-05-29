@@ -319,7 +319,7 @@ namespace Views
 				float image_size = 50;
 				int place_taken = 0;
 				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
-				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+				for (std::map<std::string, unsigned int >::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 				{
 					if (it->second == selected_renderer->GetTextureId())
 					{
