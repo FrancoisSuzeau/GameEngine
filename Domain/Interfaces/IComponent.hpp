@@ -145,6 +145,16 @@ namespace Component {
 		{
 			return m_specular_shininess;
 		}
+
+		virtual void SetSpecularStrength(float const specular_strength)
+		{
+			m_specular_strength = specular_strength;
+		}
+
+		virtual float GetSpecularStrength() const
+ 		{
+			return m_specular_strength;
+		}
  
 	protected:
 		Enums::RendererType m_type;
@@ -159,6 +169,7 @@ namespace Component {
 		bool m_is_light_source;
 		float m_ambiant_occlusion;
 		int m_specular_shininess;
+		float m_specular_strength;
 
 		
 

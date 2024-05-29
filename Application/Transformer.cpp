@@ -33,6 +33,7 @@ namespace Component
 				shader_service->setMat4(shader_name, "model", component->GetModelMat());
 				shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
 				shader_service->setInt(shader_name, "specular_shininess", component->GetSpecularShininess());
+				shader_service->setFloat(shader_name, "specular_strength", component->GetSpecularStrength());
 				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
 				SetLightParameters(unique_light_source, component, shader_service, shader_name);
 				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());

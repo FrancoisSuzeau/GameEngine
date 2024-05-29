@@ -396,6 +396,12 @@ namespace Views
 						specular_shininess = std::pow(2, index);
 						selected_renderer->SetSpecularShininess(specular_shininess);
 					}
+
+					float specular_strength = selected_renderer->GetSpecularStrength();
+					if (ImGui::SliderFloat("Specular Strength", &specular_strength, 0.1f, 1.f, "%.3f"))
+					{
+						selected_renderer->SetSpecularStrength(specular_strength);
+					}
 				}
 			}
 			

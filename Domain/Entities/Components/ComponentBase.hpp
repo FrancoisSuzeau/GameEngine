@@ -13,7 +13,7 @@ namespace Component
 	{
 	public:
 		ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, 
-			bool const is_light_source = false, float const ambiant_occlusion = 0.1f, int const specular_shininess = 2);
+			bool const is_light_source = false, float const ambiant_occlusion = 0.1f, int const specular_shininess = 2, float const specular_strength = 0.5f);
 
 		
 		void Clean() override;

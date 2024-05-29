@@ -9,6 +9,7 @@ uniform bool is_light_source;
 uniform bool there_is_light;
 uniform float ambiant_strength;
 uniform int specular_shininess;
+uniform float specular_strength;
 
 in VS_OUT 
 {
@@ -89,7 +90,6 @@ void main()
             vec3 diffuse = diff * light_color;
 
             //Specular
-            float specular_strength = 0.5;
             vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
             vec3 reflect_dir = reflect(-light_dir, norm);  
             float spec = pow(max(dot(view_dir, reflect_dir), 0.0), specular_shininess);

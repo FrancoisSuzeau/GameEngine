@@ -134,7 +134,8 @@ namespace Services
 					{"mixe_texture_color", it[0]->GetMixeTextureColor()},
 					{"is_light_source", it[0]->GetIsALightSource()},
 					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()},
-					{"specular_shininess", it[0]->GetSpecularShininess()}
+					{"specular_shininess", it[0]->GetSpecularShininess()},
+					{"specular_strength", it[0]->GetSpecularStrength()}
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
@@ -188,19 +189,20 @@ namespace Services
 				bool is_light_source = this->GetBoolNode(std::make_unique<json>(*it), "is_light_source");
 				float ambiant_occlusion = this->GetFloatNode(std::make_unique<json>(*it), "ambiant_occlusion");
 				int specular_shininess = this->GetIntNode(std::make_unique<json>(*it), "specular_shininess");
+				float specular_strength = this->GetFloatNode(std::make_unique<json>(*it), "specular_strength");
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
-					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, specular_shininess));
+					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, specular_shininess, specular_strength));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
-					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, specular_shininess));
+					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, specular_shininess, specular_strength));
 					break;
 				default:
 					break;
