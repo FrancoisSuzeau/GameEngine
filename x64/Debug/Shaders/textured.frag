@@ -50,6 +50,19 @@ vec4 GetMixedColor(vec4 object_texture, vec4 color, bool mixe)
     }
 }
 
+vec4 CalculateBrightColor(vec4 frag_color, float brightness_limit)
+{
+    float brightness = dot(frag_color.rgb, vec3(0.2126, 0.7152, 0.0722));
+    if(brightness > brightness_limit)
+    {
+        return vec4(frag_color.rgb, 1.0);
+    }
+    else
+    {
+        return vec4(0.0, 0.0, 0.0, 1.0);
+    }
+}
+
 void main()
 {    
     //Extract texture into fragment
@@ -58,17 +71,11 @@ void main()
     //Case if the fragment is part of a light source object
     if(component.is_light_source)
     {
+        //Pass to framebuffer 0 (normal output)
         FragColor = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
-        
-        float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-        if(brightness > 0.f)
-        {
-            BrightColor = vec4(FragColor.rgb, 1.0);
-        }
-        else
-        {
-            BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
-        }
+
+        //Pass to framebuffer color 1 (bright output)
+        BrightColor = CalculateBrightColor(FragColor, 0.f);
     }
     //Case if the fragment is not part of a light source object -> calculate complex object light effect
     else
@@ -103,19 +110,15 @@ void main()
             FragColor = vec4(final_result, result.a);
 
             //Pass to framebuffer color 1 (bright output)
-            float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-            if(brightness > 1.f)
-            {
-                BrightColor = vec4(FragColor.rgb, 1.0);
-            }
-            else
-            {
-                BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
-            }
+            BrightColor = CalculateBrightColor(FragColor, 1.f);
         }
         else
         {
+            //Pass to framebuffer 0 (normal output)
             FragColor = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
+
+            //Pass to framebuffer color 1 (bright output)
+            BrightColor = CalculateBrightColor(FragColor, 1.f);
         }
     }
     

@@ -26,23 +26,31 @@ namespace Renderers {
 	}
 	void Screen::Draw(unsigned int const texture_id, unsigned int const ping_pong_texture)
 	{
-		if (texture_id != 0 && ping_pong_texture != 0)
+		if (texture_id != 0)
 		{
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture_id);
+		}
 
+		if (ping_pong_texture != 0)
+		{
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, ping_pong_texture);
 		}
 
 		base::Draw();
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (texture_id != 0)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
+		if (ping_pong_texture != 0)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 
 	void Screen::Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture)
@@ -73,11 +81,25 @@ namespace Renderers {
 
 			base::Draw();
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			if (first_it)
+			{
+				if (texture_id != 0)
+				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+
+			}
+			else
+			{
+				if (ping_pong_texture != 0)
+				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+			}
 		}
 
-		glBindVertexArray(0);
 	}
 
 	void Screen::Draw(unsigned int texture_id)
@@ -90,8 +112,11 @@ namespace Renderers {
 
 		base::Draw();
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (texture_id != 0)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 
 	void Screen::Attach()
@@ -174,6 +199,8 @@ namespace Renderers {
 	}
 	void Screen::Load()
 	{
+		//Since we don't need normals, we don't call the Load function from base class
+
 		m_vertices = {
 			 1.0f,  1.0f, 0.0f,  // top right
 			 1.0f, -1.0f, 0.0f,  // bottom right

@@ -90,6 +90,7 @@ namespace Services
 			m_opengl_service->enable(GL_BLEND);
 		}
 	}
+
 	void RunTimeService::EnableDepthTest()
 	{
 		if (m_opengl_service)

@@ -36,8 +36,11 @@ namespace Renderers {
 
         base::Draw();
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        if (texture_id != 0)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
     }
 
     void CubeTextured::Draw(unsigned int const texture_id, unsigned int const light_src_texture_id)
@@ -50,8 +53,11 @@ namespace Renderers {
 
         this->Draw(texture_id);
 
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        if (light_src_texture_id != 0)
+        {
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
     }
 
     void CubeTextured::Attach()

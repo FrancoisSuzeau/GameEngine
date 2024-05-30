@@ -50,8 +50,11 @@ namespace Renderers {
 
 		this->Draw();
 
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		if (light_src_texture_id != 0)
+		{
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 
 	void Triangle::Clean()

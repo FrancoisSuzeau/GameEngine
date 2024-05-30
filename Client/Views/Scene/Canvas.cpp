@@ -91,7 +91,9 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_renderers.at(component->GetType())->Draw(m_state_service->GeUniqueLightSource() ? m_state_service->GeUniqueLightSource()->GetTextureId() : 0);
+							m_state_service->GeUniqueLightSource() ? 
+								m_renderers.at(component->GetType())->Draw(m_state_service->GeUniqueLightSource()->GetTextureId()) :
+								m_renderers.at(component->GetType())->Draw();
 							m_shader_service->UnbindShaderProgram();
 						}
 						
@@ -120,7 +122,9 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource() ? m_state_service->GeUniqueLightSource()->GetTextureId() : 0);
+							m_state_service->GeUniqueLightSource() ?
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource()->GetTextureId()) :
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
 						}
 						
@@ -147,7 +151,9 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource() ? m_state_service->GeUniqueLightSource()->GetTextureId() : 0);
+							m_state_service->GeUniqueLightSource() ?
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource()->GetTextureId()) :
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
 						}
 						
