@@ -7,7 +7,8 @@
 
 namespace Component {
 	TexturedComponent::TexturedComponent(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, std::string const texture_name,
-		bool const mixe, bool const is_light_source, float const ambiant_occlusion, int const specular_shininess, float const specular_strength) : m_texture_id(0), m_texture_name(texture_name),
+		bool const mixe, bool const is_light_source, float const ambiant_occlusion, int const specular_shininess, float const specular_strength, 
+		Enums::LightType const light_type) : m_texture_id(0), m_texture_name(texture_name),
 		m_mixe_texture_and_color(mixe)
 	{
 		m_type = type;
@@ -24,6 +25,7 @@ namespace Component {
 		m_ambiant_occlusion = ambiant_occlusion;
 		m_specular_shininess = specular_shininess;
 		m_specular_strength = specular_strength;
+		m_light_type = light_type;
 	}
 
 	void TexturedComponent::Clean()

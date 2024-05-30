@@ -24,11 +24,17 @@ namespace Component
 				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service)
+			std::shared_ptr<Services::RunTimeService> runtime_service = container->GetReference<Services::RunTimeService>();
+			if (!runtime_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service && runtime_service)
 			{
 				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
 
-				SetLightParameters(unique_light_source, component, shader_service, shader_name);
+				SetLightParameters(unique_light_source, runtime_service, component, shader_service, shader_name);
 				SetWorldParameters(shader_service, shader_name, camera_service, state_service);
 				SetComponentParameters(component, shader_service, state_service, shader_name);
 
@@ -40,6 +46,8 @@ namespace Component
 
 				state_service.reset();
 				camera_service.reset();
+				runtime_service.reset();
+
 				if (unique_light_source)
 				{
 					unique_light_source.reset();
@@ -108,7 +116,7 @@ namespace Component
 			}
 		}
 	}
-	void Transformer::SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Services::RunTimeService> runtime_service, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
 		if (unique_light_source != nullptr && component && shader_service)
 		{
@@ -119,8 +127,13 @@ namespace Component
 				type == Enums::RendererType::SPHERE_TEXTURED ||
 				type == Enums::RendererType::SQUARE_TEXTURED ||
 				type == Enums::RendererType::TRIANGLE_TEXTURED;
+			shader_service->setInt(shader_name, "src_light.is_point_light", unique_light_source->GetLightType() == Enums::LightType::POINTLIGHT);
 			shader_service->setInt(shader_name, "src_light.is_textured", is_textured);
 			shader_service->setInt(shader_name, "src_light.mixe_texture_color", unique_light_source->GetMixeTextureColor());
+			Services::Attenuation_constants attenuation_constant = runtime_service->GetAttenuationConstant((int)glm::distance(unique_light_source->GetPosition(), component->GetPosition()));
+			shader_service->setFloat(shader_name, "src_light.constant", attenuation_constant.constant);
+			shader_service->setFloat(shader_name, "src_light.linear", attenuation_constant.linear);
+			shader_service->setFloat(shader_name, "src_light.quadratic", attenuation_constant.quadratic);
 			shader_service->setTexture(shader_name, "src_light.texture", 2);
 		}
 

@@ -11,6 +11,8 @@
 #include <memory>
 #include "IRenderer.hpp"
 
+namespace Enums { enum LightType { DIRECTIONALLIGHT, POINTLIGHT, SPOTLIGHT, NBLIGHTTYPE }; }
+
 namespace Component {
 
 	class IComponent
@@ -155,6 +157,16 @@ namespace Component {
  		{
 			return m_specular_strength;
 		}
+
+		virtual void SetLightType(Enums::LightType light_type)
+		{
+			m_light_type = light_type;
+		}
+
+		Enums::LightType GetLightType() const
+		{
+			return m_light_type;
+		}
  
 	protected:
 		Enums::RendererType m_type;
@@ -170,7 +182,8 @@ namespace Component {
 		float m_ambiant_occlusion;
 		int m_specular_shininess;
 		float m_specular_strength;
-
+		
+		Enums::LightType m_light_type;
 		
 
 	};

@@ -17,7 +17,17 @@
 #include <memory>
 
 
+
+
 namespace Services {
+
+	typedef struct 
+	{
+		float constant;
+		float linear;
+		float quadratic;
+
+	} Attenuation_constants;
 
 	class RunTimeService : public IService
 	{
@@ -51,11 +61,17 @@ namespace Services {
 		Enums::FramebufferType GetPass() const;
 		Enums::StencilType GetStencilPass() const;
 
+		Attenuation_constants GetAttenuationConstant(int const distance);
+
 	private:
 		std::shared_ptr<Services::OpenGLService> m_opengl_service;
 		bool m_is_rendering_line;
 		Enums::FramebufferType m_fb_type;
 		Enums::StencilType m_stencil_type;
+		std::vector<Attenuation_constants> m_attenuation_constants;
+		std::vector<int> m_attenuation_distance;
+
+		void SetAttenuationConstants();
 	};
 }
 

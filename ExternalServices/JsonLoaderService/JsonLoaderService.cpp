@@ -49,6 +49,7 @@ namespace Services
 
 		m_json_contents.insert_or_assign(Enums::JsonType::Config, this->ConvertToJsonFormat(config));
 		this->SaveFile(Constants::CONFIGFILE, Enums::JsonType::Config);
+		
 	}
 
 	void JsonLoaderService::SaveFile(std::string const filename, Enums::JsonType json_type)
@@ -135,7 +136,8 @@ namespace Services
 					{"is_light_source", it[0]->GetIsALightSource()},
 					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()},
 					{"specular_shininess", it[0]->GetSpecularShininess()},
-					{"specular_strength", it[0]->GetSpecularStrength()}
+					{"specular_strength", it[0]->GetSpecularStrength()},
+					{"light_type", it[0]->GetLightType()}
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
@@ -181,6 +183,7 @@ namespace Services
 			for (json::iterator it = json_components.begin(); it != json_components.end(); ++it)
 			{
 				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
+				json j2 = this->GetStringNode(std::make_unique<json>(*it), "light_type");
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
 				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
@@ -190,19 +193,22 @@ namespace Services
 				float ambiant_occlusion = this->GetFloatNode(std::make_unique<json>(*it), "ambiant_occlusion");
 				int specular_shininess = this->GetIntNode(std::make_unique<json>(*it), "specular_shininess");
 				float specular_strength = this->GetFloatNode(std::make_unique<json>(*it), "specular_strength");
+
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::SQUARE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
-					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, specular_shininess, specular_strength));
+					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, 
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>()));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
-					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, specular_shininess, specular_strength));
+					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>()));
 					break;
 				default:
 					break;

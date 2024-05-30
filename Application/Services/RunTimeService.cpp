@@ -20,11 +20,13 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : OpenGL service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
+
+		this->SetAttenuationConstants();
 	}
 
 	void RunTimeService::DeInit()
 	{
-		
+		m_attenuation_constants.clear();
 	}
 	void RunTimeService::RenderingInLine(float const line_width)
 	{
@@ -180,6 +182,50 @@ namespace Services
 	Enums::StencilType RunTimeService::GetStencilPass() const
 	{
 		return m_stencil_type;
+	}
+	Attenuation_constants RunTimeService::GetAttenuationConstant(int const distance)
+	{
+		if (distance >= 0 && distance <= 7)
+		{
+			return m_attenuation_constants.front();
+		}
+
+		if (distance > 600 && distance <= 3250)
+		{
+			return m_attenuation_constants.back();
+		}
+		if (!m_attenuation_constants.empty() && !m_attenuation_distance.empty() && m_attenuation_constants.size() == m_attenuation_distance.size())
+		{
+			for (int i = 1; i < m_attenuation_distance.size() - 1; i++)
+			{
+				if (distance > m_attenuation_distance[i - 1] && distance <= m_attenuation_distance[i])
+				{
+					return m_attenuation_constants[i];
+				}
+			}
+		}
+
+		return {1.f, 0.7f, 1.8f};
+	}
+	void RunTimeService::SetAttenuationConstants()
+	{
+		m_attenuation_constants = {
+
+			{1.f, 0.7f, 1.8f},
+			{1.f, 0.35f, 0.44f},
+			{1.f, 0.22f, 0.2f},
+			{1.f, 0.14f, 0.07f},
+			{1.f, 0.09f, 0.032f},
+			{1.f, 0.07f, 0.017f},
+			{1.f, 0.045f, 0.0075f},
+			{1.f, 0.027f, 0.0028f},
+			{1.f, 0.022f, 0.0019f},
+			{1.f, 0.014f, 0.0007f},
+			{1.f, 0.007f, 0.0002f},
+			{1.f, 0.0014f, 0.000007f}
+		};
+
+		m_attenuation_distance = { 7, 13, 20, 32, 50, 65, 100, 160, 200, 325, 600, 3250 };
 	}
 }
 

@@ -21,6 +21,10 @@ struct Light
     bool is_textured;
     bool mixe_texture_color;
     sampler2D texture;
+    float constant;
+    float linear;
+    float quadratic;
+    bool is_point_light;
 };
 
 uniform Light src_light;
@@ -66,7 +70,7 @@ void main()
     {
         //Pass to framebuffer 0 (normal output)
         FragColor = component.background_color;
-        
+
         //Pass to framebuffer 1 (bright output)
         BrightColor = CalculateBrightColor(FragColor, 0.f);
     }
@@ -95,7 +99,18 @@ void main()
             vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
             vec3 reflect_dir = reflect(-light_dir, norm);  
             float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
-            vec3 specular = component.specular_strength * spec * light_color;  
+            vec3 specular = component.specular_strength * spec * light_color;
+
+            //Attenuation
+            //Attenuation
+            if(src_light.is_point_light)
+            {
+                float distance = length(src_light.position - fs_in.FragPos);
+                float attenuation = 1.0 / (src_light.constant + src_light.linear * distance + src_light.quadratic * (distance * distance));
+                ambiant *= attenuation;
+                diffuse *= attenuation;
+                specular *= attenuation;
+            }  
 
             //Pass to framebuffer 0 (normal output)
             vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;

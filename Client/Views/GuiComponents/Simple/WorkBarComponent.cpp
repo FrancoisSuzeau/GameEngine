@@ -65,7 +65,8 @@ namespace Views
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
-		tabs_size.push_back(ImVec2(0, 800));
+		tabs_size.push_back(ImVec2(0, 700));
+		tabs_size.push_back(ImVec2(0, 300));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -238,9 +239,16 @@ namespace Views
 							this->RenderAppearanceTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
-						if (ImGui::BeginTabItem("Others"))
+						if (ImGui::BeginTabItem("Light"))
 						{
 							current_tab = 2;
+							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
+							this->RenderLightTab(selected_renderer);
+							ImGui::EndTabItem();
+						}
+						if (ImGui::BeginTabItem("Others"))
+						{
+							current_tab = 3;
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
 							this->RenderOtherFunTab(selected_renderer);
 							ImGui::EndTabItem();
@@ -360,6 +368,7 @@ namespace Views
 				}
 
 				ImGui::Text(" ");
+				ImGui::Separator();
 				bool mixe_texture = selected_renderer->GetMixeTextureColor();
 				if (ImGui::Checkbox("Mixe texture and color", &mixe_texture))
 				{
@@ -370,9 +379,13 @@ namespace Views
 			default:
 				break;
 			}
+		}
+	}
 
-			ImGui::Separator();
-			ImGui::BulletText("Light Effects : ");
+	void WorkBarComponent::RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	{
+		if (selected_renderer)
+		{
 			bool is_light_source = selected_renderer->GetIsALightSource();
 			if (ImGui::Checkbox("Is a light source", &is_light_source))
 			{
@@ -393,7 +406,7 @@ namespace Views
 					int index = this->GetPowerIndex(specular_shininess);
 					if (ImGui::SliderInt("Specular Shininess", &index, 1, 8, std::to_string(specular_shininess).c_str()))
 					{
-						specular_shininess = (int) std::pow(2, index);
+						specular_shininess = (int)std::pow(2, index);
 						selected_renderer->SetSpecularShininess(specular_shininess);
 					}
 
@@ -403,8 +416,17 @@ namespace Views
 						selected_renderer->SetSpecularStrength(specular_strength);
 					}
 				}
+				else
+				{
+					const char* light_types[Enums::LightType::NBLIGHTTYPE] = { "Directional light", "Point light", "Spot light" };
+					int light_type_index = selected_renderer->GetLightType();
+					const char* light_type = (light_type_index >= 0 && light_type_index < Enums::LightType::NBLIGHTTYPE) ? light_types[light_type_index] : "Unknown";
+					if (ImGui::SliderInt("slider enum", &light_type_index, 0, Enums::LightType::NBLIGHTTYPE - 1, light_type))
+					{
+						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
+					}
+				}
 			}
-			
 		}
 	}
 

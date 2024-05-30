@@ -34,6 +34,10 @@ struct Light
     bool is_textured;
     bool mixe_texture_color;
     sampler2D texture;
+    float constant;
+    float linear;
+    float quadratic;
+    bool is_point_light;
 };
 
 uniform Light src_light;
@@ -111,7 +115,18 @@ void main()
             vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
             vec3 reflect_dir = reflect(-light_dir, norm);  
             float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
-            vec3 specular = component.specular_strength * spec * light_color;  
+            vec3 specular = component.specular_strength * spec * light_color;
+
+            //Attenuation
+            //Attenuation
+            if(src_light.is_point_light)
+            {
+                float distance = length(src_light.position - fs_in.FragPos);
+                float attenuation = 1.0 / (src_light.constant + src_light.linear * distance + src_light.quadratic * (distance * distance));
+                ambiant *= attenuation;
+                diffuse *= attenuation;
+                specular *= attenuation;
+            }  
 
             //Pass to framebuffer 0 (normal output)
             vec4 result = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);

@@ -37,7 +37,13 @@ namespace Enums {
 	{RendererType::TRIANGLE_TEXTURED, "triangle_textured"},
 	{RendererType::SPHERE, "sphere"},
 	{RendererType::SPHERE_TEXTURED, "sphere_textured"}
-		})
+		});
+
+	NLOHMANN_JSON_SERIALIZE_ENUM(LightType, {
+		{LightType::DIRECTIONALLIGHT, "directional_light"},
+		{LightType::POINTLIGHT, "point_light"},
+		{LightType::SPOTLIGHT, "spot_light"}
+		});
 }
 
 namespace Services {

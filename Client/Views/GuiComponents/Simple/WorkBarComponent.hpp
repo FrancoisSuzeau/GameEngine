@@ -50,6 +50,7 @@ namespace Views
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);
+		void RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		void RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2);
