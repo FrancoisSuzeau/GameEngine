@@ -2,7 +2,7 @@
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
-uniform vec4 background_color;
+
 in VS_OUT 
 {
     vec3 Normal;
@@ -10,22 +10,30 @@ in VS_OUT
     vec2 TexCoords;
 
 } fs_in;
+
+uniform bool there_is_light;
+
 uniform bool mixe_texture_color;
 uniform bool is_light_source;
-uniform bool there_is_light;
 uniform float ambiant_strength;
 uniform int specular_shininess;
 uniform float specular_strength;
-
-uniform vec3 light_source_position;
-uniform vec4 light_source_inner_color;
-uniform vec3 camera_pos;
-uniform bool is_light_source_textured;
-uniform bool light_src_mixe_texture_color;
-
-
 uniform sampler2D texture0;
-uniform sampler2D light_src_texture;
+uniform vec4 background_color;
+
+struct Light 
+{
+    vec3 position;
+    vec4 inner_color;
+    bool is_textured;
+    bool mixe_texture_color;
+    sampler2D texture;
+};
+
+uniform Light src_light;
+
+
+uniform vec3 camera_pos;
 
 vec4 GetMixedColor(vec4 object_texture, vec4 color, bool mixe)
 {
@@ -64,11 +72,11 @@ void main()
     {
         if(there_is_light)
         {   
-            vec3 light_color = light_source_inner_color.rgb;
-            if(is_light_source_textured)
+            vec3 light_color = src_light.inner_color.rgb;
+            if(src_light.is_textured)
             {
-                vec4 light_fragment = texture(light_src_texture, vec2(1.f));
-                light_color = GetMixedColor(light_fragment, light_source_inner_color, light_src_mixe_texture_color).rgb;
+                vec4 light_fragment = texture(src_light.texture, vec2(1.f));
+                light_color = GetMixedColor(light_fragment, src_light.inner_color, src_light.mixe_texture_color).rgb;
             }
 
             //Ambiant
@@ -76,7 +84,7 @@ void main()
             
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
-            vec3 light_dir = normalize(light_source_position - fs_in.FragPos);
+            vec3 light_dir = normalize(src_light.position - fs_in.FragPos);
             float diff = max(dot(norm, light_dir), 0.f);
             vec3 diffuse = diff * light_color;
 

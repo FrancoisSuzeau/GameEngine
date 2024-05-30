@@ -393,7 +393,7 @@ namespace Views
 					int index = this->GetPowerIndex(specular_shininess);
 					if (ImGui::SliderInt("Specular Shininess", &index, 1, 8, std::to_string(specular_shininess).c_str()))
 					{
-						specular_shininess = std::pow(2, index);
+						specular_shininess = (int) std::pow(2, index);
 						selected_renderer->SetSpecularShininess(specular_shininess);
 					}
 

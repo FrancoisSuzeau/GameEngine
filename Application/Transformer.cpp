@@ -27,28 +27,16 @@ namespace Component
 			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service)
 			{
 				bool render_bloom = state_service->getConfigs()->GetBloom();
-				shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
-				shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
-				shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
-				shader_service->setMat4(shader_name, "model", component->GetModelMat());
-				shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
-				shader_service->setInt(shader_name, "specular_shininess", component->GetSpecularShininess());
-				shader_service->setFloat(shader_name, "specular_strength", component->GetSpecularStrength());
+				
 				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
 				SetLightParameters(unique_light_source, component, shader_service, shader_name);
-				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
-				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
-				PutViewMapIntoShader(shader_service, shader_name, camera_service);
-				shader_service->setMat4(shader_name, "projection", state_service->GetPerspectiveProjectionMatrix());
-				shader_service->setTexture(shader_name, "texture0", 0);
-				shader_service->setTexture(shader_name, "texture1", 1);
-				shader_service->setFloat(shader_name, "near_plane", state_service->getNearPlane());
-				shader_service->setFloat(shader_name, "ambiant_strength", component->GetAmbiantOcclusion());
+				SetWorldParameters(shader_service, shader_name, camera_service, state_service);
+				SetComponentParameters(component, shader_service, shader_name);
 
+				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
-				
-				shader_service->setFloat(shader_name, "far_plane", state_service->getFarPlane());
-				shader_service->setMat4(shader_name, "projection_ortho", state_service->GetPerspectiveProjectionMatrix());
+				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
+
 				if (render_bloom)
 				{
 					shader_service->setInt(shader_name, "bloom", 1);
@@ -112,10 +100,12 @@ namespace Component
 			component->SetModelMat(glm::mat4(1.f));
 		}
 	}
-	void Transformer::PutViewMapIntoShader(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name, std::shared_ptr<Services::CameraService> camera_service)
+	void Transformer::SetWorldParameters(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name, std::shared_ptr<Services::CameraService> camera_service, std::shared_ptr<Services::StateService> state_service)
 	{
-		if (camera_service)
+		if (camera_service && shader_service && state_service)
 		{
+			shader_service->setMat4(shader_name, "projection", state_service->GetPerspectiveProjectionMatrix());
+
 			if (shader_name == Constants::SKYBOX_SHADER)
 			{
 				shader_service->setMat4(shader_name, "view", glm::mat4(glm::mat3(camera_service->GetCameraView())));
@@ -125,25 +115,40 @@ namespace Component
 				shader_service->setMat4(shader_name, "view", camera_service->GetCameraView());
 
 			}
-
-			camera_service.reset();
 		}
 	}
 	void Transformer::SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
 	{
 		if (unique_light_source != nullptr && component && shader_service)
 		{
-			shader_service->setVec(shader_name, "light_source_position", unique_light_source->GetPosition());
-			shader_service->setVec(shader_name, "light_source_inner_color", unique_light_source->GetBackgroundColor());
+			shader_service->setVec(shader_name, "src_light.position", unique_light_source->GetPosition());
+			shader_service->setVec(shader_name, "src_light.inner_color", unique_light_source->GetBackgroundColor());
 			Enums::RendererType type = unique_light_source->GetType();
 			bool is_textured = type == Enums::RendererType::CUBE_TEXTURED ||
 				type == Enums::RendererType::SPHERE_TEXTURED ||
 				type == Enums::RendererType::SQUARE_TEXTURED ||
 				type == Enums::RendererType::TRIANGLE_TEXTURED;
-			shader_service->setInt(shader_name, "is_light_source_textured", is_textured);
-			shader_service->setInt(shader_name, "light_src_mixe_texture_color", unique_light_source->GetMixeTextureColor());
-			shader_service->setTexture(shader_name, "light_src_texture", 2);
+			shader_service->setInt(shader_name, "src_light.is_textured", is_textured);
+			shader_service->setInt(shader_name, "src_light.mixe_texture_color", unique_light_source->GetMixeTextureColor());
+			shader_service->setTexture(shader_name, "src_light.texture", 2);
+		}
 
+		
+	}
+	void Transformer::SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	{
+		if (component && shader_service)
+		{
+			shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
+			shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
+			shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
+			shader_service->setMat4(shader_name, "model", component->GetModelMat());
+			shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
+			shader_service->setInt(shader_name, "specular_shininess", component->GetSpecularShininess());
+			shader_service->setFloat(shader_name, "specular_strength", component->GetSpecularStrength());
+			shader_service->setFloat(shader_name, "ambiant_strength", component->GetAmbiantOcclusion());
+			shader_service->setTexture(shader_name, "texture0", 0);
+			shader_service->setTexture(shader_name, "texture1", 1);
 		}
 	}
 }
