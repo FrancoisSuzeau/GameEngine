@@ -28,7 +28,7 @@ namespace Component
 	private:
 		static void SetWorldParameters(std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name, std::shared_ptr<Services::CameraService> camera_service, std::shared_ptr<Services::StateService> state_service);
 		static void SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
-		static void SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
+		static void SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::shared_ptr<Services::StateService> state_service, std::string const shader_name);
 	
 	};
 }

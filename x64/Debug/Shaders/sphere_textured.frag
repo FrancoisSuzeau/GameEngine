@@ -4,13 +4,20 @@ layout (location = 1) out vec4 BrightColor;
 
 in vec3 TexCoords;
 
-uniform vec4 background_color;
-uniform bool mixe_texture_color;
-uniform bool is_light_source;
-uniform float ambiant_strength;
-uniform int specular_shininess;
-uniform float specular_strength;
-uniform sampler2D texture0;
+
+
+struct Component
+{
+    vec4 background_color;
+    bool mixe_texture_color;
+    bool is_light_source;
+    float ambiant_strength;
+    int specular_shininess;
+    float specular_strength;
+    sampler2D texture0;
+};
+
+uniform Component component;
 
 in VS_OUT 
 {
@@ -55,12 +62,12 @@ void main()
                                   (asin(fs_in.TexCoords.y) / 3.1415926 + 0.5));
 
     //Extract texture into fragment
-    vec4 objectTexture = texture(texture0, longitudeLatitude);
+    vec4 objectTexture = texture(component.texture0, longitudeLatitude);
 
     //Case if the fragment is part of a light source object
-    if(is_light_source)
+    if(component.is_light_source)
     {
-        FragColor = GetMixedColor(objectTexture, background_color, mixe_texture_color);
+        FragColor = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
     
         float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
         if(brightness > 0.f)
@@ -86,7 +93,7 @@ void main()
             }
 
             //Ambiant
-            vec3 ambiant = ambiant_strength * light_color;
+            vec3 ambiant = component.ambiant_strength * light_color;
             
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
@@ -97,11 +104,11 @@ void main()
             //Specular
             vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
             vec3 reflect_dir = reflect(-light_dir, norm);  
-            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), specular_shininess);
-            vec3 specular = specular_strength * spec * light_color;  
+            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
+            vec3 specular = component.specular_strength * spec * light_color;  
 
             //Pass to framebuffer 0 (normal output)
-            vec4 result = GetMixedColor(objectTexture, background_color, mixe_texture_color);
+            vec4 result = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
             vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
             FragColor = vec4(final_result, result.a);
 
@@ -119,7 +126,7 @@ void main()
         }
         else
         {
-            FragColor = GetMixedColor(objectTexture, background_color, mixe_texture_color);
+            FragColor = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
 
         }
         

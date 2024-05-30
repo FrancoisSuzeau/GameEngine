@@ -11,7 +11,7 @@ namespace Renderers {
 
 
 
-	class Screen : public IRenderer
+	class Screen : public Square
 	{
 	public:
 
@@ -24,13 +24,16 @@ namespace Renderers {
 		void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) override;
 		void Draw(unsigned int texture_id) override;
 
+		protected:
+			void Load() override;
+
 	private:
 		void Attach();
-		void Load();
+		
 
 		std::vector<GLfloat> m_texture_coord;
 		unsigned int m_bytes_textcoord_size;
-		typedef IRenderer base;
+		typedef Square base;
 
 
 

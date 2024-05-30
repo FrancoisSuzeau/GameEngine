@@ -26,33 +26,24 @@ namespace Component
 
 			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service)
 			{
-				bool render_bloom = state_service->getConfigs()->GetBloom();
-				
 				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
+
 				SetLightParameters(unique_light_source, component, shader_service, shader_name);
 				SetWorldParameters(shader_service, shader_name, camera_service, state_service);
-				SetComponentParameters(component, shader_service, shader_name);
+				SetComponentParameters(component, shader_service, state_service, shader_name);
 
 				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
 				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr);
-
-				if (render_bloom)
-				{
-					shader_service->setInt(shader_name, "bloom", 1);
-					shader_service->setInt(shader_name, "horizontal", component->GetHorizontal());
-					shader_service->setFloat(shader_name, "alpha_strength", state_service->getConfigs()->GetMultiSample() ? 0.5f : 0.2f);
-				}
-				else
-				{
-					shader_service->setInt(shader_name, "bloom", 0);
-					shader_service->setInt(shader_name, "horizontal", false);
-					shader_service->setFloat(shader_name, "alpha_strength", 0.8f);
-
-				}
+				shader_service->setInt(shader_name, "bloom", state_service->getConfigs()->GetBloom());
+				
 
 				state_service.reset();
 				camera_service.reset();
+				if (unique_light_source)
+				{
+					unique_light_source.reset();
+				}
 			}
 			
 		}
@@ -135,20 +126,33 @@ namespace Component
 
 		
 	}
-	void Transformer::SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	void Transformer::SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::shared_ptr<Services::StateService> state_service, std::string const shader_name)
 	{
-		if (component && shader_service)
+		if (component && shader_service && state_service && state_service->getConfigs())
 		{
-			shader_service->setInt(shader_name, "render_line", component->GetHovered() || component->GetSelected());
-			shader_service->setInt(shader_name, "mixe_texture_color", component->GetMixeTextureColor());
-			shader_service->setVec(shader_name, "background_color", component->GetBackgroundColor());
+			shader_service->setInt(shader_name, "component.render_line", component->GetHovered() || component->GetSelected());
+			shader_service->setInt(shader_name, "component.mixe_texture_color", component->GetMixeTextureColor());
+			shader_service->setVec(shader_name, "component.background_color", component->GetBackgroundColor());
 			shader_service->setMat4(shader_name, "model", component->GetModelMat());
-			shader_service->setInt(shader_name, "is_light_source", component->GetIsALightSource());
-			shader_service->setInt(shader_name, "specular_shininess", component->GetSpecularShininess());
-			shader_service->setFloat(shader_name, "specular_strength", component->GetSpecularStrength());
-			shader_service->setFloat(shader_name, "ambiant_strength", component->GetAmbiantOcclusion());
-			shader_service->setTexture(shader_name, "texture0", 0);
-			shader_service->setTexture(shader_name, "texture1", 1);
+			shader_service->setInt(shader_name, "component.is_light_source", component->GetIsALightSource());
+			shader_service->setInt(shader_name, "component.specular_shininess", component->GetSpecularShininess());
+			shader_service->setFloat(shader_name, "component.specular_strength", component->GetSpecularStrength());
+			shader_service->setFloat(shader_name, "component.ambiant_strength", component->GetAmbiantOcclusion());
+			shader_service->setTexture(shader_name, "component.texture0", 0);
+			shader_service->setTexture(shader_name, "component.texture1", 1);
+
+			bool render_bloom = state_service->getConfigs()->GetBloom();
+			if (render_bloom)
+			{
+				shader_service->setInt(shader_name, "component.horizontal", component->GetHorizontal());
+				shader_service->setFloat(shader_name, "component.alpha_strength", state_service->getConfigs()->GetMultiSample() ? 0.5f : 0.2f);
+			}
+			else
+			{
+				shader_service->setInt(shader_name, "component.horizontal", false);
+				shader_service->setFloat(shader_name, "component.alpha_strength", 0.8f);
+
+			}
 		}
 	}
 }

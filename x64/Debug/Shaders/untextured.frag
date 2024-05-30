@@ -3,11 +3,16 @@
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
-uniform vec4 background_color;
-uniform bool there_is_light;
-uniform float ambiant_strength;
-uniform int specular_shininess;
-uniform float specular_strength;
+struct Component
+{
+    vec4 background_color;
+    float ambiant_strength;
+    int specular_shininess;
+    float specular_strength;
+    bool is_light_source;
+};
+
+uniform Component component;
 
 struct Light 
 {
@@ -20,7 +25,7 @@ struct Light
 
 uniform Light src_light;
 
-uniform bool is_light_source;
+uniform bool there_is_light;
 uniform vec3 camera_pos;
 
 in VS_OUT {
@@ -44,9 +49,9 @@ void main()
 {
     
     //Case if the fragment is part of a light source object
-    if(is_light_source)
+    if(component.is_light_source)
     {
-        FragColor = background_color;
+        FragColor = component.background_color;
         float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
         if(brightness > 0.f)
         {
@@ -70,7 +75,7 @@ void main()
             }
 
             //Ambiant
-            vec3 ambiant = ambiant_strength * light_color;
+            vec3 ambiant = component.ambiant_strength * light_color;
             
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
@@ -81,12 +86,12 @@ void main()
             //Specular
             vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
             vec3 reflect_dir = reflect(-light_dir, norm);  
-            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), specular_shininess);
-            vec3 specular = specular_strength * spec * light_color;  
+            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
+            vec3 specular = component.specular_strength * spec * light_color;  
 
             //Pass to framebuffer 0 (normal output)
-            vec3 result = (ambiant + diffuse + specular) * background_color.rgb;
-            FragColor = vec4(result, background_color.a);
+            vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
+            FragColor = vec4(result, component.background_color.a);
             float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
 
             //Pass to framebuffer 1 (bright output)
@@ -102,7 +107,7 @@ void main()
         }
         else
         {
-            FragColor = background_color;
+            FragColor = component.background_color;
         }
         
     }

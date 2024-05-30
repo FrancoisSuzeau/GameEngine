@@ -140,100 +140,81 @@ namespace Renderers {
 	void Cube::Load()
 	{
         m_vertices = {    
-            -1.f, -1.f, -1.f, //Back face
-             1.f, -1.f, -1.f,
-             1.f,  1.f, -1.f,
-             1.f,  1.f, -1.f,
-            -1.f,  1.f, -1.f,
-            -1.f, -1.f, -1.f,
+            -1.f, -1.f, -1.f, // Back face
+         1.f, -1.f, -1.f,
+         1.f,  1.f, -1.f,
+        -1.f,  1.f, -1.f,
 
-            -1.f, -1.f,  1.f, //Front face
-             1.f, -1.f,  1.f,
-             1.f,  1.f,  1.f,
-             1.f,  1.f,  1.f,
-            -1.f,  1.f,  1.f,
-            -1.f, -1.f,  1.f,
+        -1.f, -1.f,  1.f, // Front face
+         1.f, -1.f,  1.f,
+         1.f,  1.f,  1.f,
+        -1.f,  1.f,  1.f,
 
-            -1.f,  1.f,  1.f, //Left face
-            -1.f,  1.f, -1.f,
-            -1.f, -1.f, -1.f,
-            -1.f, -1.f, -1.f,
-            -1.f, -1.f,  1.f,
-            -1.f,  1.f,  1.f,
+        -1.f,  1.f,  1.f, // Left face
+        -1.f,  1.f, -1.f,
+        -1.f, -1.f, -1.f,
+        -1.f, -1.f,  1.f,
 
-             1.f,  1.f,  1.f, //Right face
-             1.f,  1.f, -1.f,
-             1.f, -1.f, -1.f,
-             1.f, -1.f, -1.f,
-             1.f, -1.f,  1.f,
-             1.f,  1.f,  1.f,
+         1.f,  1.f,  1.f, // Right face
+         1.f,  1.f, -1.f,
+         1.f, -1.f, -1.f,
+         1.f, -1.f,  1.f,
 
-             -1.f, -1.f, -1.f, //Bottom face
-             1.f, -1.f, -1.f,
-             1.f, -1.f,  1.f,
-             1.f, -1.f,  1.f,
-            -1.f, -1.f,  1.f,
-            -1.f, -1.f, -1.f,
+        -1.f, -1.f, -1.f, // Bottom face
+         1.f, -1.f, -1.f,
+         1.f, -1.f,  1.f,
+        -1.f, -1.f,  1.f,
 
-             -1.f,  1.f, -1.f, //Top face
-             1.f,  1.f, -1.f,
-             1.f,  1.f,  1.f,
-             1.f,  1.f,  1.f,
-            -1.f,  1.f,  1.f,
-            -1.f,  1.f, -1.f
+        -1.f,  1.f, -1.f, // Top face
+         1.f,  1.f, -1.f,
+         1.f,  1.f,  1.f,
+        -1.f,  1.f,  1.f
 
         };
 
         m_normals = 
         {
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
+             0.0f,  0.0f, -1.0f, // Back face
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
 
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f, // Front face
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
 
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f, // Left face
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
 
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f, // Right face
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
 
-             0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
+         0.0f, -1.0f,  0.0f, // Bottom face
+         0.0f, -1.0f,  0.0f,
+         0.0f, -1.0f,  0.0f,
+         0.0f, -1.0f,  0.0f,
 
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f, // Top face
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f
         };
 
 
-        for (int i = 0; i < m_vertices.size(); ++i)
-        {
-            m_indices.push_back(i);
-        }
+        m_indices = {
+
+            0, 1, 2, 2, 3, 0,        // Back face
+            4, 5, 6, 6, 7, 4,        // Front face
+            8, 9, 10, 10, 11, 8,     // Left face
+            12, 13, 14, 14, 15, 12,  // Right face
+            16, 17, 18, 18, 19, 16,  // Bottom face
+            20, 21, 22, 22, 23, 20   // Top face
+        };
 
         m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
         m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);

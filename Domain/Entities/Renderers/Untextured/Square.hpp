@@ -25,10 +25,12 @@ namespace Renderers {
 
 
 	protected:
-		void Attach();
-		void Load();
+		
+		void Load() override;
 
 	private:
+
+		void Attach();
 		typedef IRenderer base;
 
 

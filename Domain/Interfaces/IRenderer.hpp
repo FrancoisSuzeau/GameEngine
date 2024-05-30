@@ -56,6 +56,11 @@ namespace Renderers {
 			CleanEbo();
 			m_vertices.clear();
 			m_indices.clear();
+			m_normals.clear();
+
+			m_bytes_indices_size = 0;
+			m_bytes_normals_size = 0;
+			m_bytes_vertices_size = 0;
 		}
 
 
@@ -70,6 +75,8 @@ namespace Renderers {
 
 		std::vector<unsigned int> m_indices;
 		unsigned int m_bytes_indices_size;
+
+		virtual void Load() {}
 
 	private:
 		virtual void CleanVbo()

@@ -23,15 +23,21 @@ namespace Renderers {
 		void Draw(unsigned int const light_src_texture_id) override;
 		void Clean();
 
-	private:
-		void Attach();
-		void Load();
+	protected:
 
-		typedef IRenderer base;
+		void Load() override;
 
 		float m_radius;
 		unsigned int m_long_seg;
 		unsigned int m_lat_seg;
+
+	private:
+		void Attach();
+		
+
+		typedef IRenderer base;
+
+
 
 
 

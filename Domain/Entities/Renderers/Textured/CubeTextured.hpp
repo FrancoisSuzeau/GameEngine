@@ -5,13 +5,13 @@
 #ifndef CUBETEXTURED_H
 #define CUBETEXTURED_H
 
-#include "../../../Interfaces/IRenderer.hpp"
+#include "../Untextured/Cube.hpp"
 
 namespace Renderers {
 
 
 
-	class CubeTextured : public IRenderer
+	class CubeTextured : public Cube
 	{
 	public:
 
@@ -23,14 +23,16 @@ namespace Renderers {
 		void Draw(unsigned int const texture_id) override;
 		void Draw(unsigned int const texture_id, unsigned int const light_src_texture_id) override;
 
+	protected:
+		void Load() override;
+
 	private:
 		void Attach();
-		void Load();
 
 		std::vector<GLfloat> m_texture_coord;
 		unsigned int m_bytes_textcoord_size;
 
-		typedef IRenderer base;
+		typedef Cube base;
 
 	};
 }
