@@ -40,6 +40,7 @@ namespace Enums {
 		});
 
 	NLOHMANN_JSON_SERIALIZE_ENUM(LightType, {
+		{LightType::NORMALIGHT, "normal_light"},
 		{LightType::DIRECTIONALLIGHT, "directional_light"},
 		{LightType::POINTLIGHT, "point_light"},
 		{LightType::SPOTLIGHT, "spot_light"}

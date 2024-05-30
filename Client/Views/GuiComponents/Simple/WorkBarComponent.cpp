@@ -418,10 +418,10 @@ namespace Views
 				}
 				else
 				{
-					const char* light_types[Enums::LightType::NBLIGHTTYPE] = { "Directional light", "Point light", "Spot light" };
+					const char* light_types[Enums::LightType::NBLIGHTTYPE] = {"Normal light", "Directional light", "Point light", "Spot light" };
 					int light_type_index = selected_renderer->GetLightType();
 					const char* light_type = (light_type_index >= 0 && light_type_index < Enums::LightType::NBLIGHTTYPE) ? light_types[light_type_index] : "Unknown";
-					if (ImGui::SliderInt("slider enum", &light_type_index, 0, Enums::LightType::NBLIGHTTYPE - 1, light_type))
+					if (ImGui::SliderInt("Light type", &light_type_index, 0, Enums::LightType::NBLIGHTTYPE - 1, light_type))
 					{
 						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
 					}

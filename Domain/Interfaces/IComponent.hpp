@@ -11,7 +11,7 @@
 #include <memory>
 #include "IRenderer.hpp"
 
-namespace Enums { enum LightType { DIRECTIONALLIGHT, POINTLIGHT, SPOTLIGHT, NBLIGHTTYPE }; }
+namespace Enums { enum LightType {NORMALIGHT, DIRECTIONALLIGHT, POINTLIGHT, SPOTLIGHT, NBLIGHTTYPE }; }
 
 namespace Component {
 
