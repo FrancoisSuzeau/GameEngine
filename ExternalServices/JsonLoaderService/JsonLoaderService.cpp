@@ -121,6 +121,8 @@ namespace Services
 	{
 		std::vector<json> renderers_json_format;
 		std::string selected_skybox;
+		glm::vec3 direction_light;
+		bool is_there_direction_light;
 		if (scene)
 		{
 			std::vector<std::shared_ptr<Component::IComponent>> components = scene->GetSceneComponents();
@@ -142,11 +144,15 @@ namespace Services
 				renderers_json_format.push_back(renderer_json_format);
 			}
 			selected_skybox = scene->GetSelectedSkybox();
+			direction_light = scene->GetDirectionLight();
+			is_there_direction_light = scene->GetIsThereDirectionLight();
 		}
 		json j = 
 		{ 
 			{"components", renderers_json_format},
 			{"selected_skybox", selected_skybox},
+			{"direction_light", {direction_light.x, direction_light.y, direction_light.z}},
+			{"is_there_direction_light", is_there_direction_light}
 			
 		};
 		return std::make_unique<json>(j);
@@ -218,6 +224,8 @@ namespace Services
 
 		scene->SetSceneComponents(components);
 		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
+		scene->SetDirectionLight(this->GetVec3Node(Enums::JsonType::Scene, "direction_light"));
+		scene->SetIsThereDirectionLight(this->GetBoolNode(Enums::JsonType::Scene, "is_there_direction_light"));
 		return scene;
 	}
 
@@ -302,6 +310,26 @@ namespace Services
 
 		
 		return glm::vec4(0.f);
+	}
+
+	glm::vec3 JsonLoaderService::GetVec3Node(Enums::JsonType json_type, std::string node_name)
+	{
+		if (m_json_contents.contains(json_type) && m_json_contents.at(json_type))
+		{
+			json node = m_json_contents.at(json_type)->at(node_name);
+
+			if (node == Constants::NONE)
+			{
+				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				return glm::vec3(0.f);
+			}
+
+			SQ_EXTSERVICE_TRACE("Node [{}] successfully readed", node_name);
+			return glm::vec3(node[0], node[1], node[2]);
+		}
+		
+
+		return glm::vec3(0.f);
 	}
 
 	glm::vec3 JsonLoaderService::GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name)

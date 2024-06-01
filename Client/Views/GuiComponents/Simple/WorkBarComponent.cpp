@@ -29,7 +29,7 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox("")
+	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
 	{
 		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -61,6 +61,13 @@ namespace Views
 			if (!m_runtime_service)
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			m_physics_service = container->GetReference<Services::PhysicsService>();
+			if (!m_physics_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
+
 			}
 		}
 
@@ -101,7 +108,7 @@ namespace Views
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 250), true, window_flags2))
 		{
 			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
-			ImGui::Text("Add new :");
+			ImGui::BulletText("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
 
@@ -118,7 +125,7 @@ namespace Views
 
 			if (m_state_service->GetScene())
 			{
-				ImGui::Text("Change skybox :");
+				ImGui::BulletText("Change skybox :");
 				int img_size = 50;
 				std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
 				m_selected_skybox = m_state_service->GetScene()->GetSelectedSkybox();
@@ -152,13 +159,55 @@ namespace Views
 				for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
 				{
 					ImGui::Text(it->first.c_str());
-					ImGui::SameLine((float)img_size + 20.f);
+					ImGui::SameLine((float)img_size + 30.f);
 				}
 				ImGui::Text(" ");
 
-				
-			}
+				ImGui::Separator();
 
+				ImGui::BulletText("Directional light");
+
+				if (m_state_service && m_state_service->GetScene() && m_physics_service)
+				{
+					is_there_light_directional_source = m_state_service->GetScene()->GetIsThereDirectionLight();
+					if (!is_there_light_directional_source)
+					{
+						if (ImGui::Button("Add directional light source"))
+						{
+							m_state_service->RemoveLightsSource();
+							m_state_service->GetScene()->SetIsThereDirectionLight(true);
+							m_state_service->GetScene()->SetDirectionLight(glm::vec3(0.f, -1.f, 0.f));
+						}
+					}
+					else
+					{
+						ImGui::PushID(0);
+						ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.6f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.7f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.8f, 0.8f));
+						if (ImGui::Button("Delete directional light source"))
+						{
+							m_state_service->GetScene()->SetIsThereDirectionLight(false);
+						}
+						ImGui::PopStyleColor(3);
+						ImGui::PopID();
+
+						float theta = m_physics_service->GetTheta();
+						float phi = m_physics_service->GetPhi();
+
+						if (ImGui::SliderFloat("Azymuthal angle", &theta, 0, glm::two_pi<float>(), "%.3f"))
+						{
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta));
+						}
+
+						if (ImGui::SliderFloat("Polar angle", &phi, 0, glm::pi<float>(), "%.3f"))
+						{
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, phi));
+						}
+
+					}
+				}
+			}
 			ImGui::EndChild();
 		}
 
@@ -386,13 +435,16 @@ namespace Views
 	{
 		if (selected_renderer)
 		{
-			bool is_light_source = selected_renderer->GetIsALightSource();
-			if (ImGui::Checkbox("Is a light source", &is_light_source))
+			if (!is_there_light_directional_source)
 			{
-				selected_renderer->SetIsALigthSource(is_light_source);
+				bool is_light_source = selected_renderer->GetIsALightSource();
+				if (ImGui::Checkbox("Is a light source", &is_light_source))
+				{
+					selected_renderer->SetIsALigthSource(is_light_source);
+				}
 			}
 
-			if (m_state_service->GeUniqueLightSource() != nullptr)
+			if (m_state_service->GeUniqueLightSource() != nullptr || is_there_light_directional_source)
 			{
 				if (!selected_renderer->GetIsALightSource())
 				{
@@ -418,7 +470,7 @@ namespace Views
 				}
 				else
 				{
-					const char* light_types[Enums::LightType::NBLIGHTTYPE] = {"Normal light", "Directional light", "Point light", "Spot light" };
+					const char* light_types[Enums::LightType::NBLIGHTTYPE] = {"Normal light", "Point light", "Spot light" };
 					int light_type_index = selected_renderer->GetLightType();
 					const char* light_type = (light_type_index >= 0 && light_type_index < Enums::LightType::NBLIGHTTYPE) ? light_types[light_type_index] : "Unknown";
 					if (ImGui::SliderInt("Light type", &light_type_index, 0, Enums::LightType::NBLIGHTTYPE - 1, light_type))

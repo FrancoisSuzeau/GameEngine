@@ -25,6 +25,8 @@ struct Light
     float linear;
     float quadratic;
     bool is_point_light;
+    bool is_directional;
+    vec3 direction;
 };
 
 uniform Light src_light;
@@ -62,6 +64,18 @@ vec4 CalculateBrightColor(vec4 frag_color, float brightness_limit)
     }
 }
 
+vec3 GetLightDir()
+{
+    if(src_light.is_directional)
+    {
+        return normalize(src_light.direction);
+    }
+    else
+    {
+        return normalize(src_light.position - fs_in.FragPos);
+    }
+}
+
 void main()
 {
     
@@ -91,7 +105,7 @@ void main()
             
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
-            vec3 light_dir = normalize(src_light.position - fs_in.FragPos);
+            vec3 light_dir = GetLightDir();
             float diff = max(dot(light_dir, norm), 0.f);
             vec3 diffuse = diff * light_color;
 

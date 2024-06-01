@@ -26,6 +26,13 @@ namespace Commands
 			{
 				SQ_APP_ERROR("Class {} in function {} : Json service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_physics_service = container->GetReference<Services::PhysicsService>();
+			if (!m_physics_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 	}
 
@@ -44,11 +51,17 @@ namespace Commands
 
 	void LoadSceneCommand::Execute()
 	{
-		if (m_loader_service && m_state_service)
+		if (m_loader_service && m_state_service && m_physics_service)
 		{
-			m_state_service->SetScene(m_loader_service->LoadScene(m_state_service->getFileName()));
-			m_loader_service->LoadSceneComponentsTextures();
-			m_state_service->SetSelectedSkyboxTextureId();
+			std::shared_ptr<Services::SceneEntity> scene = m_loader_service->LoadScene(m_state_service->getFileName());
+			if (scene)
+			{
+				m_physics_service->SetTheta(scene->GetDirectionLight());
+				m_physics_service->SetPhi(scene->GetDirectionLight());
+				m_state_service->SetScene(scene);
+				m_loader_service->LoadSceneComponentsTextures();
+				m_state_service->SetSelectedSkyboxTextureId();
+			}
 			m_state_service.reset();
 			m_loader_service.reset();
 		}

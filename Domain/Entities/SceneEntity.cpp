@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	SceneEntity::SceneEntity() : m_selected_skybox("")
+	SceneEntity::SceneEntity() : m_selected_skybox(""), m_direction_light(0.f), m_is_there_direction_light(false)
 	{
 
 	}
@@ -61,6 +61,26 @@ namespace Services {
 	void SceneEntity::SetSelectedSkybox(std::string const selected_skybox)
 	{
 		m_selected_skybox = selected_skybox;
+	}
+
+	glm::vec3 SceneEntity::GetDirectionLight() const
+	{
+		return m_direction_light;
+	}
+
+	void SceneEntity::SetDirectionLight(glm::vec3 const direction_light)
+	{
+		m_direction_light = direction_light;
+	}
+
+	bool SceneEntity::GetIsThereDirectionLight() const
+	{
+		return m_is_there_direction_light;
+	}
+
+	void SceneEntity::SetIsThereDirectionLight(bool const is_there_direction_light)
+	{
+		m_is_there_direction_light = is_there_direction_light;
 	}
 
 }

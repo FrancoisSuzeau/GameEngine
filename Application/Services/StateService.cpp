@@ -244,6 +244,26 @@ namespace Services
 		return light_source;
 	}
 
+	void StateService::RemoveLightsSource()
+	{
+
+		if (m_scene)
+		{
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_scene->GetSceneComponents();
+			auto result = std::find_if(components.begin(), components.end(), [](const std::shared_ptr<Component::IComponent> selectable_component) {return selectable_component->GetIsALightSource() == true; });
+			if (result != components.end())
+			{
+				for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
+				{
+					if (it[0] && it[0]->GetIsALightSource())
+					{
+						it[0]->SetIsALigthSource(false);
+					}
+				}
+			}
+		}
+	}
+
 	int StateService::GetTotalRessources() const
 	{
 		if (m_configs)
