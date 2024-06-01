@@ -25,7 +25,7 @@ namespace Services {
 		void DeInit() override;
 
 
-		glm::vec3 UpdateDirectionalLight(Enums::AngleToUpdate type, float angle);
+		glm::vec3 UpdateDirectionalLight(Enums::AngleToUpdate type, float const theta, float const phi);
 
 		float GetTheta() const;
 		float GetPhi() const;
@@ -34,8 +34,8 @@ namespace Services {
 		void SetPhi(glm::vec3 const direction);
 
 	private:
-		float theta;
-		float phi;
+		float m_theta;
+		float m_phi;
 		std::shared_ptr<StateService> m_state_service;
 		
 	};

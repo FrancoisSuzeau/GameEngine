@@ -195,14 +195,14 @@ namespace Views
 						float theta = m_physics_service->GetTheta();
 						float phi = m_physics_service->GetPhi();
 
-						if (ImGui::SliderFloat("Azymuthal angle", &theta, 0, glm::two_pi<float>(), "%.3f"))
+						if (ImGui::SliderFloat("Polar angle", &theta, 0, glm::pi<float>(), "%.3f"))
 						{
-							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta));
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, theta, phi));
 						}
 
-						if (ImGui::SliderFloat("Polar angle", &phi, 0, glm::pi<float>(), "%.3f"))
+						if (ImGui::SliderFloat("Azymuthal angle", &phi, 0, glm::two_pi<float>(), "%.3f"))
 						{
-							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, phi));
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta, phi));
 						}
 
 					}

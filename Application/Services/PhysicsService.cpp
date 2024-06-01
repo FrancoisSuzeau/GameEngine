@@ -25,18 +25,33 @@ namespace Services
 
 	}
 
-	glm::vec3 PhysicsService::UpdateDirectionalLight(Enums::AngleToUpdate type, float angle)
+	glm::vec3 PhysicsService::UpdateDirectionalLight(Enums::AngleToUpdate type, float const theta, float const phi)
 	{
-		glm::vec3 axis = glm::vec3(0.f);
+		m_phi = phi;
+		m_theta = theta;
+		glm::vec3 axis = glm::vec3(0.f, 1.f, 0.f);
+		glm::mat4 dir_mat = glm::mat4(1.f);
+
+		//first rotate from Y axis
+		dir_mat = glm::rotate(dir_mat, m_phi, axis);
+
+		//Second rotate from X axis
+		axis = glm::vec3(1.f, 0.f, 0.f);
+		dir_mat = glm::rotate(dir_mat, m_theta, axis);
+
+		return glm::vec3(dir_mat * glm::vec4(0, 0, -1, 0));
+
+
+		/*glm::vec3 axis = glm::vec3(0.f);
 		switch (type)
 		{
 		case Enums::AZYMUTH:
 			axis = glm::vec3(0.f, 1.f, 0.f);
-			theta = angle;
+			phi = phi;
 			break;
 		case Enums::POLAR:
 			axis = glm::vec3(1.f, 0.f, 0.f);
-			phi = angle;
+			theta = angle;
 			break;
 		default:
 			break;
@@ -45,28 +60,28 @@ namespace Services
 		glm::mat4 dir_mat = glm::rotate(glm::mat4(1.f), angle, axis);
 
 
-		return glm::vec3(dir_mat * glm::vec4(0, 0, -1, 0));
+		return glm::vec3(dir_mat * glm::vec4(0, 0, -1, 0));*/
 	}
 
 	float PhysicsService::GetTheta() const
 	{
-		return theta;
+		return m_theta;
 	}
 
 	float PhysicsService::GetPhi() const
 	{
-		return phi;
+		return m_phi;
 	}
 
 	void PhysicsService::SetTheta(glm::vec3 const direction)
 	{
-		theta = std::atan2(direction.y, direction.x);
+		float r = std::sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
+		m_theta = std::acos(direction.z / r);
 	}
 
 	void PhysicsService::SetPhi(glm::vec3 const direction)
 	{
-		float r = std::sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
-		phi = std::acos(direction.z / r);
+		m_phi = std::atan2(direction.y, direction.x);
 	}
 
 }
