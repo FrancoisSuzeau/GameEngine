@@ -25,6 +25,7 @@ struct Light
     float linear;
     float quadratic;
     bool is_point_light;
+    bool is_spot_light;
     bool is_directional;
     vec3 direction;
 };
@@ -82,11 +83,27 @@ void main()
     //Case if the fragment is part of a light source object
     if(component.is_light_source)
     {
+        vec3 color = component.background_color.rgb;
+        if(src_light.is_spot_light)
+        {
+            //Ambiant
+            vec3 ambiant = 0.f * color;
+
+            //Diffuse
+            vec3 norm = normalize(fs_in.Normal);
+            vec3 light_dir = normalize(src_light.direction);
+            float diff = max(dot(light_dir, norm), 0.f);
+            vec3 diffuse = diff * color;
+
+            color = (ambiant + diffuse) * component.background_color.rgb;
+        }
+
         //Pass to framebuffer 0 (normal output)
-        FragColor = component.background_color;
+        FragColor = vec4(color, component.background_color.a);
 
         //Pass to framebuffer 1 (bright output)
         BrightColor = CalculateBrightColor(FragColor, 0.f);
+       
     }
     //Case if the fragment is not part of a light source object -> calculate complex object light effect
     else

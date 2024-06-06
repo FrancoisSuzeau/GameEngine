@@ -139,7 +139,8 @@ namespace Services
 					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()},
 					{"specular_shininess", it[0]->GetSpecularShininess()},
 					{"specular_strength", it[0]->GetSpecularStrength()},
-					{"light_type", it[0]->GetLightType()}
+					{"light_type", it[0]->GetLightType()},
+					{"direction", {it[0]->GetDirection().x, it[0]->GetDirection().y, it[0]->GetDirection().z}}
 				};
 				renderers_json_format.push_back(renderer_json_format);
 			}
@@ -191,6 +192,7 @@ namespace Services
 				json j = this->GetStringNode(std::make_unique<json>(*it), "type");
 				json j2 = this->GetStringNode(std::make_unique<json>(*it), "light_type");
 				glm::vec3 position = this->GetVec3Node(std::make_unique<json>(*it), "position");
+				glm::vec3 direction = this->GetVec3Node(std::make_unique<json>(*it), "direction");
 				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
 				std::string texture_name = this->GetStringNode(std::make_unique<json>(*it), "texture_name");
@@ -207,14 +209,14 @@ namespace Services
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
 					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>()));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
 					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>()));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction));
 					break;
 				default:
 					break;

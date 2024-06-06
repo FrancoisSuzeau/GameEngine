@@ -167,6 +167,16 @@ namespace Component {
 		{
 			return m_light_type;
 		}
+
+		virtual void SetDirection(glm::vec3 const direction)
+		{
+			m_direction = direction;
+		}
+
+		virtual glm::vec3 GetDirection() const
+		{
+			return m_direction;
+		}
  
 	protected:
 		Enums::RendererType m_type;
@@ -182,6 +192,7 @@ namespace Component {
 		float m_ambiant_occlusion;
 		int m_specular_shininess;
 		float m_specular_strength;
+		glm::vec3 m_direction;
 		
 		Enums::LightType m_light_type;
 		

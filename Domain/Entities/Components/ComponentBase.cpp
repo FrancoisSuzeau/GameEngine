@@ -8,7 +8,7 @@
 namespace Component
 {
 	ComponentBase::ComponentBase(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, glm::vec4 const color, 
-		bool const is_light_source, float const ambiant_occlusion, int const specular_shininess, float const specular_strength, Enums::LightType const light_type)
+		bool const is_light_source, float const ambiant_occlusion, int const specular_shininess, float const specular_strength, Enums::LightType const light_type, glm::vec3 direction)
 	{
 		m_type = type;
 
@@ -24,6 +24,7 @@ namespace Component
 		m_specular_shininess = specular_shininess;
 		m_specular_strength = specular_strength;
 		m_light_type = light_type;
+		m_direction = direction;
 	}
 
 	void ComponentBase::Clean()

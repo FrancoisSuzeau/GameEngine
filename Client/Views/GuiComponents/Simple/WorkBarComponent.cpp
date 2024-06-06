@@ -477,6 +477,24 @@ namespace Views
 					{
 						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
 					}
+
+					ImGui::Separator();
+
+					if (selected_renderer->GetLightType() == Enums::LightType::SPOTLIGHT)
+					{
+						float theta = m_physics_service->GetTheta();
+						float phi = m_physics_service->GetPhi();
+
+						if (ImGui::SliderFloat("Polar angle", &theta, 0, glm::pi<float>(), "%.3f"))
+						{
+							selected_renderer->SetDirection(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, theta, phi));
+						}
+
+						if (ImGui::SliderFloat("Azymuthal angle", &phi, 0, glm::two_pi<float>(), "%.3f"))
+						{
+							selected_renderer->SetDirection(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta, phi));
+						}
+					}
 				}
 			}
 		}

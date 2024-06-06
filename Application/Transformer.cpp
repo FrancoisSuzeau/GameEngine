@@ -133,6 +133,8 @@ namespace Component
 					type == Enums::RendererType::SQUARE_TEXTURED ||
 					type == Enums::RendererType::TRIANGLE_TEXTURED;
 				shader_service->setInt(shader_name, "src_light.is_point_light", unique_light_source->GetLightType() == Enums::LightType::POINTLIGHT);
+				shader_service->setInt(shader_name, "src_light.is_spot_light", unique_light_source->GetLightType() == Enums::LightType::SPOTLIGHT);
+				shader_service->setVec(shader_name, "src_light.direction", unique_light_source->GetDirection());
 				shader_service->setInt(shader_name, "src_light.is_textured", is_textured);
 				shader_service->setInt(shader_name, "src_light.mixe_texture_color", unique_light_source->GetMixeTextureColor());
 				Services::Attenuation_constants attenuation_constant = runtime_service->GetAttenuationConstant((int)glm::distance(unique_light_source->GetPosition(), component->GetPosition()));
@@ -148,6 +150,8 @@ namespace Component
 				shader_service->setVec(shader_name, "src_light.direction", state_service->GetScene()->GetDirectionLight());
 				shader_service->setInt(shader_name, "src_light.is_textured", false);
 				shader_service->setInt(shader_name, "src_light.is_point_light", false);
+				shader_service->setInt(shader_name, "src_light.is_spot_light", false);
+				shader_service->setInt(shader_name, "src_light.is_spot", false);
 				shader_service->setInt(shader_name, "src_light.mixe_texture_color", false);
 			}
 		}
@@ -163,6 +167,7 @@ namespace Component
 			shader_service->setVec(shader_name, "component.background_color", component->GetBackgroundColor());
 			shader_service->setMat4(shader_name, "model", component->GetModelMat());
 			shader_service->setInt(shader_name, "component.is_light_source", component->GetIsALightSource());
+			shader_service->setInt(shader_name, "component.is_spot_light", component->GetLightType() == Enums::LightType::SPOTLIGHT);
 			shader_service->setInt(shader_name, "component.specular_shininess", component->GetSpecularShininess());
 			shader_service->setFloat(shader_name, "component.specular_strength", component->GetSpecularStrength());
 			shader_service->setFloat(shader_name, "component.ambiant_strength", component->GetAmbiantOcclusion());
