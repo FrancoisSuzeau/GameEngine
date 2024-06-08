@@ -42,6 +42,7 @@ struct Light
     bool is_directional;
     vec3 direction;
     float cut_off;
+    float outer_cut_off;
     bool is_attenuation;
 };
 
@@ -168,33 +169,25 @@ void main()
                 diffuse *= attenuation;
                 specular *= attenuation;
             }
-            if(src_light.is_spot_light && src_light.is_attenuation)
+            if(src_light.is_spot_light)
             {
-                diffuse *= attenuation;
-                specular *= attenuation;
+                if(src_light.is_attenuation)
+                {
+                    diffuse *= attenuation;
+                    specular *= attenuation;
+                }
+
+                float theta = dot(light_dir, normalize(-src_light.direction));
+                float epsilon = (src_light.cut_off - src_light.outer_cut_off);
+                float intensity = clamp((theta - src_light.outer_cut_off) / epsilon, 0.f, 1.f);
+                diffuse *= intensity;
+                specular *= intensity;
             }
 
             //Pass to framebuffer 0 (normal output)
             vec4 result = GetMixedColor(objectTexture, component.background_color, component.mixe_texture_color);
-            if(src_light.is_spot_light)
-            {
-                float theta = dot(light_dir, normalize(-src_light.direction));
-                
-                if(theta > src_light.cut_off)
-                {
-                    vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
-                    FragColor = vec4(final_result, result.a);
-                }
-                else
-                {
-                    FragColor = vec4(ambiant * result.rgb, result.a);
-                }  
-            }
-            else
-            {
-                vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
-                FragColor = vec4(final_result, result.a);
-            }
+            vec3 final_result = (ambiant + diffuse + specular) * result.rgb;
+            FragColor = vec4(final_result, result.a);
 
             //Pass to framebuffer color 1 (bright output)
             BrightColor = CalculateBrightColor(FragColor, 1.f);

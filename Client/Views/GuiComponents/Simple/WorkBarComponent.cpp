@@ -511,6 +511,14 @@ namespace Views
 						{
 							selected_renderer->SetCutOff(cut_off);
 						}
+
+						ImGui::Separator();
+
+						float outer_cut_off = selected_renderer->GetOuterCutOff();
+						if (ImGui::SliderFloat("Outer Cut off", &outer_cut_off, 0, 5.f, "%.3f"))
+						{
+							selected_renderer->SetOuterCutOff(outer_cut_off);
+						}
 					}
 				}
 			}

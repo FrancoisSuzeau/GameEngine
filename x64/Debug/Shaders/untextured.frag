@@ -29,6 +29,7 @@ struct Light
     bool is_directional;
     vec3 direction;
     float cut_off;
+    float outer_cut_off;
     bool is_attenuation;
 };
 
@@ -152,31 +153,24 @@ void main()
                 specular *= attenuation;
             } 
 
-            if(src_light.is_spot_light && src_light.is_attenuation)
-            {
-                diffuse *= attenuation;
-                specular *= attenuation;
-            }   
-
-            //Pass to framebuffer 0 (normal output)
             if(src_light.is_spot_light)
             {
+                if(src_light.is_attenuation)
+                {
+                    diffuse *= attenuation;
+                    specular *= attenuation;
+                }
+
                 float theta = dot(light_dir, normalize(-src_light.direction));
-                if(theta > src_light.cut_off)
-                {
-                    vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
-                    FragColor = vec4(result, component.background_color.a);
-                }
-                else
-                {
-                    FragColor = vec4(ambiant * component.background_color.rgb, component.background_color.a);
-                }
-            }
-            else
-            {
-                vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
-                FragColor = vec4(result, component.background_color.a);
-            }
+                float epsilon = (src_light.cut_off - src_light.outer_cut_off);
+                float intensity = clamp((theta - src_light.outer_cut_off) / epsilon, 0.f, 1.f);
+                diffuse *= intensity;
+                specular *= intensity;
+            }   
+
+            //Pass to framebuffer 1 (bright output)
+            vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
+            FragColor = vec4(result, component.background_color.a);
             
             //Pass to framebuffer 1 (bright output)
             BrightColor = CalculateBrightColor(FragColor, 1.f);

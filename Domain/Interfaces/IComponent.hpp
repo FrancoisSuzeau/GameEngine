@@ -188,6 +188,16 @@ namespace Component {
 			m_cut_off = cut_off;
 		}
 
+		virtual float GetOuterCutOff() const
+		{
+			return m_outer_cut_off;
+		}
+
+		virtual void SetOuterCutOff(float const outer_cut_off)
+		{
+			m_outer_cut_off = outer_cut_off;
+		}
+
 		virtual void SetIsAttenuation(bool const is_attenuation)
 		{
 			m_is_attenuation = is_attenuation;
@@ -216,6 +226,7 @@ namespace Component {
 		
 		Enums::LightType m_light_type;
 		float m_cut_off;
+		float m_outer_cut_off;
 		bool m_is_attenuation;
 		
 
