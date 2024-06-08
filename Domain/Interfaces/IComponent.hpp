@@ -177,6 +177,26 @@ namespace Component {
 		{
 			return m_direction;
 		}
+
+		virtual float GetCutOff() const
+		{
+			return m_cut_off;
+		}
+
+		virtual void SetCutOff(float const cut_off)
+		{
+			m_cut_off = cut_off;
+		}
+
+		virtual void SetIsAttenuation(bool const is_attenuation)
+		{
+			m_is_attenuation = is_attenuation;
+		}
+
+		virtual bool GetIsAttenuation() const
+		{
+			return m_is_attenuation;
+		}
  
 	protected:
 		Enums::RendererType m_type;
@@ -195,6 +215,8 @@ namespace Component {
 		glm::vec3 m_direction;
 		
 		Enums::LightType m_light_type;
+		float m_cut_off;
+		bool m_is_attenuation;
 		
 
 	};

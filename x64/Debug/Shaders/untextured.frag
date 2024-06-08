@@ -28,6 +28,8 @@ struct Light
     bool is_spot_light;
     bool is_directional;
     vec3 direction;
+    float cut_off;
+    bool is_attenuation;
 };
 
 uniform Light src_light;
@@ -95,7 +97,15 @@ void main()
             float diff = max(dot(light_dir, norm), 0.f);
             vec3 diffuse = diff * color;
 
-            color = (ambiant + diffuse) * component.background_color.rgb;
+            float theta = dot(light_dir, norm);
+            if(theta > src_light.cut_off)
+            {
+                color = (ambiant + diffuse) * component.background_color.rgb;
+            }
+            else
+            {
+                color = ambiant * component.background_color.rgb;
+            }
         }
 
         //Pass to framebuffer 0 (normal output)
@@ -133,19 +143,40 @@ void main()
             vec3 specular = component.specular_strength * spec * light_color;
 
             //Attenuation
-            //Attenuation
+            float distance = length(src_light.position - fs_in.FragPos);
+            float attenuation = 1.0 / (src_light.constant + src_light.linear * distance + src_light.quadratic * (distance * distance));
             if(src_light.is_point_light)
             {
-                float distance = length(src_light.position - fs_in.FragPos);
-                float attenuation = 1.0 / (src_light.constant + src_light.linear * distance + src_light.quadratic * (distance * distance));
                 ambiant *= attenuation;
                 diffuse *= attenuation;
                 specular *= attenuation;
-            }  
+            } 
+
+            if(src_light.is_spot_light && src_light.is_attenuation)
+            {
+                diffuse *= attenuation;
+                specular *= attenuation;
+            }   
 
             //Pass to framebuffer 0 (normal output)
-            vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
-            FragColor = vec4(result, component.background_color.a);
+            if(src_light.is_spot_light)
+            {
+                float theta = dot(light_dir, normalize(-src_light.direction));
+                if(theta > src_light.cut_off)
+                {
+                    vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
+                    FragColor = vec4(result, component.background_color.a);
+                }
+                else
+                {
+                    FragColor = vec4(ambiant * component.background_color.rgb, component.background_color.a);
+                }
+            }
+            else
+            {
+                vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
+                FragColor = vec4(result, component.background_color.a);
+            }
             
             //Pass to framebuffer 1 (bright output)
             BrightColor = CalculateBrightColor(FragColor, 1.f);

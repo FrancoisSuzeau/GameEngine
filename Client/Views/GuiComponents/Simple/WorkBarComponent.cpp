@@ -446,6 +446,8 @@ namespace Views
 
 			if (m_state_service->GeUniqueLightSource() != nullptr || is_there_light_directional_source)
 			{
+				ImGui::Separator();
+
 				if (!selected_renderer->GetIsALightSource())
 				{
 					float ambiant = selected_renderer->GetAmbiantOcclusion();
@@ -478,10 +480,17 @@ namespace Views
 						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
 					}
 
-					ImGui::Separator();
-
+					
 					if (selected_renderer->GetLightType() == Enums::LightType::SPOTLIGHT)
 					{
+						ImGui::Separator();
+
+						bool is_attenuation = selected_renderer->GetIsAttenuation();
+						if (ImGui::Checkbox("Use attenuation", &is_attenuation))
+						{
+							selected_renderer->SetIsAttenuation(is_attenuation);
+						}
+
 						float theta = m_physics_service->GetTheta();
 						float phi = m_physics_service->GetPhi();
 
@@ -493,6 +502,14 @@ namespace Views
 						if (ImGui::SliderFloat("Azymuthal angle", &phi, 0, glm::two_pi<float>(), "%.3f"))
 						{
 							selected_renderer->SetDirection(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta, phi));
+						}
+
+						ImGui::Separator();
+
+						float cut_off = selected_renderer->GetCutOff();
+						if (ImGui::SliderFloat("Light Cut off", &cut_off, 0, 20.f, "%.3f"))
+						{
+							selected_renderer->SetCutOff(cut_off);
 						}
 					}
 				}

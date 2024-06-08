@@ -137,10 +137,12 @@ namespace Component
 				shader_service->setVec(shader_name, "src_light.direction", unique_light_source->GetDirection());
 				shader_service->setInt(shader_name, "src_light.is_textured", is_textured);
 				shader_service->setInt(shader_name, "src_light.mixe_texture_color", unique_light_source->GetMixeTextureColor());
+				shader_service->setInt(shader_name, "src_light.is_attenuation", unique_light_source->GetIsAttenuation());
 				Services::Attenuation_constants attenuation_constant = runtime_service->GetAttenuationConstant((int)glm::distance(unique_light_source->GetPosition(), component->GetPosition()));
 				shader_service->setFloat(shader_name, "src_light.constant", attenuation_constant.constant);
 				shader_service->setFloat(shader_name, "src_light.linear", attenuation_constant.linear);
 				shader_service->setFloat(shader_name, "src_light.quadratic", attenuation_constant.quadratic);
+				shader_service->setFloat(shader_name, "src_light.cut_off", glm::cos(glm::radians(unique_light_source->GetCutOff())));
 				shader_service->setTexture(shader_name, "src_light.texture", 2);
 			}
 

@@ -136,10 +136,12 @@ namespace Services
 					{"texture_name", it[0]->GetTextureName()},
 					{"mixe_texture_color", it[0]->GetMixeTextureColor()},
 					{"is_light_source", it[0]->GetIsALightSource()},
+					{"is_attenuation", it[0]->GetIsAttenuation()},
 					{"ambiant_occlusion", it[0]->GetAmbiantOcclusion()},
 					{"specular_shininess", it[0]->GetSpecularShininess()},
 					{"specular_strength", it[0]->GetSpecularStrength()},
 					{"light_type", it[0]->GetLightType()},
+					{"cut_off", it[0]->GetCutOff()},
 					{"direction", {it[0]->GetDirection().x, it[0]->GetDirection().y, it[0]->GetDirection().z}}
 				};
 				renderers_json_format.push_back(renderer_json_format);
@@ -201,7 +203,9 @@ namespace Services
 				float ambiant_occlusion = this->GetFloatNode(std::make_unique<json>(*it), "ambiant_occlusion");
 				int specular_shininess = this->GetIntNode(std::make_unique<json>(*it), "specular_shininess");
 				float specular_strength = this->GetFloatNode(std::make_unique<json>(*it), "specular_strength");
-
+				float cut_off = this->GetFloatNode(std::make_unique<json>(*it), "cut_off");
+				bool is_attenuation = this->GetBoolNode(std::make_unique<json>(*it), "is_attenuation");
+				
 				switch (j.template get<Enums::RendererType>())
 				{
 				case Enums::RendererType::TRIANGLE:
@@ -209,14 +213,14 @@ namespace Services
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
 					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, is_attenuation));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
 					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, is_attenuation));
 					break;
 				default:
 					break;
