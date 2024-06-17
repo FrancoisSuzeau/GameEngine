@@ -66,8 +66,6 @@ namespace Services {
 		void setShowContextMenu(bool const new_val);
 		bool getShowContextMenu() const;
 		std::shared_ptr<Component::IComponent> getSelectedComponent() const;
-		std::shared_ptr<Component::IComponent> GeUniqueLightSource() const;
-		void RemoveLightsSource();
 		int GetTotalRessources() const;
 
 		std::string getFileName() const;

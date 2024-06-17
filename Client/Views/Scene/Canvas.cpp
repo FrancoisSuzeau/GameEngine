@@ -32,6 +32,12 @@ namespace Views
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_physics_service = container->GetReference<Services::PhysicsService>();
+			if (!m_physics_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -78,7 +84,7 @@ namespace Views
 			{
 				std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
-				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())))
+				if (component && m_shader_service && (m_renderers.contains(component->GetType()) && m_renderers.at(component->GetType())) && m_physics_service)
 				{
 					std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::UNTEXTURED_SHADER;
 					if (m_runtime_service && m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
@@ -91,8 +97,8 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_state_service->GeUniqueLightSource() ? 
-								m_renderers.at(component->GetType())->Draw(m_state_service->GeUniqueLightSource()->GetTextureId()) :
+							m_physics_service->GetLigthSources().size() > 0 ?
+								m_renderers.at(component->GetType())->Draw(m_physics_service->GetLigthSources().front()->GetTextureId()) :
 								m_renderers.at(component->GetType())->Draw();
 							m_shader_service->UnbindShaderProgram();
 						}
@@ -122,8 +128,8 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_state_service->GeUniqueLightSource() ?
-								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource()->GetTextureId()) :
+							m_physics_service->GetLigthSources().size() > 0 ?
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLigthSources().front()->GetTextureId()) :
 								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
 						}
@@ -151,8 +157,8 @@ namespace Views
 						{
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_state_service->GeUniqueLightSource() ?
-								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_state_service->GeUniqueLightSource()->GetTextureId()) :
+							m_physics_service->GetLigthSources().size() > 0 ?
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLigthSources().front()->GetTextureId()) :
 								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
 						}

@@ -14,6 +14,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "IComponent.hpp"
+
 
 namespace Services {
 
@@ -33,10 +35,17 @@ namespace Services {
 		void SetTheta(glm::vec3 const direction);
 		void SetPhi(glm::vec3 const direction);
 
+		std::vector<std::shared_ptr<Component::IComponent>> GetLigthSources() const;
+
+		void SetLightSources();
+
+		void RemoveLightSources();
+
 	private:
 		float m_theta;
 		float m_phi;
 		std::shared_ptr<StateService> m_state_service;
+		std::vector<std::shared_ptr<Component::IComponent>> m_light_sources;
 		
 	};
 }

@@ -30,9 +30,19 @@ namespace Component
 				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
-			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service && runtime_service)
+			std::shared_ptr<Services::PhysicsService> physics_service = container->GetReference<Services::PhysicsService>();
+			if (!physics_service)
 			{
-				std::shared_ptr<Component::IComponent> unique_light_source = state_service->GeUniqueLightSource();
+				SQ_CLIENT_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service && runtime_service && physics_service)
+			{
+				std::shared_ptr<Component::IComponent> unique_light_source = nullptr;
+				if (physics_service->GetLigthSources().size() > 0)
+				{
+					unique_light_source = physics_service->GetLigthSources().front();
+				}
 
 				SetLightParameters(unique_light_source, runtime_service, component, state_service, shader_service, shader_name);
 				SetWorldParameters(shader_service, shader_name, camera_service, state_service);
@@ -42,6 +52,8 @@ namespace Component
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
 				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr || state_service->GetScene()->GetIsThereDirectionLight());
 				shader_service->setInt(shader_name, "bloom", state_service->getConfigs()->GetBloom());
+
+				std::cout << physics_service->GetLigthSources().size() << std::endl;
 
 				
 

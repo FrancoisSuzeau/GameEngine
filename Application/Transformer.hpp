@@ -14,6 +14,7 @@
 
 #include "Container/Container.hpp"
 #include "Constants/NumberConstants.hpp"
+#include "Services/PhysicsService.hpp"
 
 namespace Component
 {

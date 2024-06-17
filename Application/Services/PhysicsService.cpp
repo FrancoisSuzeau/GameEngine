@@ -22,6 +22,7 @@ namespace Services
 
 	void PhysicsService::DeInit()
 	{
+		this->RemoveLightSources();
 
 	}
 
@@ -40,27 +41,6 @@ namespace Services
 		dir_mat = glm::rotate(dir_mat, m_theta, axis);
 
 		return glm::vec3(dir_mat * glm::vec4(0, 0, -1, 0));
-
-
-		/*glm::vec3 axis = glm::vec3(0.f);
-		switch (type)
-		{
-		case Enums::AZYMUTH:
-			axis = glm::vec3(0.f, 1.f, 0.f);
-			phi = phi;
-			break;
-		case Enums::POLAR:
-			axis = glm::vec3(1.f, 0.f, 0.f);
-			theta = angle;
-			break;
-		default:
-			break;
-		}
-
-		glm::mat4 dir_mat = glm::rotate(glm::mat4(1.f), angle, axis);
-
-
-		return glm::vec3(dir_mat * glm::vec4(0, 0, -1, 0));*/
 	}
 
 	float PhysicsService::GetTheta() const
@@ -82,6 +62,39 @@ namespace Services
 	void PhysicsService::SetPhi(glm::vec3 const direction)
 	{
 		m_phi = std::atan2(direction.y, direction.x);
+	}
+
+	std::vector<std::shared_ptr<Component::IComponent>> PhysicsService::GetLigthSources() const
+	{
+		return m_light_sources;
+	}
+
+	void PhysicsService::SetLightSources()
+	{
+		if (m_state_service && m_state_service->GetScene())
+		{
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
+
+			m_light_sources.clear();
+
+			std::copy_if(components.begin(), components.end(), std::back_inserter(m_light_sources),
+				[](const std::shared_ptr<Component::IComponent>& cpt) { return cpt->GetIsALightSource(); });
+		}
+	}
+
+	void PhysicsService::RemoveLightSources()
+	{
+		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = m_light_sources.begin(); it != m_light_sources.end(); ++it)
+		{
+			if (it[0])
+			{
+				it[0]->Clean();
+				it->reset();
+			}
+		}
+
+
+		m_light_sources.clear();
 	}
 
 }

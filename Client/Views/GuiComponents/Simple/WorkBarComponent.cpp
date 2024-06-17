@@ -174,7 +174,7 @@ namespace Views
 					{
 						if (ImGui::Button("Add directional light source"))
 						{
-							m_state_service->RemoveLightsSource();
+							m_physics_service->RemoveLightSources();
 							m_state_service->GetScene()->SetIsThereDirectionLight(true);
 							m_state_service->GetScene()->SetDirectionLight(glm::vec3(0.f, -1.f, 0.f));
 						}
@@ -435,16 +435,17 @@ namespace Views
 	{
 		if (selected_renderer)
 		{
-			if (!is_there_light_directional_source)
+			if (!is_there_light_directional_source && m_physics_service)
 			{
 				bool is_light_source = selected_renderer->GetIsALightSource();
 				if (ImGui::Checkbox("Is a light source", &is_light_source))
 				{
 					selected_renderer->SetIsALigthSource(is_light_source);
+					m_physics_service->SetLightSources();
 				}
 			}
 
-			if (m_state_service->GeUniqueLightSource() != nullptr || is_there_light_directional_source)
+			if (m_physics_service->GetLigthSources().size() > 0 || is_there_light_directional_source)
 			{
 				ImGui::Separator();
 

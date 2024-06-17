@@ -61,6 +61,7 @@ namespace Commands
 				m_state_service->SetScene(scene);
 				m_loader_service->LoadSceneComponentsTextures();
 				m_state_service->SetSelectedSkyboxTextureId();
+				m_physics_service->SetLightSources();
 			}
 			m_state_service.reset();
 			m_loader_service.reset();
