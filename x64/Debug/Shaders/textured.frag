@@ -41,6 +41,7 @@ struct Light
     float cut_off;
     float outer_cut_off;
     bool is_attenuation;
+    float intensity;
 };
 
 uniform Light src_light;
@@ -106,7 +107,7 @@ void main()
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
             vec3 light_dir = normalize(src_light.direction);
-            float diff = max(dot(light_dir, norm), 0.f);
+            float diff = max(dot(light_dir, norm), src_light.intensity);
             vec3 diffuse = diff * color;
 
             float theta = dot(light_dir, norm);
@@ -146,7 +147,7 @@ void main()
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
             vec3 light_dir = GetLightDir();
-            float diff = max(dot(norm, light_dir), 0.f);
+            float diff = max(dot(norm, light_dir), src_light.intensity);
             vec3 diffuse = diff * light_color;
 
             //Specular

@@ -144,6 +144,7 @@ namespace Component
 				shader_service->setFloat(shader_name, "src_light.quadratic", attenuation_constant.quadratic);
 				shader_service->setFloat(shader_name, "src_light.cut_off", glm::cos(glm::radians(unique_light_source->GetCutOff())));
 				shader_service->setFloat(shader_name, "src_light.outer_cut_off", glm::cos(glm::radians(unique_light_source->GetCutOff() + unique_light_source->GetOuterCutOff())));
+				shader_service->setFloat(shader_name, "src_light.intensity", unique_light_source->GetIntensity());
 				shader_service->setTexture(shader_name, "src_light.texture", 2);
 			}
 

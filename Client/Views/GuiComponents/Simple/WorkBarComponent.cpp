@@ -480,7 +480,13 @@ namespace Views
 						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
 					}
 
-					
+					float intensity = selected_renderer->GetIntensity();
+
+					if (ImGui::SliderFloat("Intensity", &intensity, 0.f, 1.f , "%.3f"))
+					{
+						selected_renderer->SetIntensity(intensity);
+					}
+
 					if (selected_renderer->GetLightType() == Enums::LightType::SPOTLIGHT)
 					{
 						ImGui::Separator();

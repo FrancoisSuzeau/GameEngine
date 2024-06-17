@@ -207,6 +207,16 @@ namespace Component {
 		{
 			return m_is_attenuation;
 		}
+
+		virtual void SetIntensity(float const intensity)
+		{
+			m_intensity = intensity;
+		}
+
+		virtual float GetIntensity() const
+		{
+			return m_intensity;
+		}
  
 	protected:
 		Enums::RendererType m_type;
@@ -228,6 +238,7 @@ namespace Component {
 		float m_cut_off;
 		float m_outer_cut_off;
 		bool m_is_attenuation;
+		float m_intensity;
 		
 
 	};
