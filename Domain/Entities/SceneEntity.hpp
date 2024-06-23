@@ -32,11 +32,19 @@ namespace Services {
 
 		std::string const GetSelectedSkybox();
 		void SetSelectedSkybox(std::string const selected_skybox);
+
+		glm::vec3 GetDirectionLight() const;
+		void SetDirectionLight(glm::vec3 const direction_light);
+		bool GetIsThereDirectionLight() const;
+		void SetIsThereDirectionLight(bool const is_there_direction_light);
+		
 		
 	private:
 
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string m_selected_skybox;
+		glm::vec3 m_direction_light;
+		bool m_is_there_direction_light;
 	};
 }
 

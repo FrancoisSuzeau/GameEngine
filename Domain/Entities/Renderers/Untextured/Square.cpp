@@ -13,6 +13,7 @@ namespace Renderers {
 		m_ebo = 0;
 		m_bytes_vertices_size = 0;
 		m_bytes_indices_size = 0;
+		m_bytes_normals_size = 0;
 	}
 
 	Square::~Square()
@@ -43,6 +44,29 @@ namespace Renderers {
 		}
 	}
 
+	void Square::Draw(std::vector<unsigned int> light_texture_ids)
+	{
+		for (size_t i = 0; i < light_texture_ids.size(); i++)
+		{
+			if (light_texture_ids[i] != 0)
+			{
+				glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+				glBindTexture(GL_TEXTURE_2D, light_texture_ids[i]);
+			}
+		}
+
+		this->Draw();
+
+		for (size_t i = 0; i < light_texture_ids.size(); i++)
+		{
+			if (light_texture_ids[i] != 0)
+			{
+				glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+		}
+	}
+
 	void Square::Attach()
 	{
 		if (m_vao == 0)
@@ -64,8 +88,9 @@ namespace Renderers {
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 			if (glIsBuffer(m_vbo) == GL_TRUE)
 			{
-				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, 0, GL_STATIC_DRAW);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
+				glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_normals_size, m_normals.data());
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
@@ -101,38 +126,36 @@ namespace Renderers {
 								glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 								glEnableVertexAttribArray(0);
 
-								glBindVertexArray(0);
-								glBindBuffer(GL_ARRAY_BUFFER, 0);
-								glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+								glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+								glEnableVertexAttribArray(1);
 							}
-						}		
+						}
+
+						glBindBuffer(GL_ARRAY_BUFFER, 0);
 					}
 				}
+
+				glBindVertexArray(0);
 			}
 		}
 		
 	}
 	void Square::Load()
 	{
-		//top right
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(0.f);
-		//bottom right
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(0.f);
-		//bottom left
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(0.f);
-		//top left
-		m_vertices.push_back(-1.0f);
-		m_vertices.push_back(1.0f);
-		m_vertices.push_back(0.f);
+		m_vertices = {
+			 1.0f,  1.0f, 0.0f,  // top right
+			 1.0f, -1.0f, 0.0f,  // bottom right
+			-1.0f, -1.0f, 0.0f,  // bottom left
+			-1.0f,  1.0f, 0.0f,  // top left
+		};
 
-		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+		m_normals = 
+		{
+			0.0f, 0.0f, 1.0f,  // top right
+			0.0f, 0.0f, 1.0f,  // bottom right
+			0.0f, 0.0f, 1.0f,  // bottom left
+			0.0f, 0.0f, 1.0f   // top left
+		};
 
 		m_indices = 
 		{
@@ -141,6 +164,8 @@ namespace Renderers {
 		};
 
 		m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
+		m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+		m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
 	}
 
 }

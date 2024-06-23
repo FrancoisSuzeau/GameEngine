@@ -34,6 +34,7 @@ namespace Starting
         this->SetServiceBuilder<Services::LoaderService>();
         this->SetServiceBuilder<Services::MouseInputService>();
         this->SetServiceBuilder<Services::KeyboardInputService>();
+        this->SetServiceBuilder<Services::PhysicsService>();
         
     }
 
@@ -46,6 +47,7 @@ namespace Starting
 
     void Application::ShutAllService()
     {
+        this->DeleteReference<Services::PhysicsService>();
         this->DeleteReference<Services::FramebufferService>();
         this->DeleteReference<Services::TextureLoaderService>();
         this->DeleteReference<Services::CameraService>();

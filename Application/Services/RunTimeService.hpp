@@ -17,6 +17,8 @@
 #include <memory>
 
 
+
+
 namespace Services {
 
 	class RunTimeService : public IService
@@ -40,7 +42,7 @@ namespace Services {
 		void DisableDepthTest();
 		void SetMinusSrcAlpha();
 		void DeleteTexture(unsigned int &texture_id);
-		void DeleteBuffer(unsigned int &buffer_id);
+		void DeleteFrameBuffer(unsigned int &buffer_id);
 		void DeleteRenderBuffer(unsigned int &render_buffer_id);
 		void DisableWriteStencilBuffer();
 		void StencilFuncToWrite();
@@ -51,11 +53,16 @@ namespace Services {
 		Enums::FramebufferType GetPass() const;
 		Enums::StencilType GetStencilPass() const;
 
+		
+
 	private:
 		std::shared_ptr<Services::OpenGLService> m_opengl_service;
 		bool m_is_rendering_line;
 		Enums::FramebufferType m_fb_type;
 		Enums::StencilType m_stencil_type;
+		
+
+		
 	};
 }
 

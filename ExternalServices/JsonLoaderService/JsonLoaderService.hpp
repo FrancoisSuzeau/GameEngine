@@ -37,7 +37,13 @@ namespace Enums {
 	{RendererType::TRIANGLE_TEXTURED, "triangle_textured"},
 	{RendererType::SPHERE, "sphere"},
 	{RendererType::SPHERE_TEXTURED, "sphere_textured"}
-		})
+		});
+
+	NLOHMANN_JSON_SERIALIZE_ENUM(LightType, {
+		{LightType::NORMALIGHT, "normal_light"},
+		{LightType::POINTLIGHT, "point_light"},
+		{LightType::SPOTLIGHT, "spot_light"}
+		});
 }
 
 namespace Services {
@@ -64,12 +70,15 @@ namespace Services {
 		std::string GetStringNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		std::string GetStringNode(Enums::JsonType json_type, std::string node_name);
 		glm::vec4 GetVec4Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		glm::vec3 GetVec3Node(Enums::JsonType json_type, std::string node_name);
 		glm::vec3 GetVec3Node(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		std::vector<std::string> GetStringVectorNode(Enums::JsonType json_type, std::string node_name);
 		float GetFloatNode(Enums::JsonType json_type, std::string node_name);
 		int GetIntNode(Enums::JsonType json_type, std::string node_name);
+		int GetIntNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 		bool GetBoolNode(Enums::JsonType json_type, std::string node_name);
 		bool GetBoolNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
+		float GetFloatNode(std::unique_ptr<nlohmann::json> json_content, std::string node_name);
 
 		bool m_file_exist;
 		

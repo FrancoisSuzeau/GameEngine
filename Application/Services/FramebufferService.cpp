@@ -85,10 +85,10 @@ namespace Services
 
 			m_runtime_service->DeleteRenderBuffer(m_render_fb);
 
-			m_runtime_service->DeleteBuffer(m_color_fb);
-			m_runtime_service->DeleteBuffer(m_depth_map_fb);
-			m_runtime_service->DeleteBuffer(m_color_multisample_fb);
-			m_runtime_service->DeleteBuffer(m_bright_fb);
+			m_runtime_service->DeleteFrameBuffer(m_color_fb);
+			m_runtime_service->DeleteFrameBuffer(m_depth_map_fb);
+			m_runtime_service->DeleteFrameBuffer(m_color_multisample_fb);
+			m_runtime_service->DeleteFrameBuffer(m_bright_fb);
 		}
 	}
 	

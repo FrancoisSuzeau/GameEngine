@@ -19,11 +19,15 @@ namespace Renderers {
 
 		void Construct() override;
 		void Draw() override;
+		void Draw(std::vector<unsigned int> light_texture_ids) override;
 		void Clean();
+
+	protected:
+		void Load() override;
 
 	private:
 		void Attach();
-		void Load();
+		
 
 		typedef IRenderer base;
 

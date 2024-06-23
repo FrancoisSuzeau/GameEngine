@@ -25,6 +25,8 @@
 #include "SceneEntity.hpp"
 #include "Enums/EngineEnum.hpp"
 
+#include "TextureLoaderService/TextureLoaderService.hpp"
+
 namespace Services {
 
 	class StateService : public IService

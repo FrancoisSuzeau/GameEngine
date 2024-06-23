@@ -21,6 +21,7 @@
 #include "Services/MouseInputService.hpp"
 #include "Services/KeyboardInputService.hpp"
 #include "Services/RunTimeService.hpp"
+#include "Services/PhysicsService.hpp"
 
 #include "JsonLoaderService/JsonLoaderService.hpp"
 #include "ShaderLoaderService/ShaderLoaderService.hpp"

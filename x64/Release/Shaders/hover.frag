@@ -3,17 +3,23 @@
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
-uniform bool render_line;
+
+struct Component
+{
+    bool render_line;
+    float alpha_strength;
+};
+uniform Component component;
+
 uniform bool bloom;
-uniform float alpha_strength;
 
 void main()
 {
     vec3 whiteColor = vec3(1.f);
     float alpha = 0.f;
-    if(render_line)
+    if(component.render_line)
     {
-        alpha = alpha_strength;
+        alpha = component.alpha_strength;
     }
     if(bloom)
     {

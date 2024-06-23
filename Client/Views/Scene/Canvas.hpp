@@ -9,6 +9,7 @@
 #include "Services/ShaderService.hpp"
 #include "Services/RunTimeService.hpp"
 #include "Services/StateService.hpp"
+#include "Services/PhysicsService.hpp"
 #include "IViewModel.hpp"
 
 #include "Renderers/Untextured/Square.hpp"
@@ -44,6 +45,13 @@ namespace Views
 		std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>> m_renderers;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::PhysicsService> m_physics_service;
+
+		void RenderLightSources(std::vector<std::shared_ptr<Component::IComponent>> components);
+		void RenderOtherComponents(std::vector<std::shared_ptr<Component::IComponent>> components);
+
+		void DrawComponent(std::shared_ptr<Component::ComponentBase> component, std::string const shader_name);
+		void DrawComponent(std::shared_ptr<Component::TexturedComponent> component, std::string const shader_name);
 	};
 }
 

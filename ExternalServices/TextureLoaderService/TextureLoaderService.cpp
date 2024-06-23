@@ -71,6 +71,7 @@ namespace Services
 
 	unsigned int TextureLoaderService::BuildTexture(std::string const path)
 	{
+
 		unsigned int texture_id = 0;
 		glGenTextures(1, &texture_id);
 
@@ -117,6 +118,7 @@ namespace Services
 								format = GL_BGRA;
 							}
 						}
+
 						glTexImage2D(GL_TEXTURE_2D, 0, intern_format, img_invert->w, img_invert->h, 0, format, GL_UNSIGNED_BYTE, img_invert->pixels);
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -23,6 +23,8 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : OpenGL service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
+
+		m_ssbo = 0;
 		
 	}
 
@@ -34,6 +36,9 @@ namespace Services
 		}
 
 		m_shader_program_map.clear();
+
+		this->DeleteBufferStorage();
+		
 	}
 
 	void ShaderService::AddShader(std::string shader_name, Enums::ShaderType shader_type)
@@ -62,6 +67,46 @@ namespace Services
 		if (m_opengl_service)
 		{
 			m_opengl_service->bindProgram(0);
+		}
+	}
+
+	void ShaderService::BindShaderStorage()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->bindShaderStorage(m_ssbo);
+		}
+	}
+
+	void ShaderService::UnbindShaderStorage()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->bindShaderStorage(0);
+		}
+	}
+
+	void ShaderService::DeleteBufferStorage()
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->deleteBuffer(m_ssbo);
+		}
+	}
+
+	void ShaderService::PassLightsParametersToSSBO(std::vector<Light> light_sources)
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->generateShaderStorage(m_ssbo, light_sources);
+		}
+	}
+
+	void ShaderService::UpdateLightBufferStorage(std::vector<Light> light_sources)
+	{
+		if (m_opengl_service)
+		{
+			m_opengl_service->updateShaderStorage(m_ssbo, light_sources);
 		}
 	}
 	 

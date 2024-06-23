@@ -462,7 +462,7 @@ namespace Services
 	
 	void StateService::CleanScene()
 	{
-		if (this->m_scene)
+		if (this->m_scene && this->m_scene->GetSceneComponents().size() > 0)
 		{
 			this->m_scene->DeleteComponents();
 		}

@@ -20,6 +20,8 @@ namespace Services
 				SQ_APP_ERROR("Class {} in function {} : OpenGL service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
+
+		
 	}
 
 	void RunTimeService::DeInit()
@@ -90,6 +92,7 @@ namespace Services
 			m_opengl_service->enable(GL_BLEND);
 		}
 	}
+
 	void RunTimeService::EnableDepthTest()
 	{
 		if (m_opengl_service)
@@ -118,11 +121,11 @@ namespace Services
 			m_opengl_service->deleteTexture(texture_id);
 		}
 	}
-	void RunTimeService::DeleteBuffer(unsigned int &buffer_id)
+	void RunTimeService::DeleteFrameBuffer(unsigned int &buffer_id)
 	{
 		if (m_opengl_service)
 		{
-			m_opengl_service->deleteBuffer(buffer_id);
+			m_opengl_service->deleteFrameBuffer(buffer_id);
 		}
 	}
 	void RunTimeService::DeleteRenderBuffer(unsigned int &render_buffer_id)
@@ -180,5 +183,6 @@ namespace Services
 	{
 		return m_stencil_type;
 	}
+	
 }
 

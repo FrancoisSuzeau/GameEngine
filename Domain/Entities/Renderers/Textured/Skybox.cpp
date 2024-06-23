@@ -41,6 +41,7 @@ namespace Renderers {
                     {
                         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+                        glActiveTexture(GL_TEXTURE0);
                         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
                     }
                 }

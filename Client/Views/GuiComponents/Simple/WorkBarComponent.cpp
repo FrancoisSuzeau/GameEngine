@@ -29,7 +29,7 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox("")
+	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
 	{
 		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -62,10 +62,25 @@ namespace Views
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Runtime service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_physics_service = container->GetReference<Services::PhysicsService>();
+			if (!m_physics_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
+
+			m_shader_service = container->GetReference<Services::ShaderService>();
+			if (!m_shader_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 250));
 		tabs_size.push_back(ImVec2(0, 700));
+		tabs_size.push_back(ImVec2(0, 300));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
 	void WorkBarComponent::Render()
@@ -100,7 +115,7 @@ namespace Views
 		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 250), true, window_flags2))
 		{
 			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
-			ImGui::Text("Add new :");
+			ImGui::BulletText("Add new :");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
 
@@ -117,7 +132,7 @@ namespace Views
 
 			if (m_state_service->GetScene())
 			{
-				ImGui::Text("Change skybox :");
+				ImGui::BulletText("Change skybox :");
 				int img_size = 50;
 				std::map<std::string, unsigned int> available_skybox = m_state_service->getAvailableSkybox();
 				m_selected_skybox = m_state_service->GetScene()->GetSelectedSkybox();
@@ -151,11 +166,57 @@ namespace Views
 				for (std::map<std::string, unsigned int>::iterator it = available_skybox.begin(); it != available_skybox.end(); it++)
 				{
 					ImGui::Text(it->first.c_str());
-					ImGui::SameLine((float)img_size + 20.f);
+					ImGui::SameLine((float)img_size + 30.f);
 				}
 				ImGui::Text(" ");
-			}
 
+				ImGui::Separator();
+
+				ImGui::BulletText("Directional light");
+
+				if (m_state_service && m_state_service->GetScene() && m_physics_service && m_shader_service)
+				{
+					is_there_light_directional_source = m_state_service->GetScene()->GetIsThereDirectionLight();
+					if (!is_there_light_directional_source)
+					{
+						if (ImGui::Button("Add directional light source"))
+						{
+							m_state_service->GetScene()->SetIsThereDirectionLight(true);
+							m_state_service->GetScene()->SetDirectionLight(glm::vec3(0.f, -1.f, 0.f));
+							m_physics_service->RemoveLightSources();
+							m_physics_service->SetLightSourcesGeneralParameters();
+							m_shader_service->PassLightsParametersToSSBO(m_physics_service->GetLigthSources());
+						}
+					}
+					else
+					{
+						ImGui::PushID(0);
+						ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0 / 7.0f, 0.6f, 0.6f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0 / 7.0f, 0.7f, 0.7f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0 / 7.0f, 0.8f, 0.8f));
+						if (ImGui::Button("Delete directional light source"))
+						{
+							m_state_service->GetScene()->SetIsThereDirectionLight(false);
+						}
+						ImGui::PopStyleColor(3);
+						ImGui::PopID();
+
+						float theta = m_physics_service->GetTheta();
+						float phi = m_physics_service->GetPhi();
+
+						if (ImGui::SliderFloat("Polar angle", &theta, 0, glm::pi<float>(), "%.3f"))
+						{
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, theta, phi));
+						}
+
+						if (ImGui::SliderFloat("Azymuthal angle", &phi, 0, glm::two_pi<float>(), "%.3f"))
+						{
+							m_state_service->GetScene()->SetDirectionLight(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta, phi));
+						}
+
+					}
+				}
+			}
 			ImGui::EndChild();
 		}
 
@@ -188,6 +249,19 @@ namespace Views
 			}
 		}
 		
+	}
+
+	int WorkBarComponent::GetPowerIndex(int specular_shininess)
+	{
+		int exponent = 0;
+
+		while (specular_shininess > 1)
+		{
+			specular_shininess /= 2;
+			++exponent;
+		}
+
+		return exponent;
 	}
 
 	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
@@ -223,9 +297,16 @@ namespace Views
 							this->RenderAppearanceTab(selected_renderer);
 							ImGui::EndTabItem();
 						}
-						if (ImGui::BeginTabItem("Others"))
+						if (ImGui::BeginTabItem("Light"))
 						{
 							current_tab = 2;
+							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
+							this->RenderLightTab(selected_renderer);
+							ImGui::EndTabItem();
+						}
+						if (ImGui::BeginTabItem("Others"))
+						{
+							current_tab = 3;
 							m_state_service->setPopupHovered(ImGui::IsWindowHovered());
 							this->RenderOtherFunTab(selected_renderer);
 							ImGui::EndTabItem();
@@ -304,7 +385,7 @@ namespace Views
 				float image_size = 50;
 				int place_taken = 0;
 				std::map<std::string, unsigned int> available_textures = m_state_service->GetAvailableTextures();
-				for (std::map<std::string, unsigned int>::iterator it = available_textures.begin(); it != available_textures.end(); it++)
+				for (std::map<std::string, unsigned int >::iterator it = available_textures.begin(); it != available_textures.end(); it++)
 				{
 					if (it->second == selected_renderer->GetTextureId())
 					{
@@ -345,8 +426,9 @@ namespace Views
 				}
 
 				ImGui::Text(" ");
+				ImGui::Separator();
 				bool mixe_texture = selected_renderer->GetMixeTextureColor();
-				if (ImGui::Checkbox("Mixe texture and color :", &mixe_texture))
+				if (ImGui::Checkbox("Mixe texture and color", &mixe_texture))
 				{
 					selected_renderer->SetMixeTextureColor(mixe_texture);
 				}
@@ -355,7 +437,109 @@ namespace Views
 			default:
 				break;
 			}
-			
+		}
+	}
+
+	void WorkBarComponent::RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	{
+		if (selected_renderer)
+		{
+			if (!is_there_light_directional_source && m_physics_service && m_shader_service)
+			{
+				bool is_light_source = selected_renderer->GetIsALightSource();
+				if (ImGui::Checkbox("Is a light source", &is_light_source))
+				{
+					selected_renderer->SetIsALigthSource(is_light_source);
+					m_physics_service->SetLightSourcesGeneralParameters();
+					m_physics_service->SetLightsAttenuationsParameters();
+					m_shader_service->PassLightsParametersToSSBO(m_physics_service->GetLigthSources());
+				}
+			}
+
+			if (m_physics_service->GetLigthSources().size() > 0 || is_there_light_directional_source)
+			{
+				ImGui::Separator();
+
+				if (!selected_renderer->GetIsALightSource())
+				{
+					float ambiant = selected_renderer->GetAmbiantOcclusion();
+					if (ImGui::SliderFloat("Ambiant occlusion", &ambiant, 0.f, 0.9f, "%.3f"))
+					{
+						selected_renderer->SetAmbiantOcclusion(ambiant);
+					}
+
+					int specular_shininess = selected_renderer->GetSpecularShininess();
+					int index = this->GetPowerIndex(specular_shininess);
+					if (ImGui::SliderInt("Specular Shininess", &index, 1, 8, std::to_string(specular_shininess).c_str()))
+					{
+						specular_shininess = (int)std::pow(2, index);
+						selected_renderer->SetSpecularShininess(specular_shininess);
+					}
+
+					float specular_strength = selected_renderer->GetSpecularStrength();
+					if (ImGui::SliderFloat("Specular Strength", &specular_strength, 0.1f, 1.f, "%.3f"))
+					{
+						selected_renderer->SetSpecularStrength(specular_strength);
+					}
+				}
+				else
+				{
+					const char* light_types[Enums::LightType::NBLIGHTTYPE] = {"Normal light", "Point light", "Spot light" };
+					int light_type_index = selected_renderer->GetLightType();
+					const char* light_type = (light_type_index >= 0 && light_type_index < Enums::LightType::NBLIGHTTYPE) ? light_types[light_type_index] : "Unknown";
+					if (ImGui::SliderInt("Light type", &light_type_index, 0, Enums::LightType::NBLIGHTTYPE - 1, light_type))
+					{
+						selected_renderer->SetLightType(static_cast<Enums::LightType>(light_type_index));
+					}
+
+					float intensity = selected_renderer->GetIntensity();
+
+					if (ImGui::SliderFloat("Intensity", &intensity, 0.f, 1.f , "%.3f"))
+					{
+						selected_renderer->SetIntensity(intensity);
+					}
+
+					if (selected_renderer->GetLightType() == Enums::LightType::SPOTLIGHT)
+					{
+						ImGui::Separator();
+
+						bool is_attenuation = selected_renderer->GetIsAttenuation();
+						if (ImGui::Checkbox("Use attenuation", &is_attenuation))
+						{
+							selected_renderer->SetIsAttenuation(is_attenuation);
+						}
+
+						float theta = m_physics_service->GetTheta();
+						float phi = m_physics_service->GetPhi();
+
+						if (ImGui::SliderFloat("Polar angle", &theta, 0, glm::pi<float>(), "%.3f"))
+						{
+							selected_renderer->SetDirection(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::POLAR, theta, phi));
+						}
+
+						if (ImGui::SliderFloat("Azymuthal angle", &phi, 0, glm::two_pi<float>(), "%.3f"))
+						{
+							selected_renderer->SetDirection(m_physics_service->UpdateDirectionalLight(Enums::AngleToUpdate::AZYMUTH, theta, phi));
+						}
+
+						ImGui::Separator();
+
+						float cut_off = selected_renderer->GetCutOff();
+						if (ImGui::SliderFloat("Light Cut off", &cut_off, 0, 20.f, "%.3f"))
+						{
+							selected_renderer->SetCutOff(cut_off);
+						}
+
+						ImGui::Separator();
+
+						float outer_cut_off = selected_renderer->GetOuterCutOff();
+						if (ImGui::SliderFloat("Outer Cut off", &outer_cut_off, 0, 5.f, "%.3f"))
+						{
+							selected_renderer->SetOuterCutOff(outer_cut_off);
+						}
+					}
+				}
+			}
 		}
 	}
 

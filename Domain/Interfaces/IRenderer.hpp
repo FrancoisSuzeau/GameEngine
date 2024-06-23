@@ -45,8 +45,10 @@ namespace Renderers {
 		virtual ~IRenderer() { }
 		virtual void Construct() = 0;
 		virtual void Draw() {}
-		virtual void Draw(unsigned int texture_id) {}
-		virtual void Draw(unsigned int const texture_id, unsigned int const ping_pong_texture) {}
+		virtual void Draw(unsigned int texture_0) {}
+		virtual void Draw(std::vector<unsigned int> light_textures_ids) {}
+		virtual void Draw(unsigned int const texture_0, unsigned int const texture_2) {}
+		virtual void Draw(unsigned int const texture_0, std::vector<unsigned int> light_textures_ids) {}
 		virtual void Draw(bool first_it, unsigned int const texture_id, unsigned int const ping_pong_texture) {}
 		virtual void Actualize(int const grid_scaling_ratio) {}
 		virtual void Clean()
@@ -56,18 +58,27 @@ namespace Renderers {
 			CleanEbo();
 			m_vertices.clear();
 			m_indices.clear();
+			m_normals.clear();
+
+			m_bytes_indices_size = 0;
+			m_bytes_normals_size = 0;
+			m_bytes_vertices_size = 0;
 		}
 
 
 	protected:
 		std::vector<GLfloat> m_vertices;
+		std::vector<GLfloat> m_normals;
 		size_t m_bytes_vertices_size;
+		size_t m_bytes_normals_size;
 		GLuint m_vbo;
 		GLuint m_vao;
 		GLuint m_ebo;
 
 		std::vector<unsigned int> m_indices;
 		unsigned int m_bytes_indices_size;
+
+		virtual void Load() {}
 
 	private:
 		virtual void CleanVbo()

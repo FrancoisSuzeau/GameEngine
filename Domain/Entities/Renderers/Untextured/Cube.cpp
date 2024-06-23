@@ -13,6 +13,7 @@ namespace Renderers {
         m_ebo = 0;
         m_bytes_vertices_size = 0;
         m_bytes_indices_size = 0;
+        m_bytes_normals_size = 0;
 	}
 
 	Cube::~Cube()
@@ -39,7 +40,30 @@ namespace Renderers {
         }
 	}
 
-	void Cube::Clean()
+    void Cube::Draw(std::vector<unsigned int> light_texture_ids)
+    {
+        for (size_t i = 0; i < light_texture_ids.size(); i++)
+        {
+            if (light_texture_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, light_texture_ids[i]);
+            }
+        }
+
+        this->Draw();
+
+        for (size_t i = 0; i < light_texture_ids.size(); i++)
+        {
+            if (light_texture_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+        }
+    }
+
+    void Cube::Clean()
 	{
 		base::Clean();
 	}
@@ -66,9 +90,10 @@ namespace Renderers {
             glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
             if (glIsBuffer(m_vbo) == GL_TRUE)
             {
-                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, 0, GL_STATIC_DRAW);
 
                 glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
+                glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_normals_size, m_normals.data());
 
                 glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -105,12 +130,12 @@ namespace Renderers {
                                 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
                                 glEnableVertexAttribArray(0);
 
-                                glBindVertexArray(0);
-                                glBindBuffer(GL_ARRAY_BUFFER, 0);
-                                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+                                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
+                                glEnableVertexAttribArray(1);
                             }
                         }
+
+                        glBindBuffer(GL_ARRAY_BUFFER, 0);
                     }
                 }
 
@@ -120,59 +145,86 @@ namespace Renderers {
 	}
 	void Cube::Load()
 	{
-        m_vertices = {
-            // positions          
-            -1.0f,  1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
-             1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
+        m_vertices = {    
+            -1.f, -1.f, -1.f, // Back face
+         1.f, -1.f, -1.f,
+         1.f,  1.f, -1.f,
+        -1.f,  1.f, -1.f,
 
-            -1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
+        -1.f, -1.f,  1.f, // Front face
+         1.f, -1.f,  1.f,
+         1.f,  1.f,  1.f,
+        -1.f,  1.f,  1.f,
 
-             1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
+        -1.f,  1.f,  1.f, // Left face
+        -1.f,  1.f, -1.f,
+        -1.f, -1.f, -1.f,
+        -1.f, -1.f,  1.f,
 
-            -1.0f, -1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
+         1.f,  1.f,  1.f, // Right face
+         1.f,  1.f, -1.f,
+         1.f, -1.f, -1.f,
+         1.f, -1.f,  1.f,
 
-            -1.0f,  1.0f, -1.0f,
-             1.0f,  1.0f, -1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f, -1.0f,
+        -1.f, -1.f, -1.f, // Bottom face
+         1.f, -1.f, -1.f,
+         1.f, -1.f,  1.f,
+        -1.f, -1.f,  1.f,
 
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-             1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-             1.0f, -1.0f,  1.0f
+        -1.f,  1.f, -1.f, // Top face
+         1.f,  1.f, -1.f,
+         1.f,  1.f,  1.f,
+        -1.f,  1.f,  1.f
+
         };
 
-        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
-
-        for (int i = 0; i < m_vertices.size(); ++i)
+        m_normals = 
         {
-            m_indices.push_back(i);
-        }
+             0.0f,  0.0f, -1.0f, // Back face
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+
+        0.0f,  0.0f,  1.0f, // Front face
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+
+        -1.0f,  0.0f,  0.0f, // Left face
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+
+        1.0f,  0.0f,  0.0f, // Right face
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+
+         0.0f, -1.0f,  0.0f, // Bottom face
+         0.0f, -1.0f,  0.0f,
+         0.0f, -1.0f,  0.0f,
+         0.0f, -1.0f,  0.0f,
+
+        0.0f,  1.0f,  0.0f, // Top face
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f
+        };
+
+
+        m_indices = {
+
+            0, 1, 2, 2, 3, 0,        // Back face
+            4, 5, 6, 6, 7, 4,        // Front face
+            8, 9, 10, 10, 11, 8,     // Left face
+            12, 13, 14, 14, 15, 12,  // Right face
+            16, 17, 18, 18, 19, 16,  // Bottom face
+            20, 21, 22, 22, 23, 20   // Top face
+        };
 
         m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
+        m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
+        m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
 	}
 
 }

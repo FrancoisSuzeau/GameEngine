@@ -11,6 +11,8 @@
 #include "Container/Container.hpp"
 #include "../Services/StateService.hpp"
 #include "../Services/LoaderService.hpp"
+#include "../Services/PhysicsService.hpp"
+#include "../Services/ShaderService.hpp"
 
 #include <memory>
 #include <vector>
@@ -27,6 +29,9 @@ namespace Commands {
 
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::StateService> m_state_service;
+		std::shared_ptr<Services::PhysicsService> m_physics_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
+
 		
 	};
 }

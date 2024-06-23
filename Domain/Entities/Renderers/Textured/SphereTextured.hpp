@@ -5,14 +5,14 @@
 #ifndef SPHERETEXTURED_H
 #define SPHERETEXTURED_H
 
-#include "../../../Interfaces/IRenderer.hpp"
+#include "../Untextured/Sphere.hpp"
 #include <SDL2/SDL.h>
 
 namespace Renderers {
 
 
 
-	class SphereTextured : public IRenderer
+	class SphereTextured : public Sphere
 	{
 	public:
 		SphereTextured(float radius, unsigned int long_seg, unsigned int lat_seg);
@@ -20,17 +20,18 @@ namespace Renderers {
 
 		void Construct() override;
 		void Draw(unsigned int texture_id) override;
+		void Draw(unsigned int const texture_0, std::vector<unsigned int> light_texture_ids) override;
 		void Clean();
+
+	protected:
+
+		void Load() override;
 
 	private:
 		void Attach();
-		void Load();
+		
 
-		typedef IRenderer base;
-
-		float m_radius;
-		unsigned int m_long_seg;
-		unsigned int m_lat_seg;
+		typedef Sphere base;
 
 		std::vector<GLfloat> m_texture_coord;
 		unsigned int m_bytes_textcoord_size;

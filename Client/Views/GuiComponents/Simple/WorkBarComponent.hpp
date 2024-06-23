@@ -23,6 +23,8 @@
 #include "Container/Container.hpp"
 #include "Services/FramebufferService.hpp"
 #include "Services/LoaderService.hpp"
+#include "Services/PhysicsService.hpp"
+#include "Services/ShaderService.hpp"
 #include "IComponent.hpp"
 #include "IViewModel.hpp"
 
@@ -47,9 +49,12 @@ namespace Views
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
+		std::shared_ptr<Services::PhysicsService> m_physics_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);
+		void RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		void RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2);
@@ -58,6 +63,8 @@ namespace Views
 		int current_tab;
 		std::vector<ImVec2> tabs_size;
 		std::string m_selected_skybox;
+		int GetPowerIndex(int specular_shininess);
+		bool is_there_light_directional_source;
 	};
 }
 
