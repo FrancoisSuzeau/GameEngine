@@ -61,6 +61,7 @@ namespace Engines
 			m_keyboad_input_service = container->GetReference<Services::KeyboardInputService>();
 			m_runtime_service = container->GetReference<Services::RunTimeService>();
 			m_framebuffer_service = container->GetReference<Services::FramebufferService>();
+			m_physic_service = container->GetReference<Services::PhysicsService>();
 			
 			if (m_shader_service)
 			{
@@ -106,6 +107,11 @@ namespace Engines
 			if (!m_framebuffer_service)
 			{
 				SQ_APP_ERROR("Class {} in function {} : Framebuffer service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+
+			if (!m_physic_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Physic service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 		}
 		
@@ -170,6 +176,14 @@ namespace Engines
 			Component::Transformer::ReinitModelMat(m_screen_component);
 			Component::Transformer::Resize(m_screen_component);
 			Component::Transformer::Move(m_screen_component);
+		}
+
+		if (m_shader_service && m_physic_service)
+		{
+			m_physic_service->SetLightSourcesGeneralParameters();
+			m_physic_service->SetLightsAttenuationsParameters();
+
+			m_shader_service->UpdateLightBufferStorage(m_physic_service->GetLigthSources());
 		}
 	}
 

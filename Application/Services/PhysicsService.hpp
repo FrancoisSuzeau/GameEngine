@@ -15,9 +15,18 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "IComponent.hpp"
+#include "OpenGLService.hpp"
 
 
 namespace Services {
+
+	typedef struct
+	{
+		float constant;
+		float linear;
+		float quadratic;
+
+	} Attenuation_constants;
 
 	class PhysicsService : public IService
 	{
@@ -35,9 +44,13 @@ namespace Services {
 		void SetTheta(glm::vec3 const direction);
 		void SetPhi(glm::vec3 const direction);
 
-		std::vector<std::shared_ptr<Component::IComponent>> GetLigthSources() const;
+		std::vector<Light> GetLigthSources() const;
 
-		void SetLightSources();
+		void SetLightSourcesGeneralParameters();
+
+		Attenuation_constants GetAttenuationConstant(int const distance);
+
+		void SetLightsAttenuationsParameters();
 
 		void RemoveLightSources();
 
@@ -45,7 +58,11 @@ namespace Services {
 		float m_theta;
 		float m_phi;
 		std::shared_ptr<StateService> m_state_service;
-		std::vector<std::shared_ptr<Component::IComponent>> m_light_sources;
+		std::vector<Light> m_light_sources;
+		std::vector<Attenuation_constants> m_attenuation_constants;
+		std::vector<int> m_attenuation_distance;
+
+		void SetAttenuationConstants();
 		
 	};
 }

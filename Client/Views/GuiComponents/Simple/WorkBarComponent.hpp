@@ -24,6 +24,7 @@
 #include "Services/FramebufferService.hpp"
 #include "Services/LoaderService.hpp"
 #include "Services/PhysicsService.hpp"
+#include "Services/ShaderService.hpp"
 #include "IComponent.hpp"
 #include "IViewModel.hpp"
 
@@ -49,6 +50,7 @@ namespace Views
 		std::shared_ptr<Services::LoaderService> m_loader_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::PhysicsService> m_physics_service;
+		std::shared_ptr<Services::ShaderService> m_shader_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);

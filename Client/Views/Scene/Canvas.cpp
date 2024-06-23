@@ -95,12 +95,15 @@ namespace Views
 					{
 						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
 						{
+							m_shader_service->BindShaderStorage();
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_physics_service->GetLigthSources().size() > 0 ?
+							/*m_physics_service->GetLigthSources().size() > 0 ?
 								m_renderers.at(component->GetType())->Draw(m_physics_service->GetLigthSources().front()->GetTextureId()) :
-								m_renderers.at(component->GetType())->Draw();
+								m_renderers.at(component->GetType())->Draw();*/
+							m_renderers.at(component->GetType())->Draw();
 							m_shader_service->UnbindShaderProgram();
+							m_shader_service->UnbindShaderStorage();
 						}
 						
 					}
@@ -126,12 +129,16 @@ namespace Views
 					{
 						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
 						{
+							m_shader_service->BindShaderStorage();
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_physics_service->GetLigthSources().size() > 0 ?
+							/*m_physics_service->GetLigthSources().size() > 0 ?
 								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLigthSources().front()->GetTextureId()) :
-								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId());*/
+							m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
+							m_shader_service->UnbindShaderStorage();
+							
 						}
 						
 					}
@@ -155,12 +162,15 @@ namespace Views
 					{
 						if ((shader_name == Constants::DEPTH_SHADER && !component->GetIsALightSource()) || shader_name != Constants::DEPTH_SHADER)
 						{
+							m_shader_service->BindShaderStorage();
 							m_shader_service->BindShaderProgram(shader_name);
 							Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-							m_physics_service->GetLigthSources().size() > 0 ?
+							/*m_physics_service->GetLigthSources().size() > 0 ?
 								m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLigthSources().front()->GetTextureId()) :
-								m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+								m_renderers.at(component->GetType())->Draw(component->GetTextureId());*/
+							m_renderers.at(component->GetType())->Draw(component->GetTextureId());
 							m_shader_service->UnbindShaderProgram();
+							m_shader_service->UnbindShaderStorage();
 						}
 						
 					}

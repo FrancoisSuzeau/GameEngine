@@ -100,11 +100,20 @@ namespace Services
         }
     }
 
-    void OpenGLService::deleteBuffer(unsigned int &buffer_id)
+    void OpenGLService::deleteFrameBuffer(unsigned int &buffer_id)
     {
         if (buffer_id != 0)
         {
             glDeleteFramebuffers(1, &buffer_id);
+            buffer_id = 0;
+        }
+    }
+
+    void OpenGLService::deleteBuffer(GLuint& buffer_id)
+    {
+        if (buffer_id != 0)
+        {
+            glDeleteBuffers(1, &buffer_id);
             buffer_id = 0;
         }
     }
@@ -128,7 +137,50 @@ namespace Services
         glStencilFunc(func, ref, mask);
     }
 
+    void OpenGLService::generateShaderStorage(GLuint& ssbo, std::vector<Light> lights_sources)
+    {
+        if (ssbo == 0)
+        {
+            glGenBuffers(1, &ssbo);
+        }
 
+        size_t bytes_light_sources = sizeof(Light) * lights_sources.size();
+
+        if (ssbo != 0)
+        {
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+            if (glIsBuffer(ssbo) == GL_TRUE)
+            {
+
+                glBufferData(GL_SHADER_STORAGE_BUFFER, bytes_light_sources, 0, GL_DYNAMIC_COPY);
+
+                // Fill SSBO with data
+                glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, bytes_light_sources, lights_sources.data());
+
+                glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+            }
+
+        }
+    }
+
+    void OpenGLService::updateShaderStorage(GLuint& ssbo, std::vector<Light> lights_sources)
+    {
+        size_t bytes_light_sources = sizeof(Light) * lights_sources.size();
+
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+        void* ptr = glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, bytes_light_sources, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
+        if (ptr) {
+            memcpy(ptr, lights_sources.data(), bytes_light_sources);
+            glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+        }
+
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+    }
+
+    void OpenGLService::bindShaderStorage(GLuint ssbo)
+    {
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
+    }
 }
 
 

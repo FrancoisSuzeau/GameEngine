@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include "../Interfaces/IService.hpp"
+#include "../Interfaces/IComponent.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -15,6 +16,27 @@
 
 namespace Services
 {
+	typedef struct
+	{
+		float position[3];
+		float _padding1;
+		float inner_color[4];
+		int is_textured;
+		int mixe_texture_color;
+		float constant;
+		float linear;
+		float quadratic;
+		int is_point_light;
+		int is_spot_light;
+		int is_directional;
+		float direction[3];
+		float cut_off;
+		float outer_cut_off;
+		int is_attenuation;
+		float intensity;
+		float _padding2;
+	} Light;
+
 	class OpenGLService: public IService
 	{
 	public:
@@ -36,10 +58,15 @@ namespace Services
 		void disable(GLenum const cap);
 		void clearBuffer(GLbitfield const masks);
 		void deleteTexture(unsigned int &texture_id);
-		void deleteBuffer(unsigned int &buffer_id);
+		void deleteFrameBuffer(unsigned int& buffer_id);
+		void deleteBuffer(GLuint& buffer_id);
 		void deleteRenderBuffer(unsigned int &render_buffer_id);
 		void writeStencilMask(GLuint const mask);
 		void stencilFunc(GLenum const func, int const ref, GLuint const mask);
+
+		void generateShaderStorage(GLuint& ssbo, std::vector<Light > lights_sources);
+		void updateShaderStorage(GLuint& ssbo, std::vector<Light> lights_sources);
+		void bindShaderStorage(GLuint ssbo);
 	};
 }
 

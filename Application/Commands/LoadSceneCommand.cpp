@@ -33,6 +33,13 @@ namespace Commands
 				SQ_CLIENT_ERROR("Class {} in function {} : Physics service is not referenced yet", __FILE__, __FUNCTION__);
 
 			}
+
+			m_shader_service = container->GetReference<Services::ShaderService>();
+			if (!m_shader_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 	}
 
@@ -51,7 +58,7 @@ namespace Commands
 
 	void LoadSceneCommand::Execute()
 	{
-		if (m_loader_service && m_state_service && m_physics_service)
+		if (m_loader_service && m_state_service && m_physics_service && m_shader_service)
 		{
 			std::shared_ptr<Services::SceneEntity> scene = m_loader_service->LoadScene(m_state_service->getFileName());
 			if (scene)
@@ -61,10 +68,10 @@ namespace Commands
 				m_state_service->SetScene(scene);
 				m_loader_service->LoadSceneComponentsTextures();
 				m_state_service->SetSelectedSkyboxTextureId();
-				m_physics_service->SetLightSources();
+				m_physics_service->SetLightSourcesGeneralParameters();
+				m_physics_service->SetLightsAttenuationsParameters();
+				m_shader_service->PassLightsParametersToSSBO(m_physics_service->GetLigthSources());
 			}
-			m_state_service.reset();
-			m_loader_service.reset();
 		}
 	}
 }

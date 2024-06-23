@@ -14,6 +14,8 @@
 #include <map>
 #include <memory>
 #include "Constants/NumberConstants.hpp"
+#include "IComponent.hpp"
+
 
 namespace Services {
 
@@ -28,6 +30,14 @@ namespace Services {
 		void BindShaderProgram(std::string const shader_name);
 		void UnbindShaderProgram();
 
+		void BindShaderStorage();
+		void UnbindShaderStorage();
+
+
+		void DeleteBufferStorage();
+		void PassLightsParametersToSSBO(std::vector<Light> light_sources);
+		void UpdateLightBufferStorage(std::vector<Light> light_sources);
+
 		void            setVec(std::string shader_name, std::string const location, glm::vec3 const& vec_to_add);
 		void            setVec(std::string shader_name, std::string const location, glm::vec4 const& vec_to_add);
 		void            setMat4(std::string shader_name, std::string const location, glm::mat4 const& matrice_to_add);
@@ -39,6 +49,8 @@ namespace Services {
 		std::shared_ptr<LoaderService> m_loader_service;
 		std::shared_ptr<Services::OpenGLService> m_opengl_service;
 		std::map<std::string, GLuint> m_shader_program_map;
+
+		GLuint m_ssbo;
 	};
 }
 

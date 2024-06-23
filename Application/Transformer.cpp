@@ -38,33 +38,20 @@ namespace Component
 
 			if (component && shader_service && state_service && state_service->getConfigs() && state_service->GetScene() && camera_service && runtime_service && physics_service)
 			{
-				std::shared_ptr<Component::IComponent> unique_light_source = nullptr;
-				if (physics_service->GetLigthSources().size() > 0)
-				{
-					unique_light_source = physics_service->GetLigthSources().front();
-				}
-
-				SetLightParameters(unique_light_source, runtime_service, component, state_service, shader_service, shader_name);
 				SetWorldParameters(shader_service, shader_name, camera_service, state_service);
 				SetComponentParameters(component, shader_service, state_service, shader_name);
 
 				shader_service->setInt(shader_name, "render_skybox", state_service->getConfigs()->GetRenderSkybox());
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
-				shader_service->setInt(shader_name, "there_is_light", unique_light_source != nullptr || state_service->GetScene()->GetIsThereDirectionLight());
+				bool there_is_light = physics_service->GetLigthSources().size() > 0 || state_service->GetScene()->GetIsThereDirectionLight();
+				shader_service->setInt(shader_name, "there_is_light", there_is_light);
+				shader_service->setInt(shader_name, "light_sources_count", (int)physics_service->GetLigthSources().size());
 				shader_service->setInt(shader_name, "bloom", state_service->getConfigs()->GetBloom());
-
-				std::cout << physics_service->GetLigthSources().size() << std::endl;
-
 				
 
 				state_service.reset();
 				camera_service.reset();
 				runtime_service.reset();
-
-				if (unique_light_source)
-				{
-					unique_light_source.reset();
-				}
 			}
 			
 		}
@@ -129,51 +116,7 @@ namespace Component
 			}
 		}
 	}
-	void Transformer::SetLightParameters(std::shared_ptr<Component::IComponent> unique_light_source, std::shared_ptr<Services::RunTimeService> runtime_service, std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::StateService> state_service, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
-	{
-		if (component && shader_service && state_service && runtime_service && state_service->GetScene())
-		{
-			bool is_light_directional = state_service->GetScene()->GetIsThereDirectionLight();
-			shader_service->setInt(shader_name, "src_light.is_directional", is_light_directional);
-			if (unique_light_source != nullptr && !is_light_directional)
-			{
-				shader_service->setVec(shader_name, "src_light.position", unique_light_source->GetPosition());
-				shader_service->setVec(shader_name, "src_light.inner_color", unique_light_source->GetBackgroundColor());
-				Enums::RendererType type = unique_light_source->GetType();
-				bool is_textured = type == Enums::RendererType::CUBE_TEXTURED ||
-					type == Enums::RendererType::SPHERE_TEXTURED ||
-					type == Enums::RendererType::SQUARE_TEXTURED ||
-					type == Enums::RendererType::TRIANGLE_TEXTURED;
-				shader_service->setInt(shader_name, "src_light.is_point_light", unique_light_source->GetLightType() == Enums::LightType::POINTLIGHT);
-				shader_service->setInt(shader_name, "src_light.is_spot_light", unique_light_source->GetLightType() == Enums::LightType::SPOTLIGHT);
-				shader_service->setVec(shader_name, "src_light.direction", unique_light_source->GetDirection());
-				shader_service->setInt(shader_name, "src_light.is_textured", is_textured);
-				shader_service->setInt(shader_name, "src_light.mixe_texture_color", unique_light_source->GetMixeTextureColor());
-				shader_service->setInt(shader_name, "src_light.is_attenuation", unique_light_source->GetIsAttenuation());
-				Services::Attenuation_constants attenuation_constant = runtime_service->GetAttenuationConstant((int)glm::distance(unique_light_source->GetPosition(), component->GetPosition()));
-				shader_service->setFloat(shader_name, "src_light.constant", attenuation_constant.constant);
-				shader_service->setFloat(shader_name, "src_light.linear", attenuation_constant.linear);
-				shader_service->setFloat(shader_name, "src_light.quadratic", attenuation_constant.quadratic);
-				shader_service->setFloat(shader_name, "src_light.cut_off", glm::cos(glm::radians(unique_light_source->GetCutOff())));
-				shader_service->setFloat(shader_name, "src_light.outer_cut_off", glm::cos(glm::radians(unique_light_source->GetCutOff() + unique_light_source->GetOuterCutOff())));
-				shader_service->setFloat(shader_name, "src_light.intensity", unique_light_source->GetIntensity());
-				shader_service->setTexture(shader_name, "src_light.texture", 2);
-			}
-
-			if (unique_light_source == nullptr && is_light_directional)
-			{
-				shader_service->setVec(shader_name, "src_light.inner_color", glm::vec4(1.f));
-				shader_service->setVec(shader_name, "src_light.direction", state_service->GetScene()->GetDirectionLight());
-				shader_service->setInt(shader_name, "src_light.is_textured", false);
-				shader_service->setInt(shader_name, "src_light.is_point_light", false);
-				shader_service->setInt(shader_name, "src_light.is_spot_light", false);
-				shader_service->setInt(shader_name, "src_light.is_spot", false);
-				shader_service->setInt(shader_name, "src_light.mixe_texture_color", false);
-			}
-		}
-
-		
-	}
+	
 	void Transformer::SetComponentParameters(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::shared_ptr<Services::StateService> state_service, std::string const shader_name)
 	{
 		if (component && shader_service && state_service && state_service->getConfigs())
@@ -184,6 +127,9 @@ namespace Component
 			shader_service->setMat4(shader_name, "model", component->GetModelMat());
 			shader_service->setInt(shader_name, "component.is_light_source", component->GetIsALightSource());
 			shader_service->setInt(shader_name, "component.is_spot_light", component->GetLightType() == Enums::LightType::SPOTLIGHT);
+			shader_service->setVec(shader_name, "component.direction", component->GetDirection());
+			shader_service->setFloat(shader_name, "component.cut_off", glm::cos(glm::radians(component->GetCutOff())));
+			shader_service->setFloat(shader_name, "component.intensity", component->GetIntensity());
 			shader_service->setInt(shader_name, "component.specular_shininess", component->GetSpecularShininess());
 			shader_service->setFloat(shader_name, "component.specular_strength", component->GetSpecularStrength());
 			shader_service->setFloat(shader_name, "component.ambiant_strength", component->GetAmbiantOcclusion());

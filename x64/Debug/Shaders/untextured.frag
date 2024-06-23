@@ -10,6 +10,11 @@ struct Component
     int specular_shininess;
     float specular_strength;
     bool is_light_source;
+    bool is_spot_light;
+    vec3 direction;
+    float intensity;
+    float cut_off;
+
 };
 
 uniform Component component;
@@ -17,36 +22,42 @@ uniform Component component;
 struct Light 
 {
     vec3 position;
+    float _padding1;
     vec4 inner_color;
-    bool is_textured;
-    bool mixe_texture_color;
-    sampler2D texture;
+    int is_textured;
+    int mixe_texture_color;
+    //sampler2D texture;
     float constant;
     float linear;
     float quadratic;
-    bool is_point_light;
-    bool is_spot_light;
-    bool is_directional;
+    int is_point_light;
+    int is_spot_light;
+    int is_directional;
     vec3 direction;
     float cut_off;
     float outer_cut_off;
-    bool is_attenuation;
+    int is_attenuation;
     float intensity;
+    float _padding2;
+
 };
 
-uniform Light src_light;
+layout(std430, binding = 0) buffer LightBlock {
+    Light src_lights[];
+} Lights;
 
 uniform bool there_is_light;
 uniform vec3 camera_pos;
+uniform int light_sources_count;
 
 in VS_OUT {
     vec3 Normal;
     vec3 FragPos;
 } fs_in;
 
-vec4 GetMixedColor(vec4 object_texture, vec4 color, bool mixe)
+vec4 GetMixedColor(vec4 object_texture, vec4 color, int mixe)
 {
-    if(mixe)
+    if(mixe == 1)
     {
         return vec4(mix(object_texture.rgb, color.rgb, color.a) * object_texture.a, 1.0);
     }
@@ -69,15 +80,15 @@ vec4 CalculateBrightColor(vec4 frag_color, float brightness_limit)
     }
 }
 
-vec3 GetLightDir()
+vec3 GetLightDir(int i)
 {
-    if(src_light.is_directional)
+    if(Lights.src_lights[i].is_directional == 1)
     {
-        return normalize(src_light.direction);
+        return normalize(Lights.src_lights[i].direction);
     }
     else
     {
-        return normalize(src_light.position - fs_in.FragPos);
+        return normalize(Lights.src_lights[i].position - fs_in.FragPos);
     }
 }
 
@@ -88,19 +99,19 @@ void main()
     if(component.is_light_source)
     {
         vec3 color = component.background_color.rgb;
-        if(src_light.is_spot_light)
+        if(component.is_spot_light)
         {
             //Ambiant
             vec3 ambiant = 0.f * color;
 
             //Diffuse
             vec3 norm = normalize(fs_in.Normal);
-            vec3 light_dir = normalize(src_light.direction);
-            float diff = max(dot(light_dir, norm), src_light.intensity);
+            vec3 light_dir = normalize(component.direction);
+            float diff = max(dot(light_dir, norm), component.intensity);
             vec3 diffuse = diff * color;
 
             float theta = dot(light_dir, norm);
-            if(theta > src_light.cut_off)
+            if(theta > component.cut_off)
             {
                 color = (ambiant + diffuse) * component.background_color.rgb;
             }
@@ -122,55 +133,60 @@ void main()
     {
         if(there_is_light)
         {
-            vec3 light_color = src_light.inner_color.rgb;
-            if(src_light.is_textured)
+            vec3 result = vec3(0.f);
+            for(int i = 0; i < light_sources_count; i++)
             {
-                vec4 light_fragment = texture(src_light.texture, vec2(1.f));
-                light_color = GetMixedColor(light_fragment, src_light.inner_color, src_light.mixe_texture_color).rgb;
-            }
-
-            //Ambiant
-            vec3 ambiant = component.ambiant_strength * light_color;
-            
-            //Diffuse
-            vec3 norm = normalize(fs_in.Normal);
-            vec3 light_dir = GetLightDir();
-            float diff = max(dot(light_dir, norm), src_light.intensity);
-            vec3 diffuse = diff * light_color;
-
-            //Specular
-            vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
-            vec3 reflect_dir = reflect(-light_dir, norm);  
-            float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
-            vec3 specular = component.specular_strength * spec * light_color;
-
-            //Attenuation
-            float distance = length(src_light.position - fs_in.FragPos);
-            float attenuation = 1.0 / (src_light.constant + src_light.linear * distance + src_light.quadratic * (distance * distance));
-            if(src_light.is_point_light)
-            {
-                ambiant *= attenuation;
-                diffuse *= attenuation;
-                specular *= attenuation;
-            } 
-
-            if(src_light.is_spot_light)
-            {
-                if(src_light.is_attenuation)
+                vec3 light_color = Lights.src_lights[i].inner_color.rgb;
+                if(Lights.src_lights[i].is_textured == 1)
                 {
-                    diffuse *= attenuation;
-                    specular *= attenuation;
+                    //vec4 light_fragment = texture(src_light.texture, vec2(1.f));
+                    //light_color = GetMixedColor(light_fragment, src_light.inner_color, src_light.mixe_texture_color).rgb;
+                    light_color = GetMixedColor(vec4(0.f), Lights.src_lights[i].inner_color, Lights.src_lights[i].mixe_texture_color).rgb;
                 }
 
-                float theta = dot(light_dir, normalize(-src_light.direction));
-                float epsilon = (src_light.cut_off - src_light.outer_cut_off);
-                float intensity = clamp((theta - src_light.outer_cut_off) / epsilon, 0.f, 1.f);
-                diffuse *= intensity;
-                specular *= intensity;
-            }   
+                //Ambiant
+                vec3 ambiant = component.ambiant_strength * light_color;
+                
+                //Diffuse
+                vec3 norm = normalize(fs_in.Normal);
+                vec3 light_dir = GetLightDir(i);
+                float diff = max(dot(light_dir, norm), Lights.src_lights[i].intensity);
+                vec3 diffuse = diff * light_color;
 
-            //Pass to framebuffer 1 (bright output)
-            vec3 result = (ambiant + diffuse + specular) * component.background_color.rgb;
+                //Specular
+                vec3 view_dir = normalize(camera_pos - fs_in.FragPos);
+                vec3 reflect_dir = reflect(-light_dir, norm);  
+                float spec = pow(max(dot(view_dir, reflect_dir), 0.0), component.specular_shininess);
+                vec3 specular = component.specular_strength * spec * light_color;
+
+                //Attenuation
+                float distance = length(Lights.src_lights[i].position - fs_in.FragPos);
+                float attenuation = 1.0 / (Lights.src_lights[i].constant + Lights.src_lights[i].linear * distance + Lights.src_lights[i].quadratic * (distance * distance));
+                if(Lights.src_lights[i].is_point_light == 1)
+                {
+                    ambiant *= attenuation;
+                    diffuse *= attenuation;
+                    specular *= attenuation;
+                } 
+
+                if(Lights.src_lights[i].is_spot_light == 1)
+                {
+                    if(Lights.src_lights[i].is_attenuation == 1)
+                    {
+                        diffuse *= attenuation;
+                        specular *= attenuation;
+                    }
+
+                    float theta = dot(light_dir, normalize(-Lights.src_lights[i].direction));
+                    float epsilon = (Lights.src_lights[i].cut_off - Lights.src_lights[i].outer_cut_off);
+                    float intensity = clamp((theta - Lights.src_lights[i].outer_cut_off) / epsilon, 0.f, 1.f);
+                    diffuse *= intensity;
+                    specular *= intensity;
+                }   
+
+                //Pass to framebuffer 1 (bright output)
+                result += (ambiant + diffuse + specular) * component.background_color.rgb;
+            }
             FragColor = vec4(result, component.background_color.a);
             
             //Pass to framebuffer 1 (bright output)

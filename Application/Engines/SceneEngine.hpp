@@ -21,6 +21,7 @@
 #include "../Services/KeyboardInputService.hpp"
 #include "../Services/RunTimeService.hpp"
 #include "../Services/FramebufferService.hpp"
+#include "../Services/PhysicsService.hpp"
 
 #include "Renderers/Textured/Screen.hpp"
 #include "Components/TexturedComponent.hpp"
@@ -52,6 +53,7 @@ namespace Engines
 		std::unique_ptr<Renderers::Screen> m_screen_renderer;
 		std::shared_ptr<Component::TexturedComponent> m_screen_component;
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
+		std::shared_ptr<Services::PhysicsService> m_physic_service;
 		
 	};
 }
