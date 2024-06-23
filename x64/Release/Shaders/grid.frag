@@ -1,9 +1,15 @@
 #version 450 core
 
-uniform vec4 background_color;
-
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
+
+struct Component
+{
+    vec4 background_color;
+};
+
+uniform Component component;
+
 uniform bool bloom;
 
 void main()
@@ -13,7 +19,7 @@ void main()
     if(bloom)
     {
         vec3 lightColor = vec3(0.5f);
-        vec3 objectColor = vec3(background_color.x, background_color.y, background_color.z) * lightColor;
+        vec3 objectColor = vec3(component.background_color.x, component.background_color.y, component.background_color.z) * lightColor;
         float brightness = dot(objectColor, vec3(0.2126, 0.7152, 0.0722));
         if(brightness > 0.0)
         {
@@ -30,6 +36,6 @@ void main()
     }
 
     // Send result to backbuffer color
-    FragColor = background_color;
+    FragColor = component.background_color;
     
 }
