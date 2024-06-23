@@ -45,6 +45,7 @@ namespace Services {
 		void SetPhi(glm::vec3 const direction);
 
 		std::vector<Light> GetLigthSources() const;
+		std::vector<unsigned int> GetLightSourcesTextureIds() const;
 
 		void SetLightSourcesGeneralParameters();
 
@@ -61,6 +62,7 @@ namespace Services {
 		std::vector<Light> m_light_sources;
 		std::vector<Attenuation_constants> m_attenuation_constants;
 		std::vector<int> m_attenuation_distance;
+		std::vector<unsigned int> m_light_texture_ids;
 
 		void SetAttenuationConstants();
 		

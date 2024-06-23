@@ -40,24 +40,30 @@ namespace Renderers {
         }
 	}
 
-    void Cube::Draw(unsigned int const light_src_texture_id)
+    void Cube::Draw(std::vector<unsigned int> light_texture_ids)
     {
-        if (light_src_texture_id != 0)
+        for (size_t i = 0; i < light_texture_ids.size(); i++)
         {
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, light_src_texture_id);
+            if (light_texture_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, light_texture_ids[i]);
+            }
         }
 
         this->Draw();
 
-        if (light_src_texture_id != 0)
+        for (size_t i = 0; i < light_texture_ids.size(); i++)
         {
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            if (light_texture_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
         }
     }
 
-	void Cube::Clean()
+    void Cube::Clean()
 	{
 		base::Clean();
 	}

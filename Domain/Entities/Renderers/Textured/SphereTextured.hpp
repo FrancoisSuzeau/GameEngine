@@ -20,7 +20,7 @@ namespace Renderers {
 
 		void Construct() override;
 		void Draw(unsigned int texture_id) override;
-		void Draw(unsigned int const texture_id, unsigned int const light_src_texture_id) override;
+		void Draw(unsigned int const texture_0, std::vector<unsigned int> light_texture_ids) override;
 		void Clean();
 
 	protected:

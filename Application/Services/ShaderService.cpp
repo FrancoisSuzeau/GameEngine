@@ -37,10 +37,7 @@ namespace Services
 
 		m_shader_program_map.clear();
 
-		if (m_opengl_service)
-		{
-			m_opengl_service->deleteBuffer(m_ssbo);
-		}
+		this->DeleteBufferStorage();
 		
 	}
 

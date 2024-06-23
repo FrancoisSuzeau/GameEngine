@@ -24,7 +24,7 @@ namespace Services
 
 	void PhysicsService::DeInit()
 	{
-		this->RemoveLightSources();
+		m_light_sources.clear();
 
 		m_attenuation_constants.clear();
 
@@ -73,6 +73,11 @@ namespace Services
 		return m_light_sources;
 	}
 
+	std::vector<unsigned int> PhysicsService::GetLightSourcesTextureIds() const
+	{
+		return m_light_texture_ids;
+	}
+
 	void PhysicsService::SetLightSourcesGeneralParameters()
 	{
 		if (m_state_service && m_state_service->GetScene())
@@ -80,10 +85,12 @@ namespace Services
 			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
 
 			m_light_sources.clear();
+			m_light_texture_ids.clear();
 
 			bool is_there_directionnal = m_state_service->GetScene()->GetIsThereDirectionLight();
 			if (!is_there_directionnal)
 			{
+				int tex_index = 0;
 				for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
 				{
 					if (it[0] && it[0]->GetIsALightSource())
@@ -101,6 +108,16 @@ namespace Services
 							it[0]->GetType() == Enums::RendererType::SQUARE_TEXTURED ||
 							it[0]->GetType() == Enums::RendererType::TRIANGLE_TEXTURED;
 						light.mixe_texture_color = it[0]->GetMixeTextureColor();
+						if (light.is_textured == 1)
+						{
+							light.texture_index = tex_index;
+							m_light_texture_ids.push_back(it[0]->GetTextureId());
+							tex_index++;
+						}
+						else
+						{
+							light.texture_index = -1;
+						}
 						light.constant = 0.f;
 						light.linear = 0.f;
 						light.quadratic = 0.f;
@@ -207,12 +224,15 @@ namespace Services
 
 	void PhysicsService::RemoveLightSources()
 	{
-		std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); ++it)
+		if (m_state_service)
 		{
-			if (it[0])
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
+			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); ++it)
 			{
-				it[0]->SetIsALigthSource(false);
+				if (it[0])
+				{
+					it[0]->SetIsALigthSource(false);
+				}
 			}
 		}
 	}

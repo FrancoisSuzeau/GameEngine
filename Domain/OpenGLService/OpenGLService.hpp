@@ -30,11 +30,13 @@ namespace Services
 		int is_spot_light;
 		int is_directional;
 		float direction[3];
+		float _padding2;
 		float cut_off;
 		float outer_cut_off;
 		int is_attenuation;
 		float intensity;
-		float _padding2;
+		int texture_index;
+		float _padding3[3];
 	} Light;
 
 	class OpenGLService: public IService

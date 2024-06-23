@@ -1,5 +1,7 @@
 #version 450 core
 
+#define MAX_LIGHTS 30
+
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
@@ -26,7 +28,6 @@ struct Light
     vec4 inner_color;
     int is_textured;
     int mixe_texture_color;
-    //sampler2D texture;
     float constant;
     float linear;
     float quadratic;
@@ -34,17 +35,21 @@ struct Light
     int is_spot_light;
     int is_directional;
     vec3 direction;
+    float _padding2;
     float cut_off;
     float outer_cut_off;
     int is_attenuation;
     float intensity;
-    float _padding2;
+    int texture_index;
+    float _padding3[3];
 
 };
 
 layout(std430, binding = 0) buffer LightBlock {
     Light src_lights[];
 } Lights;
+
+uniform sampler2D light_textures[MAX_LIGHTS];
 
 uniform bool there_is_light;
 uniform vec3 camera_pos;
@@ -137,11 +142,10 @@ void main()
             for(int i = 0; i < light_sources_count; i++)
             {
                 vec3 light_color = Lights.src_lights[i].inner_color.rgb;
-                if(Lights.src_lights[i].is_textured == 1)
+                if(Lights.src_lights[i].is_textured == 1 && Lights.src_lights[i].texture_index < MAX_LIGHTS)
                 {
-                    //vec4 light_fragment = texture(src_light.texture, vec2(1.f));
-                    //light_color = GetMixedColor(light_fragment, src_light.inner_color, src_light.mixe_texture_color).rgb;
-                    light_color = GetMixedColor(vec4(0.f), Lights.src_lights[i].inner_color, Lights.src_lights[i].mixe_texture_color).rgb;
+                    vec4 light_fragment = texture(light_textures[Lights.src_lights[i].texture_index], vec2(1.f));
+                    light_color = GetMixedColor(light_fragment, Lights.src_lights[i].inner_color, Lights.src_lights[i].mixe_texture_color).rgb;
                 }
 
                 //Ambiant
