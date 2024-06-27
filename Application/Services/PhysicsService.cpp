@@ -183,21 +183,24 @@ namespace Services
 	}
 	void PhysicsService::SetLightsAttenuationsParameters()
 	{
-		std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
-
-		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
+		if (m_state_service && m_state_service->GetScene())
 		{
-			if (it[0] && !it[0]->GetIsALightSource())
-			{
-				for (std::vector<Light>::iterator it2 = m_light_sources.begin(); it2 != m_light_sources.end(); it2++)
-				{
-					glm::vec3 light_distance = glm::vec3(it2->position[0], it2->position[1], it2->position[2]);
-					Attenuation_constants attenuation_constant = this->GetAttenuationConstant((int)glm::distance(it[0]->GetPosition(), it[0]->GetPosition()));
-					it2->constant = attenuation_constant.constant;
-					it2->linear = attenuation_constant.linear;
-					it2->quadratic = attenuation_constant.quadratic;
-				}
+			std::vector<std::shared_ptr<Component::IComponent>> components = m_state_service->GetScene()->GetSceneComponents();
 
+			for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
+			{
+				if (it[0] && !it[0]->GetIsALightSource())
+				{
+					for (std::vector<Light>::iterator it2 = m_light_sources.begin(); it2 != m_light_sources.end(); it2++)
+					{
+						glm::vec3 light_distance = glm::vec3(it2->position[0], it2->position[1], it2->position[2]);
+						Attenuation_constants attenuation_constant = this->GetAttenuationConstant((int)glm::distance(it[0]->GetPosition(), it[0]->GetPosition()));
+						it2->constant = attenuation_constant.constant;
+						it2->linear = attenuation_constant.linear;
+						it2->quadratic = attenuation_constant.quadratic;
+					}
+
+				}
 			}
 		}
 	}

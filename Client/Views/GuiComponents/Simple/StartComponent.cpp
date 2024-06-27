@@ -99,7 +99,9 @@ namespace Views
 			}
 			else
 			{
-				m_state_service->setContinued(true);
+				m_parent_view_model->AddCommand(std::make_unique<Commands::LoadSceneCommand>(""));
+				m_parent_view_model->AddCommand(std::make_unique<Commands::ExitCommand>(std::bind(&Services::StateService::setContinued, m_state_service, true)));
+				m_parent_view_model->OnCommand();
 			}
 		}
 	}
