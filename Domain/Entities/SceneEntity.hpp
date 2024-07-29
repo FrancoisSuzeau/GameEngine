@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <array>
 #include <map>
+#include <tuple>
 #include "../Interfaces/IComponent.hpp"
 
 
@@ -37,13 +38,15 @@ namespace Services {
 		void SetDirectionLight(glm::vec3 const direction_light);
 		bool GetIsThereDirectionLight() const;
 		void SetIsThereDirectionLight(bool const is_there_direction_light);
-		
+		void SetCameraParameters(std::tuple<glm::vec3, float, float> camera_parameters);
+		std::tuple<glm::vec3, float, float> GetCameraParameters() const;
 		
 	private:
 
 		std::vector<std::shared_ptr<Component::IComponent>> m_components;
 		std::string m_selected_skybox;
 		glm::vec3 m_direction_light;
+		std::tuple<glm::vec3, float, float> m_camera_parameters;
 		bool m_is_there_direction_light;
 	};
 }

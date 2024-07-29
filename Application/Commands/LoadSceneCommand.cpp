@@ -40,6 +40,13 @@ namespace Commands
 				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 
 			}
+
+			m_camera_service = container->GetReference<Services::CameraService>();
+			if (!m_camera_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 	}
 
@@ -58,7 +65,7 @@ namespace Commands
 
 	void LoadSceneCommand::Execute()
 	{
-		if (m_loader_service && m_state_service && m_physics_service && m_shader_service)
+		if (m_loader_service && m_state_service && m_physics_service && m_shader_service && m_camera_service)
 		{
 			std::shared_ptr<Services::SceneEntity> scene = m_loader_service->LoadScene(m_state_service->getFileName());
 			if (scene)
@@ -71,6 +78,8 @@ namespace Commands
 				m_physics_service->SetLightSourcesGeneralParameters();
 				m_physics_service->SetLightsAttenuationsParameters();
 				m_shader_service->PassLightsParametersToSSBO(m_physics_service->GetLigthSources());
+				std::tuple<glm::vec3, float, float> camera_parameters = scene->GetCameraParameters();
+				m_camera_service->SetCameraParameters(std::get<0>(camera_parameters), std::get<1>(camera_parameters), std::get<2>(camera_parameters));
 			}
 		}
 	}

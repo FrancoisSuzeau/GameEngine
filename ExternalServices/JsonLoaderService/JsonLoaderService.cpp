@@ -122,6 +122,9 @@ namespace Services
 		std::vector<json> renderers_json_format;
 		std::string selected_skybox;
 		glm::vec3 direction_light;
+		glm::vec3 camera_pos;
+		float camera_pitch;
+		float camera_yaw;
 		bool is_there_direction_light;
 		if (scene)
 		{
@@ -151,13 +154,20 @@ namespace Services
 			selected_skybox = scene->GetSelectedSkybox();
 			direction_light = scene->GetDirectionLight();
 			is_there_direction_light = scene->GetIsThereDirectionLight();
+			camera_pos = std::get<0>(scene->GetCameraParameters());
+			camera_pitch = std::get<1>(scene->GetCameraParameters());
+			camera_yaw = std::get<2>(scene->GetCameraParameters());
 		}
+		
 		json j = 
 		{ 
 			{"components", renderers_json_format},
 			{"selected_skybox", selected_skybox},
 			{"direction_light", {direction_light.x, direction_light.y, direction_light.z}},
-			{"is_there_direction_light", is_there_direction_light}
+			{"is_there_direction_light", is_there_direction_light},
+			{"camera_position", {camera_pos.x, camera_pos.y, camera_pos.z}},
+			{"camera_pitch", camera_pitch},
+			{"camera_yaw", camera_yaw}
 			
 		};
 		return std::make_unique<json>(j);
@@ -236,6 +246,10 @@ namespace Services
 		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
 		scene->SetDirectionLight(this->GetVec3Node(Enums::JsonType::Scene, "direction_light"));
 		scene->SetIsThereDirectionLight(this->GetBoolNode(Enums::JsonType::Scene, "is_there_direction_light"));
+		scene->SetCameraParameters(std::make_tuple<glm::vec3, float, float>(
+			this->GetVec3Node(Enums::JsonType::Scene, "camera_position"), 
+			this->GetFloatNode(Enums::JsonType::Scene, "camera_pitch"), 
+			this->GetFloatNode(Enums::JsonType::Scene, "camera_yaw")));
 		return scene;
 	}
 

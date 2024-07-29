@@ -7,6 +7,7 @@
 #define SCENE_H
 
 #include <map>
+#include <tuple>
 #include <string>
 #include "../Builders/ViewModelBuilder.hpp"
 
@@ -40,6 +41,7 @@ namespace Engines
 		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RenderScreen();
 		void UpdateAll(SDL_Event event);
+		void UpdateAll();
 		
 	private:
 		void InitFrame() override;

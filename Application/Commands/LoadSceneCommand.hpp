@@ -13,9 +13,11 @@
 #include "../Services/LoaderService.hpp"
 #include "../Services/PhysicsService.hpp"
 #include "../Services/ShaderService.hpp"
+#include "../Services/CameraService.hpp"
 
 #include <memory>
 #include <vector>
+#include <tuple>
 
 namespace Commands {
 
@@ -31,6 +33,7 @@ namespace Commands {
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::PhysicsService> m_physics_service;
 		std::shared_ptr<Services::ShaderService> m_shader_service;
+		std::shared_ptr<Services::CameraService> m_camera_service;
 
 		
 	};

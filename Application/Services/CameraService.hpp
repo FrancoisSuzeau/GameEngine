@@ -27,8 +27,12 @@ namespace Services {
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
 
+		void SetCameraParameters(glm::vec3 const camera_pos, float const camera_pitch, float const camera_yaw);
+
 		glm::vec3 GetPos() const;
 		glm::vec3 GetTarget() const;
+		float  GetPitch() const;
+		float GetYaw() const;
 		void MoveCamera();
 		void ChangeHigh(float const offset);
 
