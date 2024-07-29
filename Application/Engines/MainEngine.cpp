@@ -214,6 +214,7 @@ namespace Engines
 		SDL_Event event;
 		if (m_state_service && m_gui_engine && m_scene_engine && m_framebuffer_service && view_model_builder)
 		{
+			m_scene_engine->UpdateAll();
 			while (!m_state_service->getExit() && m_state_service->getContinued())
 			{
 

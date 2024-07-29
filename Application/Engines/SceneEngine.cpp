@@ -236,7 +236,7 @@ namespace Engines
 
 	void SceneEngine::UpdateAll(SDL_Event event)
 	{
-		if (m_mouse_input_service && m_camera_service && m_keyboad_input_service && m_state_service)
+		if (m_mouse_input_service && m_camera_service && m_keyboad_input_service && m_state_service && m_state_service->GetScene())
 		{
 			m_mouse_input_service->Update(event);
 			m_keyboad_input_service->Update(event);
@@ -245,6 +245,23 @@ namespace Engines
 				m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton());
 				m_camera_service->OrienteCamera();
 				m_camera_service->MoveCamera();
+				m_state_service->GetScene()->SetCameraParameters(std::make_tuple<glm::vec3, float, float>(m_camera_service->GetPos(), m_camera_service->GetPitch(), m_camera_service->GetYaw()));
+
+			}
+		}
+	}
+
+	void SceneEngine::UpdateAll()
+	{
+		if (m_mouse_input_service && m_camera_service && m_keyboad_input_service && m_state_service && m_state_service->GetScene())
+		{
+			if (!m_state_service->getGuiOpen())
+			{
+				m_camera_service->Update(m_mouse_input_service->GetMotionDir(), m_mouse_input_service->GetMouseButton());
+				m_camera_service->OrienteCamera();
+				m_camera_service->MoveCamera();
+				m_state_service->GetScene()->SetCameraParameters(std::make_tuple<glm::vec3, float, float>(m_camera_service->GetPos(), m_camera_service->GetPitch(), m_camera_service->GetYaw()));
+
 			}
 		}
 	}

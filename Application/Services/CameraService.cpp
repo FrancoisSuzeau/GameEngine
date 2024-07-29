@@ -51,6 +51,13 @@ namespace Services
         return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
     }
 
+    void CameraService::SetCameraParameters(glm::vec3 const camera_pos, float const camera_pitch, float const camera_yaw)
+    {
+        m_camera_pos = camera_pos;
+        m_pitch = camera_pitch;
+        m_yaw = camera_yaw;
+    }
+
     glm::vec3 CameraService::GetPos() const
     {
         return m_camera_pos;
@@ -58,6 +65,16 @@ namespace Services
     glm::vec3 CameraService::GetTarget() const
     {
         return m_camera_target;
+    }
+
+    float CameraService::GetPitch() const
+    {
+        return m_pitch;
+    }
+
+    float CameraService::GetYaw() const
+    {
+        return m_yaw;
     }
    
     void CameraService::MoveCamera()

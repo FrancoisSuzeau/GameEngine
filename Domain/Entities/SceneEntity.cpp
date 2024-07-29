@@ -83,4 +83,14 @@ namespace Services {
 		m_is_there_direction_light = is_there_direction_light;
 	}
 
+	void SceneEntity::SetCameraParameters(std::tuple<glm::vec3, float, float> camera_parameters)
+	{
+		m_camera_parameters = camera_parameters;
+	}
+
+	std::tuple<glm::vec3, float, float> SceneEntity::GetCameraParameters() const
+	{
+		return m_camera_parameters;
+	}
+
 }
