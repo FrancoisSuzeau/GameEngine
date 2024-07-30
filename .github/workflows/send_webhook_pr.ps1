@@ -58,12 +58,14 @@ $field2 = [PSCustomObject]@{
 $return = $fieldsArray.Add($field2)
 
 # Creating 3rd field -> Release url
-# Creating 1st field -> feature release
 $field3 = [PSCustomObject]@{
     name = ':unicorn: ' +  "**Link to the release**"
     value = "*" + $args[6] + "*"
     inline = "true"
 }
+
+# add third field
+$return = $fieldsArray.Add($field3)
 
 # Creating footer
 $footerContent = [PSCustomObject]@{
