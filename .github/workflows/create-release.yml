@@ -21,9 +21,9 @@ jobs:
     runs-on: [Windows, self-hosted]
     outputs:
       prefix: ${{ steps.retrieve_branch_name.outputs.PREFIX }}
-      major: ${{ steps.retrieve_branch_name.outputs.MAJOR }}
-      minor: ${{ steps.retrieve_branch_name.outputs.MINOR }}
-      patch: ${{ steps.retrieve_branch_name.outputs.PATCH }}
+      major: ${{ steps.retrieve_version_numbers.outputs.MAJOR }}
+      minor: ${{ steps.retrieve_version_numbers.outputs.MINOR }}
+      patch: ${{ steps.retrieve_version_numbers.outputs.PATCH }}
     steps:
       - name: Retrieve Branch Name
         id: retrieve_branch_name
@@ -40,9 +40,9 @@ jobs:
             $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
             $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
             $versionComponents = $version -split '\.'
-            echo "MAJOR=$versionComponents[0]" >> $Env:GITHUB_ENV
-            echo "MINOR=$versionComponents[1]" >> $Env:GITHUB_ENV
-            echo "PATCH=$versionComponents[2]" >> $Env:GITHUB_ENV
+            echo "MAJOR=$versionComponents[0]" >> $Env:GITHUB_OUTPUT
+            echo "MINOR=$versionComponents[1]" >> $Env:GITHUB_OUTPUT
+            echo "PATCH=$versionComponents[2]" >> $Env:GITHUB_OUTPUT
 
   create_tag:
     # if: ${{ github.event.pull_request.merged }}
@@ -64,8 +64,8 @@ jobs:
             {
               $minor = [int]${{ env.MINOR }}
               $minor++
-              echo "NEW_MINOR=$minor" >> $Env:GITHUB_ENV
-              echo "NEW_PATCH=0" >> $Env:GITHUB_ENV
+              echo "NEW_MINOR=$minor" >> $Env:GITHUB_OUTPUT
+              echo "NEW_PATCH=0" >> $Env:GITHUB_OUTPUT
             }
             else
             {
@@ -73,8 +73,8 @@ jobs:
               {
                 $patch = [int]${{ env.PATCH }}
                 $patch++
-                echo "NEW_PATCH=$patch" >> $Env:GITHUB_ENV
-                echo "NEW_MINOR=${{ env.MINOR }}" >> $Env:GITHUB_ENV
+                echo "NEW_PATCH=$patch" >> $Env:GITHUB_OUTPUT
+                echo "NEW_MINOR=${{ env.MINOR }}" >> $Env:GITHUB_OUTPUT
               }
               else
               {
