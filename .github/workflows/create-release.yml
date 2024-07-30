@@ -23,9 +23,12 @@ jobs:
     - run: |
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
-          $branchName
           $prefix = $branchName -split '/'
-          $prefix[0]
+          if ($prefix[0] -eq 'feature' -or $prefix[0] -eq 'bugfix') {
+            Write-Output "Branch Prefix: $prefix"
+          } else {
+            Write-Output "Branch prefix is not 'feature' or 'bugfix'."
+          }
 
           $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
           $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
