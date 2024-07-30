@@ -24,7 +24,7 @@ jobs:
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
           $branchName
-          $prefix = $branchName -split '/')[0]
+          $prefix = $branchName -split '/' [0]
           if ($prefix -eq 'feature' -or $prefix -eq 'bugfix') {
             Write-Output "Branch Prefix: $prefix"
           } else {
