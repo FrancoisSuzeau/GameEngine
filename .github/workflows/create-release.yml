@@ -1,0 +1,21 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Create a release
+
+on:
+  push:
+    branches:
+      - feature/**
+      - bugfix/**
+
+jobs:
+  create_release:
+    runs-on: [Windows, self-hosted]
+    steps:
+    - run: |
+        $latestTag = gh api repos/{owner}/{repo}/tags --jq '.[0].name'
+        $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
+        $version
