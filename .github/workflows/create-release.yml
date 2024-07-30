@@ -28,16 +28,14 @@ jobs:
           $tmp = $branchName -split '/'
           $tmp = $tmp[0]
           echo "prefix=$tmp" >> $GITHUB_ENV
-          echo "::set-output name=prefix::$tmp"
     
     - name: Check Branch Name
       id: check_branch_name
       run: |
-          "${{ steps.retrieve_branch_name.outputs.prefix }}"
-          $branch = "${{ steps.retrieve_branch_name.outputs.prefix }}"
+          "${{ env.prefix }}"
+          $branch = "${{ env.prefix }}"
           if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
-            $branch[0]
             echo "branch_valid=true" >> $GITHUB_ENV
           } 
           else 
