@@ -33,6 +33,7 @@ jobs:
     - name: Check Branch Name
       id: check_branch_name
       run: |
+          $env:prefix
           $branch = $env:prefix
           if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
