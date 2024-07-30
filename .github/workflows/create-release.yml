@@ -26,6 +26,7 @@ jobs:
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
           $tmp = $branchName -split '/'
+          $tmp = $tmp[0]
           echo "prefix=$tmp" >> $GITHUB_ENV
           echo "::set-output name=prefix::$tmp"
     
@@ -34,7 +35,7 @@ jobs:
       run: |
           "${{ steps.retrieve_branch_name.outputs.prefix }}"
           $branch = "${{ steps.retrieve_branch_name.outputs.prefix }}"
-          if ($branch[0] -eq 'feature' -or $branch[0] -eq 'bugfix')  
+          if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
             $branch[0]
             echo "branch_valid=true" >> $GITHUB_ENV
@@ -48,6 +49,9 @@ jobs:
 
     # - name: The Others
     #   run: |
+    #       $branchRef = $env:GITHUB_REF
+    #       $branchName = $branchRef -replace '^refs/heads/', ''
+    #       $prefix = $branchName -split '/'
     #       if ($prefix[0] -eq 'feature' -or $prefix[0] -eq 'bugfix') 
     #       {
 
