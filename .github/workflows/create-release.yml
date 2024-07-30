@@ -6,21 +6,21 @@
 name: Create a release
 
 on:
-  push:
-    branches:
-      - feature/**
-      - bugfix/**
-  # pull_request:
+  # push:
   #   branches:
-  #     - master
-  #   types: [closed]
+  #     - feature/**
+  #     - bugfix/**
+  pull_request:
+    branches:
+      - master
+    types: [closed]
 
 permissions:
   contents: write
 
 jobs:
   retrieve_data:
-    # if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     outputs:
       prefix: ${{ steps.retrieve_branch_name.outputs.PREFIX }}
@@ -51,7 +51,7 @@ jobs:
             echo "PATCH=$patch" >> $Env:GITHUB_OUTPUT
 
   create_tag:
-    # if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     outputs:
       new_minor: ${{ steps.increment_version_numbers.outputs.NEW_MINOR }}
@@ -89,7 +89,7 @@ jobs:
             }
 
   compile_inno:
-    # if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     outputs:
       folder_name: ${{ steps.compile_inno_setup.outputs.FOLDER_NAME }}
