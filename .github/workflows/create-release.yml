@@ -51,7 +51,7 @@ jobs:
       - name: Increment Version Numbers
         id: increment_version_numbers
         run: |
-            $branch_prefix = $PREFIX
+            $branch_prefix = "$PREFIX"
             if ($branch_prefix -eq 'feature')
             {
               $minor = [int]${{ env.MINOR }}
