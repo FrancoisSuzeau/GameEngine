@@ -15,6 +15,9 @@ on:
   #     - master
   #   types: [closed]
 
+permissions:
+  contents: [read, write]
+
 jobs:
   retrieve_data:
     # if: ${{ github.event.pull_request.merged }}
