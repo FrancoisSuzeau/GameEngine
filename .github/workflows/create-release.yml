@@ -19,6 +19,8 @@ jobs:
   retrieve_data:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
+    outputs:
+      prefix: ${{ steps.retrieve_branch_name.outputs.prefix }}
     steps:
     - name: Retrieve Branch Name
       id: retrieve_branch_name
@@ -27,13 +29,13 @@ jobs:
           $branchName = $branchRef -replace '^refs/heads/', ''
           $tmp = $branchName -split '/'
           $tmp = $tmp[0]
-          echo "name=prefix::$tmp >> $GITHUB_OUTPUT"
+          echo "prefix=$tmp" >> "$GITHUB_OUTPUT"
     
     - name: Check Branch Name
       id: check_branch_name
       run: |
-          "${{ steps.retrieve_branch_name.outputs.prefix }}"
-          $branch = "${{ steps.retrieve_branch_name.outputs.prefix }}"
+          echo "$prefix"
+          $branch = "$prefix"
           if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
             echo "branch_valid=true" >> $GITHUB_ENV
