@@ -149,9 +149,9 @@ jobs:
       - name: Upload Release Asset
         id: upload-release-asset 
         uses: svenstaro/upload-release-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: D:\Setup\${{ env.FOLDER_NAME }}\${{ env.FILE_NAME }}.exe
-          asset_name: ${{ env.FILE_NAME }}.exe
-          tag: ${{ env.FOLDER_NAME }}
-          overwrite: true
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_name: D:\Setup\${{ env.FOLDER_NAME }}\${{ env.FILE_NAME }}.exe # path + filename
+          asset_label: latest
