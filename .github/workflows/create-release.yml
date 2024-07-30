@@ -32,9 +32,9 @@ jobs:
             $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
             $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
             $versionComponents = $version -split '\.'
-            $major = $versionComponents[0]
-            $minor = $versionComponents[1]
-            $patch = $versionComponents[2]
+            $major = [int]$versionComponents[0]
+            $minor = [int]$versionComponents[1]
+            $patch = [int]$versionComponents[2]
 
           } 
           else 
