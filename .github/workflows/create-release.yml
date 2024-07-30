@@ -35,11 +35,13 @@ jobs:
           $branch = $env:prefix
           if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
+            $branch
             echo "branch_valid=true" >> $GITHUB_ENV
           } 
           else 
           {
             echo "branch_valid=false" >> $GITHUB_ENV
+            Write-Output "Branch prefix is not 'feature' or 'bugfix'."
           }
 
 
