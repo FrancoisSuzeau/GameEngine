@@ -47,7 +47,7 @@ jobs:
 
             $newtag = "v" + $major + "." + $minor + "." + $patch + "-alpha"
 
-            $setup_wizzard_name = "squeamish-" + $newtag + "-alpha_win64-setup"
+            $setup_wizzard_name = "squeamish-" + $newtag + "_win64-setup"
             $setup_wizzard_name
 
           } 
