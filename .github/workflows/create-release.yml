@@ -115,50 +115,49 @@ jobs:
             echo "FOLDER_NAME=$newtag" >> $Env:GITHUB_OUTPUT
             echo "FILE_NAME=$setup_wizzard_name" >> $Env:GITHUB_OUTPUT
 
-  # publish_release:
-  #   if: ${{ github.event.pull_request.merged }}
-  #   runs-on: [Windows, self-hosted]
-  #   needs: compile_inno
-  #   env:
-  #     FOLDER_NAME: ${{ needs.compile_inno.outputs.folder_name }}
-  #     FILE_NAME: ${{ needs.compile_inno.outputs.file_name }}
-  #   steps:
-  #     - name: Checkout
-  #       id: checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repository: 'FrancoisSuzeau/Squeamish'
-  #         submodules: true
-  #         lfs: true
+  publish_release:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: [Windows, self-hosted]
+    needs: compile_inno
+    env:
+      FOLDER_NAME: ${{ needs.compile_inno.outputs.folder_name }}
+      FILE_NAME: ${{ needs.compile_inno.outputs.file_name }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'FrancoisSuzeau/Squeamish'
+          submodules: true
+          lfs: true
 
-  #     - name: Create Release
-  #       id: create_release
-  #       uses: actions/create-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-  #       with:
-  #         tag_name: ${{ env.FOLDER_NAME }}
-  #         release_name: "${{ github.event.pull_request.title }}"
-  #         body: ""
-  #         draft: false
-  #         prerelease: true
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ env.FOLDER_NAME }}
+          release_name: "${{ github.event.pull_request.title }}"
+          body: ""
+          draft: false
+          prerelease: true
       
-  #     - name: Upload Release Asset
-  #       id: upload-release-asset 
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-  #         asset_path: D:\Setup\${{ env.FOLDER_NAME }}\${{ env.FILE_NAME }}.exe
-  #         asset_name: ${{ env.FILE_NAME }}.exe
-  #         asset_content_type: application/exe
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: D:\Setup\${{ env.FOLDER_NAME }}\${{ env.FILE_NAME }}.exe
+          asset_name: ${{ env.FILE_NAME }}.exe
+          asset_content_type: application/exe
 
   publish_message:
     if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
-    #needs: publish_release
-    needs: [compile_inno]
+    needs: [compile_inno, publish_release]
     env:
       FOLDER_NAME: ${{ needs.compile_inno.outputs.folder_name }}
     steps:
