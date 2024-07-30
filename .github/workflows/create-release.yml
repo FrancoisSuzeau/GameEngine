@@ -139,10 +139,7 @@ jobs:
         with:
           tag_name: ${{ env.FOLDER_NAME }}
           release_name: Release ${{ env.FOLDER_NAME }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          body: ""
           draft: false
           prerelease: true
       
