@@ -19,26 +19,23 @@ jobs:
   retrieve_data:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
-    outputs:
-      output1: ${{ steps.retrieve_branch_name.outputs.prefix }}
     steps:
     - name: Retrieve Branch Name
       id: retrieve_branch_name
       run: |
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
-          $tmp = $branchName -split '/'
-          $tmp = $tmp[0]
-          echo "prefix=$tmp" >> "$GITHUB_OUTPUT"
+          $prefix = $branchName -split '/'
+          $prefix = $prefix[0]
+          echo "prefix=$prefix" >> $GITHUB_OUTPUT
     
     - name: Check Branch Name
       id: check_branch_name
-      env:
-        OUTPUT1: ${{ steps.retrieve_branch_name.outputs.output1 }}
+      with:
+        branch_prefix: ${{ steps.retrieve_branch_name.outputs.prefix }}
       run: |
-          $OUTPUT1
-          $branch = $OUTPUT1
-          if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
+          $branch_prefix
+          if ($branch_prefix -eq 'feature' -or $branch_prefix -eq 'bugfix')  
           {
             echo "branch_valid=true" >> $GITHUB_ENV
           } 
