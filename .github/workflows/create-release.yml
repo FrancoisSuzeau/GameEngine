@@ -27,7 +27,7 @@ jobs:
           $branchName = $branchRef -replace '^refs/heads/', ''
           $tmp = $branchName -split '/'
           $tmp = $tmp[0]
-          echo "::set-output name=prefix::$tmp"
+          echo "::set-output name={prefix}::{$tmp}"
     
     - name: Check Branch Name
       id: check_branch_name
