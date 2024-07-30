@@ -15,17 +15,7 @@ jobs:
   create_release:
     runs-on: [Windows, self-hosted]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Set up GitHub CLI
-      uses: actions/setup-gh@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Determine branch and tag version
-      shell: pwsh
-      run: |
+    - run: |
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
           $branchName
