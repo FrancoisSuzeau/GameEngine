@@ -37,7 +37,7 @@ jobs:
             $prefix = $prefix[0]
             echo "PREFIX=$prefix" >> $Env:GITHUB_OUTPUT
 
-            ${{ github.event.pull_request.title }}
+            "${{ github.event.pull_request.title }}"
       
       # - name: Retrieve Version Numbers
       #   id: retrieve_version_numbers
