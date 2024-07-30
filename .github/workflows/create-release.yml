@@ -36,6 +36,19 @@ jobs:
             $minor = [int]$versionComponents[1]
             $patch = [int]$versionComponents[2]
 
+            if ($prefix[0] -eq 'feature')
+            {
+              $minor++
+            }
+
+            if ($prefix[0] -eq 'bugfix')
+            {
+              $patch++
+            }
+
+            $minor
+            $patch
+
           } 
           else 
           {
