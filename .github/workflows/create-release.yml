@@ -27,7 +27,7 @@ jobs:
           $branchName = $branchRef -replace '^refs/heads/', ''
           $prefix = $branchName -split '/'
           $prefix = $prefix[0]
-          echo "PREFIX=$prefix" >> $GITHUB_OUTPUT
+          echo "PREFIX=fack" >> $GITHUB_OUTPUT
     
     - name: Check Branch Name
       id: check_branch_name
