@@ -20,10 +20,14 @@ jobs:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     steps:
-    - run: |
+    - name: Retrieve branch name
+      run: |
           $branchRef = $env:GITHUB_REF
           $branchName = $branchRef -replace '^refs/heads/', ''
           $prefix = $branchName -split '/'
+          
+    - name: The Others
+      run: |
           if ($prefix[0] -eq 'feature' -or $prefix[0] -eq 'bugfix') 
           {
 
