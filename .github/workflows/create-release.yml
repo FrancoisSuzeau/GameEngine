@@ -120,12 +120,13 @@ jobs:
       FOLDER_NAME: ${{ needs.compile_inno.outputs.folder_name }}
       FILE_NAME: ${{ needs.compile_inno.outputs.file_name }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        repository: 'FrancoisSuzeau/Squeamish'
-        submodules: true
-        lfs: true
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'FrancoisSuzeau/Squeamish'
+          submodules: true
+          lfs: true
 
       - name: Create Release
         id: create_release
