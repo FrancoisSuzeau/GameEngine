@@ -45,10 +45,10 @@ jobs:
               $patch++
             }
 
-            $newtag = "v$major.$minor.$patch-alpha"
+            $newtag = "v" + $major + "." + $minor + "." + $patch + "-alpha"
 
             $setup_wizzard_name = "squeamish-$newtag"
-            $setup_wizzard_name
+            $setup_wizzard_name = "$setup_wizzard_name"
 
           } 
           else 
