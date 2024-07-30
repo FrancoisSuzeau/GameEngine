@@ -49,7 +49,7 @@ jobs:
 
             $setup_wizzard_name = "squeamish-" + $newtag + "_win64-setup"
 
-            iscc "D:\Setup\template\script.iss" -dMyAppVersion=$newtag
+            iscc "D:\Setup\template\script.iss" -dMyAppVersion="$newtag"
 
 
           } 
