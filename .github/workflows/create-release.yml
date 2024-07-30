@@ -39,6 +39,7 @@ jobs:
             if ($prefix[0] -eq 'feature')
             {
               $minor++
+              $patch = 0
             }
 
             if ($prefix[0] -eq 'bugfix')
