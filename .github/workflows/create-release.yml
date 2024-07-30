@@ -27,13 +27,13 @@ jobs:
           $branchName = $branchRef -replace '^refs/heads/', ''
           $prefix = $branchName -split '/'
           $prefix = $prefix[0]
-          echo "prefix=$prefix" >> $GITHUB_OUTPUT
+          echo "PREFIX=$prefix" >> $GITHUB_OUTPUT
     
     - name: Check Branch Name
       id: check_branch_name
       run: |
-          $branch_prefix = ${{ steps.retrieve_branch_name.outputs.prefix }}
-          $branch_prefix
+          echo "${{ steps.retrieve_branch_name.outputs.PREFIX }}"
+          $branch_prefix = "${{ steps.retrieve_branch_name.outputs.PREFIX }}"
           if ($branch_prefix -eq 'feature' -or $branch_prefix -eq 'bugfix')  
           {
             echo "branch_valid=true" >> $GITHUB_ENV
