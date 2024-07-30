@@ -88,6 +88,9 @@ jobs:
   compile_inno:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
+    outputs:
+      folder_name: ${{ steps.compile_inno_setup.outputs.FOLDER_NAME }}
+      file_name: ${{ steps.compile_inno_setup.outputs.FILE_NAME }}
     needs: [retrieve_data, create_tag]
     env:
       MAJOR: ${{ needs.retrieve_data.outputs.major }}
@@ -106,43 +109,19 @@ jobs:
             
             iscc "D:\Setup\template\script.iss" -dMyAppVersion="$newtag" -dMyBaseOutputFilename="$setup_wizzard_name"
 
-    # - name: The Others
-    #   run: |
-    #       $branchRef = $env:GITHUB_REF
-    #       $branchName = $branchRef -replace '^refs/heads/', ''
-    #       $prefix = $branchName -split '/'
-    #       if ($prefix[0] -eq 'feature' -or $prefix[0] -eq 'bugfix') 
-    #       {
+            echo "FOLDER_NAME=$newtag" >> $Env:GITHUB_OUTPUT
+            echo "FILE_NAME=$setup_wizzard_name" >> $Env:GITHUB_OUTPUT
 
-    #         $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
-    #         $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
-    #         $versionComponents = $version -split '\.'
-    #         $major = [int]$versionComponents[0]
-    #         $minor = [int]$versionComponents[1]
-    #         $patch = [int]$versionComponents[2]
-
-    #         if ($prefix[0] -eq 'feature')
-    #         {
-    #           $minor++
-    #           $patch = 0
-    #         }
-
-    #         if ($prefix[0] -eq 'bugfix')
-    #         {
-    #           $patch++
-    #         }
-
-    #         $newtag = "v" + $major + "." + $minor + "." + $patch + "-alpha"
-
-    #         $setup_wizzard_name = "squeamish-" + $newtag + "_win64-setup"
-
-    #         iscc "D:\Setup\template\script.iss" -dMyAppVersion="$newtag" -dMyBaseOutputFilename="$setup_wizzard_name"
-
-
-    #       } 
-    #       else 
-    #       {
-
-    #         Write-Output "Branch prefix is not 'feature' or 'bugfix'."
-
-    #       }
+  publish_release:
+    # if: ${{ github.event.pull_request.merged }}
+    runs-on: [Windows, self-hosted]
+    needs: compile_inno
+    env:
+      FOLDER_NAME: ${{ needs.compile_inno.outputs.folder_name }}
+      FILE_NAME: ${{ needs.compile_inno.outputs.file_name }}
+    steps:
+      - name: Test
+        id: test
+        run: |
+            ${{ env.FOLDER_NAME }}
+            ${{ env.FILE_NAME }}
