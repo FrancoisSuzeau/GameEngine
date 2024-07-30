@@ -31,7 +31,7 @@ jobs:
       - name: Retrieve Branch Name
         id: retrieve_branch_name
         run: |
-            $branchRef = $env:GITHUB_REF
+            $branchRef = "${{ github.event.pull_request.head.ref }}"
             $branchName = $branchRef -replace '^refs/heads/', ''
             $prefix = $branchName -split '/'
             $prefix = $prefix[0]
