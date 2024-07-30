@@ -240,16 +240,17 @@ namespace Services
 					break;
 				}
 			}
+
+			scene->SetSceneComponents(components);
+			scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
+			scene->SetDirectionLight(this->GetVec3Node(Enums::JsonType::Scene, "direction_light"));
+			scene->SetIsThereDirectionLight(this->GetBoolNode(Enums::JsonType::Scene, "is_there_direction_light"));
+			scene->SetCameraParameters(std::make_tuple<glm::vec3, float, float>(
+				this->GetVec3Node(Enums::JsonType::Scene, "camera_position"),
+				this->GetFloatNode(Enums::JsonType::Scene, "camera_pitch"),
+				this->GetFloatNode(Enums::JsonType::Scene, "camera_yaw")));
 		}
 
-		scene->SetSceneComponents(components);
-		scene->SetSelectedSkybox(this->GetStringNode(Enums::JsonType::Scene, "selected_skybox"));
-		scene->SetDirectionLight(this->GetVec3Node(Enums::JsonType::Scene, "direction_light"));
-		scene->SetIsThereDirectionLight(this->GetBoolNode(Enums::JsonType::Scene, "is_there_direction_light"));
-		scene->SetCameraParameters(std::make_tuple<glm::vec3, float, float>(
-			this->GetVec3Node(Enums::JsonType::Scene, "camera_position"), 
-			this->GetFloatNode(Enums::JsonType::Scene, "camera_pitch"), 
-			this->GetFloatNode(Enums::JsonType::Scene, "camera_yaw")));
 		return scene;
 	}
 

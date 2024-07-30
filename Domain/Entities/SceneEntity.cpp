@@ -6,7 +6,7 @@
 
 namespace Services {
 
-	SceneEntity::SceneEntity() : m_selected_skybox(""), m_direction_light(0.f), m_is_there_direction_light(false)
+	SceneEntity::SceneEntity() : m_selected_skybox(""), m_direction_light(0.f), m_is_there_direction_light(false), m_camera_parameters(glm::vec3(0.f, 0.f, 3.f), 0.f, -90.f)
 	{
 
 	}
