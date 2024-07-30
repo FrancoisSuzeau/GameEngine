@@ -19,15 +19,10 @@ jobs:
         $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
         $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
         $version
-# Split the version number into components
         $versionComponents = $version -split '\.'
-
-# Assign components to individual variables
         $major = $versionComponents[0]
         $minor = $versionComponents[1]
         $patch = $versionComponents[2]
-
-# Display the components
         $major
         $minor
         $patch
