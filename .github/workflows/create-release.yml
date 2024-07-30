@@ -21,6 +21,9 @@ jobs:
     runs-on: [Windows, self-hosted]
     outputs:
       prefix: ${{ steps.retrieve_branch_name.outputs.PREFIX }}
+      major: ${{ steps.retrieve_branch_name.outputs.MAJOR }}
+      minor: ${{ steps.retrieve_branch_name.outputs.MINOR }}
+      patch: ${{ steps.retrieve_branch_name.outputs.PATCH }}
     steps:
       - name: Retrieve Branch Name
         id: retrieve_branch_name
@@ -37,16 +40,21 @@ jobs:
             $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
             $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
             $versionComponents = $version -split '\.'
-            echo "MAJOR=$versionComponents[0]" >> $env:GITHUB_ENV
-            echo "MINOR=$versionComponents[1]" >> $env:GITHUB_ENV
-            echo "PATCH=$versionComponents[2]" >> $env:GITHUB_ENV
+            echo "MAJOR=$versionComponents[0]" >> $Env:GITHUB_ENV
+            echo "MINOR=$versionComponents[1]" >> $Env:GITHUB_ENV
+            echo "PATCH=$versionComponents[2]" >> $Env:GITHUB_ENV
 
   create_tag:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
+    outputs:
+      new_minor: ${{ steps.increment_version_numbers.outputs.NEW_MINOR }}
+      new_patch: ${{ steps.increment_version_numbers.outputs.NEW_PATCH }}
     needs: retrieve_data
     env:
       PREFIX: ${{ needs.retrieve_data.outputs.prefix }}
+      MINOR: ${{ needs.retrieve_data.outputs.minor }}
+      PATCH: ${{ needs.retrieve_data.outputs.patch }}
     steps:
       - name: Increment Version Numbers
         id: increment_version_numbers
@@ -56,8 +64,8 @@ jobs:
             {
               $minor = [int]${{ env.MINOR }}
               $minor++
-              echo "MINOR=$minor" >> $env:GITHUB_ENV
-              echo "PATCH=0" >> $env:GITHUB_ENV
+              echo "NEW_MINOR=$minor" >> $Env:GITHUB_ENV
+              echo "NEW_PATCH=0" >> $Env:GITHUB_ENV
             }
             else
             {
@@ -65,7 +73,8 @@ jobs:
               {
                 $patch = [int]${{ env.PATCH }}
                 $patch++
-                echo "PATCH=$patch" >> $env:GITHUB_ENV
+                echo "NEW_PATCH=$patch" >> $Env:GITHUB_ENV
+                echo "NEW_MINOR=${{ env.MINOR }}" >> $Env:GITHUB_ENV
               }
               else
               {
@@ -73,22 +82,26 @@ jobs:
               }
             }
 
-  # compile_inno:
-  #   # if: ${{ github.event.pull_request.merged }}
-  #   runs-on: [Windows, self-hosted]
-  #   needs: create_tag
-  #   steps:
-  #     - name: Compile Inno Setup
-  #       id: compile_inno_setup
-  #       run: |
-  #           $major = ${{ env.MAJOR }}
-  #           $minor = ${{ env.MINOR }}
-  #           $patch = ${{ env.PATCH }}
+  compile_inno:
+    # if: ${{ github.event.pull_request.merged }}
+    runs-on: [Windows, self-hosted]
+    needs: [retrieve_data, create_tag]
+    env:
+      MAJOR: ${{ needs.retrieve_data.outputs.major }}
+      MINOR: ${{ needs.create_tag.outputs.new_minor }}
+      PATCH: ${{ needs.create_tag.outputs.new_patch }}
+    steps:
+      - name: Compile Inno Setup
+        id: compile_inno_setup
+        run: |
+            $major = ${{ env.MAJOR }}
+            $minor = ${{ env.MINOR }}
+            $patch = ${{ env.PATCH }}
 
-  #           $newtag = "v" + $major + "." + $minor + "." + $patch + "-alpha"
-  #           $setup_wizzard_name = "squeamish-" + $newtag + "_win64-setup"
+            $newtag = "v" + $major + "." + $minor + "." + $patch + "-alpha"
+            $setup_wizzard_name = "squeamish-" + $newtag + "_win64-setup"
             
-  #           iscc "D:\Setup\template\script.iss" -dMyAppVersion="$newtag" -dMyBaseOutputFilename="$setup_wizzard_name"
+            iscc "D:\Setup\template\script.iss" -dMyAppVersion="$newtag" -dMyBaseOutputFilename="$setup_wizzard_name"
 
     # - name: The Others
     #   run: |
