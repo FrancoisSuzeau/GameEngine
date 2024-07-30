@@ -20,7 +20,7 @@ jobs:
     # if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     outputs:
-      prefix: ${{ steps.retrieve_branch_name.outputs.prefix }}
+      output1: ${{ steps.retrieve_branch_name.outputs.prefix }}
     steps:
     - name: Retrieve Branch Name
       id: retrieve_branch_name
@@ -33,9 +33,11 @@ jobs:
     
     - name: Check Branch Name
       id: check_branch_name
+      env:
+        OUTPUT1: ${{ steps.retrieve_branch_name.outputs.output1 }}
       run: |
-          echo "$prefix"
-          $branch = "$prefix"
+          $OUTPUT1
+          $branch = $OUTPUT1
           if ($branch -eq 'feature' -or $branch -eq 'bugfix')  
           {
             echo "branch_valid=true" >> $GITHUB_ENV
