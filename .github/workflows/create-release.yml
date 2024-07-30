@@ -32,7 +32,7 @@ jobs:
     - name: Check Branch Name
       id: check_branch_name
       run: |
-          branch_prefix = ${{ steps.retrieve_branch_name.outputs.prefix }}
+          $branch_prefix = ${{ steps.retrieve_branch_name.outputs.prefix }}
           $branch_prefix
           if ($branch_prefix -eq 'feature' -or $branch_prefix -eq 'bugfix')  
           {
