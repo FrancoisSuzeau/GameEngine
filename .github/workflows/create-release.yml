@@ -40,9 +40,12 @@ jobs:
             $latestTag = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" repos/FrancoisSuzeau/Squeamish/tags | jq -r '.[0].name'
             $version = [regex]::Match($latestTag, '^v(\d+\.\d+\.\d+)').Groups[1].Value
             $versionComponents = $version -split '\.'
-            echo "MAJOR=$versionComponents[0]" >> $Env:GITHUB_OUTPUT
-            echo "MINOR=$versionComponents[1]" >> $Env:GITHUB_OUTPUT
-            echo "PATCH=$versionComponents[2]" >> $Env:GITHUB_OUTPUT
+            $major = $versionComponents[0]
+            $minor = $versionComponents[1]
+            $patch = $versionComponents[2]
+            echo "MAJOR=$major" >> $Env:GITHUB_OUTPUT
+            echo "MINOR=$minor" >> $Env:GITHUB_OUTPUT
+            echo "PATCH=$patch" >> $Env:GITHUB_OUTPUT
 
   create_tag:
     # if: ${{ github.event.pull_request.merged }}
