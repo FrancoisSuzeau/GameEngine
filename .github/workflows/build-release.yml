@@ -42,4 +42,4 @@ jobs:
 
     - name: Build release
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Configuration=Release
