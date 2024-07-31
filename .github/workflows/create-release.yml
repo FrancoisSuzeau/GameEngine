@@ -69,6 +69,7 @@ jobs:
               $minor++
               echo "NEW_MINOR=$minor" >> $Env:GITHUB_OUTPUT
               echo "NEW_PATCH=0" >> $Env:GITHUB_OUTPUT
+              echo "CONTINUE=true" >> $Env:GITHUB_OUTPUT
             }
             else
             {
@@ -78,6 +79,7 @@ jobs:
                 $patch++
                 echo "NEW_PATCH=$patch" >> $Env:GITHUB_OUTPUT
                 echo "NEW_MINOR=${{ env.MINOR }}" >> $Env:GITHUB_OUTPUT
+                echo "CONTINUE=true" >> $Env:GITHUB_OUTPUT
               }
               else
               {
@@ -87,7 +89,7 @@ jobs:
             }
 
   compile_inno:
-    if: ${{ github.event.pull_request.merged && env.CONTINUE == 'true' }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: [Windows, self-hosted]
     outputs:
       folder_name: ${{ steps.compile_inno_setup.outputs.FOLDER_NAME }}
@@ -101,6 +103,7 @@ jobs:
     steps:
       - name: Compile Inno Setup
         id: compile_inno_setup
+        if: ${{ env.CONTINUE == 'true' }}
         run: |
             $major = ${{ env.MAJOR }}
             $minor = ${{ env.MINOR }}
