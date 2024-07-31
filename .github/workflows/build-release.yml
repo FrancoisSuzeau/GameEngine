@@ -26,7 +26,16 @@ jobs:
         build-configuration: [Release]
 
     steps:
+      - name: Compare Pull Request Head Ref and Push Branch Name
+        id: compare_head_ref_branch_name
+        run: |
+            $pr_head_ref = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pulls | jq -r '.[0].head.ref'
+            $prefix = $branchName -split '/'
+            $prefix = $prefix[0]
+            $prefix
+
     # - name: Checkout
+    #   id: checkout
     #   uses: actions/checkout@v4
     #   with:
     #     repository: 'FrancoisSuzeau/Squeamish'
@@ -34,6 +43,7 @@ jobs:
     #     lfs: true
 
     # - name: Add MSBuild to PATH
+    #   id: add_msbuild_to_path
     #   uses: microsoft/setup-msbuild@v1.1
     #   with:
     #     msbuild-architecture: x64
@@ -41,5 +51,6 @@ jobs:
     #     vs-version: '17.8.0'
 
     # - name: Build release
+    #   id: build_release
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
     #   run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Configuration=Release
