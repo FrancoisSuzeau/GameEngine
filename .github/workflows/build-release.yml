@@ -34,14 +34,14 @@ jobs:
             $prefix = $prefix[0]
             echo "PREFIX=$prefix" >> $env:GITHUB_ENV
 
-    - name: Checkout
-      id: checkout
-      if: ${{ env.PREFIX != 'devops' }}
-      uses: actions/checkout@v4
-      with:
-        repository: 'FrancoisSuzeau/Squeamish'
-        submodules: true
-        lfs: true
+      - name: Checkout
+        id: checkout
+        if: ${{ env.PREFIX != 'devops' }}
+        uses: actions/checkout@v4
+        with:
+          repository: 'FrancoisSuzeau/Squeamish'
+          submodules: true
+          lfs: true
 
     # - name: Add MSBuild to PATH
     #   id: add_msbuild_to_path
