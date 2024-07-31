@@ -41,7 +41,7 @@ permissions:
 
 jobs:
   build:
-    if: $CI_MERGE_REQUEST_ID == null
+    if: ${{ github.event.pull_request == null }}
     runs-on: [Windows, self-hosted]
     strategy:
       fail-fast: false
