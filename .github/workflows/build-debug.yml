@@ -65,13 +65,17 @@ jobs:
           submodules: true
           lfs: true
 
-      # - name: Add MSBuild to PATH
-      #   uses: microsoft/setup-msbuild@v1.1
-      #   with:
-      #     msbuild-architecture: x64
-      #     vs-prerelease: true
-      #     vs-version: '17.8.0'
+      - name: Add MSBuild to PATH
+        id: add_msbuild_to_path
+        if: ${{ env.CONTINUE == 'true' }}
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
+          vs-prerelease: true
+          vs-version: '17.8.0'
 
-      # - name: Build debug
-      #   working-directory: ${{env.GITHUB_WORKSPACE}}
-      #   run: msbuild ${{env.SOLUTION_FILE_PATH}}
+      - name: Build debug
+        id: build_debug
+        if: ${{ env.CONTINUE == 'true' }}
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: msbuild ${{env.SOLUTION_FILE_PATH}}
