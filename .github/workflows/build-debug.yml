@@ -56,17 +56,14 @@ jobs:
             $continue = $branchName -ne $pr_head_ref
             echo "CONTINUE=$continue" >> $env:GITHUB_ENV
 
-      - name: Test
-        id: Test
-        run: |
-            ${{ env.CONTINUE }}
-
-      # - name: Checkout
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: 'FrancoisSuzeau/Squeamish'
-      #     submodules: true
-      #     lfs: true
+      - name: Checkout
+        id: checkout
+        if: ${{ env.CONTINUE }}
+        uses: actions/checkout@v4
+        with:
+          repository: 'FrancoisSuzeau/Squeamish'
+          submodules: true
+          lfs: true
 
       # - name: Add MSBuild to PATH
       #   uses: microsoft/setup-msbuild@v1.1
