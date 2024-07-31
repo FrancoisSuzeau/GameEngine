@@ -58,7 +58,7 @@ jobs:
 
       - name: Checkout
         id: checkout
-        if: ${{ env.CONTINUE }}
+        if: ${{ env.CONTINUE == 'true' }}
         uses: actions/checkout@v4
         with:
           repository: 'FrancoisSuzeau/Squeamish'
