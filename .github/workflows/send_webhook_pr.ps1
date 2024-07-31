@@ -1,6 +1,6 @@
 # Settings webhook url
-#$discordWebhookUrl = "https://discord.com/api/webhooks/1175831319079555195/kcwebNYUIHrkI16dM7qS9E3OVmESIlAFmb0fphEzoGuERZSDIGU4jY9DTeQrvYN_KRU1"
-$discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
+$discordWebhookUrl = "https://discord.com/api/webhooks/1175831319079555195/kcwebNYUIHrkI16dM7qS9E3OVmESIlAFmb0fphEzoGuERZSDIGU4jY9DTeQrvYN_KRU1"
+# $discordWebhookUrl = "https://discord.com/api/webhooks/1171550224045576224/fWJf83DLoXugzWao-KxdEq-NwfgyCh0fmEA4Jdwtqdwomke5c5o17Vne7o90M6FYWxf6"
 $username = "Github Webhook"
 $webhook_content = "You might want to take a look .."
 $authorObject = [PSCustomObject]@{
