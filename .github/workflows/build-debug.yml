@@ -41,13 +41,8 @@ permissions:
 
 jobs:
   build:
+    if: $CI_MERGE_REQUEST_ID == null
     runs-on: [Windows, self-hosted]
-    rules:
-      - if: $CI_MERGE_REQUEST_ID == null
-        changes:
-          - feature/**
-          - bugfix/**
-          - devops/*
     strategy:
       fail-fast: false
       matrix:
