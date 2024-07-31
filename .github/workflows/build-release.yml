@@ -36,22 +36,24 @@ jobs:
 
       - name: Checkout
         id: checkout
-        if: ${{ env.PREFIX -ne 'devops' }}
+        if: ${{ env.PREFIX != 'devops' }}
         uses: actions/checkout@v4
         with:
           repository: 'FrancoisSuzeau/Squeamish'
           submodules: true
           lfs: true
 
-    # - name: Add MSBuild to PATH
-    #   id: add_msbuild_to_path
-    #   uses: microsoft/setup-msbuild@v1.1
-    #   with:
-    #     msbuild-architecture: x64
-    #     vs-prerelease: true
-    #     vs-version: '17.8.0'
+      - name: Add MSBuild to PATH
+        id: add_msbuild_to_path
+        if: ${{ env.PREFIX != 'devops' }}
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
+          vs-prerelease: true
+          vs-version: '17.8.0'
 
-    # - name: Build release
-    #   id: build_release
-    #   working-directory: ${{env.GITHUB_WORKSPACE}}
-    #   run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Configuration=Release
+      - name: Build release
+        id: build_release
+        if: ${{ env.PREFIX != 'devops' }}
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Configuration=Release
