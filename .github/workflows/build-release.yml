@@ -36,7 +36,7 @@ jobs:
 
       - name: Checkout
         id: checkout
-        if: ${{ env.PREFIX != 'devops' }}
+        if: ${{ env.PREFIX -ne 'devops' }}
         uses: actions/checkout@v4
         with:
           repository: 'FrancoisSuzeau/Squeamish'
