@@ -49,8 +49,8 @@ jobs:
         build-configuration: [Debug]
     steps:
       - name: Test pull request value
-        run: ${{ github.event.pull_request == null }}
-        
+        run: ${{ github.event.pull_request }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
