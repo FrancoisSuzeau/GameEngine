@@ -10,6 +10,7 @@ on:
     branches:
       - feature/**
       - bugfix/**
+      - devops/*
   #Can be triggered manually
   workflow_dispatch:
     inputs:
