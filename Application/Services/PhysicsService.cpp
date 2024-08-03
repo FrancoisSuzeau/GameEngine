@@ -138,15 +138,26 @@ namespace Services
 			else
 			{
 				Light light;
+				light.position[0] = 0;
+				light.position[1] = 0;
+				light.position[2] = 0;
 				light.inner_color[0] = 1.f;
 				light.inner_color[1] = 1.f;
 				light.inner_color[2] = 1.f;
 				light.inner_color[3] = 1.f;
 				light.mixe_texture_color = 0;
+				light.texture_index = -1;
 				light.is_textured = 0;
 				light.is_point_light = 0;
 				light.is_spot_light = 0;
 				light.is_directional = 1;
+				light.constant = 0.f;
+				light.linear = 0.f;
+				light.quadratic = 0.f;
+				light.cut_off = 0.f;
+				light.outer_cut_off = 0.f;
+				light.is_attenuation = 0;
+				light.intensity = 0.f;
 				light.direction[0] = m_state_service->GetScene()->GetDirectionLight().x;
 				light.direction[1] = m_state_service->GetScene()->GetDirectionLight().y;
 				light.direction[2] = m_state_service->GetScene()->GetDirectionLight().z;
