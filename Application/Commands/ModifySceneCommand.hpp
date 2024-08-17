@@ -36,7 +36,7 @@ namespace Commands {
 		Enums::SceneModifier const m_scene_modifier;
 		std::string const m_skybox_name;
 		std::shared_ptr<Component::IComponent> m_component_to_copy;
-		void PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make);
+		void PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make, glm::vec3 const cam_position);
 		void AddComponentToScene();
 		void CopyComponent();
 		void GetServices();

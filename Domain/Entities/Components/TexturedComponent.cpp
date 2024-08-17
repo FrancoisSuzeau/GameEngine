@@ -8,7 +8,7 @@
 namespace Component {
 	TexturedComponent::TexturedComponent(glm::vec3 const position, glm::vec3 const size, Enums::RendererType const type, std::string const texture_name,
 		bool const mixe, bool const is_light_source, float const ambiant_occlusion, int const specular_shininess, float const specular_strength, 
-		Enums::LightType const light_type, glm::vec3 direction, float const cut_off, float const outer_cut_off, bool const is_attenuation, float const intensity) : m_texture_id(0), m_texture_name(texture_name),
+		Enums::LightType const light_type, glm::vec3 direction, float const cut_off, float const outer_cut_off, bool const is_attenuation, float const intensity, glm::vec3 const angles) : m_texture_id(0), m_texture_name(texture_name),
 		m_mixe_texture_and_color(mixe)
 	{
 		m_type = type;
@@ -18,7 +18,9 @@ namespace Component {
 		m_size = size;
 		m_hovered = false;
 		m_selected = false;
-		m_angle = 0.f;
+		m_angle_1 = 0.f;
+		m_angle_2 = 0.f;
+		m_angle_3 = 0.f;
 		m_horizontal = true;
 		m_back_ground_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
 		m_is_light_source = is_light_source;
@@ -31,6 +33,9 @@ namespace Component {
 		m_outer_cut_off = outer_cut_off;
 		m_is_attenuation = is_attenuation;
 		m_intensity = intensity;
+		m_angle_1 = angles.x;
+		m_angle_2 = angles.y;
+		m_angle_3 = angles.z;
 	}
 
 	void TexturedComponent::Clean()

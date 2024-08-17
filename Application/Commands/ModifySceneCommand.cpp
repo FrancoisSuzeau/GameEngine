@@ -79,17 +79,28 @@ namespace Commands
 			}
 		}
 	}
-	void ModifySceneCommand::PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make)
+	void ModifySceneCommand::PostAddingComponentToScene(std::shared_ptr<Component::IComponent> new_component_to_make, glm::vec3 const cam_position)
 	{
 		if (m_state_service && m_camera_service)
 		{
-			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
+			glm::vec3 cpt_position = cam_position  + m_camera_service->GetTarget();
+			
 
 			if (m_component_to_copy)
 			{
 				m_component_to_copy->SetSelected(false);
 			}
-			new_component_to_make->SetPosition(position);
+			new_component_to_make->SetPosition(cpt_position);
+
+			glm::mat4 model = glm::inverse(glm::lookAt(cpt_position, cam_position, glm::vec3(0.0f, 1.0f, 0.0f)));
+			glm::mat3 rotationMatrix = glm::mat3(model);
+			glm::vec3 eulerAngles = glm::eulerAngles(glm::quat_cast(rotationMatrix));
+			glm::vec3 eulerAnglesDegrees = glm::degrees(eulerAngles);
+
+			new_component_to_make->SetAngle1(eulerAnglesDegrees.x);
+			new_component_to_make->SetAngle2(eulerAnglesDegrees.y);
+			new_component_to_make->SetAngle3(eulerAnglesDegrees.z);
+
 			new_component_to_make->SetSelected(true);
 			m_state_service->addComponent(new_component_to_make);
 			m_state_service->setSelectedComponent();
@@ -104,27 +115,27 @@ namespace Commands
 			switch (m_component_type)
 			{
 			case Enums::RendererType::TRIANGLE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)), position);
 				SQ_APP_TRACE("New triangle added");
 				break;
 			case Enums::RendererType::SPHERE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)), position);
 				SQ_APP_TRACE("New sphere added");
 				break;
 
 			case Enums::RendererType::CUBE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)), position);
 				SQ_APP_TRACE("New cube added");
 				break;
 			case Enums::RendererType::SQUARE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(position, glm::vec3(0.2f), m_component_type, glm::vec4(0.f, 0.f, 0.f, 1.f)), position);
 				SQ_APP_TRACE("New square added");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			{
 				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
-				this->PostAddingComponentToScene(component);
+				this->PostAddingComponentToScene(component, position);
 				SQ_APP_TRACE("New textured cube added");
 			}
 			break;
@@ -132,7 +143,7 @@ namespace Commands
 			{
 				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
-				this->PostAddingComponentToScene(component);
+				this->PostAddingComponentToScene(component, position);
 				SQ_APP_TRACE("New textured square added");
 			}
 			break;
@@ -140,7 +151,7 @@ namespace Commands
 			{
 				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
-				this->PostAddingComponentToScene(component);
+				this->PostAddingComponentToScene(component, position);
 				SQ_APP_TRACE("New textured triangle added");
 			}
 			break;
@@ -148,7 +159,7 @@ namespace Commands
 			{
 				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
 				m_loader_service->LoadTexture(component, component->GetTextureName());
-				this->PostAddingComponentToScene(component);
+				this->PostAddingComponentToScene(component, position);
 				SQ_APP_TRACE("New textured sphere added");
 			}
 			break;
@@ -165,22 +176,23 @@ namespace Commands
 	}
 	void ModifySceneCommand::CopyComponent()
 	{
-		if (m_component_to_copy)
+		if (m_component_to_copy && m_camera_service)
 		{
+			glm::vec3 position = m_camera_service->GetPos() + m_camera_service->GetTarget();
 			switch (m_component_to_copy->GetType())
 			{
 			case Enums::RendererType::TRIANGLE:
 			case Enums::RendererType::SQUARE:
 			case Enums::RendererType::CUBE:
 			case Enums::RendererType::SPHERE:
-				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_component_to_copy)));
+				this->PostAddingComponentToScene(std::make_shared<Component::ComponentBase>(*std::dynamic_pointer_cast<Component::ComponentBase>(m_component_to_copy)), position);
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::SQUARE_TEXTURED:
 			case Enums::RendererType::TRIANGLE_TEXTURED:
 			case Enums::RendererType::SPHERE_TEXTURED:
-				this->PostAddingComponentToScene(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_component_to_copy)));
+				this->PostAddingComponentToScene(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_component_to_copy)), position);
 				SQ_APP_TRACE("Component copied !");
 				break;
 			case Enums::RendererType::SKYBOX:
