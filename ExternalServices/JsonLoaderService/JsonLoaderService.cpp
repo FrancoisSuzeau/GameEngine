@@ -147,6 +147,9 @@ namespace Services
 					{"cut_off", it[0]->GetCutOff()},
 					{"intensity", it[0]->GetIntensity()},
 					{"outer_cut_off", it[0]->GetOuterCutOff()},
+					{"angle_1", it[0]->GetAngle1()},
+					{"angle_2", it[0]->GetAngle2()},
+					{"angle_3", it[0]->GetAngle3()},
 					{"direction", {it[0]->GetDirection().x, it[0]->GetDirection().y, it[0]->GetDirection().z}}
 				};
 				renderers_json_format.push_back(renderer_json_format);
@@ -219,6 +222,9 @@ namespace Services
 				float outer_cut_off = this->GetFloatNode(std::make_unique<json>(*it), "outer_cut_off");
 				float intensity = this->GetFloatNode(std::make_unique<json>(*it), "intensity");
 				bool is_attenuation = this->GetBoolNode(std::make_unique<json>(*it), "is_attenuation");
+				float angle_1 = this->GetFloatNode(std::make_unique<json>(*it), "angle_1");
+				float angle_2 = this->GetFloatNode(std::make_unique<json>(*it), "angle_2");
+				float angle_3 = this->GetFloatNode(std::make_unique<json>(*it), "angle_3");
 				
 				switch (j.template get<Enums::RendererType>())
 				{
@@ -227,14 +233,14 @@ namespace Services
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
 					components.push_back(std::make_shared<Component::ComponentBase>(position, size, j.template get<Enums::RendererType>(), color, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity, glm::vec3(angle_1, angle_2, angle_3)));
 					break;
 				case Enums::RendererType::CUBE_TEXTURED:
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
 					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity, glm::vec3(angle_1, angle_2, angle_3)));
 					break;
 				default:
 					break;
