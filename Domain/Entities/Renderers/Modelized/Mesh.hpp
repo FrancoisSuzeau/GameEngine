@@ -9,6 +9,9 @@
 
 #include "../../../Interfaces/IRenderer.hpp"
 
+#include <iostream>
+#include <string>
+
 namespace Renderers {
 
     typedef struct Vertex {
@@ -46,6 +49,8 @@ namespace Renderers {
 
 		void Construct() override;
 		void Clean() override;
+
+        void Draw() override;
 		
 
 	protected:

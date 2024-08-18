@@ -60,6 +60,58 @@ namespace Renderers {
             this->m_mesh_textures.clear();
         }
     }
+
+    void Mesh::Draw()
+    {
+        unsigned int diffuse_nr = 1;
+        unsigned int specular_nr = 1;
+        unsigned int normal_nr = 1;
+        unsigned int height_nr = 1;
+
+        for (unsigned int i(0); i < m_mesh_textures.size(); i++)
+        {
+            glActiveTexture(GL_TEXTURE0 + i);
+            std::string number;
+            std::string name = m_mesh_textures[i].type;
+
+            if (name == "texture_diffuse")
+            {
+                number = std::to_string(diffuse_nr++);
+            }
+            else if (name == "texture_specular")
+            {
+                number = std::to_string(specular_nr++);
+            }
+            else if (name == "texture_normal")
+            {
+                number = std::to_string(normal_nr++);
+            }
+            else if (name == "texture_height")
+            {
+                number = std::to_string(height_nr++);
+            }
+
+            glBindTexture(GL_TEXTURE_2D, m_mesh_textures[i].id);
+        }
+
+        if (m_vao != 0)
+        {
+            glBindVertexArray(m_vao);
+            if (glIsVertexArray(m_vao) == GL_TRUE)
+            {
+                glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
+
+                glBindVertexArray(0);
+            }
+        }
+
+        for (unsigned int i(0); i < m_mesh_textures.size(); i++)
+        {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+        }
+    }
    
 
     void Mesh::Attach()

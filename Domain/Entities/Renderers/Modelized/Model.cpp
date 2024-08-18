@@ -48,6 +48,17 @@ namespace Renderers {
         m_meshes.clear();
     }
 
+    void Model::Draw()
+    {
+        for (std::vector<std::unique_ptr<Mesh>>::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+        {
+            if (it[0])
+            {
+                it[0]->Draw();
+            }
+        }
+    }
+
 
     void Model::Attach()
     {
