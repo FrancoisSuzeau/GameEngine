@@ -53,11 +53,13 @@ namespace Services {
 		void ProcessNode(aiNode* node, const aiScene* scene);
 		Renderers::Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Renderers::Texturate> LoadModelMaterial(aiMaterial* mat, aiTextureType type, std::string typeName);
-
+		void FindFileExt(std::string path);
 
 		std::vector<std::unique_ptr<Renderers::Mesh>> m_meshes;
 		std::vector<Renderers::Texturate>          m_textures_loaded;
 		std::string                     m_directory;
+
+		std::string m_file_ext;
 
 		std::shared_ptr<TextureLoaderService> m_texture_loader_service;
 

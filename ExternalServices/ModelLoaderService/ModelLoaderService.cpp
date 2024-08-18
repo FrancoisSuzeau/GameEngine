@@ -17,6 +17,8 @@ namespace Services
                 SQ_APP_ERROR("Class {} in function {} : Texture loader service is not referenced yet", __FILE__, __FUNCTION__);
             }
         }
+
+        m_file_ext = Constants::NONE;
 	}
 
 	void ModelLoaderService::DeInit()
@@ -41,20 +43,42 @@ namespace Services
 
 	}
 
+    void ModelLoaderService::FindFileExt(std::string path)
+    {
+        std::vector<std::string> files_ext =
+        {
+            ".obj",
+            ".fbx"
+        };
+
+        m_file_ext = Constants::NONE;
+        for (std::vector<std::string>::iterator it = files_ext.begin(); it != files_ext.end(); ++it)
+        {
+            std::ifstream flux_in(path + it[0].c_str());
+            if (flux_in.is_open())
+            {
+                m_file_ext = it[0];
+                flux_in.close();
+            }
+        }
+    }
+
     std::unique_ptr<Renderers::Model> ModelLoaderService::LoadModel(std::string const model_name)
 	{
 		std::string complete_path = Constants::MODELSPATH + model_name;
+        m_file_ext = Constants::NONE;
+        this->FindFileExt(complete_path);
         std::unique_ptr<Renderers::Model> model = nullptr;
 
-		std::ifstream file(complete_path.c_str());
-		if (!file.is_open())
+		
+		if (m_file_ext == Constants::NONE)
 		{
 			SQ_EXTSERVICE_ERROR("Class {} in function {} : Unable to open file for model : {} | FILE DOES NOT EXIST", __FILE__, __FUNCTION__, model_name);
 		}
 		else
 		{
-			file.close();
-
+			
+            complete_path += m_file_ext;
 			Assimp::Importer import;
 			const aiScene * scene = import.ReadFile(complete_path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 

@@ -116,12 +116,16 @@ namespace ViewModels
 			{
 				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
 			}
-			else
+			
+
+			if (m_canvas && m_loader_service && m_state_service && m_state_service->getConfigs())
 			{
-				if (m_canvas)
+				std::vector<std::string> available_models = m_state_service->getConfigs()->GetAvailableModels();
+				for (std::vector<std::string>::iterator it = available_models.begin(); it != available_models.end(); ++it)
 				{
-					m_canvas->AddRenderer(m_loader_service->LoadModel("spaceshuttle/spaceshuttle.obj"));
+					m_canvas->AddModelRenderer(m_loader_service->LoadModel(it[0] + "/" + it[0]), it[0]);
 				}
+				
 			}
 
 			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, ""));

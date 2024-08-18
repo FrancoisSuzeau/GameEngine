@@ -39,8 +39,10 @@ namespace Services {
 		bool GetRenderDebug() const;
 		void SetAvailableSkybox(std::vector<std::string> available_skybox);
 		void SetAvailableTextures(std::vector<std::string> available_texure);
+		void SetAvailableModels(std::vector<std::string> available_models);
 		std::vector<std::string> GetAvailableTextures();
 		std::vector<std::string> GetAvailableSkybox();
+		std::vector<std::string> GetAvailableModels();
 		void SetRenderSkybox(bool const render_skybox);
 		bool GetRenderSkybox() const;
 		bool GetDepth() const;
@@ -62,6 +64,7 @@ namespace Services {
 		bool m_render_debug;
 		std::vector<std::string> m_available_skybox;
 		std::vector<std::string> m_available_textures;
+		std::vector<std::string> m_available_models;
 		bool m_render_skybox;
 		bool m_active_depth;
 		bool m_activate_multisample;

@@ -40,11 +40,12 @@ namespace Views
 		void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void ConstructRenderer() override;
-		void AddRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer) override;
+		void AddModelRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer, std::string const model_type) override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::unique_ptr<Views::Draggable> m_draggable_component;
 		std::map<Enums::RendererType, std::unique_ptr<Renderers::IRenderer>> m_renderers;
+		std::map<std::string, std::unique_ptr<Renderers::IRenderer>> m_model_renderer;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::StateService> m_state_service;
 		std::shared_ptr<Services::PhysicsService> m_physics_service;

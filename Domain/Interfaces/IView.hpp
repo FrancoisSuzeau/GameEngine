@@ -24,7 +24,7 @@ namespace Views {
 		virtual void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) {};
 		virtual void ConstructRenderer() {};
-		virtual void AddRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer) {};
+		virtual void AddModelRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer, std::string const model_type) {};
 		virtual void Clean() {};
 
 	protected:

@@ -38,6 +38,9 @@ namespace Component {
 			return m_type;
 		}
 
+		virtual std::string GetModelType() const { return std::string(); }
+		virtual void SetModelType(std::string const new_val) {}
+
 
 		virtual glm::mat4 GetModelMat() const
 		{
@@ -255,7 +258,6 @@ namespace Component {
 		float m_outer_cut_off;
 		bool m_is_attenuation;
 		float m_intensity;
-		
 
 	};
 }

@@ -241,22 +241,19 @@ namespace Services
 	}
 	void TextureLoaderService::FindFileExt(std::string path)
 	{
-		std::ifstream flux_in(path + ".jpg");
+		std::vector<std::string> files_ext =
+		{
+			".jpg",
+			".png"
+		};
+
 		m_file_ext = Constants::NONE;
-		if (flux_in.is_open())
+		for (std::vector<std::string>::iterator it = files_ext.begin(); it != files_ext.end(); ++it)
 		{
-			///SQ_EXTSERVICE_DEBUG("Extension jpg for {} found", path);
-			m_file_ext = ".jpg";
-			flux_in.close();
-		}
-		else
-		{
-			
-			flux_in = std::ifstream(path + ".png");
+			std::ifstream flux_in(path + it[0].c_str());
 			if (flux_in.is_open())
 			{
-				//SQ_EXTSERVICE_DEBUG("Extension png for {} found", path);
-				m_file_ext = ".png";
+				m_file_ext = it[0];
 				flux_in.close();
 			}
 		}
