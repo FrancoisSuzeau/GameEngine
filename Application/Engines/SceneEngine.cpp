@@ -188,6 +188,16 @@ namespace Engines
 		}
 	}
 
+	void SceneEngine::LoadAvailableModel(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, const int index)
+	{
+		std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+		if (view_model)
+		{
+			view_model->LoadModel(index);
+			view_model.reset();
+		}
+	}
+
 	void SceneEngine::RenderScreen()
 	{
 		if (m_screen_renderer && m_shader_service && m_screen_component && m_framebuffer_service && m_runtime_service && m_state_service && m_state_service->getConfigs())

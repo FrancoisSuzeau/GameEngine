@@ -230,7 +230,7 @@ namespace Services
 	{
 		if (m_configs)
 		{
-			return (int)(this->m_configs->GetAvailableSkybox().size() * 2) + (int)m_configs->GetAvailableTextures().size();
+			return (int)(this->m_configs->GetAvailableSkybox().size() * 2) + (int)m_configs->GetAvailableTextures().size() + (int)m_configs->GetAvailableModels().size();
 		}
 
 		return 0;

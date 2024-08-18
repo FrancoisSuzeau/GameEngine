@@ -39,6 +39,7 @@ namespace Engines
 
 		void RenderScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
 		void RefreshScene(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder);
+		void LoadAvailableModel(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, const int index);
 		void RenderScreen();
 		void UpdateAll(SDL_Event event);
 		void UpdateAll();

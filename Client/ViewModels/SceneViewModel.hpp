@@ -42,6 +42,7 @@ namespace ViewModels
 		void RenderComponents() override;
 		void ManageScene() override;
 		void RenderSceneElements(Enums::RendererType element) override;
+		void LoadModel(const int index) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;

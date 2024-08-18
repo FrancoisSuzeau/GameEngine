@@ -128,6 +128,7 @@ namespace Engines
 		{
 			const int total_count_skybox = (const int) m_state_service->getConfigs()->GetAvailableSkybox().size();
 			const int total_count_textures = (const int) m_state_service->getConfigs()->GetAvailableTextures().size();
+			const int total_count_models = (const int)m_state_service->getConfigs()->GetAvailableModels().size();
 			int progress = 0;
 
 			for(int i = 0; i <= total_count_skybox; i++)
@@ -196,6 +197,32 @@ namespace Engines
 				if (i < total_count_skybox)
 				{
 					m_gui_engine->LoadSkyboxCube(i);
+				}
+				m_gui_engine->RenderLoader(view_model_builder, progress);
+
+				this->EndFrame();
+
+				this->FpsCalculation(Enums::END);
+
+				progress++;
+			}
+
+			progress--;
+
+			for (int i = 0; i <= total_count_models; i++)
+			{
+
+				this->FpsCalculation(Enums::BEGIN);
+				while (SDL_PollEvent(&event))
+				{
+					ImGui_ImplSDL2_ProcessEvent(&event);
+				}
+
+				this->InitFrame();
+
+				if (i < total_count_models)
+				{
+					m_scene_engine->LoadAvailableModel(view_model_builder, i);
 				}
 				m_gui_engine->RenderLoader(view_model_builder, progress);
 

@@ -118,15 +118,7 @@ namespace ViewModels
 			}
 			
 
-			if (m_canvas && m_loader_service && m_state_service && m_state_service->getConfigs())
-			{
-				std::vector<std::string> available_models = m_state_service->getConfigs()->GetAvailableModels();
-				for (std::vector<std::string>::iterator it = available_models.begin(); it != available_models.end(); ++it)
-				{
-					m_canvas->AddModelRenderer(m_loader_service->LoadModel(it[0] + "/" + it[0]), it[0]);
-				}
-				
-			}
+			
 
 			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, ""));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
@@ -236,6 +228,24 @@ namespace ViewModels
 			default:
 				break;
 			}
+		}
+	}
+
+	void SceneViewModel::LoadModel(const int index)
+	{
+		if (m_canvas && m_loader_service && m_state_service && m_state_service->getConfigs())
+		{
+			std::vector<std::string> available_models = m_state_service->getConfigs()->GetAvailableModels();
+			if (index >= 0 && index < available_models.size())
+			{
+				std::string name = available_models[index];
+				m_canvas->AddModelRenderer(m_loader_service->LoadModel(name + "/" + name), name);
+			}
+			/*for (std::vector<std::string>::iterator it = available_models.begin(); it != available_models.end(); ++it)
+			{
+				m_canvas->AddModelRenderer(m_loader_service->LoadModel(it[0] + "/" + it[0]), it[0]);
+			}*/
+
 		}
 	}
 	
