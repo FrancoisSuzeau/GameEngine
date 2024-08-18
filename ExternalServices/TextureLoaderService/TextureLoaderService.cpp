@@ -255,6 +255,7 @@ namespace Services
 			{
 				m_file_ext = it[0];
 				flux_in.close();
+				break;
 			}
 		}
 	}

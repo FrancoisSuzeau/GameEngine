@@ -29,7 +29,7 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
+	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), item_model_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
 	{
 		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -112,10 +112,10 @@ namespace Views
 	{
 		bool show_confirm = m_state_service->getShowConfirm();
 
-		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 250), true, window_flags2))
+		if (ImGui::BeginChild("ChildGeneralFun", ImVec2(0, 300), true, window_flags2) && m_state_service && m_state_service->getConfigs())
 		{
 			const char* items[] = { "Triangle", "Square", "Cube", "Sphere", "Cube textured", "Square textured", "Triangle textured", "Sphere textured"};
-			ImGui::BulletText("Add new :");
+			ImGui::BulletText("Add new normal component:");
 			if (ImGui::Combo(" ", &item_current, items, IM_ARRAYSIZE(items)))
 			{
 
@@ -128,6 +128,27 @@ namespace Views
 				item_current = -1;
 			}
 
+			ImGui::Separator();
+
+			std::vector<std::string> available_model = m_state_service->getConfigs()->GetAvailableModels();
+			const char** model_items = new const char*[available_model.size()];
+			for (size_t i = 0; i < available_model.size(); ++i) {
+				model_items[i] = available_model[i].c_str();
+			}
+			ImGui::BulletText("Add new model component:");
+			if (ImGui::Combo("  ", &item_model_current, model_items, (int)available_model.size()))
+			{
+
+				if (m_parent_view_model)
+				{
+					m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::ADDCOMPONENT, model_items[item_model_current], Enums::RendererType::MODEL));
+					m_state_service->setConfirmMessage("You are about to add a new component. Are you sure ?");
+					show_confirm = true;
+				}
+				item_model_current = -1;
+			}
+
+			delete[] model_items;
 			ImGui::Separator();
 
 			if (m_state_service->GetScene())
