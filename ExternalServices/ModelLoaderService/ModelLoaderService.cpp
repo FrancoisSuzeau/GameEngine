@@ -40,9 +40,11 @@ namespace Services
 	{
 
 	}
-	void ModelLoaderService::LoadModel(std::string const model_name)
+
+    std::unique_ptr<Renderers::Model> ModelLoaderService::LoadModel(std::string const model_name)
 	{
 		std::string complete_path = Constants::MODELSPATH + model_name;
+        std::unique_ptr<Renderers::Model> model = nullptr;
 
 		std::ifstream file(complete_path.c_str());
 		if (!file.is_open())
@@ -66,7 +68,7 @@ namespace Services
 
                 this->ProcessNode(scene->mRootNode, scene);
 
-                std::unique_ptr<Renderers::Model> model = std::make_unique<Renderers::Model>(move(m_meshes));
+                model = std::make_unique<Renderers::Model>(move(m_meshes));
 
                 if (m_directory.size() > 0)
                 {
@@ -76,17 +78,10 @@ namespace Services
                 {
                     m_textures_loaded.clear();
                 }
-
-                if (model)
-                {
-                    model->Clean();
-
-                    model.reset();
-                }
             }
 		}
 		
-
+        return model;
 	}
 
 	void ModelLoaderService::ProcessNode(aiNode* node, const aiScene* scene)
@@ -208,7 +203,12 @@ namespace Services
             textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
             // return a mesh object created from the extracted mesh data
-            return Renderers::Mesh(vertices, indices, textures);
+            Renderers::Mesh new_mesh(vertices, indices, textures);
+
+            vertices.clear();
+            indices.clear();
+            textures.clear();
+            return new_mesh;
         }
 		return Renderers::Mesh();
 	}

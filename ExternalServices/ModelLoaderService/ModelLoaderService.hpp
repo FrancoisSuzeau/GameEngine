@@ -44,7 +44,7 @@ namespace Services {
 
 		~ModelLoaderService();
 
-		void LoadModel(std::string const name);
+		std::unique_ptr<Renderers::Model> LoadModel(std::string const name);
 
 		
 

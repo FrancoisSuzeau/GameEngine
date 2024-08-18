@@ -42,7 +42,17 @@ namespace Services
 			}
 			else
 			{
-				m_model_loader_service->LoadModel("spaceship/untitled.obj");
+				std::unique_ptr<Renderers::Model> model = m_model_loader_service->LoadModel("spaceship/untitled.obj");
+
+				if (model)
+				{
+					model->Construct();
+
+					model->Clean();
+
+					model.reset();
+				}
+				
 			}
 		}
 	}

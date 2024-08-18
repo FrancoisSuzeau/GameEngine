@@ -33,6 +33,9 @@ namespace Renderers {
         m_vbo = 0;
         m_vao = 0;
         m_ebo = 0;
+
+        m_bytes_indices_size = 0;
+        m_bytes_vertices_size = 0;
     }
 
     Mesh::~Mesh()
@@ -62,27 +65,98 @@ namespace Renderers {
     void Mesh::Attach()
     {
 
-        if (m_mesh_vertices.size() > 0 && m_indices.size() > 0 && m_mesh_textures.size() > 0)
+        if (m_vbo == 0)
         {
-            if (m_vbo == 0)
-            {
-                glGenBuffers(1, &m_vbo);
-            }
+            glGenBuffers(1, &m_vbo);
+        }
 
-            if (m_vao == 0)
-            {
-                glGenVertexArrays(1, &m_vao);
-            }
+        if (m_vao == 0)
+        {
+            glGenVertexArrays(1, &m_vao);
+        }
 
-            if (m_ebo == 0)
+        if (m_ebo == 0)
+        {
+            glGenBuffers(1, &m_ebo);
+        }
+
+        if (m_vbo != 0)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+            if (glIsBuffer(m_vbo) == GL_TRUE)
             {
-                glGenBuffers(1, &m_ebo);
+                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size, 0, GL_STATIC_DRAW);
+
+                glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_mesh_vertices.data());
+
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            }
+        }
+
+        if (m_ebo != 0)
+        {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+            if (glIsBuffer(m_ebo) == GL_TRUE)
+            {
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_bytes_indices_size, 0, GL_STATIC_DRAW);
+                glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_bytes_indices_size, m_indices.data());
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            }
+        }
+
+        if (m_vao != 0)
+        {
+            glBindVertexArray(m_vao);
+
+            if (glIsVertexArray(m_vao) == GL_TRUE)
+            {
+                if (m_vbo != 0)
+                {
+                    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+                    if (glIsBuffer(m_vbo) == GL_TRUE)
+                    {
+
+                        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+                        if (glIsBuffer(m_ebo) == GL_TRUE)
+                        {
+                            glEnableVertexAttribArray(0);
+                            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+                            glEnableVertexAttribArray(1);
+                            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+
+                            // vertex texture coords
+                            glEnableVertexAttribArray(2);
+                            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords));
+
+                            glEnableVertexAttribArray(3);
+                            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+
+                            glEnableVertexAttribArray(4);
+                            glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+
+                            // ids
+                            glEnableVertexAttribArray(5);
+                            glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, m_bone_ids));
+
+                            // weights
+                            glEnableVertexAttribArray(6);
+                            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_weights));
+                        }
+
+                        glBindBuffer(GL_ARRAY_BUFFER, 0);
+                    }
+                }
+
+                glBindVertexArray(0);
             }
         }
         
     }
     void Mesh::Load()
     {
-        
+        m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
+        m_bytes_vertices_size = m_mesh_vertices.size() * sizeof(Vertex);
     }
 }

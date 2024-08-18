@@ -23,6 +23,14 @@ namespace Renderers {
     {
         this->Load();
         this->Attach();
+
+        for (std::vector<std::unique_ptr<Mesh>>::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+        {
+            if (it[0])
+            {
+                it[0]->Construct();
+            }
+        }
     }
     void Model::Clean()
     {
@@ -30,9 +38,14 @@ namespace Renderers {
 
         for (std::vector<std::unique_ptr<Mesh>>::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
         {
-            it[0]->Clean();
-            it->reset();
+            if (it[0])
+            {
+                it[0]->Clean();
+                it->reset();
+            }
         }
+
+        m_meshes.clear();
     }
 
 
@@ -42,6 +55,6 @@ namespace Renderers {
     }
     void Model::Load()
     {
-
+        
     }
 }
