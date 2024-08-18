@@ -111,6 +111,19 @@ namespace ViewModels
 				SQ_APP_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
 			}
 
+			m_loader_service = container->GetReference<Services::LoaderService>();
+			if (!m_loader_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				if (m_canvas)
+				{
+					m_canvas->AddRenderer(m_loader_service->LoadModel("spaceshuttle/spaceshuttle.obj"));
+				}
+			}
+
 			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, ""));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
@@ -215,6 +228,7 @@ namespace ViewModels
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::CUBE:
 			case Enums::RendererType::NONE:
+			case Enums::RendererType::MODEL:
 			default:
 				break;
 			}

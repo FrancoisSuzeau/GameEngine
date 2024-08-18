@@ -239,6 +239,7 @@ namespace Services
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
+				case Enums::RendererType::MODEL:
 					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
 						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity, glm::vec3(angle_1, angle_2, angle_3)));
 					break;

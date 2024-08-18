@@ -18,6 +18,8 @@
 #define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
 #endif
 
+#define MAX_BONE_INFLUENCE 4
+
 namespace Enums {
 	enum RendererType { 
 		NONE = -1, 
@@ -32,11 +34,37 @@ namespace Enums {
 		GRID = 8, 
 		SKYBOX = 9, 
 		SUBBGRID = 10, 
-		SUBGRID2 = 11  };
+		SUBGRID2 = 11,
+		MODEL = 12
+	};
 }
 
 namespace Renderers {
 
+	typedef struct Vertex {
+
+		glm::vec3 position;
+		glm::vec3 normal;
+		glm::vec2 texture_coords;
+
+		// tangent
+		glm::vec3 tangent;
+		// bitangent
+		glm::vec3 bitangent;
+		//bone indexes which will influence this vertex
+		int m_bone_ids[MAX_BONE_INFLUENCE];
+		//weights from each bone
+		float m_weights[MAX_BONE_INFLUENCE];
+
+	} Vertex;
+
+	typedef struct Texturate {
+
+		unsigned int id = 0;
+		std::string type;
+		std::string path;
+
+	} Texturate;
 	
 
 	class IRenderer
@@ -46,6 +74,8 @@ namespace Renderers {
 		virtual void Construct() = 0;
 		virtual void Draw() {}
 		virtual void Draw(unsigned int texture_0) {}
+		virtual void Draw(size_t index) {}
+		virtual void Draw(size_t index, std::vector<unsigned int> light_textures_ids) {}
 		virtual void Draw(std::vector<unsigned int> light_textures_ids) {}
 		virtual void Draw(unsigned int const texture_0, unsigned int const texture_2) {}
 		virtual void Draw(unsigned int const texture_0, std::vector<unsigned int> light_textures_ids) {}
@@ -64,6 +94,10 @@ namespace Renderers {
 			m_bytes_normals_size = 0;
 			m_bytes_vertices_size = 0;
 		}
+
+		virtual std::vector<Texturate> GetMeshTextures() const { return std::vector<Texturate>(); } 
+		virtual std::vector<Texturate> GetMeshTextures(size_t index) const { return std::vector<Texturate>(); }
+		virtual size_t GetNbMeshes() const { return 0; }
 
 
 	protected:

@@ -40,6 +40,7 @@ namespace Views
 		void TransformComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void DragComponents(std::vector<std::shared_ptr<Component::IComponent>> components) override;
 		void ConstructRenderer() override;
+		void AddRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer) override;
 	private:
 		std::shared_ptr<Services::ShaderService> m_shader_service;
 		std::unique_ptr<Views::Draggable> m_draggable_component;

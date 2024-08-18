@@ -41,6 +41,7 @@ namespace Services {
 		void LoadSqueamishTexture();
 		std::shared_ptr<Services::SceneEntity> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
+		std::unique_ptr<Renderers::Model> LoadModel(std::string const name);
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 
 	private:

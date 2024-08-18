@@ -81,7 +81,7 @@ namespace Services
             }
 		}
 		
-        return model;
+        return std::move(model);
 	}
 
 	void ModelLoaderService::ProcessNode(aiNode* node, const aiScene* scene)

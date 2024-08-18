@@ -5,7 +5,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#define MAX_BONE_INFLUENCE 4
+
 
 #include "../../../Interfaces/IRenderer.hpp"
 
@@ -14,30 +14,7 @@
 
 namespace Renderers {
 
-    typedef struct Vertex {
-
-        glm::vec3 position;
-        glm::vec3 normal;
-        glm::vec2 texture_coords;
-
-        // tangent
-        glm::vec3 tangent;
-        // bitangent
-        glm::vec3 bitangent;
-        //bone indexes which will influence this vertex
-        int m_bone_ids[MAX_BONE_INFLUENCE];
-        //weights from each bone
-        float m_weights[MAX_BONE_INFLUENCE];
-
-    } Vertex;
-
-    typedef struct Texturate {
-
-        unsigned int id = 0;
-        std::string type;
-        std::string path;
-
-    } Texturate;
+    
 
 	class Mesh : public IRenderer
 	{
@@ -51,6 +28,10 @@ namespace Renderers {
 		void Clean() override;
 
         void Draw() override;
+		void Draw(std::vector<unsigned int> light_textures_ids) override;
+
+		std::vector<Texturate> GetMeshTextures() const override;
+		
 		
 
 	protected:

@@ -57,40 +57,22 @@ namespace Renderers {
 
         if (m_mesh_textures.size() > 0)
         {
+            for (std::vector<Texturate>::iterator it = m_mesh_textures.begin(); it != m_mesh_textures.end(); ++it)
+            {
+                if (it[0].id != 0)
+                {
+                    glDeleteTextures(1, &it[0].id);
+                }
+            }
             this->m_mesh_textures.clear();
         }
     }
 
     void Mesh::Draw()
     {
-        unsigned int diffuse_nr = 1;
-        unsigned int specular_nr = 1;
-        unsigned int normal_nr = 1;
-        unsigned int height_nr = 1;
-
         for (unsigned int i(0); i < m_mesh_textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i);
-            std::string number;
-            std::string name = m_mesh_textures[i].type;
-
-            if (name == "texture_diffuse")
-            {
-                number = std::to_string(diffuse_nr++);
-            }
-            else if (name == "texture_specular")
-            {
-                number = std::to_string(specular_nr++);
-            }
-            else if (name == "texture_normal")
-            {
-                number = std::to_string(normal_nr++);
-            }
-            else if (name == "texture_height")
-            {
-                number = std::to_string(height_nr++);
-            }
-
             glBindTexture(GL_TEXTURE_2D, m_mesh_textures[i].id);
         }
 
@@ -111,6 +93,34 @@ namespace Renderers {
             glBindTexture(GL_TEXTURE_2D, 0);
 
         }
+    }
+
+    void Mesh::Draw(std::vector<unsigned int> light_textures_ids)
+    {
+        for (size_t i = 0; i < light_textures_ids.size(); i++)
+        {
+            if (light_textures_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, light_textures_ids[i]);
+            }
+        }
+
+        this->Draw();
+
+        for (size_t i = 0; i < light_textures_ids.size(); i++)
+        {
+            if (light_textures_ids[i] != 0)
+            {
+                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+        }
+    }
+
+    std::vector<Texturate> Mesh::GetMeshTextures() const
+    {
+        return m_mesh_textures;
     }
    
 

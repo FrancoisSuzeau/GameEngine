@@ -20,7 +20,10 @@ namespace Renderers {
 		void Construct() override;
 		void Clean() override;
 
-		void Draw() override;
+		void Draw(size_t index) override;
+		void Draw(size_t index, std::vector<unsigned int> light_textures_ids) override;
+		std::vector<Texturate> GetMeshTextures(size_t index) const override;
+		size_t GetNbMeshes() const override;
 
 
 	protected:

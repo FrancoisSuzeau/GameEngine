@@ -48,15 +48,35 @@ namespace Renderers {
         m_meshes.clear();
     }
 
-    void Model::Draw()
+    void Model::Draw(size_t index)
     {
-        for (std::vector<std::unique_ptr<Mesh>>::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+        if (index >= 0 && index < m_meshes.size() && m_meshes[index])
         {
-            if (it[0])
-            {
-                it[0]->Draw();
-            }
+            m_meshes[index]->Draw();
         }
+    }
+
+    void Model::Draw(size_t index, std::vector<unsigned int> light_textures_ids)
+    {
+        if (index >= 0 && index < m_meshes.size() && m_meshes[index])
+        {
+            m_meshes[index]->Draw(light_textures_ids);
+        }
+    }
+
+    std::vector<Texturate> Model::GetMeshTextures(size_t index) const
+    {
+        if (index >= 0 && index < m_meshes.size())
+        {
+            return m_meshes[index]->GetMeshTextures();
+        }
+
+        return std::vector<Texturate>();
+    }
+
+    size_t Model::GetNbMeshes() const
+    {
+        return m_meshes.size();
     }
 
 
