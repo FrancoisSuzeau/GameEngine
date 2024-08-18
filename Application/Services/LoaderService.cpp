@@ -34,6 +34,16 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_model_loader_service = container->GetReference<ModelLoaderService>();
+			if (!m_model_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Model loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
+			else
+			{
+				m_model_loader_service->LoadModel("spaceship/untitled.obj");
+			}
 		}
 	}
 

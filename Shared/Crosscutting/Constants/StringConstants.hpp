@@ -11,6 +11,7 @@
 namespace Constants {
 
 	std::string const SHADERSPATH = "Shaders/";
+	std::string const MODELSPATH = "Models/";
 	std::string const LOGPATH = "Logs/";
 	std::string const LOGEXT = ".txt";
 	std::string const SHADERVERTEXT = ".vert";

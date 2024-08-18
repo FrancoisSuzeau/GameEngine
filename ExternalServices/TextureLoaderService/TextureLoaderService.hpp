@@ -33,6 +33,7 @@ namespace Services {
 
 		unsigned int BuildSkyboxTexture(std::string const skybox_path);
 		unsigned int BuildTexture(std::string const path);
+		unsigned int BuildTexture(const char* path, const std::string& directory);
 
 	private:
 

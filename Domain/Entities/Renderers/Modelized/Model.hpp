@@ -5,7 +5,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "../../Interfaces/IRenderer.hpp"
+#include "../../../Interfaces/IRenderer.hpp"
+#include "Mesh.hpp"
 
 namespace Renderers {
 
@@ -13,7 +14,7 @@ namespace Renderers {
 	{
 	public:
 
-		Model();
+		Model(std::vector<std::unique_ptr<Mesh>> meshes);
 		~Model();
 
 		void Construct() override;
@@ -25,6 +26,8 @@ namespace Renderers {
 
 	private:
 		void Attach();
+
+		std::vector<std::unique_ptr<Mesh>> m_meshes;
 
 		typedef IRenderer base;
 

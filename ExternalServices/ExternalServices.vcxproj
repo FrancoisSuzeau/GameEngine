@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\spdlog\include;$(SolutionDir)Includes;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\IoC;$(SolutionDir)Includes\spdlog\include;$(SolutionDir)Includes;$(SolutionDir)Domain\Entities;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Shared\Logger;$(SolutionDir)Shared\Crosscutting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Includes;$(SolutionDir)Includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\IoC;$(SolutionDir)Shared\Crosscutting;$(SolutionDir)Shared\Logger;$(SolutionDir)Domain\Interfaces;$(SolutionDir)Domain\Entities;$(SolutionDir)Includes;$(SolutionDir)Includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,11 +137,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="JsonLoaderService\JsonLoaderService.cpp" />
+    <ClCompile Include="ModelLoaderService\ModelLoaderService.cpp" />
     <ClCompile Include="ShaderLoaderService\ShaderLoaderService.cpp" />
     <ClCompile Include="TextureLoaderService\TextureLoaderService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JsonLoaderService\JsonLoaderService.hpp" />
+    <ClInclude Include="ModelLoaderService\ModelLoaderService.hpp" />
     <ClInclude Include="ShaderLoaderService\ShaderLoaderService.hpp" />
     <ClInclude Include="TextureLoaderService\TextureLoaderService.hpp" />
   </ItemGroup>
