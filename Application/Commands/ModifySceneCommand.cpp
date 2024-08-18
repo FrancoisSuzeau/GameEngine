@@ -91,7 +91,7 @@ namespace Commands
 		{
 			glm::vec3 cpt_position = cam_position  + m_camera_service->GetTarget();
 			
-			if (new_component_to_make->GetType() == Enums::RendererType::MODEL)
+			if (new_component_to_make->GetType() == Enums::RendererType::MODEL && m_scene_modifier != Enums::SceneModifier::COPYCOMPONENT)
 			{
 				new_component_to_make->SetModelType(m_string_value);
 			}
@@ -210,6 +210,7 @@ namespace Commands
 			case Enums::RendererType::SQUARE_TEXTURED:
 			case Enums::RendererType::TRIANGLE_TEXTURED:
 			case Enums::RendererType::SPHERE_TEXTURED:
+			case Enums::RendererType::MODEL:
 				this->PostAddingComponentToScene(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_component_to_copy)), position);
 				SQ_APP_TRACE("Component copied !");
 				break;

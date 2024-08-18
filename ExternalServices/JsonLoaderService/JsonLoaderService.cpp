@@ -295,7 +295,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return Constants::NONE;
 			}
 
@@ -315,7 +315,7 @@ namespace Services
 			std::string node = m_json_contents.at(json_type)->value(node_name, Constants::NONE);
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return Constants::NONE;
 			}
 
@@ -335,7 +335,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec4(0.f);
 
 			}
@@ -356,7 +356,7 @@ namespace Services
 
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec3(0.f);
 			}
 
@@ -376,7 +376,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec3(0.f);
 
 			}
@@ -395,7 +395,7 @@ namespace Services
 			json node = m_json_contents.at(json_type)->at(node_name);
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return std::vector<std::string>();
 			}
 
@@ -417,7 +417,7 @@ namespace Services
 			float node = m_json_contents.at(json_type)->value(node_name, 0.f);
 			if (node == 0.f)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0.f;
 			}
 
@@ -436,7 +436,7 @@ namespace Services
 			int node = m_json_contents.at(json_type)->value(node_name, 0);
 			if (node == 0)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 2;
 			}
 
@@ -454,7 +454,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0;
 
 			}
@@ -485,7 +485,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return false;
 
 			}
@@ -505,7 +505,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0.0f;
 
 			}
