@@ -108,11 +108,24 @@ x64/[Dd]ebug/*.exe
 x64/[Dd]ebug/*.idb
 x64/[Dd]ebug/*.lib
 x64/[Dd]ebug/*.obj
+Application/x64/[Dd]ebug/*.obj
+Client/x64/[Dd]ebug/*.obj
+Domain/x64/[Dd]ebug/*.obj
+ExternalServices/x64/[Dd]ebug/*.obj
+ImGUI/x64/[Dd]ebug/*.obj
+Shared/x64/[Dd]ebug/*.obj
 
 x64/[Rr]elease/*.exe
 x64/[Rr]elease/*.idb
 x64/[Rr]elease/*.lib
 x64/[Rr]elease/*.obj
+Application/x64/[Rr]elease/*.obj
+Client/x64/[Rr]elease/*.obj
+Domain/x64/[Rr]elease/*.obj
+ExternalServices/x64/[Rr]elease/*.obj
+ImGUI/x64/[Rr]elease/*.obj
+Shared/x64/[Rr]elease/*.obj
+
 *.ini
 
 Client/x64/Debug/Client.res
