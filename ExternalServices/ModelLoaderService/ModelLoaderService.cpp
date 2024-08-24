@@ -59,6 +59,7 @@ namespace Services
             {
                 m_file_ext = it[0];
                 flux_in.close();
+                SQ_EXTSERVICE_TRACE("Class {} in function {} : Found model {}", __FILE__, __FUNCTION__, path + it[0].c_str());
                 break;
             }
         }
@@ -75,7 +76,6 @@ namespace Services
 		if (m_file_ext == Constants::NONE)
 		{
 			SQ_EXTSERVICE_ERROR("Class {} in function {} : Unable to open file for model : {} | FILE DOES NOT EXIST", __FILE__, __FUNCTION__, model_name);
-
 		}
 		else
 		{
