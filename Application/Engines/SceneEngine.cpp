@@ -74,6 +74,7 @@ namespace Engines
 				m_shader_service->AddShader(Constants::DEPTH_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::MODEL_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -184,6 +185,16 @@ namespace Engines
 			m_physic_service->SetLightsAttenuationsParameters();
 
 			m_shader_service->UpdateLightBufferStorage(m_physic_service->GetLigthSources());
+		}
+	}
+
+	void SceneEngine::LoadAvailableModel(std::shared_ptr<Builders::ViewModelBuilder> view_model_builder, const int index)
+	{
+		std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
+		if (view_model)
+		{
+			view_model->LoadModel(index);
+			view_model.reset();
 		}
 	}
 

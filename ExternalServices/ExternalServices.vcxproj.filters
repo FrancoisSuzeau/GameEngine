@@ -24,6 +24,9 @@
     <ClCompile Include="TextureLoaderService\TextureLoaderService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ModelLoaderService\ModelLoaderService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JsonLoaderService\JsonLoaderService.hpp">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureLoaderService\TextureLoaderService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoaderService\ModelLoaderService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

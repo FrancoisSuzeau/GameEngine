@@ -8,6 +8,8 @@
 #include "IService.hpp"
 
 #include <vector>
+#include <iostream>
+#include <string>
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -33,6 +35,7 @@ namespace Services {
 
 		unsigned int BuildSkyboxTexture(std::string const skybox_path);
 		unsigned int BuildTexture(std::string const path);
+		unsigned int BuildTexture(const char* path, const std::string& directory);
 
 	private:
 

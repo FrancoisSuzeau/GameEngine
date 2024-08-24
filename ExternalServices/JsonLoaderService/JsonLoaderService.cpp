@@ -133,6 +133,7 @@ namespace Services
 			{
 				json renderer_json_format = {
 					{"type", it[0]->GetType()},
+					{"model_type", it[0]->GetModelType()},
 					{"color", {it[0]->GetBackgroundColor().x, it[0]->GetBackgroundColor().y, it[0]->GetBackgroundColor().z, it[0]->GetBackgroundColor().a}},
 					{"position", {it[0]->GetPosition().x, it[0]->GetPosition().y, it[0]->GetPosition().z}},
 					{"size", {it[0]->GetSize().x, it[0]->GetSize().y, it[0]->GetSize().z}},
@@ -190,6 +191,7 @@ namespace Services
 			{"render_skybox", config->GetRenderSkybox()},
 			{"activate_depth", config->GetDepth()},
 			{"available_textures", config->GetAvailableTextures()},
+			{"available_models", config->GetAvailableModels()},
 			{"activate_multisample", config->GetMultiSample()}
 		};
 		return std::make_unique<json>(json_config);
@@ -213,6 +215,7 @@ namespace Services
 				glm::vec4 color = this->GetVec4Node(std::make_unique<json>(*it), "color");
 				glm::vec3 size = this->GetVec3Node(std::make_unique<json>(*it), "size");
 				std::string texture_name = this->GetStringNode(std::make_unique<json>(*it), "texture_name");
+				std::string model_type = this->GetStringNode(std::make_unique<json>(*it), "model_type");
 				bool mixe = this->GetBoolNode(std::make_unique<json>(*it), "mixe_texture_color");
 				bool is_light_source = this->GetBoolNode(std::make_unique<json>(*it), "is_light_source");
 				float ambiant_occlusion = this->GetFloatNode(std::make_unique<json>(*it), "ambiant_occlusion");
@@ -239,8 +242,9 @@ namespace Services
 				case Enums::RendererType::SQUARE_TEXTURED:
 				case Enums::RendererType::TRIANGLE_TEXTURED:
 				case Enums::RendererType::SPHERE_TEXTURED:
+				case Enums::RendererType::MODEL:
 					components.push_back(std::make_shared<Component::TexturedComponent>(position, size, j.template get<Enums::RendererType>(), texture_name, mixe, is_light_source, ambiant_occlusion, 
-						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity, glm::vec3(angle_1, angle_2, angle_3)));
+						specular_shininess, specular_strength, j2.template get<Enums::LightType>(), direction, cut_off, outer_cut_off, is_attenuation, intensity, glm::vec3(angle_1, angle_2, angle_3), model_type));
 					break;
 				default:
 					break;
@@ -273,6 +277,7 @@ namespace Services
 			config->SetBloom(this->GetBoolNode(Enums::JsonType::Config, "activate_bloom"));
 			config->SetRenderDebug(this->GetBoolNode(Enums::JsonType::Config, "render_debug"));
 			config->SetAvailableSkybox(this->GetStringVectorNode(Enums::JsonType::Config, "available_skybox"));
+			config->SetAvailableModels(this->GetStringVectorNode(Enums::JsonType::Config, "available_models"));
 			config->SetRenderSkybox(this->GetBoolNode(Enums::JsonType::Config, "render_skybox"));
 			config->SetDepth(this->GetBoolNode(Enums::JsonType::Config, "activate_depth"));
 			config->SetAvailableTextures(this->GetStringVectorNode(Enums::JsonType::Config, "available_textures"));
@@ -290,7 +295,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return Constants::NONE;
 			}
 
@@ -310,7 +315,7 @@ namespace Services
 			std::string node = m_json_contents.at(json_type)->value(node_name, Constants::NONE);
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return Constants::NONE;
 			}
 
@@ -330,7 +335,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec4(0.f);
 
 			}
@@ -351,7 +356,7 @@ namespace Services
 
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec3(0.f);
 			}
 
@@ -371,7 +376,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return glm::vec3(0.f);
 
 			}
@@ -390,7 +395,7 @@ namespace Services
 			json node = m_json_contents.at(json_type)->at(node_name);
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return std::vector<std::string>();
 			}
 
@@ -412,7 +417,7 @@ namespace Services
 			float node = m_json_contents.at(json_type)->value(node_name, 0.f);
 			if (node == 0.f)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0.f;
 			}
 
@@ -431,7 +436,7 @@ namespace Services
 			int node = m_json_contents.at(json_type)->value(node_name, 0);
 			if (node == 0)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 2;
 			}
 
@@ -449,7 +454,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0;
 
 			}
@@ -480,7 +485,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return false;
 
 			}
@@ -500,7 +505,7 @@ namespace Services
 			json_content.reset();
 			if (node == Constants::NONE)
 			{
-				SQ_EXTSERVICE_ERROR("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
+				SQ_EXTSERVICE_WARN("Class {} in function {} : Cannot found [{}] node", __FILE__, __FUNCTION__, node_name);
 				return 0.0f;
 
 			}

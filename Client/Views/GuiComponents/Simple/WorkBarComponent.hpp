@@ -60,6 +60,7 @@ namespace Views
 		void RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
 		int item_current;
+		int item_model_current;
 		int current_tab;
 		std::vector<ImVec2> tabs_size;
 		std::string m_selected_skybox;

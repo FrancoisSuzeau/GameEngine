@@ -33,6 +33,8 @@
     <ClInclude Include="Interfaces\IInstance.hpp" />
     <ClInclude Include="Interfaces\IService.hpp" />
     <ClInclude Include="Interfaces\IViewModel.hpp" />
+    <ClInclude Include="Entities\Renderers\Modelized\Mesh.hpp" />
+    <ClInclude Include="Entities\Renderers\Modelized\Model.hpp" />
     <ClInclude Include="OpenGLService\OpenGLService.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Triangle.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Square.hpp" />
@@ -51,6 +53,8 @@
     <ClCompile Include="Entities\ConfigEntity.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\SquareTextured.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
+    <ClCompile Include="Entities\Renderers\Modelized\Mesh.cpp" />
+    <ClCompile Include="Entities\Renderers\Modelized\Model.cpp" />
     <ClCompile Include="OpenGLService\OpenGLService.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Triangle.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Square.cpp" />

@@ -26,6 +26,7 @@
 #include "JsonLoaderService/JsonLoaderService.hpp"
 #include "ShaderLoaderService/ShaderLoaderService.hpp"
 #include "TextureLoaderService/TextureLoaderService.hpp"
+#include "ModelLoaderService/ModelLoaderService.hpp"
 
 #include "Engines/SceneEngine.hpp"
 #include "Engines/GUIEngine.hpp"

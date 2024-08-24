@@ -90,6 +90,12 @@
     <ClInclude Include="Entities\Renderers\Textured\Screen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Renderers\Modelized\Mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Renderers\Modelized\Model.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGLService\OpenGLService.cpp">
@@ -138,6 +144,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Textured\Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Modelized\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Modelized\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

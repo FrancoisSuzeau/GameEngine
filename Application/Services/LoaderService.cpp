@@ -34,6 +34,12 @@ namespace Services
 			{
 				SQ_APP_ERROR("Class {} in function {} : State service is not referenced yet", __FILE__, __FUNCTION__);
 			}
+
+			m_model_loader_service = container->GetReference<ModelLoaderService>();
+			if (!m_model_loader_service)
+			{
+				SQ_APP_ERROR("Class {} in function {} : Model loader service is not referenced yet", __FILE__, __FUNCTION__);
+			}
 		}
 	}
 
@@ -183,6 +189,22 @@ namespace Services
 			return m_json_loader_service->GetConfigs();
 		}
 		return std::make_shared<ConfigEntity>();
+	}
+
+	std::unique_ptr<Renderers::Model> LoaderService::LoadModel(std::string const name)
+	{
+		if (m_model_loader_service)
+		{
+			std::unique_ptr<Renderers::Model> model = m_model_loader_service->LoadModel(name);
+
+			if (model)
+			{
+				model->Construct();
+			}
+
+			return std::move(model);
+		}
+		return nullptr;
 	}
 
 	GLuint LoaderService::LoadShader(std::string shader_name, Enums::ShaderType shader_type)

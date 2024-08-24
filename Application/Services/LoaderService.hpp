@@ -12,6 +12,7 @@
 #include "TextureLoaderService/TextureLoaderService.hpp"
 #include "JsonLoaderService/JsonLoaderService.hpp"
 #include "ShaderLoaderService/ShaderLoaderService.hpp"
+#include "ModelLoaderService/ModelLoaderService.hpp"
 
 #include "StateService.hpp"
 #include "ConfigEntity.hpp"
@@ -40,6 +41,7 @@ namespace Services {
 		void LoadSqueamishTexture();
 		std::shared_ptr<Services::SceneEntity> LoadScene(std::string const filename);
 		std::shared_ptr<ConfigEntity> LoadConfigs();
+		std::unique_ptr<Renderers::Model> LoadModel(std::string const name);
 		GLuint LoadShader(std::string shader_name, Enums::ShaderType shader_type);
 
 	private:
@@ -47,6 +49,7 @@ namespace Services {
 		std::shared_ptr<TextureLoaderService> m_texture_loader_service;
 		std::shared_ptr<ShaderLoaderService> m_shader_loader;
 		std::shared_ptr<StateService> m_state_service;
+		std::shared_ptr<ModelLoaderService> m_model_loader_service;
 	};
 }
 

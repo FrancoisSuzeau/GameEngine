@@ -6,6 +6,7 @@
 #define TRANSFORMER_H
 
 #include "IComponent.hpp"
+#include "IRenderer.hpp"
 
 #include "Services/ShaderService.hpp"
 #include "Services/StateService.hpp"
@@ -23,6 +24,7 @@ namespace Component
 	{
 	public:
 		static void PutIntoShader(std::shared_ptr<Component::IComponent> component, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
+		static void PutIntoShader(std::vector<Renderers::Texturate> mesh_material, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name);
 		static void Move(std::shared_ptr<Component::IComponent> component);
 		static void Resize(std::shared_ptr<Component::IComponent> component);
 		static void Resize(std::shared_ptr<Component::IComponent> component, float const offset);

@@ -7,25 +7,31 @@
 namespace Commands
 {
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, Enums::RendererType component_type) : m_scene_modifier(scene_modifier), m_component_type(component_type),
-		m_component_to_copy(nullptr), m_skybox_name(Constants::NONE)
+		m_component_to_copy(nullptr), m_string_value(Constants::NONE)
 	{
 		this->GetServices();
 	}
 
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier) : m_scene_modifier(scene_modifier), m_component_type(Enums::RendererType::NONE),
-		m_component_to_copy(nullptr), m_skybox_name(Constants::NONE)
+		m_component_to_copy(nullptr), m_string_value(Constants::NONE)
 	{
 		this->GetServices();
 	}
 
-	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const skybox_name) : m_scene_modifier(scene_modifier), m_component_type(Enums::RendererType::NONE),
-		m_component_to_copy(nullptr), m_skybox_name(skybox_name)
+	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const string_value) : m_scene_modifier(scene_modifier), m_component_type(Enums::RendererType::NONE),
+		m_component_to_copy(nullptr), m_string_value(string_value)
+	{
+		this->GetServices();
+	}
+
+	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::string const string_value, Enums::RendererType component_type) : m_scene_modifier(scene_modifier),
+		m_component_type(component_type), m_component_to_copy(nullptr), m_string_value(string_value)
 	{
 		this->GetServices();
 	}
 
 	ModifySceneCommand::ModifySceneCommand(Enums::SceneModifier const scene_modifier, std::shared_ptr<Component::IComponent> component_to_copy) : m_scene_modifier(scene_modifier), 
-		m_component_type(Enums::RendererType::NONE), m_component_to_copy(component_to_copy), m_skybox_name(Constants::NONE)
+		m_component_type(Enums::RendererType::NONE), m_component_to_copy(component_to_copy), m_string_value(Constants::NONE)
 	{
 		this->GetServices();
 	}
@@ -70,7 +76,7 @@ namespace Commands
 				this->CopyComponent();
 				break;
 			case Enums::SceneModifier::CHANGESKYBOX:
-				m_state_service->GetScene()->SetSelectedSkybox(m_skybox_name);
+				m_state_service->GetScene()->SetSelectedSkybox(m_string_value);
 				m_state_service->SetSelectedSkyboxTextureId();
 				SQ_APP_TRACE("Skybox changed");
 				break;
@@ -85,7 +91,10 @@ namespace Commands
 		{
 			glm::vec3 cpt_position = cam_position  + m_camera_service->GetTarget();
 			
-
+			if (new_component_to_make->GetType() == Enums::RendererType::MODEL && m_scene_modifier != Enums::SceneModifier::COPYCOMPONENT)
+			{
+				new_component_to_make->SetModelType(m_string_value);
+			}
 			if (m_component_to_copy)
 			{
 				m_component_to_copy->SetSelected(false);
@@ -105,6 +114,7 @@ namespace Commands
 			m_state_service->addComponent(new_component_to_make);
 			m_state_service->setSelectedComponent();
 			new_component_to_make.reset();
+			
 		}
 	}
 	void ModifySceneCommand::AddComponentToScene()
@@ -163,6 +173,14 @@ namespace Commands
 				SQ_APP_TRACE("New textured sphere added");
 			}
 			break;
+			case Enums::RendererType::MODEL:
+			{
+				std::shared_ptr<Component::TexturedComponent> component = std::make_shared<Component::TexturedComponent>(position, glm::vec3(0.2f), m_component_type, Constants::NONE);
+				this->PostAddingComponentToScene(component, position);
+				SQ_APP_TRACE("New model component added");
+			}
+				
+				break;
 			case Enums::RendererType::SKYBOX:
 			case Enums::RendererType::GRID:
 				SQ_APP_TRACE("This component type cannot be added to the scene");
@@ -192,6 +210,7 @@ namespace Commands
 			case Enums::RendererType::SQUARE_TEXTURED:
 			case Enums::RendererType::TRIANGLE_TEXTURED:
 			case Enums::RendererType::SPHERE_TEXTURED:
+			case Enums::RendererType::MODEL:
 				this->PostAddingComponentToScene(std::make_shared<Component::TexturedComponent>(*std::dynamic_pointer_cast<Component::TexturedComponent>(m_component_to_copy)), position);
 				SQ_APP_TRACE("Component copied !");
 				break;

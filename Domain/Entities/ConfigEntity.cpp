@@ -43,11 +43,30 @@ namespace Services {
 			"venus1",
 			"venus2"
 		};
+
+		m_available_models = 
+		{
+			"spaceshuttle",
+			"spaceship",
+			"donut",
+			"camera",
+			"rock"
+		};
 	}
 
 	ConfigEntity::~ConfigEntity()
 	{
 		m_created_scenes.clear();
+	}
+
+	std::vector<std::string> ConfigEntity::GetAvailableModels()
+	{
+		return m_available_models;
+	}
+
+	void ConfigEntity::SetAvailableModels(std::vector<std::string> available_models)
+	{
+		m_available_models = available_models;
 	}
 
 	void ConfigEntity::AddCreatedScene(std::string const created_scene)

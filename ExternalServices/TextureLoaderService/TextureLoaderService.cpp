@@ -2,6 +2,10 @@
 // File : TextureLoaderService.cpp
 // Purpose : Implementing shader loader service
 /******************************************************************************************************************************************/
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 #include "TextureLoaderService.hpp"
 
 namespace Services
@@ -138,6 +142,55 @@ namespace Services
 		return texture_id;
 	}
 
+	unsigned int TextureLoaderService::BuildTexture(const char* path, const std::string& directory)
+	{
+		std::string filename = std::string(path);
+		filename = directory + '/' + filename;
+		unsigned int texture_id = 0;
+		int width, height, nr_components;
+
+		unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nr_components, 0);
+		if (!data)
+		{
+			SQ_EXTSERVICE_ERROR("Cannot load texture {} | STBI error : {}", path, stbi_failure_reason());
+		}
+		else
+		{
+			GLenum format = 0;
+			if (nr_components == 1)
+				format = GL_RED;
+			else if (nr_components == 3)
+				format = GL_RGB;
+			else if (nr_components == 4)
+				format = GL_RGBA;
+
+			glGenTextures(1, &texture_id);
+
+			if (texture_id != 0)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, texture_id);
+
+				if (glIsTexture(texture_id) == GL_TRUE)
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+					glGenerateMipmap(GL_TEXTURE_2D);
+
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+			}
+		}
+
+		stbi_image_free(data);
+		return texture_id;
+	}
+
 	SDL_Surface* TextureLoaderService::LoadTexture(std::string path)
 	{
 		SDL_Surface* surface = nullptr;
@@ -188,23 +241,21 @@ namespace Services
 	}
 	void TextureLoaderService::FindFileExt(std::string path)
 	{
-		std::ifstream flux_in(path + ".jpg");
+		std::vector<std::string> files_ext =
+		{
+			".jpg",
+			".png"
+		};
+
 		m_file_ext = Constants::NONE;
-		if (flux_in.is_open())
+		for (std::vector<std::string>::iterator it = files_ext.begin(); it != files_ext.end(); ++it)
 		{
-			///SQ_EXTSERVICE_DEBUG("Extension jpg for {} found", path);
-			m_file_ext = ".jpg";
-			flux_in.close();
-		}
-		else
-		{
-			
-			flux_in = std::ifstream(path + ".png");
+			std::ifstream flux_in(path + it[0].c_str());
 			if (flux_in.is_open())
 			{
-				//SQ_EXTSERVICE_DEBUG("Extension png for {} found", path);
-				m_file_ext = ".png";
+				m_file_ext = it[0];
 				flux_in.close();
+				break;
 			}
 		}
 	}

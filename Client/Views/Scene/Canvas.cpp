@@ -127,6 +127,14 @@ namespace Views
 			}
 		}
 	}
+	void Canvas::AddModelRenderer(std::unique_ptr<Renderers::IRenderer> new_renderer, std::string const model_type)
+	{
+		if (new_renderer && !m_model_renderer.contains(model_type))
+		{
+			//m_renderers.insert_or_assign(Enums::RendererType::MODEL, std::move(new_renderer));
+			m_model_renderer.insert_or_assign(model_type, std::move(new_renderer));
+		}
+	}
 	void Canvas::RenderLightSources(std::vector<std::shared_ptr<Component::IComponent>> components)
 	{
 		for (std::vector<std::shared_ptr<Component::IComponent>>::iterator it = components.begin(); it != components.end(); it++)
@@ -210,6 +218,7 @@ namespace Views
 				case Enums::RendererType::TRIANGLE:
 				case Enums::RendererType::CUBE:
 				case Enums::RendererType::SPHERE:
+				
 				{
 					std::shared_ptr<Component::ComponentBase> component = std::dynamic_pointer_cast<Component::ComponentBase> (it[0]);
 
@@ -247,6 +256,37 @@ namespace Views
 					}
 				}
 				break;
+				case Enums::RendererType::MODEL:
+				{
+					std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
+
+					if (component && (m_model_renderer.contains(component->GetModelType()) && m_model_renderer.at(component->GetModelType())))
+					{
+						std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::MODEL_SHADER;
+						if (m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
+						{
+							shader_name = Constants::HOVER_SHADER;
+						}
+
+						m_shader_service->BindShaderStorage();
+						m_shader_service->BindShaderProgram(shader_name);
+						Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
+						for (size_t i = 0; i < m_model_renderer.at(component->GetModelType())->GetNbMeshes(); i++)
+						{
+							Component::Transformer::PutIntoShader(m_model_renderer.at(component->GetModelType())->GetMeshTextures(i), m_shader_service, shader_name);
+							m_physics_service->GetLigthSources().size() > 0 ?
+								m_model_renderer.at(component->GetModelType())->Draw(i, m_physics_service->GetLightSourcesTextureIds()) :
+								m_model_renderer.at(component->GetModelType())->Draw(i);
+						}
+						m_shader_service->UnbindShaderProgram();
+						m_shader_service->UnbindShaderStorage();
+
+						component.reset();
+					}
+				}
+				break;
+
+
 				case Enums::RendererType::SPHERE_TEXTURED:
 				{
 					std::shared_ptr<Component::TexturedComponent> component = std::dynamic_pointer_cast<Component::TexturedComponent> (it[0]);
@@ -279,7 +319,6 @@ namespace Views
 		m_physics_service->GetLigthSources().size() > 0 ?
 			m_renderers.at(component->GetType())->Draw(m_physics_service->GetLightSourcesTextureIds()) :
 			m_renderers.at(component->GetType())->Draw();
-		m_renderers.at(component->GetType())->Draw();
 		m_shader_service->UnbindShaderProgram();
 		m_shader_service->UnbindShaderStorage();
 	}
@@ -289,10 +328,22 @@ namespace Views
 		m_shader_service->BindShaderStorage();
 		m_shader_service->BindShaderProgram(shader_name);
 		Component::Transformer::PutIntoShader(component, m_shader_service, shader_name);
-		m_physics_service->GetLigthSources().size() > 0 ?
-			m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLightSourcesTextureIds()) :
-			m_renderers.at(component->GetType())->Draw(component->GetTextureId());
-		m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+		if (component->GetType() == Enums::RendererType::MODEL)
+		{
+			for (size_t i = 0; i < m_renderers.at(component->GetType())->GetNbMeshes(); i++)
+			{
+				Component::Transformer::PutIntoShader(m_renderers.at(component->GetType())->GetMeshTextures(i), m_shader_service, shader_name);
+				m_physics_service->GetLigthSources().size() > 0 ?
+					m_renderers.at(component->GetType())->Draw(i, m_physics_service->GetLightSourcesTextureIds()) :
+					m_renderers.at(component->GetType())->Draw(i);
+			}
+		}
+		else
+		{
+			m_physics_service->GetLigthSources().size() > 0 ?
+				m_renderers.at(component->GetType())->Draw(component->GetTextureId(), m_physics_service->GetLightSourcesTextureIds()) :
+				m_renderers.at(component->GetType())->Draw(component->GetTextureId());
+		}
 		m_shader_service->UnbindShaderProgram();
 		m_shader_service->UnbindShaderStorage();
 	}

@@ -13,6 +13,7 @@
 #include "Services/FramebufferService.hpp"
 #include "Services/RunTimeService.hpp"
 #include "Services/CameraService.hpp"
+#include "Services/LoaderService.hpp"
 
 #include "IComponent.hpp"
 
@@ -41,6 +42,7 @@ namespace ViewModels
 		void RenderComponents() override;
 		void ManageScene() override;
 		void RenderSceneElements(Enums::RendererType element) override;
+		void LoadModel(const int index) override;
 		
 	private:
 		std::shared_ptr<Views::IView> m_canvas;
@@ -52,6 +54,7 @@ namespace ViewModels
 		std::shared_ptr<Services::FramebufferService> m_framebuffer_service;
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
+		std::shared_ptr<Services::LoaderService> m_loader_service;
 		int m_grid_size;
 		std::map<Enums::RendererType, std::shared_ptr<Component::IComponent>> m_components;
 

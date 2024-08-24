@@ -11,6 +11,7 @@
 namespace Constants {
 
 	std::string const SHADERSPATH = "Shaders/";
+	std::string const MODELSPATH = "Models/";
 	std::string const LOGPATH = "Logs/";
 	std::string const LOGEXT = ".txt";
 	std::string const SHADERVERTEXT = ".vert";
@@ -43,6 +44,7 @@ namespace Constants {
 	std::string const DEPTH_SHADER = "depth_mapping_shader";
 	std::string const GRID_SHADER = "grid";
 	std::string const SKYBOX_SHADER = "skybox";
+	std::string const MODEL_SHADER = "model_shader";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_DRAGGABLE = "COMPONENT_DRAGGABLE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";

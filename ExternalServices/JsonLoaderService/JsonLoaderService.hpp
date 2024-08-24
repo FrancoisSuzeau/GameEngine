@@ -36,7 +36,8 @@ namespace Enums {
 	{RendererType::CUBE, "cube"},
 	{RendererType::TRIANGLE_TEXTURED, "triangle_textured"},
 	{RendererType::SPHERE, "sphere"},
-	{RendererType::SPHERE_TEXTURED, "sphere_textured"}
+	{RendererType::SPHERE_TEXTURED, "sphere_textured"},
+	{RendererType::MODEL, "model"}
 		});
 
 	NLOHMANN_JSON_SERIALIZE_ENUM(LightType, {

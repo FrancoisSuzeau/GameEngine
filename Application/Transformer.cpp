@@ -68,6 +68,44 @@ namespace Component
 		
 	}
 
+	void Transformer::PutIntoShader(std::vector<Renderers::Texturate> mesh_material, std::shared_ptr<Services::ShaderService> shader_service, std::string const shader_name)
+	{
+		if (shader_service)
+		{
+			unsigned int diffuse_nr = 1;
+			unsigned int specular_nr = 1;
+			unsigned int normal_nr = 1;
+			unsigned int height_nr = 1;
+
+			for (unsigned int i(0); i < mesh_material.size(); i++)
+			{
+				std::string number;
+				std::string name = mesh_material[i].type;
+
+				if (name == "texture_diffuse")
+				{
+					number = std::to_string(diffuse_nr++);
+				}
+				if (name == "texture_specular")
+				{
+					number = std::to_string(specular_nr++);
+				}
+				if (name == "texture_normal")
+				{
+					number = std::to_string(normal_nr++);
+				}
+				if (name == "texture_height")
+				{
+					number = std::to_string(height_nr++);
+				}
+
+				std::string complete_location = "component." + (name + number);
+
+				shader_service->setTexture(shader_name, complete_location.c_str(), i);
+			}
+		}
+	}
+
 	void Transformer::Move(std::shared_ptr<Component::IComponent> component)
 	{
 		if (component)
