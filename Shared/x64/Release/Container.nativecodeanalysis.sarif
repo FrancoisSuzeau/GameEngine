@@ -1,0 +1,59 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.38.32919.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/shared/ioc/container/container.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "44f8183a3fe313d24887da087e6d4693a343e2a9ad89a755378d46c2ea3fbb6c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/shared/ioc/container/container.hpp"
+          },
+          "hashes": {
+            "sha-256": "2176a8c18cd60eebffd133c07f17eb20647ce2e4f6cd89ccf01e71af583b87e4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/shared/ioc/instance/instance.hpp"
+          },
+          "hashes": {
+            "sha-256": "98e8cfcd1c578c5dfdc15ae3d341d88ba090ec05716856e9d919752416e233bf"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/f58/documents/dev/squeamish/domain/interfaces/iinstance.hpp"
+          },
+          "hashes": {
+            "sha-256": "3e70bcf1a2e932072f267214e142de78137c743849da575515bba02722b2f326"
+          }
+        }
+      ]
+    }
+  ]
+}

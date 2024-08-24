@@ -1,0 +1,59 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build release on pull request
+
+on:
+  pull_request:
+    branches: ["master"]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: "Squeamish.sln"
+  
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: [Windows, self-hosted]
+    strategy:
+      fail-fast: false
+      matrix:
+        build-configuration: [Release]
+
+    steps:
+      - name: Compare Pull Request Head Ref and Push Branch Name
+        id: compare_head_ref_branch_name
+        run: |
+            $pr_head_ref = gh api -H "Accept: application/vnd.github+json" -H "X-Github-Api-Version: 2022-11-28" /repos/FrancoisSuzeau/Squeamish/pulls | jq -r '.[0].head.ref'
+            $prefix = $pr_head_ref -split '/'
+            $prefix = $prefix[0]
+            echo "PREFIX=$prefix" >> $env:GITHUB_ENV
+
+      - name: Checkout
+        id: checkout
+        if: ${{ env.PREFIX != 'devops' }}
+        uses: actions/checkout@v4
+        with:
+          repository: 'FrancoisSuzeau/Squeamish'
+          submodules: true
+          lfs: true
+
+      - name: Add MSBuild to PATH
+        id: add_msbuild_to_path
+        if: ${{ env.PREFIX != 'devops' }}
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
+          vs-prerelease: true
+          vs-version: '17.8.0'
+
+      - name: Build release
+        id: build_release
+        if: ${{ env.PREFIX != 'devops' }}
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Configuration=Release
