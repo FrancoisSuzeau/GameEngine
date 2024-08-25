@@ -55,6 +55,12 @@ namespace Services
 			m_scene_grid.reset();
 		}
 
+		if (m_camera_renderer)
+		{
+			m_camera_renderer->Clean();
+			m_camera_renderer.reset();
+		}
+
 		if (m_runtime_service)
 		{
 			m_runtime_service->DeleteTexture(m_texture_id);
@@ -355,6 +361,16 @@ namespace Services
 	std::shared_ptr<Renderers::Grid> StateService::getGridRenderer() const
 	{
 		return m_scene_grid;
+	}
+
+	void StateService::setCameraModelRenderer(std::shared_ptr<Renderers::Model> camera_renderer)
+	{
+		m_camera_renderer = camera_renderer;
+	}
+
+	std::shared_ptr<Renderers::Model> StateService::getCameraModelRenderer() const
+	{
+		return m_camera_renderer;
 	}
 
 	bool StateService::getActualize() const

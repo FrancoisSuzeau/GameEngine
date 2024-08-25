@@ -26,6 +26,9 @@ namespace Renderers {
             m_mesh_textures.push_back(it[0]);
         }
 
+        m_bytes_indices_size = 0;
+        m_bytes_vertices_size = 0;
+
     }
 
     Mesh::Mesh()
@@ -36,6 +39,31 @@ namespace Renderers {
 
         m_bytes_indices_size = 0;
         m_bytes_vertices_size = 0;
+    }
+
+    Mesh::Mesh(Mesh& other)
+    {
+        m_vbo = other.m_vbo;
+        m_vao = other.m_vao;
+        m_ebo = other.m_ebo;
+
+        for (std::vector<Vertex>::iterator it = other.m_mesh_vertices.begin(); it != other.m_mesh_vertices.end(); ++it)
+        {
+            m_mesh_vertices.push_back(it[0]);
+        }
+
+        for (std::vector<unsigned int>::iterator it = other.m_indices.begin(); it != other.m_indices.end(); ++it)
+        {
+            m_indices.push_back(it[0]);
+        }
+
+        for (std::vector<Texturate>::iterator it = other.m_mesh_textures.begin(); it != other.m_mesh_textures.end(); ++it)
+        {
+            m_mesh_textures.push_back(it[0]);
+        }
+
+        m_bytes_indices_size = other.m_bytes_indices_size;
+        m_bytes_vertices_size = other.m_bytes_vertices_size;
     }
 
     Mesh::~Mesh()

@@ -119,8 +119,7 @@ namespace Services
 				if (node->mMeshes != nullptr)
 				{
 					aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-                    Renderers::Mesh tmp = this->ProcessMesh(mesh, scene);
-					m_meshes.push_back(std::make_unique<Renderers::Mesh>(std::move(tmp)));
+                    this->ProcessMesh(mesh, scene);
 				}
 
 			}
@@ -133,7 +132,8 @@ namespace Services
             
 		}
 	}
-	Renderers::Mesh ModelLoaderService::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+
+	void ModelLoaderService::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	{
         if ((mesh != nullptr) && (scene != nullptr))
         {
@@ -228,15 +228,14 @@ namespace Services
             textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
             // return a mesh object created from the extracted mesh data
-            Renderers::Mesh new_mesh(vertices, indices, textures);
+            m_meshes.push_back(std::make_unique<Renderers::Mesh>(vertices, indices, textures));
 
             vertices.clear();
             indices.clear();
             textures.clear();
-            return new_mesh;
         }
-		return Renderers::Mesh();
 	}
+
     std::vector<Renderers::Texturate> ModelLoaderService::LoadModelMaterial(aiMaterial* mat, aiTextureType type, std::string typeName)
     {
         std::vector<Renderers::Texturate> textures;

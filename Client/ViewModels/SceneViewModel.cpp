@@ -120,7 +120,8 @@ namespace ViewModels
 
 			
 
-			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, ""));
+			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, Constants::NONE));
+			m_components.insert_or_assign(Enums::RendererType::MODEL, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.064f), Enums::RendererType::MODEL, Constants::NONE));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBGRID2, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBGRID2, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
@@ -217,6 +218,24 @@ namespace ViewModels
 					m_runtime_service->LessDepth();
 				}
 				break;
+			case Enums::RendererType::MODEL:
+				{
+					std::string shader_name = Constants::CAMERA_SHADER;
+					std::shared_ptr<Renderers::Model> camera_model = m_state_service->getCameraModelRenderer();
+					if (camera_model)
+					{
+						m_shader_service->BindShaderProgram(shader_name);
+						Component::Transformer::PutIntoShader(m_components.at(element), m_shader_service, shader_name);
+						for (size_t i = 0; i < camera_model->GetNbMeshes(); i++)
+						{
+							Component::Transformer::PutIntoShader(camera_model->GetMeshTextures(i), m_shader_service, shader_name);
+							camera_model->Draw(i);
+								
+						}
+						m_shader_service->UnbindShaderProgram();
+					}
+				}
+				break;
 			case Enums::RendererType::TRIANGLE:
 			case Enums::RendererType::SQUARE:
 			case Enums::RendererType::SQUARE_TEXTURED:
@@ -224,7 +243,6 @@ namespace ViewModels
 			case Enums::RendererType::CUBE_TEXTURED:
 			case Enums::RendererType::CUBE:
 			case Enums::RendererType::NONE:
-			case Enums::RendererType::MODEL:
 			default:
 				break;
 			}
@@ -239,12 +257,14 @@ namespace ViewModels
 			if (index >= 0 && index < available_models.size())
 			{
 				std::string name = available_models[index];
-				m_canvas->AddModelRenderer(m_loader_service->LoadModel(name + "/" + name), name);
+				std::unique_ptr<Renderers::Model> model = m_loader_service->LoadModel(name + "/" + name);
+				if (name == "camera")
+				{
+					std::shared_ptr<Renderers::Model> camera_model = std::make_shared<Renderers::Model>(*model);
+					m_state_service->setCameraModelRenderer(camera_model);
+				}
+				m_canvas->AddModelRenderer(std::move(model), name);
 			}
-			/*for (std::vector<std::string>::iterator it = available_models.begin(); it != available_models.end(); ++it)
-			{
-				m_canvas->AddModelRenderer(m_loader_service->LoadModel(it[0] + "/" + it[0]), it[0]);
-			}*/
 
 		}
 	}

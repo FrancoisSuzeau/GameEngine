@@ -21,7 +21,8 @@ namespace Renderers {
 	public:
 
         Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texturate> textures);
-        Mesh();
+		Mesh();
+		Mesh(Mesh& other);
 		~Mesh();
 
 		void Construct() override;

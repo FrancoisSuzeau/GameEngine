@@ -75,6 +75,7 @@ namespace Engines
 				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::MODEL_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::CAMERA_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -138,6 +139,7 @@ namespace Engines
 				if (view_model)
 				{
 					view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
+					view_model->RenderSceneElements(Enums::RendererType::MODEL);
 					m_runtime_service->RenderingInLine(1.f);
 					view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 					view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);

@@ -248,7 +248,7 @@ namespace Views
 	{
 		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug() && m_runtime_service)
 		{
-			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 500), true, window_flags2))
+			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 730), true, window_flags2))
 			{
 				std::string text_bloom_debug = m_state_service->getConfigs()->GetBloom() ? "Bloom back buffer" : "Bloom back buffer (none)";
 				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
@@ -265,6 +265,11 @@ namespace Views
 				if (m_state_service->getConfigs()->GetDepth())
 				{
 					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				}
+				ImGui::Text("Camera orientation");
+				if (m_state_service->getConfigs()->GetDepth())
+				{
+					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(0), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				ImGui::EndChild();
 			}

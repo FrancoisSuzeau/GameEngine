@@ -5,15 +5,32 @@
 #include "Model.hpp"
 
 namespace Renderers {
-    Model::Model(std::vector<std::unique_ptr<Mesh>> meshes)
+    Model::Model(std::vector<std::unique_ptr<Mesh>> meshes) : m_meshes(std::move(meshes))
     {
-        for (std::vector<std::unique_ptr<Mesh>>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+        m_vao = 0;
+        m_vbo = 0;
+        m_ebo = 0;
+        m_bytes_indices_size = 0;
+        m_bytes_normals_size = 0;
+        m_bytes_vertices_size = 0;
+    }
+
+    Model::Model(Model& other)
+    {
+        for (std::vector<std::unique_ptr<Mesh>>::iterator it = other.m_meshes.begin(); it != other.m_meshes.end(); ++it)
         {
             if (it[0])
             {
-                m_meshes.push_back(std::move(it[0]));
+                m_meshes.push_back(std::make_unique<Mesh>(*it[0]));
             }
         }
+
+        m_vao = 0;
+        m_vbo = 0;
+        m_ebo = 0;
+        m_bytes_indices_size = 0;
+        m_bytes_normals_size = 0;
+        m_bytes_vertices_size = 0;
     }
 
     Model::~Model()
