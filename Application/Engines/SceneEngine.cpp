@@ -133,13 +133,18 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			Enums::StencilType stencil_pass = m_runtime_service->GetStencilPass();
 			Enums::FramebufferType buffer_pass = m_runtime_service->GetPass();
+
+			if (buffer_pass == Enums::FramebufferType::CAMERABUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
+			{
+				view_model->RenderSceneElements(Enums::RendererType::MODEL);
+			}
+
 			if ((buffer_pass == Enums::FramebufferType::NORMALCOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE) ||
 				buffer_pass == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
 			{
 				if (view_model)
 				{
 					view_model->RenderSceneElements(Enums::RendererType::SKYBOX);
-					view_model->RenderSceneElements(Enums::RendererType::MODEL);
 					m_runtime_service->RenderingInLine(1.f);
 					view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 					view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);

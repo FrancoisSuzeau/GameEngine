@@ -9,15 +9,6 @@ namespace Views
 {
 	WorkBarComponent::~WorkBarComponent()
 	{
-		if (m_state_service)
-		{
-			m_state_service.reset();
-		}
-
-		if (m_framebuffer_service)
-		{
-			m_framebuffer_service.reset();
-		}
 
 		if (!tabs_size.empty())
 		{
@@ -76,6 +67,13 @@ namespace Views
 				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 
 			}
+
+			m_camera_service = container->GetReference<Services::CameraService>();
+			if (!m_camera_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 350));
@@ -103,6 +101,7 @@ namespace Views
 				this->RenderGeneralFunctionnalities(window_flags2);
 				this->RenderCustomizeSelectedCpSection(tab_bar_flags, window_flags2);
 				this->RenderDebugFunctionnalities(window_flags2);
+				this->RenderCameraDatas(window_flags2);
 
 				ImGui::End();
 			}	
@@ -248,7 +247,7 @@ namespace Views
 	{
 		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug() && m_runtime_service)
 		{
-			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 730), true, window_flags2))
+			if (ImGui::BeginChild("ChildDebugFun", ImVec2(0, 500), true, window_flags2))
 			{
 				std::string text_bloom_debug = m_state_service->getConfigs()->GetBloom() ? "Bloom back buffer" : "Bloom back buffer (none)";
 				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
@@ -266,15 +265,37 @@ namespace Views
 				{
 					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
-				ImGui::Text("Camera orientation");
-				if (m_state_service->getConfigs()->GetDepth())
-				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(0), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
-				}
 				ImGui::EndChild();
 			}
 		}
 		
+	}
+
+	void WorkBarComponent::RenderCameraDatas(ImGuiWindowFlags window_flags2)
+	{
+		if (m_framebuffer_service && m_camera_service)
+		{
+			if (ImGui::BeginChild("ChildCameraFun", ImVec2(0, 500), true, window_flags2))
+			{
+				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+				ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+				
+				ImGui::Text("Camera orientation");
+				ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetCameraCapture(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				ImGui::Separator();
+				ImGui::Text("Camera positions");
+				glm::vec3 camera_pos = m_camera_service->GetPos();
+				std::string x_pos = "x : " + std::to_string(camera_pos.x);
+				std::string y_pos = "y : " + std::to_string(camera_pos.y);
+				std::string z_pos = "z : " + std::to_string(camera_pos.z);
+				ImGui::BulletText(x_pos.c_str());
+				ImGui::BulletText(y_pos.c_str());
+				ImGui::BulletText(z_pos.c_str());
+				ImGui::EndChild();
+			}
+		}
 	}
 
 	int WorkBarComponent::GetPowerIndex(int specular_shininess)

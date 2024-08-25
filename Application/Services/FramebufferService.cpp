@@ -26,12 +26,14 @@ namespace Services
 		
 
 		m_color_fb = 0;
+		m_camera_cap_fb = 0;
 		m_bright_fb = 0;
 		m_render_fb = 0;		
 		m_depth_map_fb = 0;
 		m_depth_map_texture_id = 0;
 		m_color_multisample_fb = 0;
 		m_color_texture_id = 0;
+		m_camera_cap_texture_id = 0;
 		m_bright_texture_id = 0;
 
 		m_attachments[0] = GL_COLOR_ATTACHMENT0;
@@ -60,6 +62,11 @@ namespace Services
 		}
 	}
 
+	unsigned int FramebufferService::GetCameraCapture() const
+	{
+		return m_camera_cap_texture_id;
+	}
+
 	unsigned int FramebufferService::GetTextureId(bool horizontal) const
 	{
 		return m_ping_pong_textures_ids[horizontal];
@@ -80,12 +87,14 @@ namespace Services
 				m_runtime_service->DeleteTexture(m_color_multisample_texture_ids[i]);
 			}
 			m_runtime_service->DeleteTexture(m_color_texture_id);
+			m_runtime_service->DeleteTexture(m_camera_cap_texture_id);
 			m_runtime_service->DeleteTexture(m_bright_texture_id);
 			m_runtime_service->DeleteTexture(m_depth_map_texture_id);
 
 			m_runtime_service->DeleteRenderBuffer(m_render_fb);
 
 			m_runtime_service->DeleteFrameBuffer(m_color_fb);
+			m_runtime_service->DeleteFrameBuffer(m_camera_cap_fb);
 			m_runtime_service->DeleteFrameBuffer(m_depth_map_fb);
 			m_runtime_service->DeleteFrameBuffer(m_color_multisample_fb);
 			m_runtime_service->DeleteFrameBuffer(m_bright_fb);
@@ -136,6 +145,8 @@ namespace Services
 
 		this->BuildDepthMapFramebuffer();
 
+		this->BuildCameraCapFramebuffer();
+
 		glGenFramebuffers(1, &m_color_fb);
 		if (m_color_fb != 0)
 		{
@@ -157,6 +168,8 @@ namespace Services
 		this->SetFrameBufferDim();
 
 		this->BuildDepthMapFramebuffer();
+
+		this->BuildCameraCapFramebuffer();
 
 		glGenFramebuffers(1, &m_color_multisample_fb);
 		if (m_color_multisample_fb != 0)
@@ -197,6 +210,9 @@ namespace Services
 			break;
 		case Enums::FramebufferType::DEPTHBUFFER:
 			glBindFramebuffer(GL_FRAMEBUFFER, m_depth_map_fb);
+			break;
+		case Enums::FramebufferType::CAMERABUFFER:
+			glBindFramebuffer(GL_FRAMEBUFFER, m_camera_cap_fb);
 			break;
 		default:
 			break;
@@ -299,6 +315,31 @@ namespace Services
 			}
 		}
 		
+	}
+	void FramebufferService::BuildCameraCapFramebuffer()
+	{
+		glGenFramebuffers(1, &m_camera_cap_fb);
+		if (m_camera_cap_fb != 0)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, m_camera_cap_fb);
+			if (glIsFramebuffer(m_camera_cap_fb) == GL_TRUE)
+			{
+				glGenTextures(1, &m_camera_cap_texture_id);
+				glBindTexture(GL_TEXTURE_2D, m_camera_cap_texture_id);
+				if (glIsTexture(m_camera_cap_texture_id) == GL_TRUE)
+				{
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fb_width, m_fb_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_camera_cap_texture_id, 0);
+				}
+
+				this->CheckFramebufferStatus("Camera capture");
+
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+		}
 	}
 	void FramebufferService::BuildBrighFramebuffer()
 	{
