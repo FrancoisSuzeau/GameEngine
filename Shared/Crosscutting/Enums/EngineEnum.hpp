@@ -20,6 +20,7 @@ namespace Enums {
 	enum StencilType {STENCILBUFFERDISABLE, STENCILBUFFERWRITE, STENCILBUFFERREAD};
 	enum AngleToUpdate {AZYMUTH, POLAR};
 	enum OrientationAngle {XAXIS,  YAXIS, ZAXIS};
+	enum CameraLocked {LOCKED, UNLOCKED};
 
 }
 

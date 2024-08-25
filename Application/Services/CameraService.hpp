@@ -7,6 +7,7 @@
 
 #include "IService.hpp"
 #include "Logger.hpp"
+#include "Enums/EngineEnum.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -27,6 +28,9 @@ namespace Services {
 		void OrienteCamera();
 		glm::mat4 GetCameraView() const;
 
+		void  SetCameraState(Enums::CameraLocked state);
+
+
 		void SetCameraParameters(glm::vec3 const camera_pos, float const camera_pitch, float const camera_yaw);
 
 		glm::vec3 GetPos() const;
@@ -43,7 +47,7 @@ namespace Services {
 		glm::vec3 m_camera_up;
 		bool m_mouse_button[8];
 		
-
+		Enums::CameraLocked m_lock_state;
 		
 		float m_yaw;
 		float m_pitch;

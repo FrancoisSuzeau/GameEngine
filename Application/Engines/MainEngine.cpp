@@ -380,7 +380,7 @@ namespace Engines
 				m_runtime_service->EnableDepthTest();
 				m_runtime_service->EnableBlendCapture();
 				m_runtime_service->SetMinusSrcAlpha();
-				m_scene_engine->RefreshScene(view_model_builder);
+				
 				m_scene_engine->RenderScene(view_model_builder);
 
 				m_framebuffer_service->UnbindFramebuffer();

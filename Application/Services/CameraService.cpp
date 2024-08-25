@@ -20,6 +20,8 @@ namespace Services
 
         m_camera_speed = 0.01f;
 
+        m_lock_state = Enums::CameraLocked::UNLOCKED;
+
 	}
 
 	void CameraService::DeInit()
@@ -48,7 +50,24 @@ namespace Services
     }
     glm::mat4 CameraService::GetCameraView() const
     {
-        return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
+        switch (m_lock_state)
+        {
+        case Enums::LOCKED:
+            return glm::lookAt(glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 0.f, 0.f), m_camera_up);
+            break;
+        case Enums::UNLOCKED:
+            return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);
+            break;
+        default:
+            return glm::mat4(0.f);
+            break;
+        }
+        
+    }
+
+    void CameraService::SetCameraState(Enums::CameraLocked state)
+    {
+        m_lock_state = state;
     }
 
     void CameraService::SetCameraParameters(glm::vec3 const camera_pos, float const camera_pitch, float const camera_yaw)

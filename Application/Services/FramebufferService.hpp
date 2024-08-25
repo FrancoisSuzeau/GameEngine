@@ -11,6 +11,7 @@
 #include <iostream>
 #include "StateService.hpp"
 #include "RunTimeService.hpp"
+#include "Enums/EngineEnum.hpp"
 
 namespace Services {
 
