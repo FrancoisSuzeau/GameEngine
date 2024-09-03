@@ -106,6 +106,7 @@ namespace Services
             }
 		}
 		
+        SQ_EXTSERVICE_TRACE("Model {} load successfully", model_name);
         return std::move(model);
 	}
 
