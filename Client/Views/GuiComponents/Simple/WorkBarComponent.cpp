@@ -275,7 +275,7 @@ namespace Views
 	{
 		if (m_framebuffer_service && m_camera_service)
 		{
-			if (ImGui::BeginChild("ChildCameraFun", ImVec2(0, 500), true, window_flags2))
+			if (ImGui::BeginChild("ChildCameraFun", ImVec2(0, 350), true, window_flags2))
 			{
 				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
 				ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
@@ -402,17 +402,17 @@ namespace Views
 			}
 
 			ImGui::BulletText("Orientation : ");
-			if (ImGui::SliderFloat("X axis", &angle_1, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Pitch", &angle_1, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle1(angle_1);
 			}
 
-			if (ImGui::SliderFloat("Y axis", &angle_2, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Yaw:", &angle_2, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle2(angle_2);
 			}
 
-			if (ImGui::SliderFloat("Z axis", &angle_3, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Roll", &angle_3, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle3(angle_3);
 			}

@@ -121,7 +121,7 @@ namespace ViewModels
 			
 
 			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, Constants::NONE));
-			m_components.insert_or_assign(Enums::RendererType::MODEL, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.064f), Enums::RendererType::MODEL, Constants::NONE));
+			m_components.insert_or_assign(Enums::RendererType::MODEL, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(4.f), Enums::RendererType::MODEL, Constants::NONE));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBGRID2, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBGRID2, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
@@ -173,6 +173,7 @@ namespace ViewModels
 			glm::vec3 cam_pos = m_camera_service->GetPos();
 			this->ManageGridPosition(cam_pos);
 			this->ManageGridScaling(cam_pos);
+			this->ManageCameraCapture();
 			this->TransformSceneElements();
 		}
 		
@@ -278,6 +279,10 @@ namespace ViewModels
 				Component::Transformer::ReinitModelMat(it->second);
 				Component::Transformer::Move(it->second);
 				Component::Transformer::Resize(it->second);
+
+				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::YAXIS);
+				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::ZAXIS);
+				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::XAXIS);
 			}
 		}
 	}
@@ -335,6 +340,15 @@ namespace ViewModels
 			m_components.at(Enums::RendererType::SUBBGRID)->SetPosition(glm::vec3(x + offset_x, -1.f, z + offset_z));
 			m_components.at(Enums::RendererType::SUBGRID2)->SetPosition(glm::vec3(x + offset_x * 2, -1.f, z + offset_z * 2));
 
+		}
+	}
+	void SceneViewModel::ManageCameraCapture()
+	{
+		if (m_components.contains(Enums::RendererType::MODEL) && m_components.at(Enums::RendererType::MODEL) && m_camera_service)
+		{
+			m_components.at(Enums::RendererType::MODEL)->SetAngle1(-m_camera_service->GetPitch());
+			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw());
+			m_components.at(Enums::RendererType::MODEL)->SetAngle3(0.f);
 		}
 	}
 }

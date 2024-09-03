@@ -110,7 +110,7 @@ namespace Component
 	{
 		if (component)
 		{
-			glm::mat4 model = component->GetModelMat();
+			glm::mat4 model = component->GetModelMat(Enums::ModelMatType::GENERAL);
 			model = glm::translate(model, component->GetPosition());
 			component->SetModelMat(model);
 		}
@@ -119,7 +119,7 @@ namespace Component
 	{
 		if (component)
 		{
-			glm::mat4 model = component->GetModelMat();
+			glm::mat4 model = component->GetModelMat(Enums::ModelMatType::GENERAL);
 			model = glm::scale(model, component->GetSize());
 			component->SetModelMat(model);
 		}
@@ -128,7 +128,7 @@ namespace Component
 	{
 		if (component)
 		{
-			glm::mat4 model = component->GetModelMat();
+			glm::mat4 model = component->GetModelMat(Enums::ModelMatType::GENERAL);
 			glm::vec3 const actual_size = component->GetSize();
 			model = glm::scale(model, glm::vec3(actual_size.x + offset, actual_size.y + offset, actual_size.z + offset));
 			component->SetModelMat(model);
@@ -136,21 +136,26 @@ namespace Component
 	}
 	void Transformer::Rotate(std::shared_ptr<Component::IComponent> component, Enums::OrientationAngle const or_angle)
 	{
-		glm::mat4 model = component->GetModelMat();
+		glm::mat4 model = component->GetModelMat(Enums::ModelMatType::GENERAL);
+		glm::mat4 pitch_mat = component->GetModelMat(Enums::ModelMatType::PITCH);
+		glm::mat4 yaw_mat = component->GetModelMat(Enums::ModelMatType::YAW);
+		glm::mat4 roll_mat = component->GetModelMat(Enums::ModelMatType::ROLL);
 		switch (or_angle)
 		{
 		case Enums::OrientationAngle::XAXIS:
-			model = glm::rotate(model, glm::radians(component->GetAngle1()), glm::vec3(1.f, 0.f, 0.f));
+			pitch_mat = glm::rotate(pitch_mat, glm::radians(component->GetAngle1()), glm::vec3(1.f, 0.f, 0.f));
 			break;
 		case Enums::OrientationAngle::YAXIS:
-			model = glm::rotate(model, glm::radians(component->GetAngle2()), glm::vec3(0.f, 1.f, 0.f));
+			yaw_mat = glm::rotate(yaw_mat, glm::radians(component->GetAngle2()), glm::vec3(0.f, 1.f, 0.f));
 			break;
 		case Enums::OrientationAngle::ZAXIS:
-			model = glm::rotate(model, glm::radians(component->GetAngle3()), glm::vec3(0.f, 0.f, 1.f));
+			roll_mat = glm::rotate(roll_mat, glm::radians(component->GetAngle3()), glm::vec3(0.f, 0.f, 1.f));
 			break;
 		default:
 			break;
 		}
+
+		model *= (yaw_mat * pitch_mat * roll_mat);
 		component->SetModelMat(model);
 	}
 	void Transformer::ReinitModelMat(std::shared_ptr<Component::IComponent> component)
@@ -185,7 +190,7 @@ namespace Component
 			shader_service->setInt(shader_name, "component.render_line", component->GetHovered() || component->GetSelected());
 			shader_service->setInt(shader_name, "component.mixe_texture_color", component->GetMixeTextureColor());
 			shader_service->setVec(shader_name, "component.background_color", component->GetBackgroundColor());
-			shader_service->setMat4(shader_name, "model", component->GetModelMat());
+			shader_service->setMat4(shader_name, "model", component->GetModelMat(Enums::ModelMatType::GENERAL));
 			shader_service->setInt(shader_name, "component.is_light_source", component->GetIsALightSource());
 			shader_service->setInt(shader_name, "component.is_spot_light", component->GetLightType() == Enums::LightType::SPOTLIGHT);
 			shader_service->setVec(shader_name, "component.direction", component->GetDirection());

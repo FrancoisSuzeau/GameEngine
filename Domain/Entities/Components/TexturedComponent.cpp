@@ -15,6 +15,9 @@ namespace Component {
 		m_type = type;
 
 		m_model_mat = glm::mat4(1.f);
+		m_pitch_mat = glm::mat4(1.f);
+		m_yaw_mat = glm::mat4(1.f);
+		m_roll_mat = glm::mat4(1.f);
 		m_position = position;
 		m_size = size;
 		m_hovered = false;
