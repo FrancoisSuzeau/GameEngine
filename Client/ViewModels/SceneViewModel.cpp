@@ -346,9 +346,11 @@ namespace ViewModels
 	{
 		if (m_components.contains(Enums::RendererType::MODEL) && m_components.at(Enums::RendererType::MODEL) && m_camera_service)
 		{
-			m_components.at(Enums::RendererType::MODEL)->SetAngle1(-m_camera_service->GetPitch());
-			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw());
-			m_components.at(Enums::RendererType::MODEL)->SetAngle3(0.f);
+			m_components.at(Enums::RendererType::MODEL)->SetPosition(glm::vec3(0.f, -0.7f, 0.f));
+			m_components.at(Enums::RendererType::MODEL)->SetSize(glm::vec3(10.f));
+			m_components.at(Enums::RendererType::MODEL)->SetAngle1(0.f);
+			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw() + 180.f);
+			m_components.at(Enums::RendererType::MODEL)->SetAngle3(m_camera_service->GetPitch());
 		}
 	}
 }
