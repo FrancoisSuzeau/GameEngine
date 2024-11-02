@@ -18,6 +18,7 @@
 
 #include "IService.hpp"
 #include "Renderers/Untextured/Grid.hpp"
+#include "Renderers/Untextured/Line.hpp"
 #include "Renderers/Modelized/Model.hpp"
 #include "RunTimeService.hpp"
 
@@ -94,6 +95,9 @@ namespace Services {
 		void setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer);
 		std::shared_ptr<Renderers::Grid> getGridRenderer() const;
 
+		void setLineRenderer(std::shared_ptr<Renderers::Line> line_renderer);
+		std::shared_ptr<Renderers::Line> getLineRenderer() const;
+
 		void setCameraModelRenderer(std::shared_ptr<Renderers::Model> camera_renderer);
 		std::shared_ptr<Renderers::Model> getCameraModelRenderer() const;
 
@@ -149,6 +153,7 @@ namespace Services {
 		std::string m_pannel_view;
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
+		std::shared_ptr<Renderers::Line> m_scene_line;
 		std::shared_ptr<Renderers::Model> m_camera_renderer;
 		std::shared_ptr<RunTimeService> m_runtime_service;
 		std::map<std::string, unsigned int> m_available_skybox_choices;

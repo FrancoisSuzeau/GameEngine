@@ -164,7 +164,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((void*)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, tint_col, border_col);
 					}
 					else
 					{
@@ -172,7 +172,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((void*)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::CHANGESKYBOX, it->first));
 							m_state_service->setConfirmMessage("You are about to change the skybox. Are you sure ?");
@@ -257,13 +257,13 @@ namespace Views
 				ImGui::Text(text_bloom_debug.c_str());
 				if (m_state_service->getConfigs()->GetBloom())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				std::string text_depth_debug = m_state_service->getConfigs()->GetDepth() ? "Depth back buffer" : "Depth back buffer (none)";
 				ImGui::Text(text_depth_debug.c_str());
 				if (m_state_service->getConfigs()->GetDepth())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				ImGui::EndChild();
 			}
@@ -283,7 +283,7 @@ namespace Views
 				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
 				
 				ImGui::Text("Camera orientation");
-				ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetCameraCapture(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetCameraCapture(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				ImGui::Separator();
 				ImGui::Text("Camera positions");
 				glm::vec3 camera_pos = m_camera_service->GetPos();
@@ -458,7 +458,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((void*)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
 						place_taken += (int)image_size;
 					}
 					else
@@ -467,7 +467,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((void*)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);

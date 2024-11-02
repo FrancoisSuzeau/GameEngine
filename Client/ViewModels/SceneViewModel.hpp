@@ -61,6 +61,7 @@ namespace ViewModels
 		void TransformSceneElements();
 		void ManageGridScaling(glm::vec3 const cam_pos);
 		void ManageGridPosition(glm::vec3 const cam_pos);
+		void ManageLineOrientation();
 		void ManageCameraCapture();
 		float m_current_relative_distance_from_cam;
 

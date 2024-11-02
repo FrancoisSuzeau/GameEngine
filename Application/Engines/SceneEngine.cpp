@@ -76,6 +76,7 @@ namespace Engines
 				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::MODEL_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::CAMERA_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::LINE_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -138,6 +139,9 @@ namespace Engines
 			{
 				m_camera_service->SetCameraState(Enums::CameraLocked::LOCKED);
 				view_model->RenderSceneElements(Enums::RendererType::MODEL);
+				view_model->RenderSceneElements(Enums::RendererType::LINEX);
+				view_model->RenderSceneElements(Enums::RendererType::LINEY);
+				view_model->RenderSceneElements(Enums::RendererType::LINEZ);
 				m_camera_service->SetCameraState(Enums::CameraLocked::UNLOCKED);
 			}
 
@@ -151,7 +155,6 @@ namespace Engines
 					view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 					view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
 					m_runtime_service->RenderingInLine(2.f);
-					view_model->RenderSceneElements(Enums::RendererType::GRID);
 					m_runtime_service->RenderingInFill();
 
 					view_model.reset();

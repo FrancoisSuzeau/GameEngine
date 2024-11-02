@@ -10,7 +10,7 @@ namespace Services
 		m_show_style_editor(false), m_show_event(false), m_current_filename(""), m_continued(false), m_projection_perspective_matrix(glm::mat4(1.f)),
 		m_show_save_as(false), m_show_confirm(false), m_mouse_clicked(false), m_show_context_menu(false), m_selected_component(nullptr), m_popup_hovered(false),
 		m_previous_selected_component_color(1.f), m_pannel_view(Constants::NONE), m_scaling_way(Enums::ScallingWay::EMPTY), m_actualize(false), m_far_plane(100.f), m_near_plane(0.1f),
-		sq_texture_id(0), m_texture_id(0), m_projection_ortho_matrix(glm::mat4())
+		sq_texture_id(0), m_texture_id(0), m_projection_ortho_matrix(glm::mat4()), m_scene_grid(nullptr), m_scene_line(nullptr)
 	{
 	}
 
@@ -59,6 +59,12 @@ namespace Services
 		{
 			m_camera_renderer->Clean();
 			m_camera_renderer.reset();
+		}
+
+		if (m_scene_line)
+		{
+			m_scene_line->Clean();
+			m_scene_line.reset();
 		}
 
 		if (m_runtime_service)
@@ -361,6 +367,21 @@ namespace Services
 	std::shared_ptr<Renderers::Grid> StateService::getGridRenderer() const
 	{
 		return m_scene_grid;
+	}
+
+	void StateService::setLineRenderer(std::shared_ptr<Renderers::Line> line_renderer)
+	{
+		if (line_renderer)
+		{
+			m_scene_line = line_renderer;
+			m_scene_line->Construct();
+		}
+		
+	}
+
+	std::shared_ptr<Renderers::Line> StateService::getLineRenderer() const
+	{
+		return m_scene_line;
 	}
 
 	void StateService::setCameraModelRenderer(std::shared_ptr<Renderers::Model> camera_renderer)

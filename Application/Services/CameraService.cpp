@@ -53,7 +53,7 @@ namespace Services
         switch (m_lock_state)
         {
         case Enums::LOCKED:
-            return glm::lookAt(glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 0.f, 0.f), m_camera_up);
+            return glm::lookAt(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, -1.f), m_camera_up);
             break;
         case Enums::UNLOCKED:
             return glm::lookAt(m_camera_pos, m_camera_pos + m_camera_target, m_camera_up);

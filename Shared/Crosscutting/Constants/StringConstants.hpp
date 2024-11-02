@@ -46,6 +46,7 @@ namespace Constants {
 	std::string const SKYBOX_SHADER = "skybox";
 	std::string const MODEL_SHADER = "model_shader";
 	std::string const CAMERA_SHADER = "camera_shader";
+	std::string const LINE_SHADER = "line_shader";
 	std::string const COMPONENT_BASE = "COMPONENT_BASE";
 	std::string const COMPONENT_DRAGGABLE = "COMPONENT_DRAGGABLE";
 	std::string const COMPONENT_TEXTURED = "COMPONENT_UNTEXTURED";
