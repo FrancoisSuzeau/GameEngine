@@ -138,10 +138,10 @@ namespace Engines
 			if (buffer_pass == Enums::FramebufferType::CAMERABUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE && m_camera_service)
 			{
 				m_camera_service->SetCameraState(Enums::CameraLocked::LOCKED);
-				view_model->RenderSceneElements(Enums::RendererType::MODEL);
 				view_model->RenderSceneElements(Enums::RendererType::LINEX);
 				view_model->RenderSceneElements(Enums::RendererType::LINEY);
 				view_model->RenderSceneElements(Enums::RendererType::LINEZ);
+				view_model->RenderSceneElements(Enums::RendererType::MODEL);
 				m_camera_service->SetCameraState(Enums::CameraLocked::UNLOCKED);
 			}
 

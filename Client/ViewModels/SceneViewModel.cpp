@@ -322,12 +322,14 @@ namespace ViewModels
 			if (it->second)
 			{
 				Component::Transformer::ReinitModelMat(it->second);
+
 				Component::Transformer::Move(it->second);
-				Component::Transformer::Resize(it->second);
 
 				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::YAXIS);
 				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::ZAXIS);
 				Component::Transformer::Rotate(it->second, Enums::OrientationAngle::XAXIS);
+
+				Component::Transformer::Resize(it->second);
 			}
 		}
 	}
@@ -391,30 +393,30 @@ namespace ViewModels
 	{
 		if (m_components.contains(Enums::RendererType::LINEX) && m_components.at(Enums::RendererType::LINEX))
 		{
-			m_components.at(Enums::RendererType::LINEX)->SetPosition(glm::vec3(1.f, 0.f, -3.f));
-			m_components.at(Enums::RendererType::LINEX)->SetSize(glm::vec3(1.f, 0.01f, 0.01f));
+			m_components.at(Enums::RendererType::LINEX)->SetPosition(glm::vec3(-1.f, -0.51f, -3.f));
 			m_components.at(Enums::RendererType::LINEX)->SetAngle1(0.f);
 			m_components.at(Enums::RendererType::LINEX)->SetAngle2(0.f);
-			m_components.at(Enums::RendererType::LINEX)->SetAngle3(90.f);
+			m_components.at(Enums::RendererType::LINEX)->SetAngle3(0.f);
+			m_components.at(Enums::RendererType::LINEX)->SetSize(glm::vec3(1.f, 0.01f, 0.01f));
 			
 		}
 
 		if (m_components.contains(Enums::RendererType::LINEY) && m_components.at(Enums::RendererType::LINEY))
 		{
-			m_components.at(Enums::RendererType::LINEY)->SetPosition(glm::vec3(0.f, 1.f, -3.f));
-			m_components.at(Enums::RendererType::LINEY)->SetSize(glm::vec3(0.01f, 1.f, 0.01f));
+			m_components.at(Enums::RendererType::LINEY)->SetPosition(glm::vec3(0.f, 0.5f, -3.f));
 			m_components.at(Enums::RendererType::LINEY)->SetAngle1(0.f);
 			m_components.at(Enums::RendererType::LINEY)->SetAngle2(0.f);
 			m_components.at(Enums::RendererType::LINEY)->SetAngle3(0.f);
+			m_components.at(Enums::RendererType::LINEY)->SetSize(glm::vec3(0.01f, 1.f, 0.01f));
 		}
 
 		if (m_components.contains(Enums::RendererType::LINEZ) && m_components.at(Enums::RendererType::LINEZ))
 		{
-			m_components.at(Enums::RendererType::LINEZ)->SetPosition(glm::vec3(0.f, 0.f, -2.f));
+			m_components.at(Enums::RendererType::LINEZ)->SetPosition(glm::vec3(0.315f, -0.825f, -2.12f));
+			m_components.at(Enums::RendererType::LINEZ)->SetAngle1(20.f);
+			m_components.at(Enums::RendererType::LINEZ)->SetAngle2(20.f);
+			m_components.at(Enums::RendererType::LINEZ)->SetAngle3(0.f);
 			m_components.at(Enums::RendererType::LINEZ)->SetSize(glm::vec3(0.01f, 0.01f, 1.f));
-			m_components.at(Enums::RendererType::LINEZ)->SetAngle1(90.f);
-			m_components.at(Enums::RendererType::LINEZ)->SetAngle2(0.f);
-			m_components.at(Enums::RendererType::LINEZ)->SetAngle3(90.f);
 		}
 	}
 	void SceneViewModel::ManageCameraCapture()
@@ -424,7 +426,7 @@ namespace ViewModels
 			m_components.at(Enums::RendererType::MODEL)->SetPosition(glm::vec3(0.f, -0.7f, -3.f));
 			m_components.at(Enums::RendererType::MODEL)->SetSize(glm::vec3(10.f));
 			m_components.at(Enums::RendererType::MODEL)->SetAngle1(0.f);
-			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw() + 180.f);
+			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw() + 180.f + 20.f);
 			m_components.at(Enums::RendererType::MODEL)->SetAngle3(m_camera_service->GetPitch());
 		}
 	}
