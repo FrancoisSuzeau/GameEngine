@@ -2,16 +2,18 @@
 
 layout (location = 0) out vec4 FragColor;
 
-struct Component
-{
-    vec4 background_color;
-};
+flat in vec4 line_color;
 
-uniform Component component;
+// struct Component
+// {
+//     vec4 background_color;
+// };
+
+// uniform Component component;
 
 
 void main()
 {
-    FragColor = component.background_color;
+    FragColor = line_color;
     
 }

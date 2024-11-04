@@ -93,6 +93,7 @@ namespace Services
 		glBindAttribLocation(program_id, 0, "obj_pos");
 		glBindAttribLocation(program_id, 1, "obj_normals");
 		glBindAttribLocation(program_id, 2, "texture_coord");
+		glBindAttribLocation(program_id, 3, "color_coord");
 		//======================================================================================================================================
 
 		/************************************************* linkage ********************************************************/

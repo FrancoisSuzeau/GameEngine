@@ -6,7 +6,7 @@
 
 namespace Renderers {
 
-    Line::Line()
+    Line::Line() : m_bytes_colors_size(0)
     {
         m_vbo = 0;
         m_vao = 0;
@@ -33,7 +33,7 @@ namespace Renderers {
             glBindVertexArray(m_vao);
             if (glIsVertexArray(m_vao) == GL_TRUE)
             {
-                glDrawElements(GL_TRIANGLES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
+                glDrawElements(GL_LINES, (GLsizei)m_indices.size(), GL_UNSIGNED_INT, 0);
 
                 glBindVertexArray(0);
             }
@@ -85,15 +85,17 @@ namespace Renderers {
             glGenVertexArrays(1, &m_vao);
         }
 
+
         if (m_vbo != 0)
         {
             glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
             if (glIsBuffer(m_vbo) == GL_TRUE)
             {
-                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, 0, GL_STATIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size + m_bytes_colors_size, 0, GL_STATIC_DRAW);
 
                 glBufferSubData(GL_ARRAY_BUFFER, 0, m_bytes_vertices_size, m_vertices.data());
                 glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size, m_bytes_normals_size, m_normals.data());
+                glBufferSubData(GL_ARRAY_BUFFER, m_bytes_vertices_size + m_bytes_normals_size, m_bytes_colors_size, m_colors.data());
 
                 glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -132,6 +134,9 @@ namespace Renderers {
 
                                 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size));
                                 glEnableVertexAttribArray(1);
+
+                                glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_bytes_vertices_size + m_bytes_normals_size));
+                                glEnableVertexAttribArray(3);
                             }
                         }
 
@@ -146,7 +151,7 @@ namespace Renderers {
     void Line::Load()
     {
         m_vertices = {
-            -1.f, -1.f, -1.f, // Back face
+        -1.f, -1.f, -1.f, // Back face
          1.f, -1.f, -1.f,
          1.f,  1.f, -1.f,
         -1.f,  1.f, -1.f,
@@ -180,7 +185,7 @@ namespace Renderers {
 
         m_normals =
         {
-             0.0f,  0.0f, -1.0f, // Back face
+        0.0f,  0.0f, -1.0f, // Back face
         0.0f,  0.0f, -1.0f,
         0.0f,  0.0f, -1.0f,
         0.0f,  0.0f, -1.0f,
@@ -212,6 +217,44 @@ namespace Renderers {
         };
 
 
+        m_colors = {
+             // Back face 
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f, 
+             0.f, 0.f, 0.f, 0.f,
+
+             // Front face
+             0.f, 1.f, 0.f, 1.f, //GREEN
+             1.f, 0.f, 0.f, 1.f,
+             0.f, 0.f, 0.f, 1.f,
+             0.f, 0.f, 0.f, 1.f,
+
+             // Left face
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+
+             // Right face
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+
+             // Bottom face
+             0.f, 0.f, 1.f, 1.f, //BLUE
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+
+             // Top face
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f
+        };
+        
         m_indices = {
 
             0, 1, 2, 2, 3, 0,        // Back face
@@ -225,6 +268,7 @@ namespace Renderers {
         m_bytes_indices_size = (unsigned int)(m_indices.size() * sizeof(unsigned int));
         m_bytes_normals_size = m_normals.size() * sizeof(GLfloat);
         m_bytes_vertices_size = m_vertices.size() * sizeof(GLfloat);
+        m_bytes_colors_size = m_colors.size() * sizeof(GLfloat);
     }
 
 }

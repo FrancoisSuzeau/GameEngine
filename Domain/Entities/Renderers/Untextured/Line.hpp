@@ -29,7 +29,9 @@ namespace Renderers {
 	private:
 		void Attach();
 
-
+		/*GLuint m_cbo;*/
+		size_t m_bytes_colors_size;
+		std::vector<GLfloat> m_colors;
 		typedef IRenderer base;
 
 

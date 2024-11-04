@@ -36,9 +36,7 @@ namespace Enums {
 		SUBBGRID = 10, 
 		SUBGRID2 = 11,
 		MODEL = 12,
-		LINEX = 13,
-		LINEY = 14,
-		LINEZ = 15
+		LINEX = 13
 	};
 }
 
