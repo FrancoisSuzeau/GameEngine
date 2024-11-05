@@ -1,12 +1,12 @@
 /******************************************************************************************************************************************/
-// File : Line.cpp
-// Purpose : Implementing the Line renderer
+// File : Axis.cpp
+// Purpose : Implementing the Axis renderer
 /******************************************************************************************************************************************/
-#include "Line.hpp"
+#include "Axis.hpp"
 
 namespace Renderers {
 
-    Line::Line() : m_bytes_colors_size(0)
+    Axis::Axis() : m_bytes_colors_size(0)
     {
         m_vbo = 0;
         m_vao = 0;
@@ -16,17 +16,17 @@ namespace Renderers {
         m_bytes_normals_size = 0;
     }
 
-    Line::~Line()
+    Axis::~Axis()
     {
     }
 
-    void Line::Construct()
+    void Axis::Construct()
     {
         this->Load();
         this->Attach();
     }
 
-    void Line::Draw()
+    void Axis::Draw()
     {
         if (m_vao != 0)
         {
@@ -40,13 +40,13 @@ namespace Renderers {
         }
     }
 
-    void Line::Clean()
+    void Axis::Clean()
     {
         base::Clean();
         m_colors.clear();
     }
 
-    void Line::Attach()
+    void Axis::Attach()
     {
         if (m_vbo == 0)
         {
@@ -126,7 +126,7 @@ namespace Renderers {
             }
         }
     }
-    void Line::Load()
+    void Axis::Load()
     {
         m_vertices = {
         -1.f, -1.f, -1.f, // Back face

@@ -24,7 +24,7 @@
     <ClInclude Include="Entities\ConfigEntity.hpp" />
     <ClInclude Include="Entities\Renderers\Textured\SquareTextured.hpp" />
     <ClInclude Include="Entities\Renderers\Untextured\Grid.hpp" />
-    <ClInclude Include="Entities\Renderers\Untextured\Line.hpp" />
+    <ClInclude Include="Entities\Renderers\Untextured\Axis.hpp" />
     <ClInclude Include="Interfaces\IBuilder.hpp" />
     <ClInclude Include="Interfaces\ICommand.hpp" />
     <ClInclude Include="Interfaces\IComponent.hpp" />
@@ -54,7 +54,7 @@
     <ClCompile Include="Entities\ConfigEntity.cpp" />
     <ClCompile Include="Entities\Renderers\Textured\SquareTextured.cpp" />
     <ClCompile Include="Entities\Renderers\Untextured\Grid.cpp" />
-    <ClCompile Include="Entities\Renderers\Untextured\Line.cpp" />
+    <ClCompile Include="Entities\Renderers\Untextured\Axis.cpp" />
     <ClCompile Include="Entities\Renderers\Modelized\Mesh.cpp" />
     <ClCompile Include="Entities\Renderers\Modelized\Model.cpp" />
     <ClCompile Include="OpenGLService\OpenGLService.cpp" />

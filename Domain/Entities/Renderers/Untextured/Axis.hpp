@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : Line.hpp
-// Purpose : An interface for the Line renderer
+// File : Axis.hpp
+// Purpose : An interface for the Axis renderer
 /******************************************************************************************************************************************/
-#ifndef LINE_H
-#define LINE_H
+#ifndef AXIS_H
+#define AXIS_H
 
 #include "../../../Interfaces/IRenderer.hpp"
 
@@ -11,12 +11,12 @@ namespace Renderers {
 
 
 
-	class Line : public IRenderer
+	class Axis : public IRenderer
 	{
 	public:
 
-		Line();
-		~Line();
+		Axis();
+		~Axis();
 
 		void Construct() override;
 		void Draw() override;

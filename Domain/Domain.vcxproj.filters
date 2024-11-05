@@ -96,6 +96,9 @@
     <ClInclude Include="Entities\Renderers\Modelized\Model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Renderers\Untextured\Axis.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGLService\OpenGLService.cpp">
@@ -150,6 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Renderers\Modelized\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Renderers\Untextured\Axis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

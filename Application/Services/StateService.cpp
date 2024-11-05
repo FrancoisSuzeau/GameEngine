@@ -369,7 +369,7 @@ namespace Services
 		return m_scene_grid;
 	}
 
-	void StateService::setLineRenderer(std::shared_ptr<Renderers::Line> line_renderer)
+	void StateService::setLineRenderer(std::shared_ptr<Renderers::Axis> line_renderer)
 	{
 		if (line_renderer)
 		{
@@ -379,7 +379,7 @@ namespace Services
 		
 	}
 
-	std::shared_ptr<Renderers::Line> StateService::getLineRenderer() const
+	std::shared_ptr<Renderers::Axis> StateService::getLineRenderer() const
 	{
 		return m_scene_line;
 	}

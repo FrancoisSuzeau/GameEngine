@@ -145,7 +145,7 @@ namespace ViewModels
 
 			m_current_relative_distance_from_cam = 40.f;
 
-			m_state_service->setLineRenderer(std::make_shared<Renderers::Line>());
+			m_state_service->setLineRenderer(std::make_shared<Renderers::Axis>());
 		}
 	}
 
@@ -243,7 +243,7 @@ namespace ViewModels
 				break;
 			case Enums::RendererType::LINE:
 			{
-				std::shared_ptr<Renderers::Line> line_renderer = m_state_service->getLineRenderer();
+				std::shared_ptr<Renderers::Axis> line_renderer = m_state_service->getLineRenderer();
 				if (line_renderer)
 				{
 					std::string shader_name = Constants::LINE_SHADER;
@@ -255,6 +255,8 @@ namespace ViewModels
 			}
 				break;
 			case Enums::RendererType::TRIANGLE:
+			case Enums::RendererType::SPHERE:
+			case Enums::RendererType::SPHERE_TEXTURED:
 			case Enums::RendererType::SQUARE:
 			case Enums::RendererType::SQUARE_TEXTURED:
 			case Enums::RendererType::TRIANGLE_TEXTURED:
