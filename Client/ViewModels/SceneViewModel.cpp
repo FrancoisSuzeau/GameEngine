@@ -123,7 +123,7 @@ namespace ViewModels
 			m_components.insert_or_assign(Enums::RendererType::SKYBOX, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(0.f), Enums::RendererType::SKYBOX, Constants::NONE));
 			m_components.insert_or_assign(Enums::RendererType::MODEL, std::make_shared<Component::TexturedComponent>(glm::vec3(0.f), glm::vec3(4.f), Enums::RendererType::MODEL, Constants::NONE));
 			m_components.insert_or_assign(Enums::RendererType::GRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::GRID, glm::vec4(1.f, 1.f, 1.f, 0.75f)));
-			m_components.insert_or_assign(Enums::RendererType::LINEX, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::LINEX, glm::vec4(1.f, 0.f, 0.f, 1.f)));
+			m_components.insert_or_assign(Enums::RendererType::LINE, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(1.f), Enums::RendererType::LINE, glm::vec4(1.f, 0.f, 0.f, 1.f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBBGRID, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBBGRID, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 			m_components.insert_or_assign(Enums::RendererType::SUBGRID2, std::make_shared<Component::ComponentBase>(glm::vec3(0.f), glm::vec3(20.f), Enums::RendererType::SUBGRID2, glm::vec4(0.5f, 0.5f, 0.5f, 0.75f)));
 
@@ -241,7 +241,7 @@ namespace ViewModels
 					}
 				}
 				break;
-			case Enums::RendererType::LINEX:
+			case Enums::RendererType::LINE:
 			{
 				std::shared_ptr<Renderers::Line> line_renderer = m_state_service->getLineRenderer();
 				if (line_renderer)
@@ -363,32 +363,25 @@ namespace ViewModels
 	}
 	void SceneViewModel::ManageLineOrientation()
 	{
-		if (m_camera_service)
+		if (m_components.contains(Enums::RendererType::LINE) && m_components.at(Enums::RendererType::LINE))
 		{
-			float const cam_pitch = m_camera_service->GetPitch();
-			float const cam_yaw = m_camera_service->GetYaw();
-			if (m_components.contains(Enums::RendererType::LINEX) && m_components.at(Enums::RendererType::LINEX))
-			{
-				m_components.at(Enums::RendererType::LINEX)->SetPosition(glm::vec3(-1.f, -0.51f, -3.f));
-				m_components.at(Enums::RendererType::LINEX)->SetAngle1(0.f);
-				m_components.at(Enums::RendererType::LINEX)->SetAngle2(180.f);
-				m_components.at(Enums::RendererType::LINEX)->SetAngle3(0.f);
-				m_components.at(Enums::RendererType::LINEX)->SetSize(glm::vec3(1.f));
+			m_components.at(Enums::RendererType::LINE)->SetPosition(glm::vec3(0.1f, 0.4f, -2.f));
+			m_components.at(Enums::RendererType::LINE)->SetAngle1(0.f);
+			m_components.at(Enums::RendererType::LINE)->SetAngle2(0.f);
+			m_components.at(Enums::RendererType::LINE)->SetAngle3(90.f);
+			m_components.at(Enums::RendererType::LINE)->SetSize(glm::vec3(1.f));
 
-			}
 		}
 	}
 	void SceneViewModel::ManageCameraCapture()
 	{
 		if (m_components.contains(Enums::RendererType::MODEL) && m_components.at(Enums::RendererType::MODEL) && m_camera_service)
 		{
-			m_components.at(Enums::RendererType::MODEL)->SetPosition(glm::vec3(0.f, -0.7f, -3.f));
-			m_components.at(Enums::RendererType::MODEL)->SetSize(glm::vec3(10.f));
+			m_components.at(Enums::RendererType::MODEL)->SetPosition(glm::vec3(0.f, -0.4f, -3.f));
+			m_components.at(Enums::RendererType::MODEL)->SetSize(glm::vec3(8.f));
 			m_components.at(Enums::RendererType::MODEL)->SetAngle1(0.f);
-			/*m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw() + 180.f + 20.f);
-			m_components.at(Enums::RendererType::MODEL)->SetAngle3(m_camera_service->GetPitch());*/
-			m_components.at(Enums::RendererType::MODEL)->SetAngle2(90.f);
-			m_components.at(Enums::RendererType::MODEL)->SetAngle3(0.f);
+			m_components.at(Enums::RendererType::MODEL)->SetAngle2(m_camera_service->GetYaw() + 180.f);
+			m_components.at(Enums::RendererType::MODEL)->SetAngle3(m_camera_service->GetPitch());
 		}
 	}
 }

@@ -40,32 +40,10 @@ namespace Renderers {
         }
     }
 
-    void Line::Draw(std::vector<unsigned int> light_texture_ids)
-    {
-        for (size_t i = 0; i < light_texture_ids.size(); i++)
-        {
-            if (light_texture_ids[i] != 0)
-            {
-                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
-                glBindTexture(GL_TEXTURE_2D, light_texture_ids[i]);
-            }
-        }
-
-        this->Draw();
-
-        for (size_t i = 0; i < light_texture_ids.size(); i++)
-        {
-            if (light_texture_ids[i] != 0)
-            {
-                glActiveTexture(GL_TEXTURE2 + (GLenum)i);
-                glBindTexture(GL_TEXTURE_2D, 0);
-            }
-        }
-    }
-
     void Line::Clean()
     {
         base::Clean();
+        m_colors.clear();
     }
 
     void Line::Attach()
@@ -219,16 +197,16 @@ namespace Renderers {
 
         m_colors = {
              // Back face 
-             0.f, 0.f, 0.f, 0.f,
-             0.f, 0.f, 0.f, 0.f,
+             1.f, 0.f, 0.f, 1.f, //RED
+             0.f, 1.f, 0.f, 1.f, //GREEN
              0.f, 0.f, 0.f, 0.f, 
              0.f, 0.f, 0.f, 0.f,
 
              // Front face
-             0.f, 1.f, 0.f, 1.f, //GREEN
-             1.f, 0.f, 0.f, 1.f,
-             0.f, 0.f, 0.f, 1.f,
-             0.f, 0.f, 0.f, 1.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
+             0.f, 0.f, 0.f, 0.f,
 
              // Left face
              0.f, 0.f, 0.f, 0.f,

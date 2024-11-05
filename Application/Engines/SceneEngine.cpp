@@ -139,7 +139,7 @@ namespace Engines
 			{
 				m_camera_service->SetCameraState(Enums::CameraLocked::LOCKED);
 				m_runtime_service->RenderingInLine(10.f);
-				view_model->RenderSceneElements(Enums::RendererType::LINEX);
+				view_model->RenderSceneElements(Enums::RendererType::LINE);
 				m_runtime_service->RenderingInFill();
 				view_model->RenderSceneElements(Enums::RendererType::MODEL);
 				m_camera_service->SetCameraState(Enums::CameraLocked::UNLOCKED);
@@ -155,7 +155,7 @@ namespace Engines
 					view_model->RenderSceneElements(Enums::RendererType::SUBBGRID);
 					view_model->RenderSceneElements(Enums::RendererType::SUBGRID2);
 					m_runtime_service->RenderingInLine(2.f);
-					view_model->RenderSceneElements(Enums::RendererType::LINEX);
+					view_model->RenderSceneElements(Enums::RendererType::GRID);
 					m_runtime_service->RenderingInFill();
 
 					view_model.reset();
