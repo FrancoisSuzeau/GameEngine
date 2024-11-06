@@ -422,6 +422,7 @@ namespace ViewModels
 				if (std::abs(camera_speed.x) > std::abs(camera_speed.y) && std::abs(camera_speed.x) > std::abs(camera_speed.z))
 				{
 					m_components.at(Enums::RendererType::SPHERE_X)->SetBackgroundColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
+					m_components.at(Enums::RendererType::SPHERE_X)->SetIsALigthSource(false);
 					m_current_cam_pos = cam_pos;
 				}
 				else

@@ -45,8 +45,15 @@ namespace Component
 				shader_service->setVec(shader_name, "camera_pos", camera_service->GetPos());
 				if (state_service->GetScene())
 				{
-					bool there_is_light = physics_service->GetLigthSources().size() > 0 || state_service->GetScene()->GetIsThereDirectionLight();
-					shader_service->setInt(shader_name, "there_is_light", there_is_light);
+					if (component->GetType() == Enums::RendererType::SPHERE_X || component->GetType() == Enums::RendererType::SPHERE_Y || component->GetType() == Enums::RendererType::SPHERE_Z)
+					{
+						shader_service->setInt(shader_name, "there_is_light", false);
+					}
+					else
+					{
+						bool there_is_light = physics_service->GetLigthSources().size() > 0 || state_service->GetScene()->GetIsThereDirectionLight();
+						shader_service->setInt(shader_name, "there_is_light", there_is_light);
+					}
 				}
 				
 				for (size_t i = 0; i < physics_service->GetLightSourcesTextureIds().size(); i++)
