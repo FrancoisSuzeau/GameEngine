@@ -36,7 +36,10 @@ namespace Enums {
 		SUBBGRID = 10, 
 		SUBGRID2 = 11,
 		MODEL = 12,
-		LINE = 13
+		AXIS = 13,
+		SPHERE_X = 14,
+		SPHERE_Y = 15, 
+		SPHERE_Z = 16
 	};
 }
 

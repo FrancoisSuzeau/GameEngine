@@ -139,8 +139,11 @@ namespace Engines
 			{
 				m_camera_service->SetCameraState(Enums::CameraLocked::LOCKED);
 				m_runtime_service->RenderingInLine(10.f);
-				view_model->RenderSceneElements(Enums::RendererType::LINE);
+				view_model->RenderSceneElements(Enums::RendererType::AXIS);
 				m_runtime_service->RenderingInFill();
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_X);
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_Y);
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_Z);
 				view_model->RenderSceneElements(Enums::RendererType::MODEL);
 				m_camera_service->SetCameraState(Enums::CameraLocked::UNLOCKED);
 			}

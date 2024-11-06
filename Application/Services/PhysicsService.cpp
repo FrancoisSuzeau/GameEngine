@@ -19,6 +19,8 @@ namespace Services
 		}
 
 		this->SetAttenuationConstants();
+
+		m_delta_time = 1.f / 60.f;
 		
 	}
 
@@ -249,6 +251,17 @@ namespace Services
 				}
 			}
 		}
+	}
+
+	glm::vec3 PhysicsService::CalculateCameraSpeed(glm::vec3 const current_pos, glm::vec3 const previous_pos)
+	{
+		glm::vec3 displacement = current_pos - previous_pos;
+
+		float speed_x = displacement.x / m_delta_time;
+		float speed_y = displacement.y / m_delta_time;
+		float speed_z = displacement.z / m_delta_time;
+
+		return glm::vec3(speed_x, speed_y, speed_z);
 	}
 
 }
