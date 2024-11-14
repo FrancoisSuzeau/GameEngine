@@ -18,6 +18,9 @@
 
 #include "IService.hpp"
 #include "Renderers/Untextured/Grid.hpp"
+#include "Renderers/Untextured/Axis.hpp"
+#include "Renderers/Modelized/Model.hpp"
+#include "Renderers/Untextured/Sphere.hpp"
 #include "RunTimeService.hpp"
 
 #include "IComponent.hpp"
@@ -93,6 +96,15 @@ namespace Services {
 		void setGridRenderer(std::shared_ptr<Renderers::Grid> grid_renderer);
 		std::shared_ptr<Renderers::Grid> getGridRenderer() const;
 
+		void setAxisRenderer(std::shared_ptr<Renderers::Axis> line_renderer);
+		std::shared_ptr<Renderers::Axis> getAxisRenderer() const;
+
+		void SetSphereRenderer(std::shared_ptr<Renderers::Sphere> sphere_renderer);
+		std::shared_ptr<Renderers::Sphere> getSphereRenderer() const;
+
+		void setCameraModelRenderer(std::shared_ptr<Renderers::Model> camera_renderer);
+		std::shared_ptr<Renderers::Model> getCameraModelRenderer() const;
+
 		bool getActualize() const;
 		void setActualize(bool const new_val);
 
@@ -145,6 +157,9 @@ namespace Services {
 		std::string m_pannel_view;
 		Enums::ScallingWay m_scaling_way;
 		std::shared_ptr<Renderers::Grid> m_scene_grid;
+		std::shared_ptr<Renderers::Axis> m_scene_axis;
+		std::shared_ptr<Renderers::Sphere> m_scene_sphere_axis;
+		std::shared_ptr<Renderers::Model> m_camera_renderer;
 		std::shared_ptr<RunTimeService> m_runtime_service;
 		std::map<std::string, unsigned int> m_available_skybox_choices;
 		std::map<std::string, unsigned int> m_skybox_cube_texture;

@@ -11,7 +11,10 @@
 #include <memory>
 #include "IRenderer.hpp"
 
-namespace Enums { enum LightType {NORMALIGHT, POINTLIGHT, SPOTLIGHT, NBLIGHTTYPE }; }
+namespace Enums { 
+	enum LightType { NORMALIGHT, POINTLIGHT, SPOTLIGHT, NBLIGHTTYPE };
+	enum ModelMatType { GENERAL, PITCH, YAW, ROLL };
+}
 
 namespace Component {
 
@@ -42,9 +45,27 @@ namespace Component {
 		virtual void SetModelType(std::string const new_val) {}
 
 
-		virtual glm::mat4 GetModelMat() const
+		virtual glm::mat4 GetModelMat(Enums::ModelMatType type) const
 		{
-			return m_model_mat;
+			switch (type)
+			{
+			case Enums::ModelMatType::GENERAL:
+				return m_model_mat;
+				break;
+			case Enums::ModelMatType::PITCH:
+				return  m_pitch_mat;
+				break;
+			case Enums::ModelMatType::YAW:
+				return m_yaw_mat;
+				break;
+			case Enums::ModelMatType::ROLL:
+				return m_roll_mat;
+				break;
+			default:
+				return glm::mat4(0.f);
+				break;
+			}
+			
 		}
 
 		virtual void SetModelMat(glm::mat4 model_mat)
@@ -239,6 +260,9 @@ namespace Component {
 		Enums::RendererType m_type;
 
 		glm::mat4 m_model_mat;
+		glm::mat4 m_pitch_mat;
+		glm::mat4 m_yaw_mat;
+		glm::mat4 m_roll_mat;
 		glm::vec3 m_position;
 		glm::vec3 m_size;
 		bool m_hovered;

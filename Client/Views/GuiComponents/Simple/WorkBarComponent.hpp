@@ -20,6 +20,7 @@
 
 #include "IView.hpp"
 #include "Services/StateService.hpp"
+#include "Services/CameraService.hpp"
 #include "Container/Container.hpp"
 #include "Services/FramebufferService.hpp"
 #include "Services/LoaderService.hpp"
@@ -51,6 +52,7 @@ namespace Views
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::PhysicsService> m_physics_service;
 		std::shared_ptr<Services::ShaderService> m_shader_service;
+		std::shared_ptr<Services::CameraService> m_camera_service;
 		void RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer);
 		void RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer);
@@ -58,6 +60,7 @@ namespace Views
 		void RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2);
 		void RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2);
 		void RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2);
+		void RenderCameraDatas(ImGuiWindowFlags window_flags2);
 		bool show_color_picker;
 		int item_current;
 		int item_model_current;

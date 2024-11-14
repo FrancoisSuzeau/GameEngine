@@ -11,6 +11,7 @@
 #include <iostream>
 #include "StateService.hpp"
 #include "RunTimeService.hpp"
+#include "Enums/EngineEnum.hpp"
 
 namespace Services {
 
@@ -23,6 +24,7 @@ namespace Services {
 		void DeInit() override;
 
 		unsigned int GetTextureId(int id) const;
+		unsigned int GetCameraCapture() const;
 		unsigned int GetTextureId(bool horizontal) const;
 		unsigned int GetDephtTextureId() const;
 
@@ -43,6 +45,7 @@ namespace Services {
 
 		void BuildScreenTexture();
 		void BuildScreenFramebuffer();
+		void BuildCameraCapFramebuffer();
 		void BuildBrighFramebuffer();
 		void BuildMultisampleColorTextures();
 
@@ -55,12 +58,14 @@ namespace Services {
 		void CheckFramebufferStatus(std::string const framebuffer_name);
 
 		unsigned int m_color_texture_id;
+		unsigned int m_camera_cap_texture_id;
 		unsigned int m_bright_texture_id;
 		unsigned int m_ping_pong_textures_ids[2] = { 0, 0 };
 		unsigned int m_depth_map_texture_id;
 		unsigned int m_color_multisample_texture_ids[2] = { 0, 0};
 
 		unsigned int m_color_fb;
+		unsigned int m_camera_cap_fb;
 		unsigned int m_bright_fb;
 		unsigned int m_color_multisample_fb;
 		unsigned int m_render_fb;

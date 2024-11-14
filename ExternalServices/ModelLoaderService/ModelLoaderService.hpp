@@ -51,7 +51,7 @@ namespace Services {
 	private:
 
 		void ProcessNode(aiNode* node, const aiScene* scene);
-		Renderers::Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		void ProcessMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Renderers::Texturate> LoadModelMaterial(aiMaterial* mat, aiTextureType type, std::string typeName);
 		void FindFileExt(std::string path);
 

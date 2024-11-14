@@ -14,6 +14,7 @@
 #include "Services/RunTimeService.hpp"
 #include "Services/CameraService.hpp"
 #include "Services/LoaderService.hpp"
+#include "Services/PhysicsService.hpp"
 
 #include "IComponent.hpp"
 
@@ -55,13 +56,18 @@ namespace ViewModels
 		std::shared_ptr<Services::RunTimeService> m_runtime_service;
 		std::shared_ptr<Services::CameraService> m_camera_service;
 		std::shared_ptr<Services::LoaderService> m_loader_service;
+		std::shared_ptr<Services::PhysicsService> m_physic_service;
 		int m_grid_size;
 		std::map<Enums::RendererType, std::shared_ptr<Component::IComponent>> m_components;
 
 		void TransformSceneElements();
 		void ManageGridScaling(glm::vec3 const cam_pos);
 		void ManageGridPosition(glm::vec3 const cam_pos);
+		void ManageAxix();
+		void ManageSphereAxis();
+		void ManageCameraCapture();
 		float m_current_relative_distance_from_cam;
+		glm::vec3 m_current_cam_pos;
 
 	};
 }

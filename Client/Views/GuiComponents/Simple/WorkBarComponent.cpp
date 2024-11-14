@@ -9,15 +9,6 @@ namespace Views
 {
 	WorkBarComponent::~WorkBarComponent()
 	{
-		if (m_state_service)
-		{
-			m_state_service.reset();
-		}
-
-		if (m_framebuffer_service)
-		{
-			m_framebuffer_service.reset();
-		}
 
 		if (!tabs_size.empty())
 		{
@@ -76,6 +67,13 @@ namespace Views
 				SQ_CLIENT_ERROR("Class {} in function {} : Shader service is not referenced yet", __FILE__, __FUNCTION__);
 
 			}
+
+			m_camera_service = container->GetReference<Services::CameraService>();
+			if (!m_camera_service)
+			{
+				SQ_CLIENT_ERROR("Class {} in function {} : Camera service is not referenced yet", __FILE__, __FUNCTION__);
+
+			}
 		}
 
 		tabs_size.push_back(ImVec2(0, 350));
@@ -103,6 +101,7 @@ namespace Views
 				this->RenderGeneralFunctionnalities(window_flags2);
 				this->RenderCustomizeSelectedCpSection(tab_bar_flags, window_flags2);
 				this->RenderDebugFunctionnalities(window_flags2);
+				this->RenderCameraDatas(window_flags2);
 
 				ImGui::End();
 			}	
@@ -165,7 +164,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((void*)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, tint_col, border_col);
 					}
 					else
 					{
@@ -173,7 +172,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((void*)(intptr_t)it->second, ImVec2((float)img_size, (float)img_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 							m_parent_view_model->AddCommand(std::make_unique<Commands::ModifySceneCommand>(Enums::SceneModifier::CHANGESKYBOX, it->first));
 							m_state_service->setConfirmMessage("You are about to change the skybox. Are you sure ?");
@@ -258,18 +257,45 @@ namespace Views
 				ImGui::Text(text_bloom_debug.c_str());
 				if (m_state_service->getConfigs()->GetBloom())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetTextureId(1), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				std::string text_depth_debug = m_state_service->getConfigs()->GetDepth() ? "Depth back buffer" : "Depth back buffer (none)";
 				ImGui::Text(text_depth_debug.c_str());
 				if (m_state_service->getConfigs()->GetDepth())
 				{
-					ImGui::Image((ImTextureID)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+					ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetDephtTextureId(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
 				}
 				ImGui::EndChild();
 			}
 		}
 		
+	}
+
+	void WorkBarComponent::RenderCameraDatas(ImGuiWindowFlags window_flags2)
+	{
+		if (m_framebuffer_service && m_camera_service)
+		{
+			if (ImGui::BeginChild("ChildCameraFun", ImVec2(0, 350), true, window_flags2))
+			{
+				ImVec2 uv_min = ImVec2(0.0f, 0.0f);                 // Top-left
+				ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
+				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+				
+				ImGui::Text("Camera orientation");
+				ImGui::Image((void*)(intptr_t)m_framebuffer_service->GetCameraCapture(), ImVec2((float)w_width - 40, 210), uv_max, uv_min, tint_col, border_col);
+				ImGui::Separator();
+				ImGui::Text("Camera positions");
+				glm::vec3 camera_pos = m_camera_service->GetPos();
+				std::string x_pos = "x : " + std::to_string(camera_pos.x);
+				std::string y_pos = "y : " + std::to_string(camera_pos.y);
+				std::string z_pos = "z : " + std::to_string(camera_pos.z);
+				ImGui::BulletText(x_pos.c_str());
+				ImGui::BulletText(y_pos.c_str());
+				ImGui::BulletText(z_pos.c_str());
+				ImGui::EndChild();
+			}
+		}
 	}
 
 	int WorkBarComponent::GetPowerIndex(int specular_shininess)
@@ -376,17 +402,17 @@ namespace Views
 			}
 
 			ImGui::BulletText("Orientation : ");
-			if (ImGui::SliderFloat("X axis", &angle_1, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Pitch", &angle_1, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle1(angle_1);
 			}
 
-			if (ImGui::SliderFloat("Y axis", &angle_2, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Yaw:", &angle_2, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle2(angle_2);
 			}
 
-			if (ImGui::SliderFloat("Z axis", &angle_3, 0.f, 180.f, "%.3f"))
+			if (ImGui::SliderFloat("Roll", &angle_3, 0.f, 180.f, "%.3f"))
 			{
 				selected_renderer->SetAngle3(angle_3);
 			}
@@ -432,7 +458,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
 						ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 1.f); // 50% opaque white
-						ImGui::Image((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
+						ImGui::Image((void*)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, tint_col, border_col);
 						place_taken += (int)image_size;
 					}
 					else
@@ -441,7 +467,7 @@ namespace Views
 						ImVec2 uv_max = ImVec2(1.0f, 1.0f);                 // Lower-right
 						ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);     // Black background
 						ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-						if (ImGui::ImageButton((ImTextureID)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
+						if (ImGui::ImageButton((void*)(intptr_t)it->second, ImVec2(image_size, image_size), uv_max, uv_min, 2, bg_col, tint_col))
 						{
 
 							m_loader_service->LoadTexture(std::dynamic_pointer_cast<Component::TexturedComponent> (selected_renderer), it->first);

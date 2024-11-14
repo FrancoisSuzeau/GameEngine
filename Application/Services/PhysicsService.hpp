@@ -55,6 +55,8 @@ namespace Services {
 
 		void RemoveLightSources();
 
+		glm::vec3 CalculateCameraSpeed(glm::vec3 const current_pos, glm::vec3 const previous_pos);
+
 	private:
 		float m_theta;
 		float m_phi;
@@ -63,6 +65,7 @@ namespace Services {
 		std::vector<Attenuation_constants> m_attenuation_constants;
 		std::vector<int> m_attenuation_distance;
 		std::vector<unsigned int> m_light_texture_ids;
+		float m_delta_time;
 
 		void SetAttenuationConstants();
 		

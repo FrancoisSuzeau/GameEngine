@@ -131,7 +131,6 @@ namespace Views
 	{
 		if (new_renderer && !m_model_renderer.contains(model_type))
 		{
-			//m_renderers.insert_or_assign(Enums::RendererType::MODEL, std::move(new_renderer));
 			m_model_renderer.insert_or_assign(model_type, std::move(new_renderer));
 		}
 	}
@@ -262,7 +261,8 @@ namespace Views
 
 					if (component && (m_model_renderer.contains(component->GetModelType()) && m_model_renderer.at(component->GetModelType())))
 					{
-						std::string shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : Constants::MODEL_SHADER;
+						std::string shader_name = component->GetModelType() == "camera" ? Constants::CAMERA_SHADER : Constants::MODEL_SHADER;
+						shader_name = m_runtime_service->GetPass() == Enums::FramebufferType::DEPTHBUFFER ? Constants::DEPTH_SHADER : shader_name;
 						if (m_runtime_service->GetStencilPass() == Enums::StencilType::STENCILBUFFERREAD)
 						{
 							shader_name = Constants::HOVER_SHADER;

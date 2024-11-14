@@ -15,6 +15,7 @@ namespace Renderers {
 	public:
 
 		Model(std::vector<std::unique_ptr<Mesh>> meshes);
+		Model(Model& other);
 		~Model();
 
 		void Construct() override;

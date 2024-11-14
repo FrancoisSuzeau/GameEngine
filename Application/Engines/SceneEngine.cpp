@@ -75,6 +75,8 @@ namespace Engines
 				m_shader_service->AddShader(Constants::TEXTURED_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::TEXTURED_SPHERE_SHADER, Enums::NORMAL);
 				m_shader_service->AddShader(Constants::MODEL_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::CAMERA_SHADER, Enums::NORMAL);
+				m_shader_service->AddShader(Constants::LINE_SHADER, Enums::NORMAL);
 			}
 			else
 			{
@@ -132,6 +134,20 @@ namespace Engines
 			std::shared_ptr<ViewModels::IViewModel> view_model = view_model_builder->GetViewModel(Constants::SCENEVIEWMODEL);
 			Enums::StencilType stencil_pass = m_runtime_service->GetStencilPass();
 			Enums::FramebufferType buffer_pass = m_runtime_service->GetPass();
+
+			if (buffer_pass == Enums::FramebufferType::CAMERABUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE && m_camera_service)
+			{
+				m_camera_service->SetCameraState(Enums::CameraLocked::LOCKED);
+				m_runtime_service->RenderingInLine(10.f);
+				view_model->RenderSceneElements(Enums::RendererType::AXIS);
+				m_runtime_service->RenderingInFill();
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_X);
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_Y);
+				view_model->RenderSceneElements(Enums::RendererType::SPHERE_Z);
+				view_model->RenderSceneElements(Enums::RendererType::MODEL);
+				m_camera_service->SetCameraState(Enums::CameraLocked::UNLOCKED);
+			}
+
 			if ((buffer_pass == Enums::FramebufferType::NORMALCOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE) ||
 				buffer_pass == Enums::FramebufferType::MULTISAMPLECOLORBUFFER && stencil_pass == Enums::StencilType::STENCILBUFFERDISABLE)
 			{

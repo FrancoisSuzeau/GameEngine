@@ -257,6 +257,7 @@ namespace Engines
 				
 				m_runtime_service->RefreshScreen();
 
+
 				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetDepth())
 				{
 					m_runtime_service->EnableDepthTest();
@@ -266,6 +267,10 @@ namespace Engines
 					this->PassToFrameBuffer(view_model_builder);
 				}
 
+				m_runtime_service->SetPass(Enums::FramebufferType::CAMERABUFFER);
+				m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
+
+				this->PassToFrameBuffer(view_model_builder);
 
 				if (m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetMultiSample())
 				{
@@ -342,7 +347,7 @@ namespace Engines
 		if (m_runtime_service && m_scene_engine)
 		{
 			this->InitFrame();
-			//Draw grid and skybox
+			//Draw grid, skybox or camera
 			m_runtime_service->SetStencilPass(Enums::StencilType::STENCILBUFFERDISABLE);
 			m_runtime_service->DisableWriteStencilBuffer();
 			m_scene_engine->RefreshScene(view_model_builder);
@@ -366,6 +371,20 @@ namespace Engines
 		if (m_runtime_service && m_framebuffer_service && m_scene_engine && m_state_service && m_state_service->getConfigs())
 		{
 			Enums::FramebufferType fb_type = m_runtime_service->GetPass();
+
+			if (fb_type == Enums::FramebufferType::CAMERABUFFER)
+			{
+				
+				m_framebuffer_service->BindFramebuffer(fb_type);
+				m_runtime_service->RefreshScreen();
+				m_runtime_service->EnableDepthTest();
+				m_runtime_service->EnableBlendCapture();
+				m_runtime_service->SetMinusSrcAlpha();
+				
+				m_scene_engine->RenderScene(view_model_builder);
+
+				m_framebuffer_service->UnbindFramebuffer();
+			}
 
 			if (fb_type == Enums::FramebufferType::DEPTHBUFFER)
 			{
