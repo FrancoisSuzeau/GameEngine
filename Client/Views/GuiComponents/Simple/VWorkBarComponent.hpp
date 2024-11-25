@@ -1,9 +1,9 @@
 /******************************************************************************************************************************************/
-// File : WorkBarComponent.hpp
-// Purpose : The GUI view of start
+// File : VWorkBarComponent.hpp
+// Purpose : The GUI view of work bar vertical
 /******************************************************************************************************************************************/
-#ifndef WORKBARCOMPONENT_H
-#define WORKBARCOMPONENT_H
+#ifndef VWORRKBARCOMPONENT_H
+#define VWORRKBARCOMPONENT_H
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -38,12 +38,12 @@
 
 namespace Views
 {
-	class WorkBarComponent : public IView
+	class VWorkBarComponent : public IView
 	{
 
 	public:
-		~WorkBarComponent() override;
-		WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent);
+		~VWorkBarComponent() override;
+		VWorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent);
 		void Render() override;
 	private:
 		std::shared_ptr < Services::StateService> m_state_service;

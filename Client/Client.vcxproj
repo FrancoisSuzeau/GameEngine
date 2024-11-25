@@ -162,7 +162,7 @@
     <ClCompile Include="Views\GuiComponents\Simple\MetricsComponent.cpp" />
     <ClCompile Include="ViewModels\GUIViewModel.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Views\GuiComponents\Simple\WorkBarComponent.cpp" />
+    <ClCompile Include="Views\GuiComponents\Simple\VWorkBarComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
@@ -202,7 +202,7 @@
     <ClInclude Include="Views\GuiComponents\Simple\StackToolsComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\MetricsComponent.hpp" />
     <ClInclude Include="ViewModels\GUIViewModel.hpp" />
-    <ClInclude Include="Views\GuiComponents\Simple\WorkBarComponent.hpp" />
+    <ClInclude Include="Views\GuiComponents\Simple\VWorkBarComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

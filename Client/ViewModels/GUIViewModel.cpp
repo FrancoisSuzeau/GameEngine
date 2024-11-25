@@ -49,7 +49,7 @@ namespace ViewModels
 		m_simple_components.push_back(std::make_unique<Views::SaveAsComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::ConfirmComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::StartComponent>(shared_from_this()));
-		m_simple_components.push_back(std::make_unique<Views::WorkBarComponent>(shared_from_this()));
+		m_simple_components.push_back(std::make_unique<Views::VWorkBarComponent>(shared_from_this()));
 		m_simple_components.push_back(std::make_unique<Views::PannelComponent>(shared_from_this()));
 
 		m_loader_component = std::make_unique<Views::LoaderComponent>(shared_from_this());

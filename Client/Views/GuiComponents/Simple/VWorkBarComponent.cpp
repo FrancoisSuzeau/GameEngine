@@ -1,13 +1,13 @@
 /******************************************************************************************************************************************/
-// File : WorkBarComponent.cpp
+// File : VWorkBarComponent.cpp
 // Purpose : Implementing the GUI view tools
 /******************************************************************************************************************************************/
 
-#include "WorkBarComponent.hpp"
+#include "VWorkBarComponent.hpp"
 
 namespace Views
 {
-	WorkBarComponent::~WorkBarComponent()
+	VWorkBarComponent::~VWorkBarComponent()
 	{
 
 		if (!tabs_size.empty())
@@ -20,7 +20,7 @@ namespace Views
 			m_parent_view_model.reset();
 		}
 	}
-	WorkBarComponent::WorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), item_model_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
+	VWorkBarComponent::VWorkBarComponent(std::shared_ptr<ViewModels::IViewModel> parent) : show_color_picker(false), item_current(-1), item_model_current(-1), current_tab(0), m_selected_skybox(""), is_there_light_directional_source(false)
 	{
 		m_parent_view_model = parent;
 		IoC::Container::Container* container = IoC::Container::Container::GetInstanceContainer();
@@ -81,7 +81,7 @@ namespace Views
 		tabs_size.push_back(ImVec2(0, 300));
 		tabs_size.push_back(ImVec2(0, 100));
 	}
-	void WorkBarComponent::Render()
+	void VWorkBarComponent::Render()
 	{
 		if (m_state_service && m_state_service->getContinued())
 		{
@@ -107,7 +107,7 @@ namespace Views
 			}	
 		}
 	}
-	void WorkBarComponent::RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2)
+	void VWorkBarComponent::RenderGeneralFunctionnalities(ImGuiWindowFlags window_flags2)
 	{
 		bool show_confirm = m_state_service->getShowConfirm();
 
@@ -243,7 +243,7 @@ namespace Views
 		m_state_service->setShowConfirm(show_confirm);
 	}
 
-	void WorkBarComponent::RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2)
+	void VWorkBarComponent::RenderDebugFunctionnalities(ImGuiWindowFlags window_flags2)
 	{
 		if (m_framebuffer_service && m_state_service && m_state_service->getConfigs() && m_state_service->getConfigs()->GetRenderDebug() && m_runtime_service)
 		{
@@ -271,7 +271,7 @@ namespace Views
 		
 	}
 
-	void WorkBarComponent::RenderCameraDatas(ImGuiWindowFlags window_flags2)
+	void VWorkBarComponent::RenderCameraDatas(ImGuiWindowFlags window_flags2)
 	{
 		if (m_framebuffer_service && m_camera_service)
 		{
@@ -298,7 +298,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
+	void VWorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
 	{
 		if (m_state_service && m_state_service->getContinued())
 		{
@@ -360,7 +360,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	void VWorkBarComponent::RenderPropertiesTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{	
@@ -406,7 +406,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	void VWorkBarComponent::RenderAppearanceTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer && m_loader_service)
 		{
@@ -492,7 +492,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	void VWorkBarComponent::RenderLightTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (selected_renderer)
 		{
@@ -595,7 +595,7 @@ namespace Views
 		}
 	}
 
-	void WorkBarComponent::RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer)
+	void VWorkBarComponent::RenderOtherFunTab(std::shared_ptr<Component::IComponent> selected_renderer)
 	{
 		if (m_state_service && selected_renderer)
 		{
