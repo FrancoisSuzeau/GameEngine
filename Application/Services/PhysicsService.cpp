@@ -238,6 +238,19 @@ namespace Services
 		m_attenuation_distance = { 7, 13, 20, 32, 50, 65, 100, 160, 200, 325, 600, 3250 };
 	}
 
+	int PhysicsService::GetPowerIndex(int specular_shininess)
+	{
+		int exponent = 0;
+
+		while (specular_shininess > 1)
+		{
+			specular_shininess /= 2;
+			++exponent;
+		}
+
+		return exponent;
+	}
+
 	void PhysicsService::RemoveLightSources()
 	{
 		if (m_state_service)

@@ -298,19 +298,6 @@ namespace Views
 		}
 	}
 
-	int WorkBarComponent::GetPowerIndex(int specular_shininess)
-	{
-		int exponent = 0;
-
-		while (specular_shininess > 1)
-		{
-			specular_shininess /= 2;
-			++exponent;
-		}
-
-		return exponent;
-	}
-
 	void WorkBarComponent::RenderCustomizeSelectedCpSection(ImGuiTabBarFlags tab_bar_flags, ImGuiWindowFlags window_flags2)
 	{
 		if (m_state_service && m_state_service->getContinued())
@@ -534,7 +521,7 @@ namespace Views
 					}
 
 					int specular_shininess = selected_renderer->GetSpecularShininess();
-					int index = this->GetPowerIndex(specular_shininess);
+					int index = m_physics_service->GetPowerIndex(specular_shininess);
 					if (ImGui::SliderInt("Specular Shininess", &index, 1, 8, std::to_string(specular_shininess).c_str()))
 					{
 						specular_shininess = (int)std::pow(2, index);

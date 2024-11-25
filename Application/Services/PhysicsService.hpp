@@ -57,6 +57,8 @@ namespace Services {
 
 		glm::vec3 CalculateCameraSpeed(glm::vec3 const current_pos, glm::vec3 const previous_pos);
 
+		int GetPowerIndex(int specular_shininess);
+
 	private:
 		float m_theta;
 		float m_phi;
