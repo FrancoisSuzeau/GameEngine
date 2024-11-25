@@ -78,6 +78,9 @@
     <ClCompile Include="Views\GuiComponents\Simple\LoaderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Views\GuiComponents\Simple\HWorkBarComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewModels\GUIViewModel.hpp">
@@ -141,6 +144,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Views\GuiComponents\Simple\LoaderComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\GuiComponents\Simple\HWorkBarComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

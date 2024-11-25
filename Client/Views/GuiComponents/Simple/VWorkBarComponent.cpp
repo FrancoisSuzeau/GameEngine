@@ -96,7 +96,7 @@ namespace Views
 			ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar;
 
-			if (ImGui::Begin("WorkBar", nullptr, window_flags))
+			if (ImGui::Begin("VerticalWorkBar", nullptr, window_flags))
 			{
 				this->RenderGeneralFunctionnalities(window_flags2);
 				this->RenderCustomizeSelectedCpSection(tab_bar_flags, window_flags2);

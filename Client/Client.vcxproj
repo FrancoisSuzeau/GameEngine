@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Views\GuiComponents\Simple\HWorkBarComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\LoaderComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Simple\PannelComponent.cpp" />
     <ClCompile Include="Views\GuiComponents\Menus\MenuSettingsComponent.cpp" />
@@ -182,6 +183,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Views\GuiComponents\Simple\HWorkBarComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\LoaderComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Simple\PannelComponent.hpp" />
     <ClInclude Include="Views\GuiComponents\Menus\MenuSettingsComponent.hpp" />

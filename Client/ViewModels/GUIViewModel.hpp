@@ -27,6 +27,7 @@
 #include "../Views/GuiComponents/Simple/ConfirmComponent.hpp"
 #include "../Views/GuiComponents/Simple/StartComponent.hpp"
 #include "../Views/GuiComponents/Simple/VWorkBarComponent.hpp"
+#include "../Views/GuiComponents/Simple/HWorkBarComponent.hpp"
 #include "../Views/GuiComponents/Simple/PannelComponent.hpp"
 #include "../Views/GuiComponents/Simple/LoaderComponent.hpp"
 
